@@ -2,5 +2,5 @@
 Proyecto para Desarrollo de Aplicaciones UNQ.
 
 ## Integrantes : 
- - Jose Luis Cassano.
- - Nicolas Alvarez.
+ - Jose Luis Cassano
+ - Nicolas Alvarez
