@@ -1,38 +1,46 @@
 package com.desapp.grupoc1e022019;
 
-import junit.framework.TestCase;
+
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
 
-public class ProviderTest extends TestCase {
+public class ProviderTest {
     @Test
     public void testWhenICreateANewProviderThenItHasNoMenus(){
         Provider provider = ProviderBuilder.aProvider().build();
 
-        assertEquals(provider.getMenus(),new ArrayList<>());
+        Assert.assertEquals(provider.getMenus(), new ArrayList<>());
     }
+    @Test
     public void testWhenAProviderAddANewMenuThenItHasOneMoreMenu(){
         Provider provider = ProviderBuilder.aProvider().build();
-        Menu newMenu = MenuBuilder.aMenu().build();
+        Menu newMenu = MenuBuilder.aMenu().withId(0).build();
 
         provider.addMenu(newMenu);
 
-        assertEquals(provider.getMenus().size(),1);
+        Assert.assertEquals(provider.getMenus().size(), 1);
     }
     @Test(expected = MaximumMenusSizeException.class)
     public void testWhenAProviderAddANewMenuHaving20ItCannotAddMoreThenItRaiseMaxCantException()  {
         ArrayList<Menu>  twentyMenus = getTwentyRandomMenus();
         Provider provider = ProviderBuilder.aProvider().withMenus(twentyMenus).build();
         Menu newMenu = MenuBuilder.aMenu().build();
-        try {
-            provider.addMenu(newMenu);
-        }
-        catch(MaximumMenusSizeException e){
 
-        }
+        provider.addMenu(newMenu);
 
-        assertEquals(provider.getMenus().size(),20);
+    }
+
+    @Test(expected = RepeatedIDException.class)
+    public void testWhenAProviderAddAMenuButTheIdAlreadyExistsThenItRaiseRepeatedIDException()  {
+        Provider provider = ProviderBuilder.aProvider().build();
+        Menu newMenu1 = MenuBuilder.aMenu().withId(1).build();
+        Menu newMenu2 = MenuBuilder.aMenu().withId(1).build();
+        provider.addMenu(newMenu1);
+
+        provider.addMenu(newMenu2);
+
     }
 
     private ArrayList<Menu> getTwentyRandomMenus() {
@@ -43,6 +51,7 @@ public class ProviderTest extends TestCase {
         return menus;
     }
 
+    @Test
     public void testWhenProviderDeletesAMenuThenItHasOneLessMenu(){
         Provider provider = ProviderBuilder.aProvider().build();
         Menu dummyMenu = MenuBuilder.aMenu().build();
@@ -50,7 +59,19 @@ public class ProviderTest extends TestCase {
 
         provider.deleteMenu(dummyMenu);
 
-        assertTrue(provider.getMenus().isEmpty());
+        Assert.assertTrue(provider.getMenus().isEmpty());
+    }
+
+    @Test
+    public void testWhenProviderUpdatesAMenuThenItHasTheSameNumberOfMenus(){
+        Provider provider = ProviderBuilder.aProvider().build();
+        Menu oldMenu = MenuBuilder.aMenu().withId(1).build();
+        Menu updatedMenu = MenuBuilder.aMenu().withId(1).build();
+        provider.addMenu(oldMenu);
+
+        provider.updateMenu(1,updatedMenu);
+
+        Assert.assertTrue(provider.getMenus().contains(updatedMenu));
     }
 
 
