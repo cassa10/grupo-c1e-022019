@@ -1,5 +1,6 @@
 package com.desapp.grupoc1e022019;
 
+import java.lang.reflect.Array;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 /**
@@ -49,5 +50,10 @@ public class ProviderBuilder {
 
     public Provider build() {
         return new Provider(name,logo,city,mapsLocation,description,webURL,email,telNumber,schedule,deliveryMaxDistanceInKM,menus);
+    }
+
+    public ProviderBuilder withMenus(ArrayList<Menu> menus) {
+        this.menus = menus;
+        return this;
     }
 }

@@ -34,4 +34,21 @@ public class Provider {
     public ArrayList<Menu> getMenus() {
         return menus;
     }
+
+    public void addMenu(Menu menu) {
+        checkMaxMenus();
+        menus.add(menu);
+    }
+
+    private void checkMaxMenus(){
+        if(this.menus.size() >= 20){
+            throw new MaximumMenusSizeException("Can't add more than twenty menus");
+        }
+    }
+
+    public void deleteMenu(Menu menu) {
+        menus.remove(menu);
+    }
+
+
 }
