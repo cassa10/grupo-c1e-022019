@@ -1,14 +1,15 @@
-package com.desapp.grupoc1e022019;
+package com.desapp.grupoc1e022019.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ViendasYa {
-    private ArrayList<Provider> providers;
+    private List<Provider> providers;
     public ViendasYa(){
         providers = new ArrayList<>();
     }
 
-    public ArrayList<Provider> getProviders() {
+    public List<Provider> getProviders() {
         return this.providers;
     }
 

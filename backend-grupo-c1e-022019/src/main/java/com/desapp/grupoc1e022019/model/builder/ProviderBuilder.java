@@ -1,8 +1,13 @@
-package com.desapp.grupoc1e022019;
+package com.desapp.grupoc1e022019.model.builder;
 
-import java.lang.reflect.Array;
+import com.desapp.grupoc1e022019.model.*;
+import com.desapp.grupoc1e022019.model.location.Address;
+import com.desapp.grupoc1e022019.model.location.Coord;
+
 import java.time.DayOfWeek;
 import java.util.ArrayList;
+import java.util.HashSet;
+
 /**
  * PREGUNTAR:
  *      Los builders se testean??*/
@@ -10,7 +15,7 @@ public class ProviderBuilder {
     private String name;
     private String logo;
     private String city;
-    private MapsLocation mapsLocation;
+    private Address address;
     private String description;
     private String webURL;
     private String email;
@@ -23,19 +28,19 @@ public class ProviderBuilder {
         name = "builderName";
         logo = "builderLogo";
         city = "builderCity";
-        mapsLocation = new MapsLocation(0d,0d);
+        address = new Address(new Coord(0d,0d),"Quilmes, Buenos Aires, Argentina");
         description = "builderDescription";
         webURL = "builderWebURL";
         email = "builderEmail";
         telNumber = "builderTelNumber";
-        ArrayList<DayOfWeek> daysOfWeek = getDayOfWeeksMondayToFriday();
+        HashSet<DayOfWeek> daysOfWeek = getDayOfWeeksMondayToFriday();
         schedule = new Schedule(daysOfWeek);
         deliveryMaxDistanceInKM = 4;
         menus = new ArrayList<>();
     }
 
-    private ArrayList<DayOfWeek> getDayOfWeeksMondayToFriday() {
-        ArrayList<DayOfWeek> daysOfWeek = new ArrayList<>();
+    private HashSet<DayOfWeek> getDayOfWeeksMondayToFriday() {
+        HashSet<DayOfWeek> daysOfWeek = new HashSet<>();
         daysOfWeek.add(DayOfWeek.MONDAY);
         daysOfWeek.add(DayOfWeek.TUESDAY);
         daysOfWeek.add(DayOfWeek.WEDNESDAY);
@@ -49,7 +54,7 @@ public class ProviderBuilder {
     }
 
     public Provider build() {
-        return new Provider(name,logo,city,mapsLocation,description,webURL,email,telNumber,schedule,deliveryMaxDistanceInKM,menus);
+        return new Provider(name,logo,city, address,description,webURL,email,telNumber,schedule,deliveryMaxDistanceInKM,menus);
     }
 
     public ProviderBuilder withMenus(ArrayList<Menu> menus) {

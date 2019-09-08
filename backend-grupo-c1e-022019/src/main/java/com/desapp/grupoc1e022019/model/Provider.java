@@ -1,4 +1,8 @@
-package com.desapp.grupoc1e022019;
+package com.desapp.grupoc1e022019.model;
+
+import com.desapp.grupoc1e022019.exception.MaximumMenusSizeException;
+import com.desapp.grupoc1e022019.exception.RepeatedIDException;
+import com.desapp.grupoc1e022019.model.location.Address;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -8,7 +12,7 @@ public class Provider {
     private String name;
     private String logo;
     private String city;
-    private MapsLocation mapsLocation;
+    private Address address;
     private String description;
     private String webURL;
     private String email;
@@ -16,12 +20,12 @@ public class Provider {
     private Schedule schedule;
     private Integer deliveryMaxDistanceInKM;
 
-    public Provider(String name, String logo, String city, MapsLocation mapsLocation, String description, String webURL, String email, String telNumber, Schedule schedule, Integer deliveryMaxDistanceInKM, List<Menu> menus) {
+    public Provider(String name, String logo, String city, Address address, String description, String webURL, String email, String telNumber, Schedule schedule, Integer deliveryMaxDistanceInKM, List<Menu> menus) {
 
         this.name = name;
         this.logo = logo;
         this.city = city;
-        this.mapsLocation = mapsLocation;
+        this.address = address;
         this.description = description;
         this.webURL = webURL;
         this.email = email;
