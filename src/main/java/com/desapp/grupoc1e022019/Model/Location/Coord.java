@@ -5,8 +5,8 @@ public class Coord {
     private Double longitude;
 
     public Coord(Double latitude, Double longitude){
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.setLatitude(latitude);
+        this.setLongitude(longitude);
     }
 
     public Double getLatitude() {

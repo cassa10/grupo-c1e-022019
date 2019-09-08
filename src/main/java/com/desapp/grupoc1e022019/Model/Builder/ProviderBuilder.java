@@ -6,6 +6,8 @@ import com.desapp.grupoc1e022019.Model.Location.Coord;
 
 import java.time.DayOfWeek;
 import java.util.ArrayList;
+import java.util.HashSet;
+
 /**
  * PREGUNTAR:
  *      Los builders se testean??*/
@@ -26,19 +28,19 @@ public class ProviderBuilder {
         name = "builderName";
         logo = "builderLogo";
         city = "builderCity";
-        address = new Address(new Coord(0d,0d),"Mitre 106, Buenos Aires, Argentina");
+        address = new Address(new Coord(0d,0d),"Quilmes, Buenos Aires, Argentina");
         description = "builderDescription";
         webURL = "builderWebURL";
         email = "builderEmail";
         telNumber = "builderTelNumber";
-        ArrayList<DayOfWeek> daysOfWeek = getDayOfWeeksMondayToFriday();
+        HashSet<DayOfWeek> daysOfWeek = getDayOfWeeksMondayToFriday();
         schedule = new Schedule(daysOfWeek);
         deliveryMaxDistanceInKM = 4;
         menus = new ArrayList<>();
     }
 
-    private ArrayList<DayOfWeek> getDayOfWeeksMondayToFriday() {
-        ArrayList<DayOfWeek> daysOfWeek = new ArrayList<>();
+    private HashSet<DayOfWeek> getDayOfWeeksMondayToFriday() {
+        HashSet<DayOfWeek> daysOfWeek = new HashSet<>();
         daysOfWeek.add(DayOfWeek.MONDAY);
         daysOfWeek.add(DayOfWeek.TUESDAY);
         daysOfWeek.add(DayOfWeek.WEDNESDAY);

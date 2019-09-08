@@ -5,8 +5,8 @@ public class Address {
     private String location;
 
     public Address(Coord coord, String location){
-        this.coord = coord;
-        this.location = location;
+        this.setCoord(coord);
+        this.setLocation(location);
     }
 
     public Coord getCoord() {
