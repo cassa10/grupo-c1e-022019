@@ -1,8 +1,8 @@
-package com.desapp.grupoc1e022019.Model.Builder;
+package com.desapp.grupoc1e022019.model.builder;
 
-import com.desapp.grupoc1e022019.Model.*;
-import com.desapp.grupoc1e022019.Model.Location.Address;
-import com.desapp.grupoc1e022019.Model.Location.Coord;
+import com.desapp.grupoc1e022019.model.*;
+import com.desapp.grupoc1e022019.model.location.Address;
+import com.desapp.grupoc1e022019.model.location.Coord;
 
 import java.time.DayOfWeek;
 import java.util.ArrayList;

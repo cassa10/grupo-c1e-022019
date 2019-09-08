@@ -1,12 +1,12 @@
 package com.desapp.grupoc1e022019;
 
 
-import com.desapp.grupoc1e022019.Exceptions.MaximumMenusSizeException;
-import com.desapp.grupoc1e022019.Exceptions.RepeatedIDException;
-import com.desapp.grupoc1e022019.Model.Menu;
-import com.desapp.grupoc1e022019.Model.Builder.MenuBuilder;
-import com.desapp.grupoc1e022019.Model.Provider;
-import com.desapp.grupoc1e022019.Model.Builder.ProviderBuilder;
+import com.desapp.grupoc1e022019.exception.MaximumMenusSizeException;
+import com.desapp.grupoc1e022019.exception.RepeatedIDException;
+import com.desapp.grupoc1e022019.model.Menu;
+import com.desapp.grupoc1e022019.model.builder.MenuBuilder;
+import com.desapp.grupoc1e022019.model.Provider;
+import com.desapp.grupoc1e022019.model.builder.ProviderBuilder;
 import org.junit.Assert;
 import org.junit.Test;
 

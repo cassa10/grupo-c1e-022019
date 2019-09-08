@@ -1,4 +1,4 @@
-package com.desapp.grupoc1e022019.Model;
+package com.desapp.grupoc1e022019.model;
 
 import java.time.DayOfWeek;
 import java.util.Set;

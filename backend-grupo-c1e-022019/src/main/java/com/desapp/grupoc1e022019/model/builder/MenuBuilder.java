@@ -1,6 +1,6 @@
-package com.desapp.grupoc1e022019.Model.Builder;
+package com.desapp.grupoc1e022019.model.builder;
 
-import com.desapp.grupoc1e022019.Model.Menu;
+import com.desapp.grupoc1e022019.model.Menu;
 
 public class MenuBuilder {
     private Integer id;

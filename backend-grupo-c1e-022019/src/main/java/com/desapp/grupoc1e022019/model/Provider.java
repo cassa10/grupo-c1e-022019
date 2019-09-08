@@ -1,8 +1,8 @@
-package com.desapp.grupoc1e022019.Model;
+package com.desapp.grupoc1e022019.model;
 
-import com.desapp.grupoc1e022019.Exceptions.MaximumMenusSizeException;
-import com.desapp.grupoc1e022019.Exceptions.RepeatedIDException;
-import com.desapp.grupoc1e022019.Model.Location.Address;
+import com.desapp.grupoc1e022019.exception.MaximumMenusSizeException;
+import com.desapp.grupoc1e022019.exception.RepeatedIDException;
+import com.desapp.grupoc1e022019.model.location.Address;
 
 import java.util.List;
 import java.util.stream.Collectors;
