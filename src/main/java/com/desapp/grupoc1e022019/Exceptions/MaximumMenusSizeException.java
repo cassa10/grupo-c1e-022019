@@ -1,4 +1,4 @@
-package com.desapp.grupoc1e022019;
+package com.desapp.grupoc1e022019.Exceptions;
 
 public class MaximumMenusSizeException extends RuntimeException {
     public MaximumMenusSizeException(String message) {

@@ -1,4 +1,4 @@
-package com.desapp.grupoc1e022019;
+package com.desapp.grupoc1e022019.Model;
 
 public class Menu {
     private Integer id;

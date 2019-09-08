@@ -1,5 +1,8 @@
 package com.desapp.grupoc1e022019;
 
+import com.desapp.grupoc1e022019.Model.Provider;
+import com.desapp.grupoc1e022019.Model.Builder.ProviderBuilder;
+import com.desapp.grupoc1e022019.Model.ViendasYa;
 import junit.framework.TestCase;
 import org.junit.Test;
 

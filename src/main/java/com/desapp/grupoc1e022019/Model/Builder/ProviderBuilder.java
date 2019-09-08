@@ -1,6 +1,9 @@
-package com.desapp.grupoc1e022019;
+package com.desapp.grupoc1e022019.Model.Builder;
 
-import java.lang.reflect.Array;
+import com.desapp.grupoc1e022019.Model.*;
+import com.desapp.grupoc1e022019.Model.Location.Address;
+import com.desapp.grupoc1e022019.Model.Location.Coord;
+
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 /**
@@ -10,7 +13,7 @@ public class ProviderBuilder {
     private String name;
     private String logo;
     private String city;
-    private MapsLocation mapsLocation;
+    private Address address;
     private String description;
     private String webURL;
     private String email;
@@ -23,7 +26,7 @@ public class ProviderBuilder {
         name = "builderName";
         logo = "builderLogo";
         city = "builderCity";
-        mapsLocation = new MapsLocation(0d,0d);
+        address = new Address(new Coord(0d,0d),"Mitre 106, Buenos Aires, Argentina");
         description = "builderDescription";
         webURL = "builderWebURL";
         email = "builderEmail";
@@ -49,7 +52,7 @@ public class ProviderBuilder {
     }
 
     public Provider build() {
-        return new Provider(name,logo,city,mapsLocation,description,webURL,email,telNumber,schedule,deliveryMaxDistanceInKM,menus);
+        return new Provider(name,logo,city, address,description,webURL,email,telNumber,schedule,deliveryMaxDistanceInKM,menus);
     }
 
     public ProviderBuilder withMenus(ArrayList<Menu> menus) {
