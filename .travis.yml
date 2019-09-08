@@ -1,4 +1,6 @@
 language: java
 
+before_script: cd backend-grupo-c1e-022019
+
 script:
   - mvn test
