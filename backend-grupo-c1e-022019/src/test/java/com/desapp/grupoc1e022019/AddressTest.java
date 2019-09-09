@@ -8,7 +8,7 @@ import org.junit.Test;
 public class AddressTest {
 
     @Test
-    public void givenAnAddressWithCoordLat0dLgt1dAndLocationQuilmesBuenosAiresWhenItRecievesGetLocationThenItReturnsQuilmesBuenosAires(){
+    public void testGivenAnAddressWithCoordLat0dLgt1dAndLocationQuilmesBuenosAiresWhenItRecievesGetLocationThenItReturnsQuilmesBuenosAires(){
         String location = "Quilmes, Buenos Aires";
         Coord coord = new Coord(0d,1d);
         Address address = new Address(coord,location);
@@ -17,7 +17,7 @@ public class AddressTest {
     }
 
     @Test
-    public void givenAnAddressWithCoordLat0dLgt1dAndLocationVarelaBuenosAiresWhenItRecievesGetLocationThenItReturnsVarelaBuenosAires(){
+    public void testGivenAnAddressWithCoordLat0dLgt1dAndLocationVarelaBuenosAiresWhenItRecievesGetLocationThenItReturnsVarelaBuenosAires(){
         String location = "Varela, Buenos Aires";
         Coord coord = new Coord(0d,1d);
         Address address = new Address(coord,location);
@@ -26,7 +26,7 @@ public class AddressTest {
     }
 
     @Test
-    public void givenAnAddressWithCoordLat0dLgt1dWhenItRecievesGetCoordThenItReturnsCoordLat0dLgt1d(){
+    public void testGivenAnAddressWithCoordLat0dLgt1dWhenItRecievesGetCoordThenItReturnsCoordLat0dLgt1d(){
         String location = "Somewhere";
         Coord coord = new Coord(0d,1d);
         Address address = new Address(coord,location);
@@ -35,7 +35,7 @@ public class AddressTest {
     }
 
     @Test
-    public void givenAnAddressWithCoordLat2dLgt0dWhenItRecievesGetCoordThenItReturnsCoordLat2dLgt0d(){
+    public void testGivenAnAddressWithCoordLat2dLgt0dWhenItRecievesGetCoordThenItReturnsCoordLat2dLgt0d(){
         String location = "Somewhere";
         Coord coord = new Coord(2d,0d);
         Address address = new Address(coord,location);

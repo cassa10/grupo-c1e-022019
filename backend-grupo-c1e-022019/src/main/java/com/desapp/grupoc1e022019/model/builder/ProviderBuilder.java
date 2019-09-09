@@ -1,16 +1,16 @@
 package com.desapp.grupoc1e022019.model.builder;
 
-import com.desapp.grupoc1e022019.model.*;
+import com.desapp.grupoc1e022019.model.Menu;
+import com.desapp.grupoc1e022019.model.Provider;
+import com.desapp.grupoc1e022019.model.Schedule;
 import com.desapp.grupoc1e022019.model.location.Address;
 import com.desapp.grupoc1e022019.model.location.Coord;
 
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
-/**
- * PREGUNTAR:
- *      Los builders se testean??*/
 public class ProviderBuilder {
     private String name;
     private String logo;
@@ -22,7 +22,7 @@ public class ProviderBuilder {
     private String telNumber;
     private Schedule schedule;
     private Integer deliveryMaxDistanceInKM;
-    private ArrayList<Menu> menus;
+    private List<Menu> menus;
 
     public ProviderBuilder(){
         name = "builderName";
