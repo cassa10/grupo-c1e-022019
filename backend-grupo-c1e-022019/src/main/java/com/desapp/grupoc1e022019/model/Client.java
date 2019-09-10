@@ -1,5 +1,7 @@
 package com.desapp.grupoc1e022019.model;
 
+import com.desapp.grupoc1e022019.exception.InsufficientCreditException;
+
 public class Client {
 
     private String firstName;
@@ -87,5 +89,14 @@ public class Client {
 
     public void deposit(Credit anAmountOfMoney) {
         credit = credit.sum(anAmountOfMoney);
+    }
+
+    public void debit(Credit credits) {
+        if(credit.isGreaterOrEqual(credits)){
+            this.credit = credit.minus(credits);
+        }
+        else{
+            throw new InsufficientCreditException("Hey, this accaunt doesn't have enough credits");
+        }
     }
 }

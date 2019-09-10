@@ -23,4 +23,12 @@ public class Credit {
     public Double getAmount() {
         return amount;
     }
+
+    public boolean isGreaterOrEqual(Credit credits) {
+        return this.amount >= credits.amount;
+    }
+
+    public Credit minus(Credit credits) {
+        return new Credit(this.amount - credits.amount);
+    }
 }

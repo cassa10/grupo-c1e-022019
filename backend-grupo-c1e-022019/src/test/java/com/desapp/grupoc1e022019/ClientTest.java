@@ -2,6 +2,7 @@ package com.desapp.grupoc1e022019;
 
 import com.desapp.grupoc1e022019.model.Client;
 import com.desapp.grupoc1e022019.model.Credit;
+import com.desapp.grupoc1e022019.exception.InsufficientCreditException;
 import com.desapp.grupoc1e022019.model.builder.ClientBuilder;
 import org.junit.Assert;
 import org.junit.Test;
@@ -100,5 +101,48 @@ public class ClientTest {
         client.deposit(new Credit(20d));
 
         Assert.assertEquals(client.getCredit(),new Credit(20d));
+    }
+
+    @Test
+    public void testGivenAClientWith12reditsWhenIDebit5creditsTheClientHas7Credits(){
+        Client client = new ClientBuilder().aClient()
+                .withCredit(new Credit(12d)).build();
+
+        client.debit(new Credit(5d));
+
+        Assert.assertEquals(client.getCredit(),new Credit(7d));
+    }
+    @Test
+    public void testGivenAClientWith5creditsWhenIDebit5creditsTheClientHas0Credits(){
+        Client client = new ClientBuilder().aClient()
+                .withCredit(new Credit(5d)).build();
+
+        client.debit(new Credit(5d));
+
+        Assert.assertEquals(client.getCredit(),new Credit(0d));
+    }
+
+    @Test(expected = InsufficientCreditException.class)
+    public void testGivenAClientWith5creditsWhenITryToDebit6creditsThenItRaiseInsufficientCreditException(){
+        Client client = new ClientBuilder().aClient()
+                .withCredit(new Credit(5d)).build();
+
+        client.debit(new Credit(6d));
+
+
+    }
+    @Test
+    public void testGivenAClientWith5creditsWhenITryToDebit6creditsThenTheClientHas5Credits(){
+        Client client = new ClientBuilder().aClient()
+                .withCredit(new Credit(5d)).build();
+
+        try{
+            client.debit(new Credit(6d));
+        }
+        catch (InsufficientCreditException e){
+
+        }
+
+        Assert.assertEquals(client.getCredit(),new Credit(5d));
     }
 }
