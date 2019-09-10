@@ -1,11 +1,11 @@
 package com.desapp.grupoc1e022019.model.builder;
 
-import com.desapp.grupoc1e022019.model.Menu;
-import com.desapp.grupoc1e022019.model.Provider;
-import com.desapp.grupoc1e022019.model.Schedule;
+import com.desapp.grupoc1e022019.model.*;
+import com.desapp.grupoc1e022019.model.Schedule.Schedule;
 import com.desapp.grupoc1e022019.model.location.Address;
 import com.desapp.grupoc1e022019.model.location.Coord;
 
+import java.sql.Time;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -33,20 +33,21 @@ public class ProviderBuilder {
         webURL = "builderWebURL";
         email = "builderEmail";
         telNumber = "builderTelNumber";
-        HashSet<DayOfWeek> daysOfWeek = getDayOfWeeksMondayToFriday();
-        schedule = new Schedule(daysOfWeek);
+        HashSet<DayAndBussinessTime> daysOfWeekAndBussinessTime = getDayOfWeeksMondayToFriday9To5();
+        schedule = new Schedule(daysOfWeekAndBussinessTime);
         deliveryMaxDistanceInKM = 4;
         menus = new ArrayList<>();
     }
 
-    private HashSet<DayOfWeek> getDayOfWeeksMondayToFriday() {
-        HashSet<DayOfWeek> daysOfWeek = new HashSet<>();
-        daysOfWeek.add(DayOfWeek.MONDAY);
-        daysOfWeek.add(DayOfWeek.TUESDAY);
-        daysOfWeek.add(DayOfWeek.WEDNESDAY);
-        daysOfWeek.add(DayOfWeek.THURSDAY);
-        daysOfWeek.add(DayOfWeek.FRIDAY);
-        return daysOfWeek;
+    private HashSet<DayAndBussinessTime> getDayOfWeeksMondayToFriday9To5() {
+        HashSet<DayAndBussinessTime> daysAndTime = new HashSet<>();
+        BussinessTime nineToFive = new BussinessTime(Time.valueOf("08:00:00"),Time.valueOf("17:00:00"));
+        daysAndTime.add(new DayAndBussinessTime(DayOfWeek.MONDAY,nineToFive));
+        daysAndTime.add(new DayAndBussinessTime(DayOfWeek.TUESDAY,nineToFive));
+        daysAndTime.add(new DayAndBussinessTime(DayOfWeek.WEDNESDAY,nineToFive));
+        daysAndTime.add(new DayAndBussinessTime(DayOfWeek.THURSDAY,nineToFive));
+        daysAndTime.add(new DayAndBussinessTime(DayOfWeek.FRIDAY,nineToFive));
+        return daysAndTime;
     }
 
     public static ProviderBuilder aProvider() {

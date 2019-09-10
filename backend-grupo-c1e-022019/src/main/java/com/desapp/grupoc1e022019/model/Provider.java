@@ -2,6 +2,7 @@ package com.desapp.grupoc1e022019.model;
 
 import com.desapp.grupoc1e022019.exception.MaximumMenusSizeException;
 import com.desapp.grupoc1e022019.exception.RepeatedIDException;
+import com.desapp.grupoc1e022019.model.Schedule.Schedule;
 import com.desapp.grupoc1e022019.model.location.Address;
 
 import java.util.List;
