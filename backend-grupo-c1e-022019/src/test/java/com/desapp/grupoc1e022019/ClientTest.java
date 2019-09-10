@@ -1,6 +1,7 @@
 package com.desapp.grupoc1e022019;
 
 import com.desapp.grupoc1e022019.model.Client;
+import com.desapp.grupoc1e022019.model.Credit;
 import com.desapp.grupoc1e022019.model.builder.ClientBuilder;
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,7 +17,7 @@ public class ClientTest {
                             .withFirstName("Pepe").build();
 
         Assert.assertEquals(jose.getFirstName(),"Jose");
-        Assert.assertEquals(pepe.getFirstName(),"Pepe");
+        Assert.assertEquals(pepe.getFirstName(),"Pepe"); /** No entiendo por que testeas dos veces lo mismo o.O */
     }
 
     @Test
@@ -70,13 +71,13 @@ public class ClientTest {
     @Test
     public void testGivenAClientWithCredit2dAndOtherClientWithCredit0dWhenTheyReceiveGetCreditThenTheyGiveTheirCredit(){
         Client clientA = new ClientBuilder().aClient()
-                                .withCredit(2d).build();
+                                .withCredit(new Credit(2d)).build();
 
         Client clientB = new ClientBuilder().aClient()
-                .withCredit(0d).build();
+                .withCredit(new Credit (0d)).build();
 
-        Assert.assertEquals(clientA.getCredit(),new Double(2d));
-        Assert.assertEquals(clientB.getCredit(),new Double(0d));
+        Assert.assertEquals(clientA.getCredit(),new Credit(2d));
+        Assert.assertEquals(clientB.getCredit(),new Credit(0d));
     }
 
     @Test
@@ -89,5 +90,15 @@ public class ClientTest {
 
         Assert.assertEquals(clientA.getPhoneNumber(),"1102232234");
         Assert.assertEquals(clientB.getPhoneNumber(),"1143214321");
+    }
+
+    @Test
+    public void testGivenAClientWith0dCreditDeposits20PesosThenTheClientHas20PesosInHisAccount(){
+        Client client = new ClientBuilder().aClient()
+                .withCredit(new Credit(0d)).build();
+
+        client.deposit(new Credit(20d));
+
+        Assert.assertEquals(client.getCredit(),new Credit(20d));
     }
 }

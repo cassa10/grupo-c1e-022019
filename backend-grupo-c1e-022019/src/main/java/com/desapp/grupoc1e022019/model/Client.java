@@ -10,9 +10,9 @@ public class Client {
     private String phoneNumber;
     private String location;
     private String address;
-    private Double credit;
+    private Credit credit;
 
-    public Client(String firstName, String lastName, String email, String phoneNumber, String location, String address, Double credit){
+    public Client(String firstName, String lastName, String email, String phoneNumber, String location, String address, Credit credit){
         this.setFirstName(firstName);
         this.setLastName(lastName);
         this.setEmail(email);
@@ -73,15 +73,19 @@ public class Client {
         this.address = address;
     }
 
-    public Double getCredit() {
+    public Credit getCredit() {
         return credit;
     }
 
-    public void setCredit(Double credit) {
+    public void setCredit(Credit credit) {
         this.credit = credit;
     }
 
     //---------------------------
     //Getters And Setters --END--
     //---------------------------
+
+    public void deposit(Credit anAmountOfMoney) {
+        credit = credit.sum(anAmountOfMoney);
+    }
 }

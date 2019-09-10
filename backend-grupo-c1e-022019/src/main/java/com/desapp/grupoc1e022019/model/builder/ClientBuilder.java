@@ -1,6 +1,7 @@
 package com.desapp.grupoc1e022019.model.builder;
 
 import com.desapp.grupoc1e022019.model.Client;
+import com.desapp.grupoc1e022019.model.Credit;
 
 public class ClientBuilder {
 
@@ -10,7 +11,7 @@ public class ClientBuilder {
     private String phoneNumber;
     private String location;
     private String address;
-    private Double credit;
+    private Credit credit;
 
 
     public ClientBuilder aClient(){
@@ -47,7 +48,7 @@ public class ClientBuilder {
         return this;
     }
 
-    public ClientBuilder withCredit(Double credit){
+    public ClientBuilder withCredit(Credit credit){
         this.credit = credit;
         return this;
     }
