@@ -1,8 +1,8 @@
 package com.desapp.grupoc1e022019.model.builder;
 
 import com.desapp.grupoc1e022019.model.Order;
-import com.desapp.grupoc1e022019.model.OrderState.OrderState;
-import com.desapp.grupoc1e022019.model.OrderState.PendingOrder;
+import com.desapp.grupoc1e022019.model.orderState.OrderState;
+import com.desapp.grupoc1e022019.model.orderState.PendingOrder;
 
 public class OrderBuilder {
     private OrderState state = new PendingOrder();

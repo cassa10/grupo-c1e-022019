@@ -1,4 +1,4 @@
-package com.desapp.grupoc1e022019.model.Schedule;
+package com.desapp.grupoc1e022019.model.schedule;
 
 import java.sql.Time;
 
