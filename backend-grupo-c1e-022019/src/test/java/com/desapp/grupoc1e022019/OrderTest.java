@@ -1,9 +1,9 @@
 package com.desapp.grupoc1e022019;
 
 import com.desapp.grupoc1e022019.model.*;
-import com.desapp.grupoc1e022019.model.OrderState.DeliveredOrder;
-import com.desapp.grupoc1e022019.model.OrderState.PendingOrder;
-import com.desapp.grupoc1e022019.model.OrderState.SendingOrder;
+import com.desapp.grupoc1e022019.model.orderState.DeliveredOrder;
+import com.desapp.grupoc1e022019.model.orderState.PendingOrder;
+import com.desapp.grupoc1e022019.model.orderState.SendingOrder;
 import com.desapp.grupoc1e022019.model.builder.OrderBuilder;
 import junit.framework.TestCase;
 import org.junit.Test;

@@ -1,8 +1,10 @@
 package com.desapp.grupoc1e022019;
 
 
+import com.desapp.grupoc1e022019.exception.InsufficientCreditException;
 import com.desapp.grupoc1e022019.exception.MaximumMenusSizeException;
 import com.desapp.grupoc1e022019.exception.RepeatedIDException;
+import com.desapp.grupoc1e022019.model.Credit;
 import com.desapp.grupoc1e022019.model.Menu;
 import com.desapp.grupoc1e022019.model.builder.MenuBuilder;
 import com.desapp.grupoc1e022019.model.Provider;
@@ -49,14 +51,6 @@ public class ProviderTest {
 
     }
 
-    private ArrayList<Menu> getTwentyRandomMenus() {
-        ArrayList<Menu> menus = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            menus.add(MenuBuilder.aMenu().build());
-        }
-        return menus;
-    }
-
     @Test
     public void testWhenProviderDeletesAMenuThenItHasOneLessMenu(){
         Provider provider = ProviderBuilder.aProvider().build();
@@ -82,6 +76,68 @@ public class ProviderTest {
         Assert.assertTrue(provider.getMenus().contains(updatedMenu));
     }
 
+    @Test
+    public void testWhenProviderGetsHisCreditsThenReturnACreditWithZeroAmount(){
+        Provider provider = ProviderBuilder.aProvider().build();
 
+        Assert.assertEquals(provider.getCredit() ,new Credit(0d));
+    }
 
+    @Test
+    public void testGivenAProviderWithZeroCreditAmountWhenProviderRecievesCredit10AmountThenItHas10CreditAmount(){
+        Provider provider = ProviderBuilder.aProvider().build();
+        provider.recievesCredit(new Credit(10d));
+
+        Assert.assertEquals(provider.getCredit(),new Credit(10d));
+    }
+
+    @Test
+    public void testGivenAProviderWith10CreditAmountWhenProviderRecievesCredit10AmountThenItHas20CreditAmount(){
+        Provider provider = ProviderBuilder.aProvider().withCredit(new Credit(10d)).build();
+        provider.recievesCredit(new Credit(10d));
+
+        Assert.assertEquals(provider.getCredit(),new Credit(20d));
+    }
+
+    @Test
+    public void testGivenAProviderWith10Point4CreditAmountWhenProviderRecievesCredit10Point44AmountThenItHas20Point84CreditAmount(){
+        Provider provider = ProviderBuilder.aProvider().withCredit(new Credit(10.4d)).build();
+        provider.recievesCredit(new Credit(10.44d));
+
+        Assert.assertEquals(provider.getCredit(),new Credit(20.84d));
+    }
+
+    @Test(expected = InsufficientCreditException.class)
+    public void testGivenAProviderWithZeroCreditsWhenItWantToWithdraw10CreditsThenAnInsufficientCreditExceptionArrays(){
+        Provider provider = ProviderBuilder.aProvider().build();
+        provider.withdrawCredit(new Credit(10d));
+    }
+
+    @Test
+    public void testGivenAProviderWithTenCreditsWhenItWantToWithdraw10CreditsThenTheWithdrawnCreditCreditsAreReturnedAndTheirCreditAmountIsZero(){
+        Provider provider = ProviderBuilder.aProvider().withCredit(new Credit(10d)).build();
+        Credit withdrawn = provider.withdrawCredit(new Credit(10d));
+
+        Assert.assertEquals(withdrawn,new Credit(10d));
+
+        Assert.assertEquals(provider.getCredit(),new Credit(0d));
+    }
+
+    @Test
+    public void testGivenAProviderWithTenCreditsWhenItWantToWithdraw2CreditsThenTheWithdrawnCreditsAreReturnesAndTheirCreditAmountIs8(){
+        Provider provider = ProviderBuilder.aProvider().withCredit(new Credit(10d)).build();
+        Credit withdrawn = provider.withdrawCredit(new Credit(2d));
+
+        Assert.assertEquals(withdrawn,new Credit(2d));
+
+        Assert.assertEquals(provider.getCredit(),new Credit(8d));
+    }
+
+    private ArrayList<Menu> getTwentyRandomMenus() {
+        ArrayList<Menu> menus = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            menus.add(MenuBuilder.aMenu().build());
+        }
+        return menus;
+    }
 }

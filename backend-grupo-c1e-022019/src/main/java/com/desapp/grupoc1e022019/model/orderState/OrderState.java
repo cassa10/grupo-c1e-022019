@@ -1,6 +1,6 @@
-package com.desapp.grupoc1e022019.model.OrderState;
+package com.desapp.grupoc1e022019.model.orderState;
 
-public class OrderState {
+public abstract class OrderState {
     @Override
     public boolean equals(Object o) {
         return o.getClass().equals(this.getClass());

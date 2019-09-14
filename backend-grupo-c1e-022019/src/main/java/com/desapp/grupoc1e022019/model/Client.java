@@ -13,6 +13,8 @@ public class Client {
     private String location;
     private String address;
     private Credit credit;
+    //TODO
+    //  private StateClient; (Si el cliente tiene una puntuacion pendiente no puede comprar)
 
     public Client(String firstName, String lastName, String email, String phoneNumber, String location, String address, Credit credit){
         this.setFirstName(firstName);
@@ -25,7 +27,7 @@ public class Client {
     }
 
     //-----------------------------
-    //Getters And Setters --Start--
+    //Getters And Setters --START--
     //-----------------------------
 
     public String getFirstName() {
@@ -96,7 +98,7 @@ public class Client {
             this.credit = credit.minus(credits);
         }
         else{
-            throw new InsufficientCreditException("Hey, this accaunt doesn't have enough credits");
+            throw new InsufficientCreditException("Hey, this account doesn't have enough credits");
         }
     }
 }

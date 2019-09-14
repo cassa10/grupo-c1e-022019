@@ -1,9 +1,9 @@
 package com.desapp.grupoc1e022019.model.builder;
 
 import com.desapp.grupoc1e022019.model.*;
-import com.desapp.grupoc1e022019.model.Schedule.BussinessTime;
-import com.desapp.grupoc1e022019.model.Schedule.DaysAndBussinessTime;
-import com.desapp.grupoc1e022019.model.Schedule.Schedule;
+import com.desapp.grupoc1e022019.model.schedule.BussinessTime;
+import com.desapp.grupoc1e022019.model.schedule.DaysAndBussinessTime;
+import com.desapp.grupoc1e022019.model.schedule.Schedule;
 import com.desapp.grupoc1e022019.model.location.Address;
 import com.desapp.grupoc1e022019.model.location.Coord;
 
@@ -25,6 +25,7 @@ public class ProviderBuilder {
     private Schedule schedule;
     private Integer deliveryMaxDistanceInKM;
     private List<Menu> menus;
+    private Credit credit;
 
     public ProviderBuilder(){
         name = "builderName";
@@ -39,6 +40,7 @@ public class ProviderBuilder {
         schedule = new Schedule(daysOfWeekAndBussinessTime);
         deliveryMaxDistanceInKM = 4;
         menus = new ArrayList<>();
+        credit = new Credit(0d);
     }
 
     private HashSet<DaysAndBussinessTime> getDayOfWeeksMondayToFriday9To5() {
@@ -57,11 +59,16 @@ public class ProviderBuilder {
     }
 
     public Provider build() {
-        return new Provider(name,logo,city, address,description,webURL,email,telNumber,schedule,deliveryMaxDistanceInKM,menus);
+        return new Provider(name,logo,city, address,description,webURL,email,telNumber,schedule,credit,deliveryMaxDistanceInKM,menus);
     }
 
     public ProviderBuilder withMenus(ArrayList<Menu> menus) {
         this.menus = menus;
+        return this;
+    }
+
+    public ProviderBuilder withCredit(Credit credit){
+        this.credit = credit;
         return this;
     }
 }

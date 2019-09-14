@@ -1,8 +1,9 @@
 package com.desapp.grupoc1e022019.model;
 
+import com.desapp.grupoc1e022019.exception.InsufficientCreditException;
 import com.desapp.grupoc1e022019.exception.MaximumMenusSizeException;
 import com.desapp.grupoc1e022019.exception.RepeatedIDException;
-import com.desapp.grupoc1e022019.model.Schedule.Schedule;
+import com.desapp.grupoc1e022019.model.schedule.Schedule;
 import com.desapp.grupoc1e022019.model.location.Address;
 
 import java.util.List;
@@ -20,8 +21,12 @@ public class Provider {
     private String telNumber;
     private Schedule schedule;
     private Integer deliveryMaxDistanceInKM;
+    private Credit credit;
+    //TODO
+    //  private StateProvider; (Cuando acumula 10 menus dados de baja
+    //  private Integer strikeMenus; (When it is 10, this provider must be kick out) THIS USE MAIL SENDER
 
-    public Provider(String name, String logo, String city, Address address, String description, String webURL, String email, String telNumber, Schedule schedule, Integer deliveryMaxDistanceInKM, List<Menu> menus) {
+    public Provider(String name, String logo, String city, Address address, String description, String webURL, String email, String telNumber, Schedule schedule,Credit credit, Integer deliveryMaxDistanceInKM, List<Menu> menus) {
 
         this.name = name;
         this.logo = logo;
@@ -34,6 +39,7 @@ public class Provider {
         this.schedule = schedule;
         this.deliveryMaxDistanceInKM = deliveryMaxDistanceInKM;
         this.menus = menus;
+        this.credit = credit;
 
     }
 
@@ -74,5 +80,22 @@ public class Provider {
             return updatedMenu;
         }
         return menu;
+    }
+
+    public void recievesCredit(Credit receiveCredit){
+        this.credit = this.credit.sum(receiveCredit);
+    }
+
+    public Credit getCredit(){
+        return this.credit;
+    }
+
+    public Credit withdrawCredit(Credit amountToWithdraw){
+        if(! this.credit.isGreaterOrEqual(amountToWithdraw)){
+            throw new InsufficientCreditException("Insufficient credits");
+        }
+
+        this.credit = this.credit.minus(amountToWithdraw);
+        return amountToWithdraw;
     }
 }
