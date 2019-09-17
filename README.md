@@ -17,7 +17,7 @@ Nicolas Alvarez|nicolas-alv3|nicolas.alv3@gmail.com|
         - nodejs
         - npm
         - maven 3.2 o mas reciente
-        - jdk 8 o mas reciente.
+        - jdk 8 o mas reciente
 
 ### Backend
     - Abrir un bash-shell
