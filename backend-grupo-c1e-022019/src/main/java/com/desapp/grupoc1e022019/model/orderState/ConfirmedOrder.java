@@ -1,4 +1,6 @@
 package com.desapp.grupoc1e022019.model.orderState;
 
-public class ConfirmedOrder {
+import com.desapp.grupoc1e022019.model.Order;
+
+public class ConfirmedOrder extends OrderState {
 }
