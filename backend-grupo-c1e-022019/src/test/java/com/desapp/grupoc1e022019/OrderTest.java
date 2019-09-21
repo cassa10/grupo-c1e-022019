@@ -145,6 +145,7 @@ public class OrderTest {
 
         newOrder.rate(5);
     }
+
     /** TODO
              Debatir: Los estados deberian pasarse unos a otros? Es decir, deberia poder
             setearse "Delivered" en cualquier momento o solo despues de "Sending"?
