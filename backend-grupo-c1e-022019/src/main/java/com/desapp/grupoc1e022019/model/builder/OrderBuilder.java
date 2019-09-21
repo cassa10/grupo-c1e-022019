@@ -1,8 +1,11 @@
 package com.desapp.grupoc1e022019.model.builder;
 
 import com.desapp.grupoc1e022019.model.Order;
+import com.desapp.grupoc1e022019.model.observer.TimeObservable;
 import com.desapp.grupoc1e022019.model.orderState.OrderState;
 import com.desapp.grupoc1e022019.model.orderState.PendingOrder;
+
+import java.util.Observable;
 
 public class OrderBuilder {
     private OrderState state = new PendingOrder();
@@ -15,4 +18,5 @@ public class OrderBuilder {
     public Order build() {
         return new Order(state,stars);
     }
+
 }

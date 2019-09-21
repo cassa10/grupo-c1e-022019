@@ -1,10 +1,9 @@
 package com.desapp.grupoc1e022019.model;
 
-import com.desapp.grupoc1e022019.model.orderState.DeliveredOrder;
-import com.desapp.grupoc1e022019.model.orderState.OrderState;
-import com.desapp.grupoc1e022019.model.orderState.SendingOrder;
+import com.desapp.grupoc1e022019.model.observer.Observer;
+import com.desapp.grupoc1e022019.model.orderState.*;
 
-public class Order {
+public class Order implements Observer {
     private OrderState state;
     private ViendasYa.Average average;
     //TODO
@@ -35,7 +34,28 @@ public class Order {
         return average.getStars();
     }
 
-    public void rate(Integer score) {
+    public void score(Integer score) {
         average.rate(score);
+    }
+
+    public void setState(OrderState state) {
+        this.state = state;
+    }
+
+    @Override
+    public void update() {
+        state.update(this);
+    }
+
+    public void cancelled() {
+        state = new CancelledOrder();
+    }
+
+    public void rate(Integer score) {
+        state.rate(score,this);
+    }
+
+    public void confirmed() {
+        state = new ConfirmedOrder();
     }
 }
