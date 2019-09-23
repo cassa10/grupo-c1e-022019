@@ -1,6 +1,11 @@
 package com.desapp.grupoc1e022019.model;
 
 import com.desapp.grupoc1e022019.exception.InsufficientCreditException;
+import com.desapp.grupoc1e022019.model.clientState.CannotBuyClient;
+import com.desapp.grupoc1e022019.model.clientState.NormalClient;
+import com.desapp.grupoc1e022019.model.clientState.StateClient;
+
+import java.util.List;
 
 public class Client {
 
@@ -13,10 +18,11 @@ public class Client {
     private String location;
     private String address;
     private Credit credit;
-    //TODO
-    //  private StateClient; (Si el cliente tiene una puntuacion pendiente no puede comprar)
+    private StateClient stateClient;
+    private List<Order> ordersHaveToRank;
 
-    public Client(String firstName, String lastName, String email, String phoneNumber, String location, String address, Credit credit){
+    public Client(String firstName, String lastName, String email, String phoneNumber,
+                  String location, String address, Credit credit,StateClient stateClient,List<Order> ordersHaveToRank){
         this.setFirstName(firstName);
         this.setLastName(lastName);
         this.setEmail(email);
@@ -24,6 +30,8 @@ public class Client {
         this.setLocation(location);
         this.setAddress(address);
         this.setCredit(credit);
+        this.setStateClient(stateClient);
+        this.ordersHaveToRank = ordersHaveToRank;
     }
 
     //-----------------------------
@@ -85,6 +93,12 @@ public class Client {
         this.credit = credit;
     }
 
+    public StateClient getStateClient() {return this.stateClient;}
+
+    public void setStateClient(StateClient stateClient) {
+        this.stateClient = stateClient;
+    }
+
     //---------------------------
     //Getters And Setters --END--
     //---------------------------
@@ -100,5 +114,25 @@ public class Client {
         else{
             throw new InsufficientCreditException("Hey, this account doesn't have enough credits");
         }
+    }
+
+    public void haveToRankOrder(Order order){
+        this.ordersHaveToRank.add(order);
+        this.stateClient = new CannotBuyClient();
+    }
+
+    public void buyAOrder(Order order){
+        this.stateClient.buyOrder(order);
+    }
+
+    public void orderRanked(Order order) {
+        //TODO
+        // USAR EL SERVICE
+
+        this.ordersHaveToRank.remove(order);
+        if(this.ordersHaveToRank.isEmpty()){
+            this.setStateClient(new NormalClient());
+        }
+
     }
 }

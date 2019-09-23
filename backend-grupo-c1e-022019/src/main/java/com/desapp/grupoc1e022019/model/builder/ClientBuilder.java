@@ -2,6 +2,12 @@ package com.desapp.grupoc1e022019.model.builder;
 
 import com.desapp.grupoc1e022019.model.Client;
 import com.desapp.grupoc1e022019.model.Credit;
+import com.desapp.grupoc1e022019.model.Order;
+import com.desapp.grupoc1e022019.model.clientState.NormalClient;
+import com.desapp.grupoc1e022019.model.clientState.StateClient;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClientBuilder {
 
@@ -12,6 +18,8 @@ public class ClientBuilder {
     private String location;
     private String address;
     private Credit credit;
+    private StateClient stateClient = new NormalClient();
+    private List<Order> orderHaveToRank = new ArrayList<>();
 
 
     public ClientBuilder aClient(){
@@ -53,8 +61,19 @@ public class ClientBuilder {
         return this;
     }
 
+    public ClientBuilder withStateClient(StateClient stateClient){
+        this.stateClient = stateClient;
+        return this;
+    }
+
+    public ClientBuilder withORdersHaveToRank(List<Order> orderHaveToRank){
+        this.orderHaveToRank = orderHaveToRank;
+        return this;
+    }
+
     public Client build(){
-        return new Client(firstName,lastName,email,phoneNumber,location,address,credit);
+        return new Client(firstName,lastName,email,phoneNumber,
+                location,address,credit,stateClient,orderHaveToRank);
     }
 
 

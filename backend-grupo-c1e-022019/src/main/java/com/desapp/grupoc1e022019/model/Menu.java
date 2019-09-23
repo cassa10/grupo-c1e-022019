@@ -14,4 +14,9 @@ public class Menu {
     public Integer id() {
         return id;
     }
+
+    public Double priceWithAmount(Integer amount){
+        //TODO REFACTOR AND TEST
+        return null;
+    }
 }

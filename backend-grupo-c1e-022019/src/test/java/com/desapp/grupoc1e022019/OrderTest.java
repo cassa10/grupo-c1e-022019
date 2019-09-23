@@ -5,31 +5,37 @@ import com.desapp.grupoc1e022019.model.*;
 import com.desapp.grupoc1e022019.model.observer.TimeObservable;
 import com.desapp.grupoc1e022019.model.orderState.*;
 import com.desapp.grupoc1e022019.model.builder.OrderBuilder;
-import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.time.Clock;
-import java.time.Instant;
-import java.time.LocalTime;
-import java.util.Observable;
-import java.util.Timer;
+import java.time.LocalDateTime;
 
 public class OrderTest {
     @Test
     public void testWhenICreateANewOrderHisStateIsPending(){
         Order newOrder = OrderBuilder.anOrder().build();
 
-        Assert.assertEquals(newOrder.getState(), new PendingOrder());
+        Assert.assertTrue(newOrder.isStatePending());
+
+        Assert.assertFalse(newOrder.isStateRanked());
+        Assert.assertFalse(newOrder.isStateCancelled());
+        Assert.assertFalse(newOrder.isStateConfirmed());
+        Assert.assertFalse(newOrder.isStateDelivered());
+        Assert.assertFalse(newOrder.isStateSending());
     }
 
     @Test
-    public void testWhenISetAConfirmedStateToANewOrderItNowHasConfirmedState(){
+    public void testWhenItIsConfirmedThenItHasConfirmedState(){
         Order newOrder = OrderBuilder.anOrder().build();
+        newOrder.confirmed();
 
-        newOrder.setState(new ConfirmedOrder());
+        Assert.assertTrue(newOrder.isStateConfirmed());
 
-        Assert.assertEquals(newOrder.getState(), new ConfirmedOrder());
+        Assert.assertFalse(newOrder.isStatePending());
+        Assert.assertFalse(newOrder.isStateRanked());
+        Assert.assertFalse(newOrder.isStateCancelled());
+        Assert.assertFalse(newOrder.isStateDelivered());
+        Assert.assertFalse(newOrder.isStateSending());
     }
 
     @Test
@@ -39,46 +45,116 @@ public class OrderTest {
         timeObservable.attach(newOrder);
 
         //It's 12 o'Clock
-        timeObservable.updateObservers();
+        timeObservable.notifyObserversWithTime(anyDateAtMidnight());
 
-        Assert.assertEquals(newOrder.getState(), new ConfirmedOrder());
+        Assert.assertTrue(newOrder.isStateConfirmed());
+
+        Assert.assertFalse(newOrder.isStatePending());
+        Assert.assertFalse(newOrder.isStateRanked());
+        Assert.assertFalse(newOrder.isStateCancelled());
+        Assert.assertFalse(newOrder.isStateDelivered());
+        Assert.assertFalse(newOrder.isStateSending());
     }
+
     @Test
     public void testAllOrdersWithPendingStateAreConfirmedAfterTwelveOClock(){
         Order newOrder = OrderBuilder.anOrder().build();
-        Order newOrder2 = OrderBuilder.anOrder().build();
-        newOrder2.setState(new DeliveredOrder());
+        Order newOrder2 = OrderBuilder.anOrder().withState(new DeliveredOrder()).build();
         Order newOrder3 = OrderBuilder.anOrder().build();
-        TimeObservable timeObservable = new TimeObservable();
-        timeObservable.attach(newOrder);
-        timeObservable.attach(newOrder2);
-        timeObservable.attach(newOrder3);
+        ViendasYa viendasYa = new ViendasYa();
+
+        viendasYa.attachToObserver(newOrder);
+        viendasYa.attachToObserver(newOrder2);
+        viendasYa.attachToObserver(newOrder3);
 
         //It's 12 o'Clock
-        timeObservable.updateObservers();
+        viendasYa.notifyOrders(anyDateAtMidnight());
 
-        Assert.assertEquals(newOrder.getState(), new ConfirmedOrder());
-        Assert.assertEquals(newOrder2
-                .getState(), new DeliveredOrder());
-        Assert.assertEquals(newOrder3.getState(), new ConfirmedOrder());
+        Assert.assertTrue(newOrder.isStateConfirmed());
+
+        Assert.assertTrue(newOrder2.isStateDelivered());
+
+        Assert.assertTrue(newOrder3.isStateConfirmed());
     }
 
     @Test
-    public void testWhenICreateANewOrderAndThenItsSentHisStateIsSending(){
+    public void testAllOrdersWithPendingStateAreNotConfirmedBeforeTwelveOClock(){
         Order newOrder = OrderBuilder.anOrder().build();
 
+        Order newOrder2 = OrderBuilder.anOrder().withState(new DeliveredOrder()).build();
+
+        Order newOrder3 = OrderBuilder.anOrder().build();
+
+        ViendasYa viendasYa = new ViendasYa();
+        viendasYa.attachToObserver(newOrder);
+        viendasYa.attachToObserver(newOrder2);
+        viendasYa.attachToObserver(newOrder3);
+
+        //It isn't 12 o'Clock
+        viendasYa.notifyOrders(anyDateNotAtMidnight());
+
+        Assert.assertTrue(newOrder.isStatePending());
+        Assert.assertTrue(newOrder2.isStateDelivered());
+        Assert.assertTrue(newOrder3.isStatePending());
+    }
+
+    @Test
+    public void testAllOrdersWithPendingOrderAreNotConfirmedBeforeTwelveOClockButWhenItsAfterTwelveOClockAllPendingOrdersAreConfirmed(){
+        Order newOrder = OrderBuilder.anOrder().build();
+
+        Order newOrder2 = OrderBuilder.anOrder().withState(new DeliveredOrder()).build();
+
+        Order newOrder3 = OrderBuilder.anOrder().build();
+
+        ViendasYa viendasYa = new ViendasYa();
+        viendasYa.attachToObserver(newOrder);
+        viendasYa.attachToObserver(newOrder2);
+        viendasYa.attachToObserver(newOrder3);
+
+        //It isn't 12 o'Clock
+        viendasYa.notifyOrders(anyDateNotAtMidnight());
+
+        Assert.assertTrue(newOrder.isStatePending());
+        Assert.assertTrue(newOrder2.isStateDelivered());
+        Assert.assertTrue(newOrder3.isStatePending());
+
+        //It is midnight
+        viendasYa.notifyOrders(anyDateAtMidnight());
+
+        Assert.assertTrue(newOrder.isStateConfirmed());
+        Assert.assertTrue(newOrder2.isStateDelivered());
+        Assert.assertTrue(newOrder3.isStateConfirmed());
+    }
+
+    @Test
+    public void testWhenICreateANewOrderAndThenItsConfirmedAndSentThisHasStateSending(){
+        Order newOrder = OrderBuilder.anOrder().build();
+        newOrder.confirmed();
         newOrder.sending();
 
-        Assert.assertEquals(newOrder.getState(), new SendingOrder());
+        Assert.assertTrue(newOrder.isStateSending());
+
+        Assert.assertFalse(newOrder.isStatePending());
+        Assert.assertFalse(newOrder.isStateRanked());
+        Assert.assertFalse(newOrder.isStateCancelled());
+        Assert.assertFalse(newOrder.isStateDelivered());
+        Assert.assertFalse(newOrder.isStateConfirmed());
     }
 
     @Test
-    public void testWhenICreateANewOrderAndThenItsDeliveredHisStateIsDelivered(){
+    public void testWhenICreateANewOrderAndThenWasConfirmed_SentAndDeliveredThisHasStateDelivered(){
         Order newOrder = OrderBuilder.anOrder().build();
-
+        newOrder.confirmed();
+        newOrder.sending();
         newOrder.delivered();
 
-        Assert.assertEquals(newOrder.getState(), new DeliveredOrder());
+        Assert.assertTrue(newOrder.isStateDelivered());
+
+        Assert.assertFalse(newOrder.isStatePending());
+        Assert.assertFalse(newOrder.isStateRanked());
+        Assert.assertFalse(newOrder.isStateCancelled());
+        Assert.assertFalse(newOrder.isStateSending());
+        Assert.assertFalse(newOrder.isStateConfirmed());
     }
     @Test
     public void testWhenICancelANewOrderThenItsNewStateIsCancelled(){
@@ -86,34 +162,71 @@ public class OrderTest {
 
         newOrder.cancelled();
 
-        Assert.assertEquals(newOrder.getState(), new CancelledOrder());
+        Assert.assertTrue(newOrder.isStateCancelled());
+
+        Assert.assertFalse(newOrder.isStatePending());
+        Assert.assertFalse(newOrder.isStateRanked());
+        Assert.assertFalse(newOrder.isStateSending());
+        Assert.assertFalse(newOrder.isStateDelivered());
+        Assert.assertFalse(newOrder.isStateConfirmed());
+    }
+
+    @Test
+    public void testGivenAnOrderWithAnyStateExceptPendingWhenIWantCancelIt_ItCannotBeCancelledAndItHasTheirPreviousState(){
+        Order newOrder = OrderBuilder.anOrder().withState(new ConfirmedOrder()).build();
+        Order newOrder2 = OrderBuilder.anOrder().withState(new SendingOrder()).build();
+        Order newOrder3 = OrderBuilder.anOrder().withState(new DeliveredOrder()).build();
+        Order newOrder4 = OrderBuilder.anOrder().withState(new RankedOrder()).build();
+
+        newOrder.cancelled();
+
+        Assert.assertTrue(newOrder.isStateConfirmed());
+        Assert.assertFalse(newOrder.isStateCancelled());
+
+        newOrder2.cancelled();
+
+        Assert.assertTrue(newOrder2.isStateSending());
+        Assert.assertFalse(newOrder2.isStateCancelled());
+
+        newOrder3.cancelled();
+
+        Assert.assertTrue(newOrder3.isStateDelivered());
+        Assert.assertFalse(newOrder3.isStateCancelled());
+
+        newOrder4.cancelled();
+
+        Assert.assertTrue(newOrder4.isStateRanked());
+        Assert.assertFalse(newOrder4.isStateCancelled());
+
     }
 
     @Test
     public void testWhenICreateANewOrderThenItHasNoStars(){
         Order newOrder = OrderBuilder.anOrder().build();
 
-        Assert.assertEquals(newOrder.getStars(), new Double(0));
+        Assert.assertEquals(newOrder.getStars(), new Integer(0));
     }
     @Test
     public void testWhenIRateANewOrderWithFiveStarsThenItHasFiveStars(){
         Order newOrder = OrderBuilder.anOrder().build();
+        newOrder.confirmed();
+        newOrder.sending();
         newOrder.delivered();
 
         newOrder.rate(5);
 
-        Assert.assertEquals(newOrder.getStars(), new Double(5));
+        Assert.assertEquals(newOrder.getStars(), new Integer(5));
     }
 
-    @Test
-    public void testWhenIRateANewOrderWithFiveStarsAndFourStarsThenItHasFourPointFiveStars(){
+    @Test(expected = RatingForbiddenException.class)
+    public void testWhenIRateANewOrderDeliveredWithFiveStarsAndITryToRateAgainThenItRaiseRatingForbiddenException(){
         Order newOrder = OrderBuilder.anOrder().build();
+        newOrder.confirmed();
+        newOrder.sending();
         newOrder.delivered();
 
         newOrder.rate(5);
         newOrder.rate(4);
-
-        Assert.assertEquals(newOrder.getStars(), new Double(4.5));
     }
 
     @Test(expected = RatingForbiddenException.class)
@@ -144,6 +257,34 @@ public class OrderTest {
         newOrder.confirmed();
 
         newOrder.rate(5);
+    }
+
+    @Test
+    public void testWhenICreateANewOrderAndWasConfirmedAndSentAndDeliveredAndRankedThenTheOrderStateIsRanked(){
+        Order newOrder = OrderBuilder.anOrder().build();
+        newOrder.confirmed();
+        newOrder.sending();
+        newOrder.delivered();
+
+        newOrder.rate(4);
+
+        Assert.assertTrue(newOrder.isStateRanked());
+
+        Assert.assertFalse(newOrder.isStateCancelled());
+        Assert.assertFalse(newOrder.isStateConfirmed());
+        Assert.assertFalse(newOrder.isStateDelivered());
+        Assert.assertFalse(newOrder.isStatePending());
+        Assert.assertFalse(newOrder.isStateSending());
+    }
+
+    private LocalDateTime anyDateAtMidnight(){
+        LocalDateTime now = LocalDateTime.now();
+        return now.withHour(0);
+    }
+
+    private LocalDateTime anyDateNotAtMidnight(){
+        LocalDateTime now = LocalDateTime.now();
+        return now.withHour(1);
     }
 
     /** TODO
