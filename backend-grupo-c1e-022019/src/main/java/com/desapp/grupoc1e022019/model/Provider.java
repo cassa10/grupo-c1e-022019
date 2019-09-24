@@ -32,19 +32,111 @@ public class Provider {
                     String email, String telNumber, Schedule schedule, Credit credit, Double deliveryMaxDistanceInKM,
                     List<Menu> menus,ProviderState providerState,Integer strikesMenu) {
 
-        this.name = name;
-        this.logo = logo;
-        this.city = city;
-        this.address = address;
-        this.description = description;
-        this.webURL = webURL;
-        this.email = email;
-        this.telNumber = telNumber;
-        this.schedule = schedule;
-        this.deliveryMaxDistanceInKM = deliveryMaxDistanceInKM;
+        setName(name);
+        setLogo(logo);
+        setCity(city);
+        setAddress(address);
+        setDescription(description);
+        setWebURL(webURL);
+        setEmail(email);
+        setTelNumber(telNumber);
+        setSchedule(schedule);
+        setDeliveryMaxDistanceInKM(deliveryMaxDistanceInKM);
         this.menus = menus;
         this.credit = credit;
+        setStrikesMenu(strikesMenu);
+        this.providerState = providerState;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getWebURL() {
+        return webURL;
+    }
+
+    public void setWebURL(String webURL) {
+        this.webURL = webURL;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getTelNumber() {
+        return telNumber;
+    }
+
+    public void setTelNumber(String telNumber) {
+        this.telNumber = telNumber;
+    }
+
+    public Schedule getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
+    }
+
+    public Double getDeliveryMaxDistanceInKM() {
+        return deliveryMaxDistanceInKM;
+    }
+
+    public void setDeliveryMaxDistanceInKM(Double deliveryMaxDistanceInKM) {
+        this.deliveryMaxDistanceInKM = deliveryMaxDistanceInKM;
+    }
+
+    public Integer getStrikesMenu() {
+        return strikesMenu;
+    }
+
+    public void setStrikesMenu(Integer strikesMenu) {
         this.strikesMenu = strikesMenu;
+    }
+
+    public void setProviderState(ProviderState providerState){
         this.providerState = providerState;
     }
 
@@ -56,18 +148,6 @@ public class Provider {
         checkMaxMenus();
         checkIdNotRepeated(menu.getId());
         menus.add(menu);
-    }
-
-    private void checkIdNotRepeated(Integer id ) {
-        if( menus.stream().anyMatch(menu -> menu.getId() == id)){
-            throw new RepeatedIDException("The menu's id is already in our system :)");
-        }
-    }
-
-    private void checkMaxMenus(){
-        if(this.menus.size() == 20){
-            throw new MaximumMenusSizeException("Can't add more than twenty menus");
-        }
     }
 
     public void deleteMenu(Menu menu) {
@@ -107,12 +187,7 @@ public class Provider {
     }
 
     public void addAStrike(){
-        strikesMenu = strikesMenu++;
-        if(strikesMenu >= 10){
-            providerState = new PenalizedProvider();
-            //TODO
-            // USE MAIL SENDER WHEN HE/SHE IS PENALIZED!!!!!!
-        }
+        providerState.addStrike(this);
     }
 
     public boolean isPenalized(){
@@ -125,5 +200,17 @@ public class Provider {
 
     public String getProviderStateName(){
         return providerState.toString();
+    }
+
+    private void checkIdNotRepeated(Integer id ) {
+        if( menus.stream().anyMatch(menu -> menu.getId() == id)){
+            throw new RepeatedIDException("The menu's id is already in our system :)");
+        }
+    }
+
+    private void checkMaxMenus(){
+        if(this.menus.size() == 20){
+            throw new MaximumMenusSizeException("Can't add more than twenty menus");
+        }
     }
 }

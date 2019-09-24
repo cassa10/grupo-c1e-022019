@@ -1,5 +1,7 @@
 package com.desapp.grupoc1e022019.model.providerComponents.providerState;
 
+import com.desapp.grupoc1e022019.model.Provider;
+
 public abstract class ProviderState {
 
     public boolean isPenalized(){
@@ -12,4 +14,5 @@ public abstract class ProviderState {
 
     public abstract String toString();
 
+    public abstract void addStrike(Provider provider);
 }

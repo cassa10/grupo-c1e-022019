@@ -6,6 +6,8 @@ import com.desapp.grupoc1e022019.exception.MaximumMenusSizeException;
 import com.desapp.grupoc1e022019.exception.RepeatedIDException;
 import com.desapp.grupoc1e022019.model.Credit;
 import com.desapp.grupoc1e022019.model.Menu;
+import com.desapp.grupoc1e022019.model.providerComponents.location.Address;
+import com.desapp.grupoc1e022019.model.providerComponents.location.Coord;
 import com.desapp.grupoc1e022019.services.builder.MenuBuilder;
 import com.desapp.grupoc1e022019.model.Provider;
 import com.desapp.grupoc1e022019.services.builder.ProviderBuilder;
@@ -15,12 +17,65 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 public class ProviderTest {
+
+    @Test
+    public void testGivenProvider1WithNamePepeAndProvider2WithNameLaloWhenTheyReceiveGetNameThenTheyReturnTheirNames(){
+        Provider provider1 = ProviderBuilder.aProvider().withName("Pepe").build();
+        Provider provider2 = ProviderBuilder.aProvider().withName("Lalo").build();
+
+        Assert.assertEquals(provider1.getName(),"Pepe");
+        Assert.assertEquals(provider2.getName(),"Lalo");
+    }
+
+    @Test
+    public void testGivenProvider1WithLogoImg1AndProvider2WithLogoImg2WhenTheyReceiveGetLogoThenTheyReturnTheirLogos(){
+        Provider provider1 = ProviderBuilder.aProvider().withLogo("Img1").build();
+        Provider provider2 = ProviderBuilder.aProvider().withLogo("Img2").build();
+
+        Assert.assertEquals(provider1.getLogo(),"Img1");
+        Assert.assertEquals(provider2.getLogo(),"Img2");
+    }
+
+    @Test
+    public void testGivenProvider1WithCityQuilmesAndProvider2WithCityVarelaWhenTheyReceiveGetCityThenTheyReturnTheirCities(){
+        Provider provider1 = ProviderBuilder.aProvider().withCity("Quilmes").build();
+        Provider provider2 = ProviderBuilder.aProvider().withCity("Varela").build();
+
+        Assert.assertEquals(provider1.getCity(),"Quilmes");
+        Assert.assertEquals(provider2.getCity(),"Varela");
+    }
+
+    @Test
+    public void testGivenProvider1WithAddress1AndProvider2WithAddress1WhenTheyReceiveGetAddressThenTheyReturnTheirAddress(){
+        Coord coord1 = new Coord(-34.72418,-58.25265);
+        Address address1 = new Address(coord1,"Quilmes, Buenos Aires");
+
+        Coord coord2 = new Coord(-41.14557, -71.30822);
+        Address address2 = new Address(coord2,"Bariloche, Rio Negro");
+
+        Provider provider1 = ProviderBuilder.aProvider().withAddress(address1).build();
+        Provider provider2 = ProviderBuilder.aProvider().withAddress(address2).build();
+
+        Assert.assertEquals(provider1.getAddress(),address1);
+        Assert.assertEquals(provider2.getAddress(),address2);
+    }
+
+    @Test
+    public void testGivenProvider1WithDescriptionTheBestProviderAndProvider2WithoutDescriptionWhenTheyReceiveGetDescriptionThenTheyReturnTheyDescriptions(){
+        Provider provider1 = ProviderBuilder.aProvider().withDescription("The best provider").build();
+        Provider provider2 = ProviderBuilder.aProvider().withDescription("").build();
+
+        Assert.assertEquals(provider1.getDescription(),"The best provider");
+        Assert.assertEquals(provider2.getDescription(),"");
+    }
+
     @Test
     public void testWhenICreateANewProviderThenItHasNoMenus(){
         Provider provider = ProviderBuilder.aProvider().build();
 
-        Assert.assertEquals(provider.getMenus(), new ArrayList<>());
+        Assert.assertTrue(provider.getMenus().isEmpty());
     }
+
     @Test
     public void testWhenAProviderAddANewMenuThenItHasOneMoreMenu(){
         Provider provider = ProviderBuilder.aProvider().build();
@@ -29,7 +84,9 @@ public class ProviderTest {
         provider.addMenu(newMenu);
 
         Assert.assertEquals(provider.getMenus().size(), 1);
+        Assert.assertTrue(provider.getMenus().contains(newMenu));
     }
+
     @Test(expected = MaximumMenusSizeException.class)
     public void testWhenAProviderAddANewMenuHaving20ItCannotAddMoreThenItRaiseMaxCantException()  {
         ArrayList<Menu>  twentyMenus = getTwentyRandomMenus();
@@ -37,7 +94,6 @@ public class ProviderTest {
         Menu newMenu = MenuBuilder.aMenu().build();
 
         provider.addMenu(newMenu);
-
     }
 
     @Test(expected = RepeatedIDException.class)
@@ -45,10 +101,9 @@ public class ProviderTest {
         Provider provider = ProviderBuilder.aProvider().build();
         Menu newMenu1 = MenuBuilder.aMenu().withId(1).build();
         Menu newMenu2 = MenuBuilder.aMenu().withId(1).build();
+
         provider.addMenu(newMenu1);
-
         provider.addMenu(newMenu2);
-
     }
 
     @Test
