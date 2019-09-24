@@ -22,6 +22,6 @@ public class EffectiveDate {
 
     public boolean todayIsBeingAnEffectiveDate() {
         LocalDate today = LocalDate.now();
-        return validFrom.isAfter(today) && this.goodThru.isBefore(today);
+        return (!validFrom.isAfter(today)) && (! this.goodThru.isBefore(today));
     }
 }

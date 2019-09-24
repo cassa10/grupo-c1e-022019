@@ -87,6 +87,11 @@ public class MenuBuilder {
         return this;
     }
 
+    public MenuBuilder withProvider(Provider provider){
+        this.provider = provider;
+        return this;
+    }
+
     private int nextId(){
         id = id++;
         return id;

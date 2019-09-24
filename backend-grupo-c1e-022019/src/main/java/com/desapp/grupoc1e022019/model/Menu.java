@@ -151,11 +151,7 @@ public class Menu extends Entity {
     }
 
     public Double priceWithAmount(Integer amount){
-        return menuPriceCalculator.calculateMenuPrice(amount);
-    }
-
-    public void addRate(Integer score){
-        this.menuState.addRate(this,menuRank,score);
+        return menuPriceCalculator.calculateCurrentMenuPrice(amount);
     }
 
     public void penalizeProvider(){
@@ -168,14 +164,32 @@ public class Menu extends Entity {
         // PONER MAIL SENDER ACA AL PROVIDER QUE EL MENU FUE CANCELADO
     }
 
-    public boolean reachMaxSalesToday(){
-        //TODO
-        //  UTILIZAR SERVICE Y UNA QUERY DE BASE DE DATOS (COUNT) CON LA FECHA DE HOY Y EL ID DEL MENU
-        return false;
-    }
+    //TODO
+    //    UTILIZAR SERVICE Y UNA QUERY DE BASE DE DATOS (COUNT) CON LA FECHA DE HOY Y EL ID DEL MENU
+    //    public boolean reachMaxSalesToday(){return null;}
+
 
     public boolean todayIsBeingAnEffectiveDate(){
         return effectiveDate.todayIsBeingAnEffectiveDate();
     }
 
+    public Double rankAverage(){
+        return menuRank.average();
+    }
+
+    public boolean isNormalState(){
+        return menuState.isNormal();
+    }
+
+    public boolean isCancelledState(){
+        return menuState.isCancelled();
+    }
+
+    public void addRate(Integer score){
+        this.menuState.addRate(this,menuRank,score);
+    }
+
+    public String getMenuStateName(){
+        return menuState.toString();
+    }
 }

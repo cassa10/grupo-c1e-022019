@@ -64,6 +64,16 @@ public class RankAverageMenuTest {
         Assert.assertTrue(rankAverageMenu.hasMoreTwentyRatesAmountAndAverageIsLessThanTwo());
     }
 
+    @Test
+    public void testGivenARankAverageMenuWith20RatesWith2ScoreWhenItRecievesHasMoreTwentyRatesAmountAndAverageLessThanTwoThenItReturnsFalseAndAverageIs2AndRatingAmount20(){
+        RankAverageMenu rankAverageMenu = aRankAverageMenu();
+        addNRatingsWithScore(rankAverageMenu,20,2);
+
+        Assert.assertEquals(rankAverageMenu.average(),new Double(2));
+        Assert.assertEquals(rankAverageMenu.getRatingsAmount(),new Integer(20));
+        Assert.assertFalse(rankAverageMenu.hasMoreTwentyRatesAmountAndAverageIsLessThanTwo());
+    }
+
     private RankAverageMenu aRankAverageMenu(){
         return new RankAverageMenu();
     }

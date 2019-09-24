@@ -32,7 +32,7 @@ public class MenuPriceCalculatorTest {
         MenuPriceCalculator aMenuPriceCalculator = new MenuPriceCalculator(10d,4,
                 7d,10,5d);
 
-        Assert.assertEquals(aMenuPriceCalculator.calculateMenuPrice(3),new Double(30));
+        Assert.assertEquals(aMenuPriceCalculator.calculateCurrentMenuPrice(3),new Double(30));
     }
 
     @Test
@@ -40,7 +40,7 @@ public class MenuPriceCalculatorTest {
         MenuPriceCalculator aMenuPriceCalculator = new MenuPriceCalculator(10d,4,
                 7d,10,5d);
 
-        Assert.assertEquals(aMenuPriceCalculator.calculateMenuPrice(4),new Double(28));
+        Assert.assertEquals(aMenuPriceCalculator.calculateCurrentMenuPrice(4),new Double(28));
     }
 
     @Test
@@ -48,7 +48,7 @@ public class MenuPriceCalculatorTest {
         MenuPriceCalculator aMenuPriceCalculator = new MenuPriceCalculator(10d,4,
                 7d,10,5d);
 
-        Assert.assertEquals(aMenuPriceCalculator.calculateMenuPrice(9),new Double(63));
+        Assert.assertEquals(aMenuPriceCalculator.calculateCurrentMenuPrice(9),new Double(63));
     }
 
     @Test
@@ -56,7 +56,7 @@ public class MenuPriceCalculatorTest {
         MenuPriceCalculator aMenuPriceCalculator = new MenuPriceCalculator(10d,4,
                 7d,10,5d);
 
-        Assert.assertEquals(aMenuPriceCalculator.calculateMenuPrice(10),new Double(50));
+        Assert.assertEquals(aMenuPriceCalculator.calculateCurrentMenuPrice(10),new Double(50));
     }
 
     @Test
@@ -64,6 +64,6 @@ public class MenuPriceCalculatorTest {
         MenuPriceCalculator aMenuPriceCalculator = new MenuPriceCalculator(10d,4,
                 7d,10,5d);
 
-        Assert.assertEquals(aMenuPriceCalculator.calculateMenuPrice(55),new Double(275));
+        Assert.assertEquals(aMenuPriceCalculator.calculateCurrentMenuPrice(55),new Double(275));
     }
 }

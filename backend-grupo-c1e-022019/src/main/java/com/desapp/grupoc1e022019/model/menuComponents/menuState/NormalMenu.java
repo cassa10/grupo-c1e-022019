@@ -11,6 +11,18 @@ public class NormalMenu extends MenuState {
         if(menuRank.hasMoreTwentyRatesAmountAndAverageIsLessThanTwo()){
             menu.setMenuState(new CancelledMenu());
             menu.penalizeProvider();
+            //TODO
+            // CALL SERVICE, DELETE MENU, ONLY CHANGE STATE IN BD OR WHAT??
         }
+    }
+
+    @Override
+    public boolean isNormal(){
+        return true;
+    }
+
+    @Override
+    public String toString(){
+        return "NORMAL";
     }
 }

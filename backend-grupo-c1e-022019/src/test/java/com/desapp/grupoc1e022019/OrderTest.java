@@ -293,9 +293,4 @@ public class OrderTest {
         return now.withHour(1);
     }
 
-    /** TODO
-             Debatir: Los estados deberian pasarse unos a otros? Es decir, deberia poder
-            setearse "Delivered" en cualquier momento o solo despues de "Sending"?
-    */
-
 }

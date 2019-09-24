@@ -18,7 +18,7 @@ public class MenuPriceCalculator {
         this.setSecondMinAmountPrice(secondMinAmountPrice);
     }
 
-    public Double calculateMenuPrice(Integer amount) {
+    public Double calculateCurrentMenuPrice(Integer amount) {
         //TODO
         // DUDA DE ENUNCIADO (RELACION ENTRE EL MIN Y EL AMOUNT O CANTIDAD DE VENTAS)
         double value;
