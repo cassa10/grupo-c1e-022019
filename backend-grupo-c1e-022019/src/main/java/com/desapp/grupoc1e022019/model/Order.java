@@ -13,6 +13,8 @@ public class Order implements Observer {
     private Menu menu;
     private Integer menusAmount;
     private DeliverType deliverType;
+    //TODO
+    // EN CONTROLLER ORDER: NO SE PODRIA CREAR LA ORDEN SI EL MENU A ORDENAR ESTA CANCELADO
 
     public Order(OrderState state, Integer stars, Client client, Menu menu, Integer menusAmount, DeliverType deliverType) {
         this.stars = stars;
