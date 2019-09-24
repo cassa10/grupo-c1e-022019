@@ -8,13 +8,17 @@ import com.desapp.grupoc1e022019.model.Credit;
 import com.desapp.grupoc1e022019.model.Menu;
 import com.desapp.grupoc1e022019.model.providerComponents.location.Address;
 import com.desapp.grupoc1e022019.model.providerComponents.location.Coord;
+import com.desapp.grupoc1e022019.model.providerComponents.schedule.BussinessTime;
+import com.desapp.grupoc1e022019.model.providerComponents.schedule.Schedule;
 import com.desapp.grupoc1e022019.services.builder.MenuBuilder;
 import com.desapp.grupoc1e022019.model.Provider;
 import com.desapp.grupoc1e022019.services.builder.ProviderBuilder;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.ArrayList;
+import java.sql.Time;
+import java.time.DayOfWeek;
+import java.util.*;
 
 public class ProviderTest {
 
@@ -61,12 +65,86 @@ public class ProviderTest {
     }
 
     @Test
-    public void testGivenProvider1WithDescriptionTheBestProviderAndProvider2WithoutDescriptionWhenTheyReceiveGetDescriptionThenTheyReturnTheyDescriptions(){
+    public void testGivenProvider1WithDescriptionTheBestProviderAndProvider2WithoutDescriptionWhenTheyReceiveGetDescriptionThenTheyReturnTheirDescriptions(){
         Provider provider1 = ProviderBuilder.aProvider().withDescription("The best provider").build();
         Provider provider2 = ProviderBuilder.aProvider().withDescription("").build();
 
         Assert.assertEquals(provider1.getDescription(),"The best provider");
         Assert.assertEquals(provider2.getDescription(),"");
+    }
+
+    @Test
+    public void testGivenProvider1WithWeburlPepeDotComAndProvider2WithoutWebUrlWhenTheyReceiveGetWebURLThenTheyReturnTheirWebUrls(){
+        Provider provider1 = ProviderBuilder.aProvider().withWebUrl("pepe.com").build();
+        Provider provider2 = ProviderBuilder.aProvider().withWebUrl("").build();
+
+        Assert.assertEquals(provider1.getWebURL(),"pepe.com");
+        Assert.assertEquals(provider2.getWebURL(),"");
+    }
+
+    @Test
+    public void testGivenProvider1WithEmailPepeAtGmailDotComAndProvider2WithEmailLaloAtHotmailDotComWhenTheyReceiveGetEmailThenTheyReturnTheirEmails(){
+        Provider provider1 = ProviderBuilder.aProvider().withEmail("pepe@gmail.com").build();
+        Provider provider2 = ProviderBuilder.aProvider().withEmail("lalo@hotmail.com").build();
+
+        Assert.assertEquals(provider1.getEmail(),"pepe@gmail.com");
+        Assert.assertEquals(provider2.getEmail(),"lalo@hotmail.com");
+    }
+
+    @Test
+    public void testGivenProvider1WithTelNumber12344321AndProvider2WithTelNumber43211234WhenTheyReceiveGetEmailThenTheyReturnTheirTelNumbers(){
+        Provider provider1 = ProviderBuilder.aProvider().withTelNumber("12344321").build();
+        Provider provider2 = ProviderBuilder.aProvider().withTelNumber("43211234").build();
+
+        Assert.assertEquals(provider1.getTelNumber(),"12344321");
+        Assert.assertEquals(provider2.getTelNumber(),"43211234");
+    }
+
+    @Test
+    public void testGivenAProviderWithScheduleMondayAndTuesdayWithHour8To12WhenProviderRecievesGetScheduleThenItReturnsASetOfThesesBussinessHoursAndDay(){
+        BussinessTime bussinessHourMonday = new BussinessTime(Time.valueOf("8:00:00"),Time.valueOf("12:00:00"));
+        BussinessTime bussinessHourTuesday = new BussinessTime(Time.valueOf("8:00:00"),Time.valueOf("12:00:00"));
+
+        Map<DayOfWeek,BussinessTime> mapOfBussinessDayAndHour = new HashMap<>();
+        mapOfBussinessDayAndHour.put(DayOfWeek.MONDAY,bussinessHourMonday);
+        mapOfBussinessDayAndHour.put(DayOfWeek.TUESDAY,bussinessHourTuesday);
+
+        Schedule schedule1 = new Schedule(mapOfBussinessDayAndHour);
+
+        Provider provider = ProviderBuilder.aProvider().withSchedule(schedule1).build();
+
+        Assert.assertTrue(provider.getSchedule().containsKey(DayOfWeek.MONDAY));
+        Assert.assertTrue(provider.getSchedule().containsKey(DayOfWeek.TUESDAY));
+        Assert.assertEquals(provider.getSchedule().keySet().size(),2);
+
+        Assert.assertTrue(provider.getSchedule().containsValue(bussinessHourMonday));
+        Assert.assertTrue(provider.getSchedule().containsValue(bussinessHourTuesday));
+        Assert.assertEquals(provider.getSchedule().values().size(),2);
+    }
+    @Test
+    public void testGivenAProviderWithScheduleMonday8To12Wednesday16To20Friday8To20WhenProviderRecievesGetScheduleThenItReturnsASetOfThesesBussinessHoursAndDay(){
+        BussinessTime bussinessHourMonday = new BussinessTime(Time.valueOf("8:00:00"),Time.valueOf("12:00:00"));
+        BussinessTime bussinessHourWednesday = new BussinessTime(Time.valueOf("16:00:00"),Time.valueOf("20:00:00"));
+        BussinessTime bussinessHourFriday = new BussinessTime(Time.valueOf("8:00:00"),Time.valueOf("20:00:00"));
+
+        Map<DayOfWeek,BussinessTime> mapOfBussinessDayAndHour = new HashMap<>();
+        mapOfBussinessDayAndHour.put(DayOfWeek.MONDAY,bussinessHourMonday);
+        mapOfBussinessDayAndHour.put(DayOfWeek.WEDNESDAY,bussinessHourWednesday);
+        mapOfBussinessDayAndHour.put(DayOfWeek.FRIDAY,bussinessHourFriday);
+
+        Schedule schedule1 = new Schedule(mapOfBussinessDayAndHour);
+
+        Provider provider = ProviderBuilder.aProvider().withSchedule(schedule1).build();
+
+        Assert.assertTrue(provider.getSchedule().containsKey(DayOfWeek.MONDAY));
+        Assert.assertTrue(provider.getSchedule().containsKey(DayOfWeek.WEDNESDAY));
+        Assert.assertTrue(provider.getSchedule().containsKey(DayOfWeek.FRIDAY));
+        Assert.assertEquals(provider.getSchedule().keySet().size(),3);
+
+        Assert.assertTrue(provider.getSchedule().containsValue(bussinessHourMonday));
+        Assert.assertTrue(provider.getSchedule().containsValue(bussinessHourWednesday));
+        Assert.assertTrue(provider.getSchedule().containsValue(bussinessHourFriday));
+        Assert.assertEquals(provider.getSchedule().values().size(),3);
     }
 
     @Test

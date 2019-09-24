@@ -3,12 +3,15 @@ package com.desapp.grupoc1e022019.model;
 import com.desapp.grupoc1e022019.exception.InsufficientCreditException;
 import com.desapp.grupoc1e022019.exception.MaximumMenusSizeException;
 import com.desapp.grupoc1e022019.exception.RepeatedIDException;
-import com.desapp.grupoc1e022019.model.providerComponents.providerState.PenalizedProvider;
 import com.desapp.grupoc1e022019.model.providerComponents.providerState.ProviderState;
+import com.desapp.grupoc1e022019.model.providerComponents.schedule.BussinessTime;
 import com.desapp.grupoc1e022019.model.providerComponents.schedule.Schedule;
 import com.desapp.grupoc1e022019.model.providerComponents.location.Address;
 
+import java.time.DayOfWeek;
 import java.util.List;
+import java.util.Map;
+
 import java.util.stream.Collectors;
 
 public class Provider {
@@ -112,14 +115,6 @@ public class Provider {
         this.telNumber = telNumber;
     }
 
-    public Schedule getSchedule() {
-        return schedule;
-    }
-
-    public void setSchedule(Schedule schedule) {
-        this.schedule = schedule;
-    }
-
     public Double getDeliveryMaxDistanceInKM() {
         return deliveryMaxDistanceInKM;
     }
@@ -200,6 +195,14 @@ public class Provider {
 
     public String getProviderStateName(){
         return providerState.toString();
+    }
+
+    public Map<DayOfWeek, BussinessTime> getSchedule(){
+        return schedule.getDaysAndBussinessTime();
+    }
+
+    public void setSchedule(Schedule schedule){
+        this.schedule = schedule;
     }
 
     private void checkIdNotRepeated(Integer id ) {

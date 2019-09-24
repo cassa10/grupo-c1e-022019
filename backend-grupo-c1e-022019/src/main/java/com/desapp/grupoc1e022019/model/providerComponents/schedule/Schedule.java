@@ -1,11 +1,16 @@
 package com.desapp.grupoc1e022019.model.providerComponents.schedule;
 
-import java.util.Set;
+import java.time.DayOfWeek;
+import java.util.Map;
 
 public class Schedule {
-    private Set<DaysAndBussinessTime> days;
+    private Map<DayOfWeek,BussinessTime> daysAndHours;
 
-    public Schedule(Set<DaysAndBussinessTime> days){
-        this.days = days;
+    public Schedule(Map<DayOfWeek,BussinessTime> daysAndHours){
+        this.daysAndHours = daysAndHours;
+    }
+
+    public Map<DayOfWeek,BussinessTime> getDaysAndBussinessTime() {
+        return daysAndHours;
     }
 }

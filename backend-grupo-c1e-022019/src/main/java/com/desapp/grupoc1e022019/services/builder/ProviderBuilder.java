@@ -6,7 +6,6 @@ import com.desapp.grupoc1e022019.model.Provider;
 import com.desapp.grupoc1e022019.model.providerComponents.providerState.NormalProvider;
 import com.desapp.grupoc1e022019.model.providerComponents.providerState.ProviderState;
 import com.desapp.grupoc1e022019.model.providerComponents.schedule.BussinessTime;
-import com.desapp.grupoc1e022019.model.providerComponents.schedule.DaysAndBussinessTime;
 import com.desapp.grupoc1e022019.model.providerComponents.schedule.Schedule;
 import com.desapp.grupoc1e022019.model.providerComponents.location.Address;
 import com.desapp.grupoc1e022019.model.providerComponents.location.Coord;
@@ -14,7 +13,7 @@ import com.desapp.grupoc1e022019.model.providerComponents.location.Coord;
 import java.sql.Time;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
 
 public class ProviderBuilder {
@@ -42,7 +41,7 @@ public class ProviderBuilder {
         webURL = "builderWebURL";
         email = "builderEmail";
         telNumber = "builderTelNumber";
-        HashSet<DaysAndBussinessTime> daysOfWeekAndBussinessTime = getDayOfWeeksMondayToFriday9To5();
+        HashMap<DayOfWeek,BussinessTime> daysOfWeekAndBussinessTime = getDayOfWeeksMondayToFriday9To5();
         schedule = new Schedule(daysOfWeekAndBussinessTime);
         deliveryMaxDistanceInKM = 4d;
         menus = new ArrayList<>();
@@ -51,14 +50,14 @@ public class ProviderBuilder {
         providerState = new NormalProvider();
     }
 
-    private HashSet<DaysAndBussinessTime> getDayOfWeeksMondayToFriday9To5() {
-        HashSet<DaysAndBussinessTime> daysAndTime = new HashSet<>();
+    private HashMap<DayOfWeek,BussinessTime> getDayOfWeeksMondayToFriday9To5() {
+        HashMap<DayOfWeek,BussinessTime> daysAndTime = new HashMap<>();
         BussinessTime nineToFive = new BussinessTime(Time.valueOf("08:00:00"),Time.valueOf("17:00:00"));
-        daysAndTime.add(new DaysAndBussinessTime(DayOfWeek.MONDAY,nineToFive));
-        daysAndTime.add(new DaysAndBussinessTime(DayOfWeek.TUESDAY,nineToFive));
-        daysAndTime.add(new DaysAndBussinessTime(DayOfWeek.WEDNESDAY,nineToFive));
-        daysAndTime.add(new DaysAndBussinessTime(DayOfWeek.THURSDAY,nineToFive));
-        daysAndTime.add(new DaysAndBussinessTime(DayOfWeek.FRIDAY,nineToFive));
+        daysAndTime.put(DayOfWeek.MONDAY,nineToFive) ;
+        daysAndTime.put(DayOfWeek.TUESDAY,nineToFive);
+        daysAndTime.put(DayOfWeek.WEDNESDAY,nineToFive);
+        daysAndTime.put(DayOfWeek.THURSDAY,nineToFive);
+        daysAndTime.put(DayOfWeek.FRIDAY,nineToFive);
         return daysAndTime;
     }
 
