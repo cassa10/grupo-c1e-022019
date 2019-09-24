@@ -3,7 +3,7 @@ package com.desapp.grupoc1e022019;
 import com.desapp.grupoc1e022019.model.Client;
 import com.desapp.grupoc1e022019.model.Credit;
 import com.desapp.grupoc1e022019.exception.InsufficientCreditException;
-import com.desapp.grupoc1e022019.model.builder.ClientBuilder;
+import com.desapp.grupoc1e022019.services.builder.ClientBuilder;
 import org.junit.Assert;
 import org.junit.Test;
 

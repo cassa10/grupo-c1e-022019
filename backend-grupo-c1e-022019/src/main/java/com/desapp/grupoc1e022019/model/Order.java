@@ -1,41 +1,35 @@
 package com.desapp.grupoc1e022019.model;
 
+import com.desapp.grupoc1e022019.model.orderComponents.deliverType.DeliverType;
 import com.desapp.grupoc1e022019.model.observer.Observer;
-import com.desapp.grupoc1e022019.model.orderState.*;
+import com.desapp.grupoc1e022019.model.orderComponents.orderState.OrderState;
+
+import java.time.LocalDateTime;
 
 public class Order implements Observer {
     private OrderState state;
-    private ViendasYa.Average average;
-    //TODO
-    //  private Map<Menu,Integer>; (Menu, cantidad)
-    //  private DeliverType; (Tipo de Entrega) Domicilio o Retiro
-    //  private DeliverDate; (Fecha de Entrega)
-    //  private DeliverHour; (Hora de Entrega) Dar una franja dependiendo de los menus y el max promedio de ellos(12:30 - 13:00)
+    private Integer stars;
+    private Client client;
+    private Menu menu;
+    private Integer menusAmount;
+    private DeliverType deliverType;
 
-
-    public Order(OrderState state,Double stars) {
-        this.average = new ViendasYa.Average(stars);
+    public Order(OrderState state, Integer stars, Client client, Menu menu, Integer menusAmount, DeliverType deliverType) {
+        this.stars = stars;
         this.state = state;
+        this.client = client;
+        this.menu = menu;
+        this.menusAmount = menusAmount;
+        this.deliverType = deliverType;
+
     }
 
-    public OrderState getState() {
-        return state;
+    public Integer getStars() {
+        return this.stars;
     }
 
-    public void delivered() {
-        state = new DeliveredOrder();
-    }
-
-    public void sending() {
-        state = new SendingOrder();
-    }
-
-    public Double getStars() {
-        return average.getStars();
-    }
-
-    public void score(Integer score) {
-        average.rate(score);
+    public void setStars(Integer stars) {
+        this.stars = stars;
     }
 
     public void setState(OrderState state) {
@@ -44,18 +38,75 @@ public class Order implements Observer {
 
     @Override
     public void update() {
+        //SI EL ESTADO ES PENDIENTE SE CONFIRMA SI SON LAS 00hs
         state.update(this);
     }
 
+    public void confirmed(){
+        this.update();
+    }
+
     public void cancelled() {
-        state = new CancelledOrder();
+        state.cancelled(this) ;
+    }
+
+    public void delivered() {
+        state.delivered(this);
+    }
+
+    public void sending() {
+        this.state.sending(this);
     }
 
     public void rate(Integer score) {
         state.rate(score,this);
     }
 
-    public void confirmed() {
-        state = new ConfirmedOrder();
+    public Client getClient(){
+        return this.client;
+    }
+
+    public Menu getMenu(){ return this.menu;}
+
+    public boolean isStateCancelled(){return this.state.isStateCancelled();}
+
+    public boolean isStateConfirmed(){return this.state.isStateConfirmed();}
+
+    public boolean isStateDelivered(){return this.state.isStateDelivered();}
+
+    public boolean isStatePending(){return this.state.isStatePending();}
+
+    public boolean isStateSending(){return this.state.isStateSending();}
+
+    public boolean isStateRanked(){return this.state.isStateRanked();}
+
+    public String getStateName(){
+        return state.toString();
+    }
+
+    public DeliverType getDeliverType(){
+        return deliverType;
+    }
+
+    public boolean isDelivery(){
+        return deliverType.isDelivery();
+    }
+
+    public boolean haveToPickUp(){
+        return deliverType.haveToPickUp();
+    }
+
+    public LocalDateTime minOrderDeliverTime(){
+        return deliverType.minOrderDeliverTime(client,menu);
+    }
+
+    public LocalDateTime maxOrderDeliverTime(){
+        return deliverType.maxOrderDeliverTime(client,menu);
+    }
+
+    public Double orderPrice(){
+        //TODO
+        //  DUDA DE ENUNCIADO SI GUARDAR EL PRECIO ABONADO
+        return menu.priceWithAmount(this.menusAmount);
     }
 }

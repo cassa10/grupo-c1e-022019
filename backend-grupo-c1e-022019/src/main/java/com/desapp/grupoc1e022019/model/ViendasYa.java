@@ -1,12 +1,19 @@
 package com.desapp.grupoc1e022019.model;
 
+import com.desapp.grupoc1e022019.model.observer.Observer;
+import com.desapp.grupoc1e022019.model.observer.TimeObservable;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ViendasYa {
     private List<Provider> providers;
+    private TimeObservable observer;
+
     public ViendasYa(){
         providers = new ArrayList<>();
+        observer = new TimeObservable();
     }
 
     public List<Provider> getProviders() {
@@ -17,24 +24,12 @@ public class ViendasYa {
         this.providers.add(aNewProvider);
     }
 
-    public static class Average {
-        Double total;
-        Integer ratesAmount;
-        public Average(Double total) {
-            this.total = total;
-            ratesAmount = 0;
-        }
-
-        public void rate(Integer score) {
-            total+=score;
-            ratesAmount++;
-        }
-
-        public Double getStars() {
-            if(ratesAmount != 0){
-                return (double)total / ratesAmount;
-            }
-            return new Double(0);
-        }
+    public void attachToObserver(Observer obs){
+        observer.attach(obs);
     }
+
+    public void notifyOrders(LocalDateTime date){
+        observer.notifyObserversWithTime(date);
+    }
+
 }

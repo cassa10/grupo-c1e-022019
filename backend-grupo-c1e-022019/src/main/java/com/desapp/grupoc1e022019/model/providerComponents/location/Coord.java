@@ -1,4 +1,4 @@
-package com.desapp.grupoc1e022019.model.location;
+package com.desapp.grupoc1e022019.model.providerComponents.location;
 
 public class Coord {
     private Double latitude;
