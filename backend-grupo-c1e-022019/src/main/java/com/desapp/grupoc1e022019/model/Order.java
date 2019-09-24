@@ -1,8 +1,10 @@
 package com.desapp.grupoc1e022019.model;
 
-import com.desapp.grupoc1e022019.model.deliverType.DeliverType;
+import com.desapp.grupoc1e022019.model.orderComponents.deliverType.DeliverType;
 import com.desapp.grupoc1e022019.model.observer.Observer;
-import com.desapp.grupoc1e022019.model.orderState.OrderState;
+import com.desapp.grupoc1e022019.model.orderComponents.orderState.OrderState;
+
+import java.time.LocalDateTime;
 
 public class Order implements Observer {
     private OrderState state;
@@ -19,6 +21,7 @@ public class Order implements Observer {
         this.menu = menu;
         this.menusAmount = menusAmount;
         this.deliverType = deliverType;
+
     }
 
     public Integer getStars() {
@@ -63,6 +66,8 @@ public class Order implements Observer {
         return this.client;
     }
 
+    public Menu getMenu(){ return this.menu;}
+
     public boolean isStateCancelled(){return this.state.isStateCancelled();}
 
     public boolean isStateConfirmed(){return this.state.isStateConfirmed();}
@@ -75,7 +80,33 @@ public class Order implements Observer {
 
     public boolean isStateRanked(){return this.state.isStateRanked();}
 
+    public String getStateName(){
+        return state.toString();
+    }
+
+    public DeliverType getDeliverType(){
+        return deliverType;
+    }
+
+    public boolean isDelivery(){
+        return deliverType.isDelivery();
+    }
+
+    public boolean haveToPickUp(){
+        return deliverType.haveToPickUp();
+    }
+
+    public LocalDateTime minOrderDeliverTime(){
+        return deliverType.minOrderDeliverTime(client,menu);
+    }
+
+    public LocalDateTime maxOrderDeliverTime(){
+        return deliverType.maxOrderDeliverTime(client,menu);
+    }
+
     public Double orderPrice(){
+        //TODO
+        //  DUDA DE ENUNCIADO SI GUARDAR EL PRECIO ABONADO
         return menu.priceWithAmount(this.menusAmount);
     }
 }

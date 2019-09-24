@@ -2,9 +2,9 @@ package com.desapp.grupoc1e022019;
 
 import com.desapp.grupoc1e022019.exception.RatingForbiddenException;
 import com.desapp.grupoc1e022019.model.*;
-import com.desapp.grupoc1e022019.model.observer.TimeObservable;
-import com.desapp.grupoc1e022019.model.orderState.*;
-import com.desapp.grupoc1e022019.model.builder.OrderBuilder;
+import com.desapp.grupoc1e022019.model.Order;
+import com.desapp.grupoc1e022019.model.orderComponents.orderState.*;
+import com.desapp.grupoc1e022019.services.builder.OrderBuilder;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -16,6 +16,7 @@ public class OrderTest {
         Order newOrder = OrderBuilder.anOrder().build();
 
         Assert.assertTrue(newOrder.isStatePending());
+        Assert.assertEquals(newOrder.getStateName(),"PENDING");
 
         Assert.assertFalse(newOrder.isStateRanked());
         Assert.assertFalse(newOrder.isStateCancelled());
@@ -30,6 +31,7 @@ public class OrderTest {
         newOrder.confirmed();
 
         Assert.assertTrue(newOrder.isStateConfirmed());
+        Assert.assertEquals(newOrder.getStateName(),"CONFIRMED");
 
         Assert.assertFalse(newOrder.isStatePending());
         Assert.assertFalse(newOrder.isStateRanked());
@@ -41,11 +43,12 @@ public class OrderTest {
     @Test
     public void testAnOrderWithPendingStateIsConfirmedAfterTwelveOClock(){
         Order newOrder = OrderBuilder.anOrder().build();
-        TimeObservable timeObservable = new TimeObservable();
-        timeObservable.attach(newOrder);
+
+        ViendasYa viendasYa = new ViendasYa();
+        viendasYa.attachToObserver(newOrder);
 
         //It's 12 o'Clock
-        timeObservable.notifyObserversWithTime(anyDateAtMidnight());
+        viendasYa.notifyOrders(anyDateAtMidnight());
 
         Assert.assertTrue(newOrder.isStateConfirmed());
 
@@ -133,6 +136,7 @@ public class OrderTest {
         newOrder.sending();
 
         Assert.assertTrue(newOrder.isStateSending());
+        Assert.assertEquals(newOrder.getStateName(),"SENDING");
 
         Assert.assertFalse(newOrder.isStatePending());
         Assert.assertFalse(newOrder.isStateRanked());
@@ -149,6 +153,7 @@ public class OrderTest {
         newOrder.delivered();
 
         Assert.assertTrue(newOrder.isStateDelivered());
+        Assert.assertEquals(newOrder.getStateName(),"DELIVERED");
 
         Assert.assertFalse(newOrder.isStatePending());
         Assert.assertFalse(newOrder.isStateRanked());
@@ -163,6 +168,7 @@ public class OrderTest {
         newOrder.cancelled();
 
         Assert.assertTrue(newOrder.isStateCancelled());
+        Assert.assertEquals(newOrder.getStateName(),"CANCELLED");
 
         Assert.assertFalse(newOrder.isStatePending());
         Assert.assertFalse(newOrder.isStateRanked());

@@ -1,6 +1,8 @@
 package com.desapp.grupoc1e022019.model;
 
 import com.desapp.grupoc1e022019.exception.InsufficientCreditException;
+import com.desapp.grupoc1e022019.model.Credit;
+import com.desapp.grupoc1e022019.model.Order;
 import com.desapp.grupoc1e022019.model.clientState.CannotBuyClient;
 import com.desapp.grupoc1e022019.model.clientState.NormalClient;
 import com.desapp.grupoc1e022019.model.clientState.StateClient;
@@ -121,18 +123,16 @@ public class Client {
         this.stateClient = new CannotBuyClient();
     }
 
-    public void buyAOrder(Order order){
-        this.stateClient.buyOrder(order);
-    }
-
     public void orderRanked(Order order) {
         //TODO
         // USAR EL SERVICE
-
         this.ordersHaveToRank.remove(order);
         if(this.ordersHaveToRank.isEmpty()){
             this.setStateClient(new NormalClient());
         }
+    }
 
+    public void buyAOrder(Order order){
+        this.stateClient.buyOrder(order);
     }
 }

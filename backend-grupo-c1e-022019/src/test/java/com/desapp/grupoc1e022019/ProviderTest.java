@@ -6,9 +6,9 @@ import com.desapp.grupoc1e022019.exception.MaximumMenusSizeException;
 import com.desapp.grupoc1e022019.exception.RepeatedIDException;
 import com.desapp.grupoc1e022019.model.Credit;
 import com.desapp.grupoc1e022019.model.Menu;
-import com.desapp.grupoc1e022019.model.builder.MenuBuilder;
+import com.desapp.grupoc1e022019.services.builder.MenuBuilder;
 import com.desapp.grupoc1e022019.model.Provider;
-import com.desapp.grupoc1e022019.model.builder.ProviderBuilder;
+import com.desapp.grupoc1e022019.services.builder.ProviderBuilder;
 import org.junit.Assert;
 import org.junit.Test;
 

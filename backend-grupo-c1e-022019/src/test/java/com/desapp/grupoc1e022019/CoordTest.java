@@ -1,6 +1,6 @@
 package com.desapp.grupoc1e022019;
 
-import com.desapp.grupoc1e022019.model.location.Coord;
+import com.desapp.grupoc1e022019.model.providerComponents.location.Coord;
 import org.junit.Assert;
 import org.junit.Test;
 
