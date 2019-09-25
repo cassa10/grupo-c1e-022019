@@ -8,6 +8,7 @@ import com.desapp.grupoc1e022019.model.Credit;
 import com.desapp.grupoc1e022019.model.Menu;
 import com.desapp.grupoc1e022019.model.providerComponents.location.Address;
 import com.desapp.grupoc1e022019.model.providerComponents.location.Coord;
+import com.desapp.grupoc1e022019.model.providerComponents.providerState.PenalizedProvider;
 import com.desapp.grupoc1e022019.model.providerComponents.schedule.BussinessTime;
 import com.desapp.grupoc1e022019.model.providerComponents.schedule.Schedule;
 import com.desapp.grupoc1e022019.services.builder.MenuBuilder;
@@ -471,6 +472,71 @@ public class ProviderTest {
         Assert.assertEquals(withdrawn,new Credit(2d));
 
         Assert.assertEquals(provider.getCredit(),new Credit(8d));
+    }
+
+    @Test
+    public void testGivenAProviderByDefaultIsNormalWhenItRecievesIsNormalProviderReturnsTrueAndIsPenalizedReturnsFalseAndGetProviderStateNameReturnsNORMAL(){
+        Provider provider = ProviderBuilder.aProvider().build();
+
+        Assert.assertTrue(provider.isNormalProvider());
+        Assert.assertFalse(provider.isPenalized());
+
+        Assert.assertEquals(provider.getProviderStateName(),"NORMAL");
+    }
+
+    @Test
+    public void testGivenAProviderPenalizedWhenItRecievesIsNormalProviderReturnsFalseAndIsPenalizedReturnsTrueAndGetProviderStateNameReturnsPENALIZED(){
+        Provider provider = ProviderBuilder.aProvider().withProviderState(new PenalizedProvider()).build();
+
+        Assert.assertFalse(provider.isNormalProvider());
+        Assert.assertTrue(provider.isPenalized());
+
+        Assert.assertEquals(provider.getProviderStateName(),"PENALIZED");
+    }
+
+    @Test
+    public void testGivenAProviderByDefaultNormalWithZeroStrikesMenuWhenReceivesAddAStrikeTwoTimesThenProviderHasTwoStrikesMenu(){
+        Provider provider = ProviderBuilder.aProvider().build();
+
+        provider.addAStrike();
+        provider.addAStrike();
+        Assert.assertEquals(provider.getStrikesMenu(),new Integer(2));
+    }
+
+    @Test
+    public void testGivenAProviderByDefaultNormalWith9StrikesMenuWhenReceivesAddAStrikeThenProviderHasTenStrikesMenuAndIsPenalized(){
+        Provider provider = ProviderBuilder.aProvider().withStrikesMenu(9).build();
+
+        provider.addAStrike();
+        Assert.assertEquals(provider.getStrikesMenu(),new Integer(10));
+        Assert.assertTrue(provider.isPenalized());
+    }
+
+    @Test
+    public void testGivenAProviderByDefaultNormalWith10StrikesMenuWhenReceivesAddAStrikeThenProviderHasTenStrikesMenuAndIsPenalized(){
+        Provider provider = ProviderBuilder.aProvider().withStrikesMenu(10).build();
+
+        provider.addAStrike();
+        Assert.assertEquals(provider.getStrikesMenu(),new Integer(11));
+        Assert.assertTrue(provider.isPenalized());
+    }
+
+    @Test
+    public void testGivenAProviderPenalizedWith10StrikesMenuWhenReceivesAddAStrikeThenProviderHasTenStrikesMenu(){
+        Provider provider = ProviderBuilder.aProvider().withProviderState(new PenalizedProvider()).withStrikesMenu(10).build();
+
+        provider.addAStrike();
+        Assert.assertEquals(provider.getStrikesMenu(),new Integer(10));
+        Assert.assertTrue(provider.isPenalized());
+    }
+
+    @Test
+    public void testGivenAProviderPenalizedWhenReceivesAddAStrikeThenProviderDoesNotDoAnythingAndHasZeroStrikesMenu(){
+        Provider provider = ProviderBuilder.aProvider().withProviderState(new PenalizedProvider()).build();
+
+        provider.addAStrike();
+        Assert.assertEquals(provider.getStrikesMenu(),new Integer(0));
+        Assert.assertTrue(provider.isPenalized());
     }
 
     private ArrayList<Menu> getTwentyRandomMenus() {

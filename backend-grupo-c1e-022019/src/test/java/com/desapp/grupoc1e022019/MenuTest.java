@@ -7,6 +7,7 @@ import com.desapp.grupoc1e022019.model.menuComponents.EffectiveDate;
 import com.desapp.grupoc1e022019.model.menuComponents.MenuPriceCalculator;
 import com.desapp.grupoc1e022019.model.menuComponents.menuState.CancelledMenu;
 import com.desapp.grupoc1e022019.model.menuComponents.menuState.NormalMenu;
+import com.desapp.grupoc1e022019.model.providerComponents.providerState.PenalizedProvider;
 import com.desapp.grupoc1e022019.services.builder.MenuBuilder;
 import com.desapp.grupoc1e022019.services.builder.ProviderBuilder;
 import org.junit.Assert;
@@ -128,8 +129,8 @@ public class MenuTest {
         double price = 9;
         int fstMinAmount = 3;
         double fstPrice = 6;
-        int sndMinAmount = 3;
-        double sndPrice = 6;
+        int sndMinAmount = 5;
+        double sndPrice = 4;
         MenuPriceCalculator menuPriceCalculator = new MenuPriceCalculator(price,fstMinAmount,fstPrice,sndMinAmount,sndPrice);
 
         Menu aMenu = aMenu().withMenuPriceCalculator(menuPriceCalculator).build();
@@ -310,6 +311,22 @@ public class MenuTest {
         Menu aMenu = aMenu().withEffectiveDate(effectiveDateMenu1).build();
 
         Assert.assertTrue(aMenu.todayIsBeingAnEffectiveDate());
+    }
+
+    @Test
+    public void testGivenAMenuWithMenuPriceCalculatorWhichPrice9FstMinAmount3FstPrice6SndMinAmount6SndPrice5WhenAMenuRequirePriceWithAmount2Returns18_WithAmount3Returns18_WithAmount6Returns30(){
+        double price = 9;
+        int fstMinAmount = 3;
+        double fstPrice = 6;
+        int sndMinAmount = 6;
+        double sndPrice = 5;
+        MenuPriceCalculator menuPriceCalculator = new MenuPriceCalculator(price,fstMinAmount,fstPrice,sndMinAmount,sndPrice);
+
+        Menu aMenu = aMenu().withMenuPriceCalculator(menuPriceCalculator).build();
+
+        Assert.assertEquals(aMenu.priceWithAmount(2),new Double(18));
+        Assert.assertEquals(aMenu.priceWithAmount(3),new Double(18));
+        Assert.assertEquals(aMenu.priceWithAmount(6),new Double(30));
     }
 
     private MenuBuilder aMenu(){

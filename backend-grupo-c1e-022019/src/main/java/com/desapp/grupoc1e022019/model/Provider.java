@@ -137,35 +137,6 @@ public class Provider {
         this.providerState = providerState;
     }
 
-    public List<Menu> getMenus() {
-        return menus;
-    }
-
-    public void addMenu(Menu menu) {
-        checkMaxMenus();
-        checkIdNotRepeated(menu.getId());
-        menus.add(menu);
-    }
-
-    public void deleteMenu(Menu menu) {
-        menus.remove(menu);
-    }
-
-    //TODO
-    // HACERLO POR SERVICE (BASE DE DATO)
-    public void updateMenu(int id, Menu updatedMenu) {
-        menus = menus.stream().map((m) -> swap(m,updatedMenu)).collect(Collectors.toList());
-    }
-
-    private Menu swap(Menu menu, Menu updatedMenu) {
-        //TODO
-        // BORRAR ESTO CUANDO ESTE EL SERVICE
-        if(menu.getId() == updatedMenu.getId()){
-            return updatedMenu;
-        }
-        return menu;
-    }
-
     public void recievesCredit(Credit receiveCredit){
         this.credit = this.credit.sum(receiveCredit);
     }
@@ -241,5 +212,34 @@ public class Provider {
         if(this.menus.size() == 20){
             throw new MaximumMenusSizeException("Can't add more than twenty menus");
         }
+    }
+
+    public List<Menu> getMenus() {
+        return menus;
+    }
+
+    public void addMenu(Menu menu) {
+        checkMaxMenus();
+        checkIdNotRepeated(menu.getId());
+        menus.add(menu);
+    }
+
+    public void deleteMenu(Menu menu) {
+        menus.remove(menu);
+    }
+
+    //TODO
+    // HACERLO POR SERVICE (BASE DE DATO)
+    public void updateMenu(int id, Menu updatedMenu) {
+        menus = menus.stream().map((m) -> swap(m,updatedMenu)).collect(Collectors.toList());
+    }
+
+    private Menu swap(Menu menu, Menu updatedMenu) {
+        //TODO
+        // BORRAR ESTO CUANDO ESTE EL SERVICE
+        if(menu.getId() == updatedMenu.getId()){
+            return updatedMenu;
+        }
+        return menu;
     }
 }
