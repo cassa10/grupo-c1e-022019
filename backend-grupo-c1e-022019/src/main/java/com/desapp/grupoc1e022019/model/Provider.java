@@ -9,9 +9,11 @@ import com.desapp.grupoc1e022019.model.providerComponents.schedule.Schedule;
 import com.desapp.grupoc1e022019.model.providerComponents.location.Address;
 
 import java.time.DayOfWeek;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Provider {
@@ -197,11 +199,35 @@ public class Provider {
         return providerState.toString();
     }
 
-    public Map<DayOfWeek, BussinessTime> getSchedule(){
+    public Map<DayOfWeek, Set<BussinessTime>> getSchedule(){
         return schedule.getDaysAndBussinessTime();
     }
 
-    public void setSchedule(Schedule schedule){
+    public void deleteBussinessTime(DayOfWeek day){
+        this.schedule.deleteBussinessTime(day);
+    }
+
+    public void addBussinessTime(DayOfWeek day,BussinessTime newBussinessHour){
+        this.schedule.addBussinessTime(day,newBussinessHour);
+    }
+
+    public void setBussinessTime(DayOfWeek day,Set<BussinessTime> newBussinessHours){
+        this.schedule.setBussinessTime(day,newBussinessHours);
+    }
+
+    public Set<BussinessTime> getBussinessHoursOf(DayOfWeek day){
+        return schedule.getBussinessHoursOf(day);
+    }
+
+    public Set<DayOfWeek> getScheduleDays(){
+        return schedule.getDays();
+    }
+
+    public Collection<Set<BussinessTime>> getScheduleBussinessTimes(){
+        return schedule.getBussinessTimes();
+    }
+
+    private void setSchedule(Schedule schedule){
         this.schedule = schedule;
     }
 

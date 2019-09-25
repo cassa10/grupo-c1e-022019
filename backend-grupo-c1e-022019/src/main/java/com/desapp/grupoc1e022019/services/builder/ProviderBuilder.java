@@ -12,9 +12,7 @@ import com.desapp.grupoc1e022019.model.providerComponents.location.Coord;
 
 import java.sql.Time;
 import java.time.DayOfWeek;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class ProviderBuilder {
     private String name;
@@ -41,7 +39,7 @@ public class ProviderBuilder {
         webURL = "builderWebURL";
         email = "builderEmail";
         telNumber = "builderTelNumber";
-        HashMap<DayOfWeek,BussinessTime> daysOfWeekAndBussinessTime = getDayOfWeeksMondayToFriday9To5();
+        HashMap<DayOfWeek, Set<BussinessTime>> daysOfWeekAndBussinessTime = getDayOfWeeksMondayToFriday9To5();
         schedule = new Schedule(daysOfWeekAndBussinessTime);
         deliveryMaxDistanceInKM = 4d;
         menus = new ArrayList<>();
@@ -50,14 +48,18 @@ public class ProviderBuilder {
         providerState = new NormalProvider();
     }
 
-    private HashMap<DayOfWeek,BussinessTime> getDayOfWeeksMondayToFriday9To5() {
-        HashMap<DayOfWeek,BussinessTime> daysAndTime = new HashMap<>();
+    private HashMap<DayOfWeek, Set<BussinessTime>> getDayOfWeeksMondayToFriday9To5() {
+        HashMap<DayOfWeek,Set<BussinessTime>> daysAndTime = new HashMap<>();
         BussinessTime nineToFive = new BussinessTime(Time.valueOf("08:00:00"),Time.valueOf("17:00:00"));
-        daysAndTime.put(DayOfWeek.MONDAY,nineToFive) ;
-        daysAndTime.put(DayOfWeek.TUESDAY,nineToFive);
-        daysAndTime.put(DayOfWeek.WEDNESDAY,nineToFive);
-        daysAndTime.put(DayOfWeek.THURSDAY,nineToFive);
-        daysAndTime.put(DayOfWeek.FRIDAY,nineToFive);
+
+        Set<BussinessTime> hoursSet = new HashSet<>();
+        hoursSet.add(nineToFive);
+
+        daysAndTime.put(DayOfWeek.MONDAY, hoursSet) ;
+        daysAndTime.put(DayOfWeek.TUESDAY, hoursSet);
+        daysAndTime.put(DayOfWeek.WEDNESDAY,hoursSet);
+        daysAndTime.put(DayOfWeek.THURSDAY,hoursSet);
+        daysAndTime.put(DayOfWeek.FRIDAY,hoursSet);
         return daysAndTime;
     }
 
