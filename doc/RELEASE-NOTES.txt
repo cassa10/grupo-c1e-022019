@@ -1,0 +1,30 @@
+====== RELEASE NOTES  ==========
+
+Universidad Nacional de Quilmes
+Desarrollo de Aplicaciones
+Viendas Ya
+
+Grupo C1E 
+	- Nicolas Alvarez
+	- Jose Cassano
+	
+---------------------------------------------------------------------
+TAG ENTREGA 1.0
+---------------------------------------------------------------------
+NEW FEATURES:
+* Configuration of tools for continuous integration, continuous deploy, etc (travis,heroku).
+* Integration with Spring.
+* Frontend in NodeJs and React. 
+* Structure of the model
+
+NOTES:
+
+
+KNOWN ISSUES:
+
+-
+
+---------------------------------------------------------------------
+TAG ENTREGA 2.0
+---------------------------------------------------------------------
+
