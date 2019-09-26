@@ -3,7 +3,10 @@ package com.desapp.grupoc1e022019;
 import com.desapp.grupoc1e022019.exception.RatingForbiddenException;
 import com.desapp.grupoc1e022019.model.*;
 import com.desapp.grupoc1e022019.model.Order;
+import com.desapp.grupoc1e022019.model.menuComponents.MenuPriceCalculator;
 import com.desapp.grupoc1e022019.model.orderComponents.orderState.*;
+import com.desapp.grupoc1e022019.services.builder.ClientBuilder;
+import com.desapp.grupoc1e022019.services.builder.MenuBuilder;
 import com.desapp.grupoc1e022019.services.builder.OrderBuilder;
 import org.junit.Assert;
 import org.junit.Test;
@@ -162,9 +165,11 @@ public class OrderTest {
         Assert.assertFalse(newOrder.isStateConfirmed());
     }
     @Test
-    public void testWhenICancelANewOrderThenItsNewStateIsCancelled(){
-        Order newOrder = OrderBuilder.anOrder().build();
-
+    public void testWhenICancelANewOrderWithOrderAmount5AndMenuPrice10WithAmount5ThenOrderStateIsCancelledAndDeposit10CreditsWhichWasPaidInClientAccount(){
+        Order newOrder = OrderBuilder.anOrder().withClient(ClientBuilder.aClient().withCredit(new Credit(10d)).build()).
+                                                withMenusAmount(5).
+                                                withMenu(anyMenuWithPrice10With5Amount()).
+                                                build();
         newOrder.cancelled();
 
         Assert.assertTrue(newOrder.isStateCancelled());
@@ -175,6 +180,8 @@ public class OrderTest {
         Assert.assertFalse(newOrder.isStateSending());
         Assert.assertFalse(newOrder.isStateDelivered());
         Assert.assertFalse(newOrder.isStateConfirmed());
+
+        Assert.assertEquals(newOrder.getClient().getCredit(),new Credit(15d));
     }
 
     @Test
@@ -251,7 +258,7 @@ public class OrderTest {
     }
     @Test(expected = RatingForbiddenException.class)
     public void testWhenITryToRateACancelledOrderItRaiseRatingForbiddenException(){
-        Order newOrder = OrderBuilder.anOrder().build();
+        Order newOrder = OrderBuilder.anOrder().withMenusAmount(1).withMenu(anyMenuWithPrice5With1Amount()).build();
         newOrder.cancelled();
 
         newOrder.rate(5);
@@ -275,12 +282,22 @@ public class OrderTest {
         newOrder.rate(4);
 
         Assert.assertTrue(newOrder.isStateRanked());
+        Assert.assertEquals(newOrder.getStateName(),"RANKED");
 
         Assert.assertFalse(newOrder.isStateCancelled());
         Assert.assertFalse(newOrder.isStateConfirmed());
         Assert.assertFalse(newOrder.isStateDelivered());
         Assert.assertFalse(newOrder.isStatePending());
         Assert.assertFalse(newOrder.isStateSending());
+    }
+
+    @Test
+    public void testGivenOrderWithStateRankedWhenRecievesDeliveredNothingHappens(){
+        Order newOrder = OrderBuilder.anOrder().withState(new RankedOrder()).build();
+        newOrder.delivered();
+
+        Assert.assertTrue(newOrder.isStateRanked());
+        Assert.assertFalse(newOrder.isStateDelivered());
     }
 
     private LocalDateTime anyDateAtMidnight(){
@@ -293,4 +310,13 @@ public class OrderTest {
         return now.withHour(1);
     }
 
+    private Menu anyMenuWithPrice5With1Amount(){
+        MenuPriceCalculator priceCalculator = new MenuPriceCalculator(5d,5,4d,7,3d);
+        return MenuBuilder.aMenu().withMenuPriceCalculator(priceCalculator).build();
+    }
+
+    private Menu anyMenuWithPrice10With5Amount(){
+        MenuPriceCalculator priceCalculator = new MenuPriceCalculator(10d,2,7d,5,1d);
+        return MenuBuilder.aMenu().withMenuPriceCalculator(priceCalculator).build();
+    }
 }

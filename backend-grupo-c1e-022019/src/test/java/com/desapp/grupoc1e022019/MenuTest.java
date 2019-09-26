@@ -334,7 +334,7 @@ public class MenuTest {
     }
 
     private Provider aProvider(String name){
-        return new ProviderBuilder().withName(name).build();
+        return ProviderBuilder.aProvider().withName(name).build();
     }
 
     private MenuPriceCalculator anyMenuPriceCalculator(){

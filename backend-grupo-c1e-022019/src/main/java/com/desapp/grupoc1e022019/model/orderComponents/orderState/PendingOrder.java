@@ -10,6 +10,7 @@ public class PendingOrder extends OrderState {
     @Override
     public void cancelled(Order order){
         order.setState(new CancelledOrder());
+        order.getClient().deposit(order.customerPayment());
         //TODO
         // LLAMAR AL SERVICE EN LA PROX ENTREGA
     }
@@ -20,6 +21,7 @@ public class PendingOrder extends OrderState {
         // ---DUDA DE ENUNCIADO-----
         // EMAIL SENDER AL CLIENTE CUANDO EL PRECIO DISMINUYE
         order.setState(new ConfirmedOrder());
+        order.notifyClientIfTheirPriceHasBeenUpdated();
     }
 
     @Override

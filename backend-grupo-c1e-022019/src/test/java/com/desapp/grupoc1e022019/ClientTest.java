@@ -1,9 +1,16 @@
 package com.desapp.grupoc1e022019;
 
+import com.desapp.grupoc1e022019.exception.ClientCannotBuyOrderException;
 import com.desapp.grupoc1e022019.model.Client;
 import com.desapp.grupoc1e022019.model.Credit;
 import com.desapp.grupoc1e022019.exception.InsufficientCreditException;
+import com.desapp.grupoc1e022019.model.Menu;
+import com.desapp.grupoc1e022019.model.Order;
+import com.desapp.grupoc1e022019.model.clientState.CannotBuyClient;
+import com.desapp.grupoc1e022019.model.menuComponents.MenuPriceCalculator;
 import com.desapp.grupoc1e022019.services.builder.ClientBuilder;
+import com.desapp.grupoc1e022019.services.builder.MenuBuilder;
+import com.desapp.grupoc1e022019.services.builder.OrderBuilder;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,10 +18,10 @@ public class ClientTest {
 
     @Test
     public void testGivenAClientWithFirstNameJoseAndOtherClientWithFirstNamePepeWhenTheyRecieveGetFirstNameThenTheyGiveTheirFirstNames(){
-        Client jose = new ClientBuilder().aClient()
+        Client jose = ClientBuilder.aClient()
                         .withFirstName("Jose").build();
 
-        Client pepe = new ClientBuilder().aClient()
+        Client pepe = ClientBuilder.aClient()
                             .withFirstName("Pepe").build();
 
         Assert.assertEquals(jose.getFirstName(),"Jose");
@@ -23,10 +30,10 @@ public class ClientTest {
 
     @Test
     public void testGivenAClientWithLastNameAlvearAndOtherClientWithLastNameRocaWhenTheyRecieveGetLastNameThenTheyGiveTheirLastNames(){
-        Client clientA = new ClientBuilder().aClient()
+        Client clientA = ClientBuilder.aClient()
                                 .withLastName("Alvear").build();
 
-        Client clientB = new ClientBuilder().aClient()
+        Client clientB = ClientBuilder.aClient()
                                 .withLastName("Roca").build();
 
         Assert.assertEquals(clientA.getLastName(),"Alvear");
@@ -35,10 +42,10 @@ public class ClientTest {
 
     @Test
     public void testGivenAClientWithAddressMitre202QuilmesAndOtherClientWithAddressCorrientes800EzpeletaWhenTheyRecieveGetAddressThenTheyGiveTheirAddress(){
-        Client clientA = new ClientBuilder().aClient()
+        Client clientA = ClientBuilder.aClient()
                                 .withAddress("Mitre 202, Quilmes").build();
 
-        Client clientB = new ClientBuilder().aClient()
+        Client clientB = ClientBuilder.aClient()
                                 .withAddress("Corrientes 800, Ezpeleta").build();
 
         Assert.assertEquals(clientA.getAddress(),"Mitre 202, Quilmes");
@@ -47,10 +54,10 @@ public class ClientTest {
 
     @Test
     public void testGivenAClientWithLocationB1878QuilmesBuenosAiresArgentinaAndOtherClientWithLocationB1882EzpeletaBuenosAiresArgentinaWhenTheyReceiveGetLocationThenTheyGiveTheirLocations(){
-        Client clientA = new ClientBuilder().aClient()
+        Client clientA = ClientBuilder.aClient()
                                 .withLocation("B1878, Quilmes, Buenos Aires, Argentina").build();
 
-        Client clientB = new ClientBuilder().aClient()
+        Client clientB = ClientBuilder.aClient()
                                 .withLocation("B1882, Ezpeleta, Buenos Aires, Argentina").build();
 
         Assert.assertEquals(clientA.getLocation(),"B1878, Quilmes, Buenos Aires, Argentina");
@@ -59,10 +66,10 @@ public class ClientTest {
 
     @Test
     public void testGivenAClientWithEmailAsdAtDomainDotComAndOtherClientWithEmailPepeAtDomainDotComWhenTheyReceiveGetEmailThenTheyGiveTheirMails(){
-        Client clientA = new ClientBuilder().aClient()
+        Client clientA = ClientBuilder.aClient()
                 .withEmail("asd@domain.com").build();
 
-        Client clientB = new ClientBuilder().aClient()
+        Client clientB = ClientBuilder.aClient()
                 .withEmail("pepe@domain.com").build();
 
         Assert.assertEquals(clientA.getEmail(),"asd@domain.com");
@@ -71,10 +78,10 @@ public class ClientTest {
 
     @Test
     public void testGivenAClientWithCredit2dAndOtherClientWithCredit0dWhenTheyReceiveGetCreditThenTheyGiveTheirCredit(){
-        Client clientA = new ClientBuilder().aClient()
+        Client clientA = ClientBuilder.aClient()
                                 .withCredit(new Credit(2d)).build();
 
-        Client clientB = new ClientBuilder().aClient()
+        Client clientB = ClientBuilder.aClient()
                 .withCredit(new Credit (0d)).build();
 
         Assert.assertEquals(clientA.getCredit(),new Credit(2d));
@@ -83,10 +90,10 @@ public class ClientTest {
 
     @Test
     public void testGivenAClientWithPhoneNumber1102232234AndOtherClientWithPhoneNumber1143214321WhenTheyRecieveGetPhoneNumberThenTheyGiveTheirPhoneNumber(){
-        Client clientA = new ClientBuilder().aClient()
+        Client clientA = ClientBuilder.aClient()
                 .withPhoneNumber("1102232234").build();
 
-        Client clientB = new ClientBuilder().aClient()
+        Client clientB = ClientBuilder.aClient()
                 .withPhoneNumber("1143214321").build();
 
         Assert.assertEquals(clientA.getPhoneNumber(),"1102232234");
@@ -95,7 +102,7 @@ public class ClientTest {
 
     @Test
     public void testGivenAClientWith0dCreditDeposits20PesosThenTheClientHas20PesosInHisAccount(){
-        Client client = new ClientBuilder().aClient()
+        Client client = ClientBuilder.aClient()
                 .withCredit(new Credit(0d)).build();
 
         client.deposit(new Credit(20d));
@@ -105,7 +112,7 @@ public class ClientTest {
 
     @Test
     public void testGivenAClientWith12reditsWhenIDebit5creditsTheClientHas7Credits(){
-        Client client = new ClientBuilder().aClient()
+        Client client = ClientBuilder.aClient()
                 .withCredit(new Credit(12d)).build();
 
         client.debit(new Credit(5d));
@@ -114,7 +121,7 @@ public class ClientTest {
     }
     @Test
     public void testGivenAClientWith5creditsWhenIDebit5creditsTheClientHas0Credits(){
-        Client client = new ClientBuilder().aClient()
+        Client client = ClientBuilder.aClient()
                 .withCredit(new Credit(5d)).build();
 
         client.debit(new Credit(5d));
@@ -124,7 +131,7 @@ public class ClientTest {
 
     @Test(expected = InsufficientCreditException.class)
     public void testGivenAClientWith5creditsWhenITryToDebit6creditsThenItRaiseInsufficientCreditException(){
-        Client client = new ClientBuilder().aClient()
+        Client client = ClientBuilder.aClient()
                 .withCredit(new Credit(5d)).build();
 
         client.debit(new Credit(6d));
@@ -133,16 +140,83 @@ public class ClientTest {
     }
     @Test
     public void testGivenAClientWith5creditsWhenITryToDebit6creditsThenTheClientHas5Credits(){
-        Client client = new ClientBuilder().aClient()
+        Client client = ClientBuilder.aClient()
                 .withCredit(new Credit(5d)).build();
-
-        try{
+        try {
             client.debit(new Credit(6d));
+        }catch (InsufficientCreditException e){
+            Assert.assertEquals(e.getMessage(),"Client doesn't have enough credits");
         }
-        catch (InsufficientCreditException e){
-
-        }
-
         Assert.assertEquals(client.getCredit(),new Credit(5d));
+    }
+    @Test
+    public void testGivenAClientByDefaultWithNormalStateWhenRecievesIsNormalClientReturnsTrueAndClientHaveToRankAndIsCannotBuyClientBothReturnFalse(){
+        Client client = ClientBuilder.aClient().build();
+
+        Assert.assertTrue(client.isNormalClient());
+        Assert.assertFalse(client.clientHaveToRank());
+        Assert.assertFalse(client.isCannotBuyClient());
+    }
+    @Test
+    public void testGivenAClientWithCannotBuyClientStateWhenRecievesIsNormalClientReturnsFalseAndClientHaveToRankAndIsCannotBuyClientBothReturnTrue(){
+        Client client = ClientBuilder.aClient().withStateClient(new CannotBuyClient()).build();
+
+        Assert.assertFalse(client.isNormalClient());
+        Assert.assertTrue(client.clientHaveToRank());
+        Assert.assertTrue(client.isCannotBuyClient());
+    }
+    @Test(expected = InsufficientCreditException.class)
+    public void testGivenAClientByDefaultWithNormalStateAndCreditZeroWhenClientBuysAnOrderWithMenuPriceWithAmount2Is20ThenArraysAnInsufficientCreditException(){
+        Client client = ClientBuilder.aClient().build();
+
+        Menu anMenu = MenuBuilder.aMenu().withMenuPriceCalculator(menuPriceWithAmount2Is20()).build();
+        Order anOrder = OrderBuilder.anOrder().withClient(client).withMenusAmount(2).withMenu(anMenu).build();
+        client.buyAnOrder(anOrder);
+    }
+
+    @Test
+    public void testGivenAClientByDefaultWithNormalStateAnd10CreditsWhenClientCancellAnOrderWithMenuPriceWithAmount2Is20ThenClientRecoversAllCreditsPaidWhichWas20SoClientHas30Credits(){
+        Client client = ClientBuilder.aClient().withCredit(new Credit(10d)).build();
+
+        Menu anMenu = MenuBuilder.aMenu().withMenuPriceCalculator(menuPriceWithAmount2Is20()).build();
+        Order anOrder = OrderBuilder.anOrder().withClient(client).withMenusAmount(2).withMenu(anMenu).build();
+        client.cancellOrder(anOrder);
+
+        Assert.assertEquals(client.getCredit(),new Credit(30d));
+    }
+
+    @Test
+    public void testGivenAClientCannotBuyStateAnd10CreditsWhenClientCancellAnOrderWithMenuPriceWithAmount2Is20ThenClientRecoversAllCreditsPaidWhichWas20SoClientHas30Credits(){
+        Client client = ClientBuilder.aClient().withStateClient(new CannotBuyClient()).withCredit(new Credit(10d)).build();
+
+        Menu anMenu = MenuBuilder.aMenu().withMenuPriceCalculator(menuPriceWithAmount2Is20()).build();
+        Order anOrder = OrderBuilder.anOrder().withClient(client).withMenusAmount(2).withMenu(anMenu).build();
+        client.cancellOrder(anOrder);
+
+        Assert.assertEquals(client.getCredit(),new Credit(30d));
+    }
+
+    @Test
+    public void testGivenAClientByDefaultWithNormalStateAnd20CreditsWhenClientBuyAnOrderWithMenuPriceWithAmount2Is20ThenClientHasBeenDebited20CreditsSoTheirCreditIsZero(){
+        Client client = ClientBuilder.aClient().withCredit(new Credit(20d)).build();
+
+        Menu anMenu = MenuBuilder.aMenu().withMenuPriceCalculator(menuPriceWithAmount2Is20()).build();
+        Order anOrder = OrderBuilder.anOrder().withClient(client).withMenusAmount(2).withMenu(anMenu).build();
+        client.buyAnOrder(anOrder);
+        Assert.assertEquals(client.getCredit(),new Credit(0d));
+    }
+
+    @Test(expected = ClientCannotBuyOrderException.class)
+    public void testGivenAClientWithCannotBuyStateAnd1000CreditsWhenClientBuyAnOrderWithMenuPriceWithAmount2Is20ThenExceptionClientCannotBuyOrderArrays(){
+        Client client = ClientBuilder.aClient().withStateClient(new CannotBuyClient()).withCredit(new Credit(1000d)).build();
+
+        Menu anMenu = MenuBuilder.aMenu().withMenuPriceCalculator(menuPriceWithAmount2Is20()).build();
+        Order anOrder = OrderBuilder.anOrder().withClient(client).withMenusAmount(2).withMenu(anMenu).build();
+
+        client.buyAnOrder(anOrder);
+    }
+
+    private MenuPriceCalculator menuPriceWithAmount2Is20(){
+        return new MenuPriceCalculator(10d,5,17d,7,9d);
     }
 }

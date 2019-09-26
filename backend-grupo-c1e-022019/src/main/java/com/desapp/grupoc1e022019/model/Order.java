@@ -86,29 +86,25 @@ public class Order implements Observer {
         return state.toString();
     }
 
-    public DeliverType getDeliverType(){
-        return deliverType;
-    }
-
     public boolean isDelivery(){
         return deliverType.isDelivery();
     }
 
-    public boolean haveToPickUp(){
+    public boolean clientHaveToPickUp(){
         return deliverType.haveToPickUp();
     }
 
-    public LocalDateTime minOrderDeliverTime(){
-        return deliverType.minOrderDeliverTime(client,menu);
-    }
-
-    public LocalDateTime maxOrderDeliverTime(){
-        return deliverType.maxOrderDeliverTime(client,menu);
-    }
+    public Credit customerPayment(){ return new Credit(menu.priceWithAmount(menusAmount));}
 
     public Double orderPrice(){
         //TODO
         //  DUDA DE ENUNCIADO SI GUARDAR EL PRECIO ABONADO
         return menu.priceWithAmount(this.menusAmount);
+    }
+
+    public void notifyClientIfTheirPriceHasBeenUpdated() {
+        //TODO
+        //  LLAMAR AL SERVICE PARA CALCULAR LA CANTIDAD TOTAL DE PEDIDOS QUE FUERON REALIZADOS
+        //  Y SI HAY QUE AVISARLE AL CLIENTE DEL NUEVO PRECIO Y DEBITARLE EN CASO DE QUE LO SEA.
     }
 }

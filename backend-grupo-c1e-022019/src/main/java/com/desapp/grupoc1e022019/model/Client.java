@@ -1,8 +1,6 @@
 package com.desapp.grupoc1e022019.model;
 
 import com.desapp.grupoc1e022019.exception.InsufficientCreditException;
-import com.desapp.grupoc1e022019.model.Credit;
-import com.desapp.grupoc1e022019.model.Order;
 import com.desapp.grupoc1e022019.model.clientState.CannotBuyClient;
 import com.desapp.grupoc1e022019.model.clientState.NormalClient;
 import com.desapp.grupoc1e022019.model.clientState.StateClient;
@@ -13,8 +11,6 @@ public class Client {
 
     private String firstName;
     private String lastName;
-    //TODO
-    // Email have to be ID?
     private String email;
     private String phoneNumber;
     private String location;
@@ -95,8 +91,6 @@ public class Client {
         this.credit = credit;
     }
 
-    public StateClient getStateClient() {return this.stateClient;}
-
     public void setStateClient(StateClient stateClient) {
         this.stateClient = stateClient;
     }
@@ -114,7 +108,7 @@ public class Client {
             this.credit = credit.minus(credits);
         }
         else{
-            throw new InsufficientCreditException("Hey, this account doesn't have enough credits");
+            throw new InsufficientCreditException("Client doesn't have enough credits");
         }
     }
 
@@ -132,7 +126,21 @@ public class Client {
         }
     }
 
-    public void buyAOrder(Order order){
+    public void buyAnOrder(Order order){
         this.stateClient.buyOrder(order);
+    }
+
+    public void cancellOrder(Order order){ order.cancelled();}
+
+    public boolean isNormalClient(){
+        return stateClient.isNormal();
+    }
+
+    public boolean clientHaveToRank(){
+        return stateClient.clientHaveToRank();
+    }
+
+    public boolean isCannotBuyClient(){
+        return stateClient.isCannotBuyClient();
     }
 }
