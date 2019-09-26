@@ -1,6 +1,5 @@
 import React from 'react';
 import '../dist/css/Map.css';
-import { render } from 'react-dom';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 
 class Mapa extends React.Component {
