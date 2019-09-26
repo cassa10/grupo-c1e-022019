@@ -17,15 +17,15 @@ public class ClientBuilder {
     private String phoneNumber;
     private String location;
     private String address;
-    private Credit credit;
+    private Credit credit = new Credit(0d);
     private StateClient stateClient = new NormalClient();
-    private List<Order> orderHaveToRank = new ArrayList<>();
 
     public static ClientBuilder aClient(){
         return new ClientBuilder();
     }
 
     public Client build(){
+        List<Order> orderHaveToRank = new ArrayList<>();
         return new Client(firstName,lastName,email,phoneNumber,
                 location,address,credit,stateClient,orderHaveToRank);
     }
@@ -69,10 +69,4 @@ public class ClientBuilder {
         this.stateClient = stateClient;
         return this;
     }
-
-    public ClientBuilder withORdersHaveToRank(List<Order> orderHaveToRank){
-        this.orderHaveToRank = orderHaveToRank;
-        return this;
-    }
-
 }
