@@ -1,6 +1,7 @@
 import React from 'react';
 import API from '../service/api';
 import '../dist/css/Home.css';
+import Map from './Map';
 
 class Home extends React.Component {
   constructor(props) {
@@ -25,6 +26,7 @@ class Home extends React.Component {
             <h4 className="titulo-materias-divider">
               INICIO
             </h4>
+            <Map />
           </div>
         </div>
       </div>
