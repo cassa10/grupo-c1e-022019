@@ -4,6 +4,8 @@ import com.desapp.grupoc1e022019.exception.RatingForbiddenException;
 import com.desapp.grupoc1e022019.model.*;
 import com.desapp.grupoc1e022019.model.Order;
 import com.desapp.grupoc1e022019.model.menuComponents.MenuPriceCalculator;
+import com.desapp.grupoc1e022019.model.orderComponents.deliverType.Delivery;
+import com.desapp.grupoc1e022019.model.orderComponents.deliverType.PickUp;
 import com.desapp.grupoc1e022019.model.orderComponents.orderState.*;
 import com.desapp.grupoc1e022019.services.builder.ClientBuilder;
 import com.desapp.grupoc1e022019.services.builder.MenuBuilder;
@@ -298,6 +300,22 @@ public class OrderTest {
 
         Assert.assertTrue(newOrder.isStateRanked());
         Assert.assertFalse(newOrder.isStateDelivered());
+    }
+
+    @Test
+    public void testGivenOrderWithDeliverTypeDeliveryWhenOrderRecievesIsDeliveryIsTrueAndClientHaveToPickUpIsFalse(){
+        Order newOrder = OrderBuilder.anOrder().withDeliverType(new Delivery()).build();
+
+        Assert.assertTrue(newOrder.isDelivery());
+        Assert.assertFalse(newOrder.clientHaveToPickUp());
+    }
+
+    @Test
+    public void testGivenOrderWithDeliverTypePickUpWhenOrderRecievesIsDeliveryIsFalseAndClientHaveToPickUpIsTrue(){
+        Order newOrder = OrderBuilder.anOrder().withDeliverType(new PickUp()).build();
+
+        Assert.assertTrue(newOrder.clientHaveToPickUp());
+        Assert.assertFalse(newOrder.isDelivery());
     }
 
     private LocalDateTime anyDateAtMidnight(){

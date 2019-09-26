@@ -4,8 +4,6 @@ import com.desapp.grupoc1e022019.model.orderComponents.deliverType.DeliverType;
 import com.desapp.grupoc1e022019.model.observer.Observer;
 import com.desapp.grupoc1e022019.model.orderComponents.orderState.OrderState;
 
-import java.time.LocalDateTime;
-
 public class Order implements Observer {
     private OrderState state;
     private Integer stars;
