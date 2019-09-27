@@ -1,12 +1,12 @@
-# grupo-c1e-022019 [![Build Status](https://travis-ci.org/cassa10/grupo-c1e-022019.svg?branch=master)](https://travis-ci.org/cassa10/grupo-c1e-022019)
+# grupo-c1e-022019 [![Build Status](https://travis-ci.org/cassa10/grupo-c1e-022019.svg?branch=master)](https://travis-ci.org/cassa10/grupo-c1e-022019) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/f4981a75026a47caafc74853766908f9)](https://www.codacy.com/manual/cassa10/grupo-c1e-022019?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=cassa10/grupo-c1e-022019&amp;utm_campaign=Badge_Grade)
 
 Proyecto para Desarrollo de Aplicaciones UNQ.
 
 ### [Enunciado del proyecto](2019.02.Enunciado_DocumentoDeVision.pdf)
 
-## Para correr el proyecto localmente:
+## Para correr el proyecto localmente
 
-### Prerequisitos:
+### Prerequisitos
     - Tener instalado: 
         - nodejs
         - npm
