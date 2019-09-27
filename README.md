@@ -1,4 +1,4 @@
-# grupo-c1e-022019
+# grupo-c1e-022019 [![Build Status](https://travis-ci.org/cassa10/grupo-c1e-022019.svg?branch=master)](https://travis-ci.org/cassa10/grupo-c1e-022019)
 
 Proyecto para Desarrollo de Aplicaciones UNQ.
 
