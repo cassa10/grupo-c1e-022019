@@ -12,10 +12,11 @@ Grupo C1E
 TAG ENTREGA 1.0
 ---------------------------------------------------------------------
 NEW FEATURES:
-* Configuration of tools for continuous integration, continuous deploy, etc (travis,heroku).
+* Configuration of tools for continuous integration, continuous deploy, etc (travis, heroku and codacy).
 * Integration with Spring.
-* Frontend in NodeJs and React. 
-* Structure of the model
+* Frontend in NodeJS and React.
+* Leaflet Map API integration with React.
+* Structure of the model.
 
 NOTES:
 
