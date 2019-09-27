@@ -19,13 +19,16 @@ NEW FEATURES:
 * Structure of the model.
 
 NOTES:
+* Mail sender methods are commented,in order to run the tests faster.
+* Implementation of twelve o'clock trigger on next release.
 
 
 KNOWN ISSUES:
 
--
+- 
 
 ---------------------------------------------------------------------
 TAG ENTREGA 2.0
 ---------------------------------------------------------------------
+
 

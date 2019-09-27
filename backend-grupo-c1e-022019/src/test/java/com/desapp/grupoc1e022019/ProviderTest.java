@@ -521,6 +521,7 @@ public class ProviderTest {
         Assert.assertTrue(provider.isPenalized());
     }
 
+
     @Test
     public void testGivenAProviderPenalizedWith10StrikesMenuWhenReceivesAddAStrikeThenProviderHasTenStrikesMenu(){
         Provider provider = ProviderBuilder.aProvider().withProviderState(new PenalizedProvider()).withStrikesMenu(10).build();
