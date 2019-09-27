@@ -37,7 +37,7 @@ public class ProviderBuilder {
         address = new Address(new Coord(0d,0d),"Quilmes, Buenos Aires, Argentina");
         description = "builderDescription";
         webURL = "builderWebURL";
-        email = "builderEmail";
+        email = "builderEmail@gmail.com";
         telNumber = "builderTelNumber";
         HashMap<DayOfWeek, Set<BussinessTime>> daysOfWeekAndBussinessTime = getDayOfWeeksMondayToFriday9To5();
         schedule = new Schedule(daysOfWeekAndBussinessTime);

@@ -21,7 +21,7 @@ public class NormalProvider extends ProviderState {
         if(provider.getStrikesMenu() >= 10){
             provider.setProviderState(new PenalizedProvider());
             //TODO
-            // USE MAIL SENDER WHEN HE/SHE IS PENALIZED!!!!!!
+            // SendEmailTLS.send(provider.getEmail(),"Penalization","You are penalized xd");
         }
     }
 }
