@@ -16,13 +16,13 @@ class Home extends React.Component {
 
   useAPI() {
     API.get('/')
-      .then(response => this.setState({ tmp: response }))
-      .catch(error => error);
+      .then((response) => this.setState({ tmp: response }))
+      .catch((error) => error);
   }
 
-  goToMap(){
+  goToMap() {
     this.props.history.push({
-      pathname: '/map'
+      pathname: '/map',
     });
   }
 
@@ -36,7 +36,7 @@ class Home extends React.Component {
             </h4>
           </div>
           <div className="row">
-          <button type="button" className="btn btn-primary" onClick={()=> this.goToMap()}>Go to map</button>
+            <button type="button" className="btn btn-primary" onClick={() => this.goToMap()}>Go to map</button>
           </div>
         </div>
       </div>

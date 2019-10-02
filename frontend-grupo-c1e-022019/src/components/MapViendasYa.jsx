@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import {
   Map, Marker, Popup, TileLayer, withLeaflet,
@@ -40,7 +41,7 @@ class MapViendasYa extends React.Component {
             attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
           />
           {this.createAMarker([-34.706667, -58.2775], 'UNQ', 'Universidad Nacional de Quilmes')}
-          <MeasureControl {...this.state.measureOptions} />
+          <MeasureControl {...this.state.measureOptions.position} />
         </Map>
       </div>
     );

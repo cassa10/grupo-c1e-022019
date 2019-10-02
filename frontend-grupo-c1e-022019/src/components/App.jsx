@@ -12,7 +12,7 @@ export default class App extends React.Component {
     return (
       <BrowserRouter>
         <Switch>
-          <Route exact path="/" render={props => <div><Home {...props} /> </div>} />
+          <Route exact path="/" render={<div><Home /> </div>} />
           <Route exact path="/map" render={() => <MapViendasYa />} />
         </Switch>
       </BrowserRouter>
