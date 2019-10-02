@@ -1,7 +1,6 @@
 import React from 'react';
 import API from '../service/api';
 import '../dist/css/Home.css';
-import MapViendasYa from './MapViendasYa';
 
 class Home extends React.Component {
   constructor(props) {
@@ -21,6 +20,12 @@ class Home extends React.Component {
       .catch(error => error);
   }
 
+  goToMap(){
+    this.props.history.push({
+      pathname: '/map'
+    });
+  }
+
   render() {
     return (
       <div className="container">
@@ -29,7 +34,9 @@ class Home extends React.Component {
             <h4 className="titulo-materias-divider">
               INICIO: {this.state.tmp}
             </h4>
-              <MapViendasYa /> 
+          </div>
+          <div className="row">
+          <button type="button" className="btn btn-primary" onClick={()=> this.goToMap()}>Go to map</button>
           </div>
         </div>
       </div>
