@@ -1,5 +1,5 @@
 {
-  "name": "viendas-ya",
+  "name": "frontend-grupo-c1e-022019",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -10,9 +10,9 @@
     "leaflet": "^1.5.1",
     "open-iconic": "^1.1.1",
     "popper.js": "^1.15.0",
-    "react": "^16.9.0",
+    "react": "^16.10.1",
     "react-bootstrap": "^1.0.0-beta.12",
-    "react-dom": "^16.9.0",
+    "react-dom": "^16.10.1",
     "react-icons": "^3.7.0",
     "react-leaflet": "^2.4.0",
     "react-leaflet-measure": "^2.1.1",
@@ -24,8 +24,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "lint": "eslint src"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -41,11 +40,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jsx-a11y": "^6.1.1",
-    "eslint-plugin-react": "^7.11.1"
   }
 }

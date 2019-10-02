@@ -7,14 +7,17 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      tmp: '',
     };
   }
 
+  componentDidMount() {
+    this.useAPI();
+  }
+
   useAPI() {
-  // EJEMPLO DE UTILIZACION DE LA API AXIOS
-  // BORRAR CUANDO SE UTILICE LA API
-    API.get(`/materias/${this.props.location.state.username}`)
-      .then(response => response)
+    API.get('/')
+      .then(response => this.setState({ tmp: response }))
       .catch(error => error);
   }
 
@@ -24,9 +27,9 @@ class Home extends React.Component {
         <div className="row">
           <div className="col-12 titulo-banner">
             <h4 className="titulo-materias-divider">
-              INICIO
+              INICIO: {this.state.tmp}
             </h4>
-            <MapViendasYa />
+              <MapViendasYa /> 
           </div>
         </div>
       </div>
