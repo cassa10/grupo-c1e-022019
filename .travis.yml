@@ -5,6 +5,7 @@ services: postgresql
 before_script:
   - cd backend-grupo-c1e-022019
   - psql -c 'create database ViendasApp;' -U postgres
+  - psql -c "CREATE USER root WITH PASSWORD 'root';" -U postgres
 
 script:
   - mvn test
