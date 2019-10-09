@@ -1,6 +1,10 @@
 language: java
 
-before_script: cd backend-grupo-c1e-022019
+services: postgresql
+
+before_script:
+  - cd backend-grupo-c1e-022019
+  - psql -c 'create database ViendasApp;' -U postgres
 
 script:
   - mvn test
