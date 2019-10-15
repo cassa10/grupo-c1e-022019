@@ -9,7 +9,7 @@ import com.desapp.grupoc1e022019.model.menuComponents.menuState.MenuState;
 import java.time.LocalDate;
 import java.util.List;
 
-public class Menu extends Entity {
+public class Menu extends EntityId {
 
     private Provider provider;
     private String name;

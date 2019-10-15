@@ -203,7 +203,7 @@ public class Provider {
     }
 
     private void checkIdNotRepeated(Integer id ) {
-        if( menus.stream().anyMatch(menu -> menu.getId() == id)){
+        if( menus.stream().anyMatch(menu -> menu.getIdAsInt() == id)){
             throw new RepeatedIDException("The menu's id is already in our system :)");
         }
     }
@@ -220,7 +220,7 @@ public class Provider {
 
     public void addMenu(Menu menu) {
         checkMaxMenus();
-        checkIdNotRepeated(menu.getId());
+        checkIdNotRepeated(menu.getIdAsInt());
         menus.add(menu);
     }
 
@@ -237,7 +237,7 @@ public class Provider {
     private Menu swap(Menu menu, Menu updatedMenu) {
         //TODO
         // BORRAR ESTO CUANDO ESTE EL SERVICE
-        if(menu.getId() == updatedMenu.getId()){
+        if(menu.getIdAsInt() == updatedMenu.getIdAsInt()){
             return updatedMenu;
         }
         return menu;

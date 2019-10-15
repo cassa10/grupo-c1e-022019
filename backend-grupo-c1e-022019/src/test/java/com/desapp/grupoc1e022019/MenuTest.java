@@ -6,8 +6,6 @@ import com.desapp.grupoc1e022019.model.menuComponents.CategoryMenu;
 import com.desapp.grupoc1e022019.model.menuComponents.EffectiveDate;
 import com.desapp.grupoc1e022019.model.menuComponents.MenuPriceCalculator;
 import com.desapp.grupoc1e022019.model.menuComponents.menuState.CancelledMenu;
-import com.desapp.grupoc1e022019.model.menuComponents.menuState.NormalMenu;
-import com.desapp.grupoc1e022019.model.providerComponents.providerState.PenalizedProvider;
 import com.desapp.grupoc1e022019.services.builder.MenuBuilder;
 import com.desapp.grupoc1e022019.services.builder.ProviderBuilder;
 import org.junit.Assert;
@@ -24,8 +22,8 @@ public class MenuTest {
         Menu menu1 = aMenu().withId(1).build();
         Menu menu2 = aMenu().withId(2).build();
 
-        Assert.assertEquals(menu1.getId(),1);
-        Assert.assertEquals(menu2.getId(),2);
+        Assert.assertEquals(menu1.getIdAsInt(),1);
+        Assert.assertEquals(menu2.getIdAsInt(),2);
     }
 
     @Test
