@@ -15,6 +15,7 @@ public class EntityPersistenceTest {
         this.id = id;
         this.name = name;
     }
+    public EntityPersistenceTest(){}
 
     public Long getId() {
         return id;
