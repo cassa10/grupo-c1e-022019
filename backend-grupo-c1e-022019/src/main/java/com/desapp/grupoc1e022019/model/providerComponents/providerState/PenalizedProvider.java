@@ -2,6 +2,9 @@ package com.desapp.grupoc1e022019.model.providerComponents.providerState;
 
 import com.desapp.grupoc1e022019.model.Provider;
 
+import javax.persistence.Entity;
+
+@Entity
 public class PenalizedProvider extends ProviderState {
 
     @Override

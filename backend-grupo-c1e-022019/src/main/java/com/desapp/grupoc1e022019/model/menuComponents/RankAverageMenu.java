@@ -1,6 +1,11 @@
 package com.desapp.grupoc1e022019.model.menuComponents;
 
-public class RankAverageMenu {
+import com.desapp.grupoc1e022019.model.EntityId;
+
+import javax.persistence.Entity;
+
+@Entity
+public class RankAverageMenu extends EntityId {
 
     private Integer ratingsAmount;
     private Integer ratingSum;

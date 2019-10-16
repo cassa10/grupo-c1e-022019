@@ -8,6 +8,10 @@ import com.desapp.grupoc1e022019.model.providerComponents.schedule.BussinessTime
 import com.desapp.grupoc1e022019.model.providerComponents.schedule.Schedule;
 import com.desapp.grupoc1e022019.model.providerComponents.location.Address;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import java.time.DayOfWeek;
 import java.util.Collection;
 import java.util.List;
@@ -15,8 +19,8 @@ import java.util.Map;
 
 import java.util.Set;
 import java.util.stream.Collectors;
-
-public class Provider {
+@Entity
+public class Provider extends EntityId{
 
     private String name;
     private String logo;
@@ -26,11 +30,18 @@ public class Provider {
     private String webURL;
     private String email;
     private String telNumber;
+    @Transient
     private Schedule schedule;
     private Double deliveryMaxDistanceInKM;
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private List<Menu> menus;
+    @Transient
     private Credit credit;
     private Integer strikesMenu;
+    @Transient
     private ProviderState providerState;
 
     public Provider(String name, String logo, String city, Address address, String description, String webURL,
@@ -52,6 +63,8 @@ public class Provider {
         setStrikesMenu(strikesMenu);
         this.providerState = providerState;
     }
+
+    public Provider(){}
 
     public String getName() {
         return name;

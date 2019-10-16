@@ -6,18 +6,21 @@ import com.desapp.grupoc1e022019.model.menuComponents.MenuPriceCalculator;
 import com.desapp.grupoc1e022019.model.menuComponents.RankAverageMenu;
 import com.desapp.grupoc1e022019.model.menuComponents.menuState.MenuState;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
-
+@Entity
 public class Menu extends EntityId {
 
     private Provider provider;
     private String name;
     private String description;
+    @ElementCollection
     private List<CategoryMenu> categories;
     private Double deliveryValue;
     private EffectiveDate effectiveDate;
     private Integer averageDeliveryTimeInMinutes;
+    @Transient
     private MenuPriceCalculator menuPriceCalculator;
     private Integer maxSalesPerDay;
     //TODO

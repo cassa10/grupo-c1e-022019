@@ -1,5 +1,7 @@
-package com.desapp.grupoc1e022019.services;
+package com.desapp.grupoc1e022019.services.controllers;
 
+import com.desapp.grupoc1e022019.services.EntityPersistenceTest;
+import com.desapp.grupoc1e022019.services.repositories.EntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
