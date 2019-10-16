@@ -1,8 +1,11 @@
 package com.desapp.grupoc1e022019.model.menuComponents;
 
-import java.time.LocalDate;
+import com.desapp.grupoc1e022019.model.EntityId;
 
-public class EffectiveDate {
+import javax.persistence.Entity;
+import java.time.LocalDate;
+@Entity
+public class EffectiveDate extends EntityId {
 
     private LocalDate validFrom;
     private LocalDate goodThru;

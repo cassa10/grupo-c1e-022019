@@ -1,13 +1,19 @@
 package com.desapp.grupoc1e022019.model.providerComponents.schedule;
 
+import com.desapp.grupoc1e022019.model.EntityId;
+
+import javax.persistence.*;
 import java.time.DayOfWeek;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class Schedule {
+public class Schedule  {
+
     private Map<DayOfWeek, Set<BussinessTime>> daysAndHours;
+
+    public Schedule(){}
 
     public Schedule(Map<DayOfWeek,Set<BussinessTime>> daysAndHours){
         this.daysAndHours = daysAndHours;

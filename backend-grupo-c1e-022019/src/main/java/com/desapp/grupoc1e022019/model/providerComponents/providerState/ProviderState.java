@@ -1,8 +1,12 @@
 package com.desapp.grupoc1e022019.model.providerComponents.providerState;
 
+import com.desapp.grupoc1e022019.model.EntityId;
 import com.desapp.grupoc1e022019.model.Provider;
 
-public abstract class ProviderState {
+import javax.persistence.Entity;
+
+@Entity
+public abstract class ProviderState  extends EntityId{
 
     public boolean isPenalized(){
         return false;

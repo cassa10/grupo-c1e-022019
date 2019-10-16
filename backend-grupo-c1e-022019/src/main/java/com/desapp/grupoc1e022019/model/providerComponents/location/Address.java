@@ -1,8 +1,17 @@
 package com.desapp.grupoc1e022019.model.providerComponents.location;
 
-public class Address {
+import com.desapp.grupoc1e022019.model.EntityId;
+
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
+
+@Entity
+public class Address extends EntityId {
+    @OneToOne
     private Coord coord;
     private String location;
+
+    public Address(){}
 
     public Address(Coord coord, String location){
         this.setCoord(coord);

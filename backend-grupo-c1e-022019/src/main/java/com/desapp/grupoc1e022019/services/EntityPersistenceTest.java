@@ -1,27 +1,28 @@
 package com.desapp.grupoc1e022019.services;
 
+import com.desapp.grupoc1e022019.model.EntityId;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class EntityPersistenceTest {
-    @Id
-    @GeneratedValue
-    private Long id;
+public class EntityPersistenceTest extends EntityId {
+
     private String name;
 
     public EntityPersistenceTest(Long id, String name){
-        this.id = id;
+        super(id);
         this.name = name;
     }
+    public EntityPersistenceTest(){}
 
     public Long getId() {
-        return id;
+        return super.getId();
     }
 
     public void setId(Long id) {
-        this.id = id;
+        super.setId(id);
     }
 
     public String getName() {

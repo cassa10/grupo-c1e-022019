@@ -1,6 +1,11 @@
 package com.desapp.grupoc1e022019.model.providerComponents.location;
 
-public class Coord {
+import com.desapp.grupoc1e022019.model.EntityId;
+
+import javax.persistence.Entity;
+
+@Entity
+public class Coord extends EntityId {
     private Double latitude;
     private Double longitude;
 
@@ -8,6 +13,7 @@ public class Coord {
         this.setLatitude(latitude);
         this.setLongitude(longitude);
     }
+    public Coord(){}
 
     public Double getLatitude() {
         return latitude;
