@@ -5,12 +5,15 @@ import com.desapp.grupoc1e022019.model.Provider;
 import com.desapp.grupoc1e022019.model.providerComponents.providerState.NormalProvider;
 import com.desapp.grupoc1e022019.model.providerComponents.schedule.BussinessTime;
 import com.desapp.grupoc1e022019.model.providerComponents.schedule.Schedule;
+import com.desapp.grupoc1e022019.persistence.ProviderRepository;
+import com.desapp.grupoc1e022019.services.ProviderService;
 import com.desapp.grupoc1e022019.services.builder.ProviderBuilder;
 import com.desapp.grupoc1e022019.services.dtos.ProviderDTO;
-import com.desapp.grupoc1e022019.services.repositories.ProviderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.DayOfWeek;
@@ -20,9 +23,12 @@ import java.util.Set;
 
 @CrossOrigin
 @RestController
+@Scope(value = "session")
+@Component(value = "providerController")
 public class ProviderController {
+
     @Autowired
-    private ProviderRepository providerRepository;
+    private ProviderService providerService = new ProviderService();
 
     @RequestMapping(method = RequestMethod.POST, value = "/provider")
     public ResponseEntity createEntity(@RequestBody ProviderDTO providerDTO) {
@@ -42,7 +48,8 @@ public class ProviderController {
                 .withWebUrl(providerDTO.getWebURL())
                 .withMenus(new ArrayList<>())
                 .build();
-        providerRepository.save(newProvider);
+
+        providerService.save(newProvider);
 
         return new ResponseEntity<>(newProvider, HttpStatus.OK);
     }

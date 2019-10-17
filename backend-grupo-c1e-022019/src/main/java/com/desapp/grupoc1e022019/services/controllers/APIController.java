@@ -1,7 +1,7 @@
 package com.desapp.grupoc1e022019.services.controllers;
 
-import com.desapp.grupoc1e022019.services.EntityPersistenceTest;
-import com.desapp.grupoc1e022019.services.repositories.EntityRepository;
+import com.desapp.grupoc1e022019.services.EntityPersistencePilot;
+import com.desapp.grupoc1e022019.persistence.EntityPersistencePilotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class APIController {
     @Autowired
-    private EntityRepository entityRepository;
+    private EntityPersistencePilotRepository entityPersistencePilotRepository;
 
     @RequestMapping(method = RequestMethod.GET, value = "/")
     public ResponseEntity apiTest() {
@@ -23,7 +23,7 @@ public class APIController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/")
     public ResponseEntity createEntity() {
-        entityRepository.save(new EntityPersistenceTest(10L,"nico"));
+        entityPersistencePilotRepository.save(new EntityPersistencePilot(10L,"nico"));
 
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
