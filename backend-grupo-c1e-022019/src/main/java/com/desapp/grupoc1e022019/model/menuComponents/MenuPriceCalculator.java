@@ -1,6 +1,8 @@
 package com.desapp.grupoc1e022019.model.menuComponents;
 
-public class MenuPriceCalculator {
+import com.desapp.grupoc1e022019.model.EntityId;
+
+public class MenuPriceCalculator extends EntityId {
 
     private Double price;
     private Integer firstMinAmount;

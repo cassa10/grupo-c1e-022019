@@ -30,7 +30,6 @@ public class Provider extends EntityId{
     private String webURL;
     private String email;
     private String telNumber;
-    @Transient
     private Schedule schedule;
     private Double deliveryMaxDistanceInKM;
     @OneToMany(
@@ -38,10 +37,8 @@ public class Provider extends EntityId{
             orphanRemoval = true
     )
     private List<Menu> menus;
-    @Transient
     private Credit credit;
     private Integer strikesMenu;
-    @Transient
     private ProviderState providerState;
 
     public Provider(String name, String logo, String city, Address address, String description, String webURL,

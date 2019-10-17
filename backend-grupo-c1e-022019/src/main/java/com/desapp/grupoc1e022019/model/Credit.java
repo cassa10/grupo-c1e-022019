@@ -2,7 +2,7 @@ package com.desapp.grupoc1e022019.model;
 
 import java.util.Objects;
 
-public class Credit {
+public class Credit extends EntityId{
     Double amount;
 
     @Override

@@ -20,7 +20,6 @@ public class Menu extends EntityId {
     private Double deliveryValue;
     private EffectiveDate effectiveDate;
     private Integer averageDeliveryTimeInMinutes;
-    @Transient
     private MenuPriceCalculator menuPriceCalculator;
     private Integer maxSalesPerDay;
     //TODO
