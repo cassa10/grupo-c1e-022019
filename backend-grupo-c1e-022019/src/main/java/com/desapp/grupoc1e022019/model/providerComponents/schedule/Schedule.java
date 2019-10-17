@@ -9,8 +9,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class Schedule  {
+public class Schedule  extends EntityId{
 
+    @ElementCollection
     private Map<DayOfWeek, Set<BussinessTime>> daysAndHours;
 
     public Schedule(){}
