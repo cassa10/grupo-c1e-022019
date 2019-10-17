@@ -7,15 +7,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class EntityPersistenceTest extends EntityId {
+public class EntityPersistencePilot extends EntityId {
 
     private String name;
 
-    public EntityPersistenceTest(Long id, String name){
+    public EntityPersistencePilot(Long id, String name){
         super(id);
         this.name = name;
     }
-    public EntityPersistenceTest(){}
+    public EntityPersistencePilot(){}
 
     public Long getId() {
         return super.getId();
