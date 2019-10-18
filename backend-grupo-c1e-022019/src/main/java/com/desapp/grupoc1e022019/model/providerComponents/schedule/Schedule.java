@@ -5,27 +5,31 @@ import com.desapp.grupoc1e022019.model.EntityId;
 import javax.persistence.*;
 import java.time.DayOfWeek;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+@Entity
 public class Schedule  extends EntityId{
 
-    @ElementCollection
-    private Map<DayOfWeek, Set<BussinessTime>> daysAndHours;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "schedule_bussines_time_mapping",
+            joinColumns = {@JoinColumn(name = "id_schedule", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "id_set_of_bussiness_time", referencedColumnName = "id")})
+    @MapKeyJoinColumn(name = "id_day_of_week")
+    private Map<DayOfWeek, SetOfBussinessTime> daysAndHours;
 
     public Schedule(){}
 
-    public Schedule(Map<DayOfWeek,Set<BussinessTime>> daysAndHours){
+    public Schedule(Map<DayOfWeek,SetOfBussinessTime> daysAndHours){
         this.daysAndHours = daysAndHours;
     }
 
-    public Map<DayOfWeek,Set<BussinessTime>> getDaysAndBussinessTime() {
+    public Map<DayOfWeek,SetOfBussinessTime> getDaysAndBussinessTime() {
         return daysAndHours;
     }
 
     public void addBussinessTime(DayOfWeek day,BussinessTime newBussinessHour){
-        Set<BussinessTime> value = new HashSet<>();
+        SetOfBussinessTime value = new SetOfBussinessTime();
         if(daysAndHours.containsKey(day)){
             value = daysAndHours.get(day);
         }
@@ -37,19 +41,26 @@ public class Schedule  extends EntityId{
         daysAndHours.remove(day);
     }
 
-    public void setBussinessTime(DayOfWeek day,Set<BussinessTime> newBussinessHours){
+    public void setBussinessTime(DayOfWeek day,SetOfBussinessTime newBussinessHours){
         daysAndHours.put(day,newBussinessHours);
     }
 
     public Set<BussinessTime> getBussinessHoursOf(DayOfWeek day){
-        return daysAndHours.get(day);
+        return daysAndHours.get(day).getBussinessTimes();
     }
 
     public Set<DayOfWeek> getDays(){
         return daysAndHours.keySet();
     }
 
-    public Collection<Set<BussinessTime>> getBussinessTimes(){
+    public Collection<SetOfBussinessTime> getBussinessTimes(){
         return daysAndHours.values();
+    }
+
+    public boolean containsDayAndBussinessTime(DayOfWeek dayOfWeek,SetOfBussinessTime setOfBussinessTime){
+        if(daysAndHours.containsKey(dayOfWeek)){
+            return this.daysAndHours.get(dayOfWeek).containsAll(setOfBussinessTime);
+        }
+        return false;
     }
 }

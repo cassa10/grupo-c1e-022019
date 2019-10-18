@@ -11,6 +11,7 @@ import com.desapp.grupoc1e022019.model.providerComponents.location.Coord;
 import com.desapp.grupoc1e022019.model.providerComponents.providerState.PenalizedProvider;
 import com.desapp.grupoc1e022019.model.providerComponents.schedule.BussinessTime;
 import com.desapp.grupoc1e022019.model.providerComponents.schedule.Schedule;
+import com.desapp.grupoc1e022019.model.providerComponents.schedule.SetOfBussinessTime;
 import com.desapp.grupoc1e022019.services.builder.MenuBuilder;
 import com.desapp.grupoc1e022019.model.Provider;
 import com.desapp.grupoc1e022019.services.builder.ProviderBuilder;
@@ -115,13 +116,13 @@ public class ProviderTest {
         BussinessTime bussinessHourMonday = new BussinessTime(Time.valueOf("8:00:00"),Time.valueOf("12:00:00"));
         BussinessTime bussinessHourTuesday = new BussinessTime(Time.valueOf("8:00:00"),Time.valueOf("12:00:00"));
 
-        Set<BussinessTime> setBussinessHoursMonday = new HashSet<>();
+        SetOfBussinessTime setBussinessHoursMonday = new SetOfBussinessTime();
         setBussinessHoursMonday.add(bussinessHourMonday);
 
-        Set<BussinessTime> setBussinessHoursTuesday = new HashSet<>();
+        SetOfBussinessTime setBussinessHoursTuesday = new SetOfBussinessTime();
         setBussinessHoursTuesday.add(bussinessHourTuesday);
 
-        Map<DayOfWeek,Set<BussinessTime>> mapOfBussinessDayAndHour = new HashMap<>();
+        Map<DayOfWeek, SetOfBussinessTime> mapOfBussinessDayAndHour = new HashMap<>();
         mapOfBussinessDayAndHour.put(DayOfWeek.MONDAY,setBussinessHoursMonday);
         mapOfBussinessDayAndHour.put(DayOfWeek.TUESDAY,setBussinessHoursTuesday);
 
@@ -129,12 +130,9 @@ public class ProviderTest {
 
         Provider provider = ProviderBuilder.aProvider().withSchedule(schedule1).build();
 
-        Assert.assertTrue(provider.getSchedule().containsKey(DayOfWeek.MONDAY));
-        Assert.assertTrue(provider.getSchedule().containsKey(DayOfWeek.TUESDAY));
+        Assert.assertTrue(provider.getSchedule().containsDayAndBussinessTime(DayOfWeek.MONDAY,setBussinessHoursMonday));
+        Assert.assertTrue(provider.getSchedule().containsDayAndBussinessTime(DayOfWeek.TUESDAY,setBussinessHoursTuesday));
         Assert.assertEquals(provider.getScheduleDays().size(),2);
-
-        Assert.assertTrue(provider.getSchedule().containsValue(setBussinessHoursMonday));
-        Assert.assertTrue(provider.getSchedule().containsValue(setBussinessHoursTuesday));
         Assert.assertEquals(provider.getScheduleBussinessTimes().size(),2);
     }
 
@@ -144,16 +142,16 @@ public class ProviderTest {
         BussinessTime bussinessHourWednesday = new BussinessTime(Time.valueOf("16:00:00"),Time.valueOf("20:00:00"));
         BussinessTime bussinessHourFriday = new BussinessTime(Time.valueOf("8:00:00"),Time.valueOf("20:00:00"));
 
-        Set<BussinessTime> setBussinessHoursMonday = new HashSet<>();
+        SetOfBussinessTime setBussinessHoursMonday = new SetOfBussinessTime();
         setBussinessHoursMonday.add(bussinessHourMonday);
 
-        Set<BussinessTime> setBussinessHoursWednesday = new HashSet<>();
+        SetOfBussinessTime setBussinessHoursWednesday = new SetOfBussinessTime();
         setBussinessHoursWednesday.add(bussinessHourWednesday);
 
-        Set<BussinessTime> setBussinessHoursFriday = new HashSet<>();
+        SetOfBussinessTime setBussinessHoursFriday = new SetOfBussinessTime();
         setBussinessHoursFriday.add(bussinessHourFriday);
 
-        Map<DayOfWeek,Set<BussinessTime>> mapOfBussinessDayAndHour = new HashMap<>();
+        Map<DayOfWeek, SetOfBussinessTime> mapOfBussinessDayAndHour = new HashMap<>();
         mapOfBussinessDayAndHour.put(DayOfWeek.MONDAY,setBussinessHoursMonday);
         mapOfBussinessDayAndHour.put(DayOfWeek.WEDNESDAY,setBussinessHoursWednesday);
         mapOfBussinessDayAndHour.put(DayOfWeek.FRIDAY,setBussinessHoursFriday);
@@ -162,14 +160,10 @@ public class ProviderTest {
 
         Provider provider = ProviderBuilder.aProvider().withSchedule(schedule1).build();
 
-        Assert.assertTrue(provider.getSchedule().containsKey(DayOfWeek.MONDAY));
-        Assert.assertTrue(provider.getSchedule().containsKey(DayOfWeek.WEDNESDAY));
-        Assert.assertTrue(provider.getSchedule().containsKey(DayOfWeek.FRIDAY));
+        Assert.assertTrue(provider.getSchedule().containsDayAndBussinessTime(DayOfWeek.MONDAY,setBussinessHoursMonday));
+        Assert.assertTrue(provider.getSchedule().containsDayAndBussinessTime(DayOfWeek.WEDNESDAY,setBussinessHoursWednesday));
+        Assert.assertTrue(provider.getSchedule().containsDayAndBussinessTime(DayOfWeek.FRIDAY,setBussinessHoursFriday));
         Assert.assertEquals(provider.getScheduleDays().size(),3);
-
-        Assert.assertTrue(provider.getSchedule().containsValue(setBussinessHoursMonday));
-        Assert.assertTrue(provider.getSchedule().containsValue(setBussinessHoursWednesday));
-        Assert.assertTrue(provider.getSchedule().containsValue(setBussinessHoursFriday));
         Assert.assertEquals(provider.getScheduleBussinessTimes().size(),3);
     }
 
@@ -179,16 +173,16 @@ public class ProviderTest {
         BussinessTime bussinessHourWednesday = new BussinessTime(Time.valueOf("16:00:00"),Time.valueOf("20:00:00"));
         BussinessTime bussinessHourFriday = new BussinessTime(Time.valueOf("8:00:00"),Time.valueOf("20:00:00"));
 
-        Set<BussinessTime> setBussinessHoursMonday = new HashSet<>();
+        SetOfBussinessTime setBussinessHoursMonday = new SetOfBussinessTime();
         setBussinessHoursMonday.add(bussinessHourMonday);
 
-        Set<BussinessTime> setBussinessHoursWednesday = new HashSet<>();
+        SetOfBussinessTime setBussinessHoursWednesday = new SetOfBussinessTime();
         setBussinessHoursWednesday.add(bussinessHourWednesday);
 
-        Set<BussinessTime> setBussinessHoursFriday = new HashSet<>();
+        SetOfBussinessTime setBussinessHoursFriday = new SetOfBussinessTime();
         setBussinessHoursFriday.add(bussinessHourFriday);
 
-        Map<DayOfWeek,Set<BussinessTime>> mapOfBussinessDayAndHour = new HashMap<>();
+        Map<DayOfWeek, SetOfBussinessTime> mapOfBussinessDayAndHour = new HashMap<>();
         mapOfBussinessDayAndHour.put(DayOfWeek.MONDAY,setBussinessHoursMonday);
         mapOfBussinessDayAndHour.put(DayOfWeek.WEDNESDAY,setBussinessHoursWednesday);
         mapOfBussinessDayAndHour.put(DayOfWeek.FRIDAY,setBussinessHoursFriday);
@@ -199,15 +193,17 @@ public class ProviderTest {
 
         provider.deleteBussinessTime(DayOfWeek.WEDNESDAY);
 
-        Assert.assertTrue(provider.getSchedule().containsKey(DayOfWeek.MONDAY));
-        Assert.assertTrue(provider.getSchedule().containsKey(DayOfWeek.FRIDAY));
+        Assert.assertTrue(provider.getMapSchedule().containsKey(DayOfWeek.MONDAY));
+        Assert.assertTrue(provider.getMapSchedule().containsKey(DayOfWeek.FRIDAY));
         Assert.assertEquals(provider.getScheduleDays().size(),2);
 
-        Assert.assertFalse(provider.getSchedule().containsKey(DayOfWeek.WEDNESDAY));
+        Assert.assertFalse(provider.getMapSchedule().containsKey(DayOfWeek.WEDNESDAY));
 
-        Assert.assertTrue(provider.getSchedule().containsValue(setBussinessHoursMonday));
-        Assert.assertTrue(provider.getSchedule().containsValue(setBussinessHoursFriday));
+        Assert.assertTrue(provider.getSchedule().containsDayAndBussinessTime(DayOfWeek.MONDAY,setBussinessHoursMonday));
+        Assert.assertTrue(provider.getSchedule().containsDayAndBussinessTime(DayOfWeek.FRIDAY,setBussinessHoursFriday));
         Assert.assertEquals(provider.getScheduleBussinessTimes().size(),2);
+
+        Assert.assertFalse(provider.getSchedule().containsDayAndBussinessTime(DayOfWeek.WEDNESDAY,setBussinessHoursWednesday));
     }
 
     @Test
@@ -215,13 +211,13 @@ public class ProviderTest {
         BussinessTime bussinessHourMonday = new BussinessTime(Time.valueOf("8:00:00"),Time.valueOf("12:00:00"));
         BussinessTime bussinessHourTuesday = new BussinessTime(Time.valueOf("8:00:00"),Time.valueOf("12:00:00"));
 
-        Set<BussinessTime> setBussinessHoursMonday = new HashSet<>();
+        SetOfBussinessTime setBussinessHoursMonday = new SetOfBussinessTime();
         setBussinessHoursMonday.add(bussinessHourMonday);
 
-        Set<BussinessTime> setBussinessHoursTuesday = new HashSet<>();
+        SetOfBussinessTime setBussinessHoursTuesday = new SetOfBussinessTime();
         setBussinessHoursTuesday.add(bussinessHourTuesday);
 
-        Map<DayOfWeek,Set<BussinessTime>> mapOfBussinessDayAndHour = new HashMap<>();
+        Map<DayOfWeek, SetOfBussinessTime> mapOfBussinessDayAndHour = new HashMap<>();
         mapOfBussinessDayAndHour.put(DayOfWeek.MONDAY,setBussinessHoursMonday);
         mapOfBussinessDayAndHour.put(DayOfWeek.TUESDAY,setBussinessHoursTuesday);
 
@@ -231,23 +227,20 @@ public class ProviderTest {
 
         provider.deleteBussinessTime(DayOfWeek.FRIDAY);
 
-        Assert.assertTrue(provider.getSchedule().containsKey(DayOfWeek.MONDAY));
-        Assert.assertTrue(provider.getSchedule().containsKey(DayOfWeek.TUESDAY));
-        Assert.assertEquals(provider.getScheduleDays().size(),2);
-
-        Assert.assertTrue(provider.getSchedule().containsValue(setBussinessHoursMonday));
-        Assert.assertTrue(provider.getSchedule().containsValue(setBussinessHoursTuesday));
+        Assert.assertTrue(provider.getSchedule().containsDayAndBussinessTime(DayOfWeek.MONDAY,setBussinessHoursMonday));
+        Assert.assertTrue(provider.getSchedule().containsDayAndBussinessTime(DayOfWeek.TUESDAY,setBussinessHoursTuesday));
         Assert.assertEquals(provider.getScheduleBussinessTimes().size(),2);
+        Assert.assertEquals(provider.getScheduleDays().size(),2);
     }
 
     @Test
     public void testGivenAProviderWithScheduleMonday8To12WhenItRecievesAddBussinessTimeSUNDAYAndSetBussinessHoursSundayThenProviderScheduleAddTheNewBussinessHour(){
         BussinessTime bussinessHourMonday = new BussinessTime(Time.valueOf("8:00:00"),Time.valueOf("12:00:00"));
 
-        Set<BussinessTime> setBussinessHoursMonday = new HashSet<>();
+        SetOfBussinessTime setBussinessHoursMonday = new SetOfBussinessTime();
         setBussinessHoursMonday.add(bussinessHourMonday);
 
-        Map<DayOfWeek,Set<BussinessTime>> mapOfBussinessDayAndHour = new HashMap<>();
+        Map<DayOfWeek, SetOfBussinessTime> mapOfBussinessDayAndHour = new HashMap<>();
         mapOfBussinessDayAndHour.put(DayOfWeek.MONDAY,setBussinessHoursMonday);
 
         Schedule schedule1 = new Schedule(mapOfBussinessDayAndHour);
@@ -258,15 +251,15 @@ public class ProviderTest {
 
         provider.addBussinessTime(DayOfWeek.SUNDAY,bussinessHourSunday);
 
-        Assert.assertTrue(provider.getSchedule().containsKey(DayOfWeek.MONDAY));
-        Assert.assertTrue(provider.getSchedule().containsKey(DayOfWeek.SUNDAY));
+        Assert.assertTrue(provider.getMapSchedule().containsKey(DayOfWeek.MONDAY));
+        Assert.assertTrue(provider.getMapSchedule().containsKey(DayOfWeek.SUNDAY));
         Assert.assertEquals(provider.getScheduleDays().size(),2);
 
-        Set<BussinessTime> setBussinessHoursSunday = new HashSet<>();
+        SetOfBussinessTime setBussinessHoursSunday = new SetOfBussinessTime();
         setBussinessHoursSunday.add(bussinessHourSunday);
 
-        Assert.assertTrue(provider.getSchedule().containsValue(setBussinessHoursMonday));
-        Assert.assertTrue(provider.getSchedule().containsValue(setBussinessHoursSunday));
+        Assert.assertTrue(provider.getSchedule().containsDayAndBussinessTime(DayOfWeek.MONDAY,setBussinessHoursMonday));
+        Assert.assertTrue(provider.getSchedule().containsDayAndBussinessTime(DayOfWeek.SUNDAY,setBussinessHoursSunday));
         Assert.assertEquals(provider.getScheduleBussinessTimes().size(),2);
     }
 
@@ -274,10 +267,10 @@ public class ProviderTest {
     public void testGivenAProviderWithScheduleMonday8To12WhenItRecievesAddBussinessTimeMONDAY17To20ThenProviderScheduleAddTheNewBussinessHour(){
         BussinessTime bussinessHourMonday = new BussinessTime(Time.valueOf("8:00:00"),Time.valueOf("12:00:00"));
 
-        Set<BussinessTime> setBussinessHoursMonday = new HashSet<>();
+        SetOfBussinessTime setBussinessHoursMonday = new SetOfBussinessTime();
         setBussinessHoursMonday.add(bussinessHourMonday);
 
-        Map<DayOfWeek,Set<BussinessTime>> mapOfBussinessDayAndHour = new HashMap<>();
+        Map<DayOfWeek, SetOfBussinessTime> mapOfBussinessDayAndHour = new HashMap<>();
         mapOfBussinessDayAndHour.put(DayOfWeek.MONDAY,setBussinessHoursMonday);
 
         Schedule schedule1 = new Schedule(mapOfBussinessDayAndHour);
@@ -288,11 +281,11 @@ public class ProviderTest {
 
         provider.addBussinessTime(DayOfWeek.MONDAY,newBussinessHour);
 
-        Assert.assertTrue(provider.getSchedule().containsKey(DayOfWeek.MONDAY));
+        Assert.assertTrue(provider.getMapSchedule().containsKey(DayOfWeek.MONDAY));
         Assert.assertEquals(provider.getScheduleDays().size(),1);
 
         setBussinessHoursMonday.add(newBussinessHour);
-        Assert.assertTrue(provider.getSchedule().containsValue(setBussinessHoursMonday));
+        Assert.assertTrue(provider.getSchedule().containsDayAndBussinessTime(DayOfWeek.MONDAY,setBussinessHoursMonday));
         Assert.assertEquals(provider.getBussinessHoursOf(DayOfWeek.MONDAY).size(),2);
         Assert.assertEquals(provider.getScheduleBussinessTimes().size(),1);
     }
@@ -301,10 +294,10 @@ public class ProviderTest {
     public void testGivenAProviderWithScheduleMonday8To12WhenItRecievesSetBussinessTimeMONDAY17To20ThenProviderScheduleSetTheNewBussinessHourDeletingThePrevious(){
         BussinessTime bussinessHourMonday = new BussinessTime(Time.valueOf("8:00:00"),Time.valueOf("12:00:00"));
 
-        Set<BussinessTime> setBussinessHoursMonday = new HashSet<>();
+        SetOfBussinessTime setBussinessHoursMonday = new SetOfBussinessTime();
         setBussinessHoursMonday.add(bussinessHourMonday);
 
-        Map<DayOfWeek,Set<BussinessTime>> mapOfBussinessDayAndHour = new HashMap<>();
+        Map<DayOfWeek, SetOfBussinessTime> mapOfBussinessDayAndHour = new HashMap<>();
         mapOfBussinessDayAndHour.put(DayOfWeek.MONDAY,setBussinessHoursMonday);
 
         Schedule schedule1 = new Schedule(mapOfBussinessDayAndHour);
@@ -312,15 +305,15 @@ public class ProviderTest {
         Provider provider = ProviderBuilder.aProvider().withSchedule(schedule1).build();
 
         BussinessTime newBussinessHour = new BussinessTime(Time.valueOf("17:00:00"),Time.valueOf("20:00:00"));
-        Set<BussinessTime> newSetBussinessHoursMonday = new HashSet<>();
+        SetOfBussinessTime newSetBussinessHoursMonday = new SetOfBussinessTime();
         newSetBussinessHoursMonday.add(newBussinessHour);
 
         provider.setBussinessTime(DayOfWeek.MONDAY,newSetBussinessHoursMonday);
 
-        Assert.assertTrue(provider.getSchedule().containsKey(DayOfWeek.MONDAY));
+        Assert.assertTrue(provider.getMapSchedule().containsKey(DayOfWeek.MONDAY));
         Assert.assertEquals(provider.getScheduleDays().size(),1);
 
-        Assert.assertTrue(provider.getSchedule().containsValue(newSetBussinessHoursMonday));
+        Assert.assertTrue(provider.getSchedule().containsDayAndBussinessTime(DayOfWeek.MONDAY,newSetBussinessHoursMonday));
         Assert.assertEquals(provider.getBussinessHoursOf(DayOfWeek.MONDAY).size(),1);
         Assert.assertEquals(provider.getScheduleBussinessTimes().size(),1);
     }
@@ -329,10 +322,10 @@ public class ProviderTest {
     public void testGivenAProviderWithScheduleMonday8To12WhenItRecievesSetBussinessTimeTUESDAY17To20ThenProviderScheduleSetTheNewBussinessHour(){
         BussinessTime bussinessHourMonday = new BussinessTime(Time.valueOf("8:00:00"),Time.valueOf("12:00:00"));
 
-        Set<BussinessTime> setBussinessHoursMonday = new HashSet<>();
+        SetOfBussinessTime setBussinessHoursMonday = new SetOfBussinessTime();
         setBussinessHoursMonday.add(bussinessHourMonday);
 
-        Map<DayOfWeek,Set<BussinessTime>> mapOfBussinessDayAndHour = new HashMap<>();
+        Map<DayOfWeek, SetOfBussinessTime> mapOfBussinessDayAndHour = new HashMap<>();
         mapOfBussinessDayAndHour.put(DayOfWeek.MONDAY,setBussinessHoursMonday);
 
         Schedule schedule1 = new Schedule(mapOfBussinessDayAndHour);
@@ -340,18 +333,18 @@ public class ProviderTest {
         Provider provider = ProviderBuilder.aProvider().withSchedule(schedule1).build();
 
         BussinessTime newBussinessHourTuesday = new BussinessTime(Time.valueOf("17:00:00"),Time.valueOf("20:00:00"));
-        Set<BussinessTime> setNewBussinessHourTuesday = new HashSet<>();
+        SetOfBussinessTime setNewBussinessHourTuesday = new SetOfBussinessTime();
         setNewBussinessHourTuesday.add(newBussinessHourTuesday);
 
         provider.setBussinessTime(DayOfWeek.TUESDAY,setNewBussinessHourTuesday);
 
-        Assert.assertTrue(provider.getSchedule().containsKey(DayOfWeek.MONDAY));
-        Assert.assertTrue(provider.getSchedule().containsKey(DayOfWeek.TUESDAY));
+        Assert.assertTrue(provider.getMapSchedule().containsKey(DayOfWeek.MONDAY));
+        Assert.assertTrue(provider.getMapSchedule().containsKey(DayOfWeek.TUESDAY));
         Assert.assertEquals(provider.getScheduleDays().size(),2);
 
 
-        Assert.assertTrue(provider.getSchedule().containsValue(setBussinessHoursMonday));
-        Assert.assertTrue(provider.getSchedule().containsValue(setNewBussinessHourTuesday));
+        Assert.assertTrue(provider.getSchedule().containsDayAndBussinessTime(DayOfWeek.MONDAY,setBussinessHoursMonday));
+        Assert.assertTrue(provider.getSchedule().containsDayAndBussinessTime(DayOfWeek.TUESDAY,setNewBussinessHourTuesday));
         Assert.assertEquals(provider.getScheduleBussinessTimes().size(),2);
     }
 

@@ -1,10 +1,16 @@
 package com.desapp.grupoc1e022019.model.providerComponents.schedule;
 
+import com.desapp.grupoc1e022019.model.EntityId;
+
+import javax.persistence.Entity;
 import java.sql.Time;
 
-public class BussinessTime {
+@Entity
+public class BussinessTime extends EntityId {
     private Time from;
     private Time to;
+
+    public BussinessTime(){}
 
     public BussinessTime(Time from, Time to){
         this.to = to;
