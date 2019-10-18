@@ -7,11 +7,9 @@ import com.desapp.grupoc1e022019.model.providerComponents.providerState.Provider
 import com.desapp.grupoc1e022019.model.providerComponents.schedule.BussinessTime;
 import com.desapp.grupoc1e022019.model.providerComponents.schedule.Schedule;
 import com.desapp.grupoc1e022019.model.providerComponents.location.Address;
+import com.desapp.grupoc1e022019.model.providerComponents.schedule.SetOfBussinessTime;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import java.time.DayOfWeek;
 import java.util.Collection;
 import java.util.List;
@@ -19,17 +17,22 @@ import java.util.Map;
 
 import java.util.Set;
 import java.util.stream.Collectors;
+
 @Entity
 public class Provider extends EntityId{
 
     private String name;
     private String logo;
     private String city;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ID_ADDRESS")
     private Address address;
     private String description;
     private String webURL;
     private String email;
     private String telNumber;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ID_SCHEDULE")
     private Schedule schedule;
     private Double deliveryMaxDistanceInKM;
     @OneToMany(
@@ -37,8 +40,12 @@ public class Provider extends EntityId{
             orphanRemoval = true
     )
     private List<Menu> menus;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ID_CREDIT")
     private Credit credit;
     private Integer strikesMenu;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ID_PROVIDER_STATE")
     private ProviderState providerState;
 
     public Provider(String name, String logo, String city, Address address, String description, String webURL,
@@ -180,9 +187,11 @@ public class Provider extends EntityId{
         return providerState.toString();
     }
 
-    public Map<DayOfWeek, Set<BussinessTime>> getSchedule(){
+    public Map<DayOfWeek, SetOfBussinessTime> getMapSchedule(){
         return schedule.getDaysAndBussinessTime();
     }
+
+    public Schedule getSchedule(){return this.schedule;}
 
     public void deleteBussinessTime(DayOfWeek day){
         this.schedule.deleteBussinessTime(day);
@@ -192,7 +201,7 @@ public class Provider extends EntityId{
         this.schedule.addBussinessTime(day,newBussinessHour);
     }
 
-    public void setBussinessTime(DayOfWeek day,Set<BussinessTime> newBussinessHours){
+    public void setBussinessTime(DayOfWeek day,SetOfBussinessTime newBussinessHours){
         this.schedule.setBussinessTime(day,newBussinessHours);
     }
 
@@ -204,7 +213,7 @@ public class Provider extends EntityId{
         return schedule.getDays();
     }
 
-    public Collection<Set<BussinessTime>> getScheduleBussinessTimes(){
+    public Collection<SetOfBussinessTime> getScheduleBussinessTimes(){
         return schedule.getBussinessTimes();
     }
 

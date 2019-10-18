@@ -3,9 +3,8 @@ package com.desapp.grupoc1e022019.services.controllers;
 import com.desapp.grupoc1e022019.model.Credit;
 import com.desapp.grupoc1e022019.model.Provider;
 import com.desapp.grupoc1e022019.model.providerComponents.providerState.NormalProvider;
-import com.desapp.grupoc1e022019.model.providerComponents.schedule.BussinessTime;
 import com.desapp.grupoc1e022019.model.providerComponents.schedule.Schedule;
-import com.desapp.grupoc1e022019.persistence.ProviderRepository;
+import com.desapp.grupoc1e022019.model.providerComponents.schedule.SetOfBussinessTime;
 import com.desapp.grupoc1e022019.services.ProviderService;
 import com.desapp.grupoc1e022019.services.builder.ProviderBuilder;
 import com.desapp.grupoc1e022019.services.dtos.ProviderDTO;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
 
 @CrossOrigin
 @RestController
@@ -38,7 +36,7 @@ public class ProviderController {
                 .withProviderState(new NormalProvider())
                 .withDescription(providerDTO.getDescription())
                 .withStrikesMenu(0)
-                .withSchedule(new Schedule(new HashMap<DayOfWeek, Set<BussinessTime>>()))
+                .withSchedule(new Schedule(new HashMap<DayOfWeek, SetOfBussinessTime>()))
                 .withAddress(providerDTO.getAddress())
                 .withCity(providerDTO.getCity())
                 .withDeliveryMaxDistanceInKM(providerDTO.getDeliveryMaxDistanceInKM())

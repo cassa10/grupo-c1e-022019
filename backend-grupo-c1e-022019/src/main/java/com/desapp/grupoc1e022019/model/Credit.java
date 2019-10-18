@@ -1,7 +1,9 @@
 package com.desapp.grupoc1e022019.model;
 
+import javax.persistence.Entity;
 import java.util.Objects;
 
+@Entity
 public class Credit extends EntityId{
     Double amount;
 

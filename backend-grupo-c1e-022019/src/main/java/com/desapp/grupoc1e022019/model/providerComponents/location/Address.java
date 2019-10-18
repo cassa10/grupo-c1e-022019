@@ -2,12 +2,16 @@ package com.desapp.grupoc1e022019.model.providerComponents.location;
 
 import com.desapp.grupoc1e022019.model.EntityId;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 @Entity
 public class Address extends EntityId {
-    @OneToOne
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ID_COORD")
     private Coord coord;
     private String location;
 
