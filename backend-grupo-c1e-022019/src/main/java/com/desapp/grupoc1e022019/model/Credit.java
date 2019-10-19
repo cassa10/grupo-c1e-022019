@@ -18,6 +18,9 @@ public class Credit extends EntityId{
     public Credit(Double amount){
         this.amount = amount;
     }
+
+    public Credit(){}
+
     public Credit sum(Credit credit){
         return new Credit(amount + credit.getAmount());
     }

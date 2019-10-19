@@ -14,4 +14,15 @@ public class ProviderDAO {
         providerRepository.save(provider);
     }
 
+    public void delete(Long id) {
+        providerRepository.deleteById(id);
+    }
+
+    public boolean providerExists(long idProvider) {
+            return providerRepository.findById(idProvider).isPresent();
+    }
+
+    public Provider getProvider(long id) {
+            return providerRepository.getOne(id);
+    }
 }
