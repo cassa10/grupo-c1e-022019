@@ -15,11 +15,28 @@ public class ProviderService {
     @Autowired
     private ProviderDAO providerDAO = new ProviderDAO();
 
-    //TODO
-    // USE @TRANSACTIONAL IN METHODS BUT USE JAVAX OR SPRING MODULE???
-
     @Transactional
     public void save(Provider provider){
         providerDAO.save(provider);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        providerDAO.delete(id);
+    }
+
+    @Transactional
+    public boolean providerExists(long idProvider) {
+        return providerDAO.providerExists(idProvider);
+    }
+
+    @Transactional
+    public Provider getProvider(long idProvider) {
+        return providerDAO.getProvider(idProvider);
+    }
+
+    @Transactional
+    public void updateProvider(Provider updatedProvider) {
+        providerDAO.updateProvider(updatedProvider);
     }
 }

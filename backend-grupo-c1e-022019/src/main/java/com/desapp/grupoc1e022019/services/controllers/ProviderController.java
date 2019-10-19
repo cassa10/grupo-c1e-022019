@@ -29,7 +29,7 @@ public class ProviderController {
     private ProviderService providerService = new ProviderService();
 
     @RequestMapping(method = RequestMethod.POST, value = "/provider")
-    public ResponseEntity createEntity(@RequestBody ProviderDTO providerDTO) {
+    public ResponseEntity createProvider(@RequestBody ProviderDTO providerDTO) {
         Provider newProvider = ProviderBuilder.aProvider()
                 .withName(providerDTO.getName())
                 .withCredit(new Credit(0d))
@@ -50,5 +50,38 @@ public class ProviderController {
         providerService.save(newProvider);
 
         return new ResponseEntity<>(newProvider, HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE, value ="/provider/{idProvider}")
+        public ResponseEntity deleteProvider(@PathVariable long idProvider) {
+
+        if(! providerService.providerExists(idProvider)){
+            return new ResponseEntity<>("Provider does not exist", HttpStatus.NOT_FOUND);
+        }
+        providerService.delete(idProvider);
+
+        return new ResponseEntity<>("Provider has been removed", HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value ="/provider/{idProvider}")
+    public ResponseEntity getProvider(@PathVariable long idProvider) {
+
+        if(! providerService.providerExists(idProvider)){
+            return new ResponseEntity<>("Provider does not exist", HttpStatus.NOT_FOUND);
+        }
+        Provider providerFound = providerService.getProvider(idProvider);
+
+        return new ResponseEntity<>(providerFound, HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT, value ="/provider")
+    public ResponseEntity updateProvider(@RequestBody Provider updatedProvider) {
+
+        if(! providerService.providerExists(updatedProvider.getId())){
+            return new ResponseEntity<>("Provider does not exist", HttpStatus.NOT_FOUND);
+        }
+        providerService.updateProvider(updatedProvider);
+
+        return new ResponseEntity<>(updatedProvider, HttpStatus.OK);
     }
 }
