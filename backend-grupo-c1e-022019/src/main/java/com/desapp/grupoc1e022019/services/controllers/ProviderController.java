@@ -73,4 +73,15 @@ public class ProviderController {
 
         return new ResponseEntity<>(providerFound, HttpStatus.OK);
     }
+
+    @RequestMapping(method = RequestMethod.PUT, value ="/provider")
+    public ResponseEntity updateProvider(@RequestBody Provider updatedProvider) {
+
+        if(! providerService.providerExists(updatedProvider.getId())){
+            return new ResponseEntity<>("Provider does not exist", HttpStatus.NOT_FOUND);
+        }
+        providerService.updateProvider(updatedProvider);
+
+        return new ResponseEntity<>(updatedProvider, HttpStatus.OK);
+    }
 }

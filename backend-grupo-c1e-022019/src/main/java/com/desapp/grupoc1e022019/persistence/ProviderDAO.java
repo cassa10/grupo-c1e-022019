@@ -25,4 +25,9 @@ public class ProviderDAO {
     public Provider getProvider(long id) {
             return providerRepository.getOne(id);
     }
+
+    public void updateProvider(Provider updatedProvider) {
+        //TODO Esto no anda del todo bien,revisar el json de entrada:)
+        providerRepository.save(updatedProvider);
+    }
 }

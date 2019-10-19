@@ -30,7 +30,13 @@ public class ProviderService {
         return providerDAO.providerExists(idProvider);
     }
 
+    @Transactional
     public Provider getProvider(long idProvider) {
         return providerDAO.getProvider(idProvider);
+    }
+
+    @Transactional
+    public void updateProvider(Provider updatedProvider) {
+        providerDAO.updateProvider(updatedProvider);
     }
 }
