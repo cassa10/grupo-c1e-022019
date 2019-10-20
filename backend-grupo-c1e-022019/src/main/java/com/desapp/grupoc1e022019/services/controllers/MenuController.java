@@ -54,4 +54,17 @@ public class MenuController {
         return new ResponseEntity<>(newMenu, HttpStatus.OK);
     }
 
+    @RequestMapping(method = RequestMethod.DELETE, value = "/menu/{idMenu}")
+    public ResponseEntity deleteMenu(@PathVariable long idMenu){
+
+        if(!menuService.existMenu(idMenu)){
+            return new ResponseEntity("Menu not found",HttpStatus.NOT_FOUND);
+        }
+
+        menuService.delete(idMenu);
+
+        return new ResponseEntity("Menu successfully removed",HttpStatus.OK);
+    }
+
+
 }
