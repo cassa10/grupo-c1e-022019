@@ -30,6 +30,10 @@ public class ProviderController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/provider")
     public ResponseEntity createProvider(@RequestBody ProviderDTO providerDTO) {
+
+        if(providerService.existsProviderWithSameName(providerDTO.getName())){
+            return new ResponseEntity("Please,choose a different name", HttpStatus.NOT_ACCEPTABLE);
+        }
         Provider newProvider = ProviderBuilder.aProvider()
                 .withName(providerDTO.getName())
                 .withCredit(new Credit(0d))
@@ -75,7 +79,7 @@ public class ProviderController {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value ="/provider")
-    public ResponseEntity updateProvider(@RequestBody Provider updatedProvider) {
+    public ResponseEntity updateProvider(@RequestBody ProviderDTO updatedProvider) {
 
         if(! providerService.providerExists(updatedProvider.getId())){
             return new ResponseEntity<>("Provider does not exist", HttpStatus.NOT_FOUND);

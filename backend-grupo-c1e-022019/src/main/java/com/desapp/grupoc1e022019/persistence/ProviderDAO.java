@@ -1,6 +1,7 @@
 package com.desapp.grupoc1e022019.persistence;
 
 import com.desapp.grupoc1e022019.model.Provider;
+import com.desapp.grupoc1e022019.services.dtos.ProviderDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,8 +27,7 @@ public class ProviderDAO {
             return providerRepository.getOne(id);
     }
 
-    public void updateProvider(Provider updatedProvider) {
-        //TODO Esto no anda del todo bien,revisar el json de entrada:)
-        providerRepository.save(updatedProvider);
+    public boolean existsProviderWithSameName(String name) {
+        return !providerRepository.findByName(name).isEmpty();
     }
 }

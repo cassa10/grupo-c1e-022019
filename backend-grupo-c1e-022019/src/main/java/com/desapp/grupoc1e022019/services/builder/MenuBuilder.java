@@ -9,20 +9,21 @@ import com.desapp.grupoc1e022019.model.menuComponents.menuState.MenuState;
 import com.desapp.grupoc1e022019.model.menuComponents.menuState.NormalMenu;
 import com.desapp.grupoc1e022019.model.Provider;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MenuBuilder {
     private int id = 0;
     private Provider provider = new ProviderBuilder().build();
-    private String name;
-    private String description;
+    private String name = "defaultName";
+    private String description = "defaultDescription";
     private List<CategoryMenu> categories = new ArrayList<>();
-    private Double deliveryValue;
-    private EffectiveDate effectiveDate;
-    private Integer averageDeliveryTimeInMinutes;
-    private MenuPriceCalculator menuPriceCalculator;
-    private Integer maxSalesPerDay;
+    private Double deliveryValue = 0.0;
+    private EffectiveDate effectiveDate = new EffectiveDate(LocalDate.now(),LocalDate.now());
+    private Integer averageDeliveryTimeInMinutes = 0;
+    private MenuPriceCalculator menuPriceCalculator = new MenuPriceCalculator(0.0,0,0.0,0,0.0);
+    private Integer maxSalesPerDay = 0;
     private RankAverageMenu menuRank = new RankAverageMenu();
     private MenuState menuState = new NormalMenu();
 

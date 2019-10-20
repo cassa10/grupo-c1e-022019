@@ -7,6 +7,7 @@ import com.desapp.grupoc1e022019.model.menuComponents.RankAverageMenu;
 import com.desapp.grupoc1e022019.model.menuComponents.menuState.MenuState;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 @Entity
@@ -20,10 +21,10 @@ public class Menu extends EntityId {
     private Double deliveryValue;
     private EffectiveDate effectiveDate;
     private Integer averageDeliveryTimeInMinutes;
+    @Transient
     private MenuPriceCalculator menuPriceCalculator;
     private Integer maxSalesPerDay;
-    //TODO
-    // FALTA EL Turno/Horario de entrega/envio que no entiendo que funcion cumpliria
+    @Transient
     private RankAverageMenu menuRank;
     private MenuState menuState;
 
@@ -44,6 +45,8 @@ public class Menu extends EntityId {
         this.menuRank = menuRank;
         this.setMenuState(menuState);
     }
+
+    public Menu(){}
 
     public Double getPrice(){
         return menuPriceCalculator.getPrice();
