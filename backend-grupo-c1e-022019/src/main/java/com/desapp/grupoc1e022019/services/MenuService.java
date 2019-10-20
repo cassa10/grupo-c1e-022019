@@ -20,4 +20,12 @@ public class MenuService {
     public boolean existsMenuWithSameName(String name) {
         return menuDAO.existsMenuWithSameName(name);
     }
+
+    public boolean existMenu(long idMenu) {
+        return menuDAO.existsMenu(idMenu);
+    }
+
+    public void delete(long idMenu) {
+        menuDAO.delete(idMenu);
+    }
 }

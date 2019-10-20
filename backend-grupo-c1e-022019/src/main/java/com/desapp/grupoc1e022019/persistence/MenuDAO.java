@@ -16,4 +16,12 @@ public class MenuDAO {
     public boolean existsMenuWithSameName(String name) {
         return !menuRepository.findByName(name).isEmpty();
     }
+
+    public boolean existsMenu(long idMenu) {
+        return menuRepository.findById(idMenu).isPresent();
+    }
+
+    public void delete(long idMenu) {
+        menuRepository.deleteById(idMenu);
+    }
 }
