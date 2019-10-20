@@ -52,4 +52,8 @@ public class ProviderService {
 
         providerDAO.save(tmp);
     }
+
+    public boolean existsProviderWithSameName(String name) {
+        return providerDAO.existsProviderWithSameName(name);
+    }
 }

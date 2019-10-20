@@ -30,6 +30,10 @@ public class ProviderController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/provider")
     public ResponseEntity createProvider(@RequestBody ProviderDTO providerDTO) {
+
+        if(providerService.existsProviderWithSameName(providerDTO.getName())){
+            return new ResponseEntity("Please,choose a different name", HttpStatus.NOT_ACCEPTABLE);
+        }
         Provider newProvider = ProviderBuilder.aProvider()
                 .withName(providerDTO.getName())
                 .withCredit(new Credit(0d))

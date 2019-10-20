@@ -27,4 +27,7 @@ public class ProviderDAO {
             return providerRepository.getOne(id);
     }
 
+    public boolean existsProviderWithSameName(String name) {
+        return !providerRepository.findByName(name).isEmpty();
+    }
 }
