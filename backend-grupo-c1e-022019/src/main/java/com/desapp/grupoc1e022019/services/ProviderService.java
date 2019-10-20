@@ -2,6 +2,7 @@ package com.desapp.grupoc1e022019.services;
 
 import com.desapp.grupoc1e022019.model.Provider;
 import com.desapp.grupoc1e022019.persistence.ProviderDAO;
+import com.desapp.grupoc1e022019.services.dtos.ProviderDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -36,7 +37,19 @@ public class ProviderService {
     }
 
     @Transactional
-    public void updateProvider(Provider updatedProvider) {
-        providerDAO.updateProvider(updatedProvider);
+    public void updateProvider(ProviderDTO updatedProvider) {
+        Provider tmp = providerDAO.getProvider(updatedProvider.getId());
+
+        tmp.setName(updatedProvider.getName());
+        tmp.setLogo(updatedProvider.getLogo());
+        tmp.setAddress(updatedProvider.getAddress());
+        tmp.setCity(updatedProvider.getCity());
+        tmp.setDeliveryMaxDistanceInKM(updatedProvider.getDeliveryMaxDistanceInKM());
+        tmp.setDescription(updatedProvider.getDescription());
+        tmp.setTelNumber(updatedProvider.getTelNumber());
+        tmp.setEmail(updatedProvider.getEmail());
+        tmp.setWebURL(updatedProvider.getWebURL());
+
+        providerDAO.save(tmp);
     }
 }

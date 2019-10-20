@@ -5,11 +5,13 @@ import com.desapp.grupoc1e022019.model.providerComponents.location.Address;
 public class ProviderDTO  {
 
     public ProviderDTO(){}
+
+    private Long id;
     private String name;
     private String logo;
     private String city;
     /**
-     * En mi opinion, el provider deberia inicar in menues*/
+     * En mi opinion, el provider deberia inicar sin menues*/
     //private List<MenuDTO> menus ;
 
     private Address address;
@@ -90,5 +92,13 @@ public class ProviderDTO  {
 
     public void setDeliveryMaxDistanceInKM(Double deliveryMaxDistanceInKM) {
         this.deliveryMaxDistanceInKM = deliveryMaxDistanceInKM;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
