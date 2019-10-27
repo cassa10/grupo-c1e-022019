@@ -13,6 +13,7 @@ import java.util.List;
 @Entity
 public class Menu extends EntityId {
 
+    @ManyToOne(fetch = FetchType.LAZY)
     private Provider provider;
     private String name;
     private String description;

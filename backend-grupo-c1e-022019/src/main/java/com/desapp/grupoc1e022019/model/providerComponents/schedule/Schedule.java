@@ -12,10 +12,11 @@ import java.util.Set;
 public class Schedule  extends EntityId{
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "schedule_bussines_time_mapping",
+    @JoinTable(name = "schedule_mapping",
             joinColumns = {@JoinColumn(name = "id_schedule", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "id_set_of_bussiness_time", referencedColumnName = "id")})
-    @MapKeyJoinColumn(name = "id_day_of_week")
+    @MapKeyColumn(name = "day_of_week")
+    @MapKeyEnumerated(EnumType.STRING)
     private Map<DayOfWeek, SetOfBussinessTime> daysAndHours;
 
     public Schedule(){}
@@ -62,5 +63,13 @@ public class Schedule  extends EntityId{
             return this.daysAndHours.get(dayOfWeek).containsAll(setOfBussinessTime);
         }
         return false;
+    }
+
+    public Map<DayOfWeek, SetOfBussinessTime> getDaysAndHours() {
+        return daysAndHours;
+    }
+
+    public void setDaysAndHours(Map<DayOfWeek, SetOfBussinessTime> daysAndHours) {
+        this.daysAndHours = daysAndHours;
     }
 }
