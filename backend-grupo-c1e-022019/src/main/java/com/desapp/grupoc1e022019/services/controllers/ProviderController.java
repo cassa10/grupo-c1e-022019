@@ -40,7 +40,7 @@ public class ProviderController {
                 .withProviderState(new NormalProvider())
                 .withDescription(providerDTO.getDescription())
                 .withStrikesMenu(0)
-                .withSchedule(new Schedule(new HashMap<DayOfWeek, SetOfBussinessTime>()))
+                .withSchedule(providerDTO.getSchedule())
                 .withAddress(providerDTO.getAddress())
                 .withCity(providerDTO.getCity())
                 .withDeliveryMaxDistanceInKM(providerDTO.getDeliveryMaxDistanceInKM())

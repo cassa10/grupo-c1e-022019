@@ -261,4 +261,16 @@ public class Provider extends EntityId{
         }
         return menu;
     }
+
+    public void setMenus(List<Menu> menus) {
+        this.menus = menus;
+    }
+
+    public void setCredit(Credit credit) {
+        this.credit = credit;
+    }
+
+    public ProviderState getProviderState() {
+        return providerState;
+    }
 }

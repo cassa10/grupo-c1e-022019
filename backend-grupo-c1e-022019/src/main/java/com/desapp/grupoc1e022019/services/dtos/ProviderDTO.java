@@ -1,6 +1,7 @@
 package com.desapp.grupoc1e022019.services.dtos;
 
 import com.desapp.grupoc1e022019.model.providerComponents.location.Address;
+import com.desapp.grupoc1e022019.model.providerComponents.schedule.Schedule;
 
 public class ProviderDTO  {
 
@@ -20,11 +21,11 @@ public class ProviderDTO  {
     private String email;
     private String telNumber;
     private Double deliveryMaxDistanceInKM;
+    private Schedule schedule;
 
     public String getName() {
         return name;
     }
-
 
     public Address getAddress() {
         return address;
@@ -100,5 +101,13 @@ public class ProviderDTO  {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Schedule getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
     }
 }
