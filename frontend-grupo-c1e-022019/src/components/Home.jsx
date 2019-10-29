@@ -1,6 +1,7 @@
 import React from 'react';
 import API from '../service/api';
 import '../dist/css/Home.css';
+import NavBar from '../components/NavBar';
 
 class Home extends React.Component {
   constructor(props) {
@@ -29,6 +30,7 @@ class Home extends React.Component {
   render() {
     return (
       <div className="container">
+        <NavBar/>
         <div className="row">
           <div className="col-12 titulo-banner">
             <h4 className="titulo-materias-divider">
