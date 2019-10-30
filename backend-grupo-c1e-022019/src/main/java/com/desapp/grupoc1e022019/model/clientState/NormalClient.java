@@ -3,6 +3,9 @@ package com.desapp.grupoc1e022019.model.clientState;
 import com.desapp.grupoc1e022019.model.Credit;
 import com.desapp.grupoc1e022019.model.Order;
 
+import javax.persistence.Entity;
+
+@Entity
 public class NormalClient extends StateClient {
 
     @Override

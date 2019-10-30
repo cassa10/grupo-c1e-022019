@@ -1,22 +1,36 @@
 package com.desapp.grupoc1e022019.model;
 
 import com.desapp.grupoc1e022019.model.orderComponents.deliverType.DeliverType;
-import com.desapp.grupoc1e022019.model.observer.Observer;
 import com.desapp.grupoc1e022019.model.orderComponents.orderState.OrderState;
 
-public class Order implements Observer {
-    private OrderState state;
+import javax.persistence.*;
+
+@Entity
+@Table(name = "orders")
+public class Order extends EntityId {
+
     private Integer stars;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_client")
     private Client client;
-    private Menu menu;
     private Integer menusAmount;
+    @OneToOne
+    @JoinColumn(name = "id_deliver_type")
     private DeliverType deliverType;
+    @OneToOne
+    @JoinColumn(name = "id_order_state")
+    private OrderState orderState;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_menu")
+    private Menu menu;
     //TODO
     // EN CONTROLLER ORDER: NO SE PODRIA CREAR LA ORDEN SI EL MENU A ORDENAR ESTA CANCELADO
 
-    public Order(OrderState state, Integer stars, Client client, Menu menu, Integer menusAmount, DeliverType deliverType) {
+    public Order(){}
+
+    public Order(OrderState orderState, Integer stars, Client client, Menu menu, Integer menusAmount, DeliverType deliverType) {
         this.stars = stars;
-        this.state = state;
+        this.orderState = orderState;
         this.client = client;
         this.menu = menu;
         this.menusAmount = menusAmount;
@@ -32,34 +46,28 @@ public class Order implements Observer {
         this.stars = stars;
     }
 
-    public void setState(OrderState state) {
-        this.state = state;
-    }
-
-    @Override
-    public void update() {
-        //SI EL ESTADO ES PENDIENTE SE CONFIRMA SI SON LAS 00hs
-        state.update(this);
+    public void setOrderState(OrderState orderState) {
+        this.orderState = orderState;
     }
 
     public void confirmed(){
-        this.update();
+        this.orderState.confirm(this);
     }
 
     public void cancelled() {
-        state.cancelled(this) ;
+        orderState.cancelled(this) ;
     }
 
     public void delivered() {
-        state.delivered(this);
+        orderState.delivered(this);
     }
 
     public void sending() {
-        this.state.sending(this);
+        this.orderState.sending(this);
     }
 
     public void rate(Integer score) {
-        state.rate(score,this);
+        orderState.rate(score,this);
     }
 
     public Client getClient(){
@@ -68,20 +76,20 @@ public class Order implements Observer {
 
     public Menu getMenu(){ return this.menu;}
 
-    public boolean isStateCancelled(){return this.state.isStateCancelled();}
+    public boolean isStateCancelled(){return this.orderState.isStateCancelled();}
 
-    public boolean isStateConfirmed(){return this.state.isStateConfirmed();}
+    public boolean isStateConfirmed(){return this.orderState.isStateConfirmed();}
 
-    public boolean isStateDelivered(){return this.state.isStateDelivered();}
+    public boolean isStateDelivered(){return this.orderState.isStateDelivered();}
 
-    public boolean isStatePending(){return this.state.isStatePending();}
+    public boolean isStatePending(){return this.orderState.isStatePending();}
 
-    public boolean isStateSending(){return this.state.isStateSending();}
+    public boolean isStateSending(){return this.orderState.isStateSending();}
 
-    public boolean isStateRanked(){return this.state.isStateRanked();}
+    public boolean isStateRanked(){return this.orderState.isStateRanked();}
 
     public String getStateName(){
-        return state.toString();
+        return orderState.toString();
     }
 
     public boolean isDelivery(){
@@ -104,5 +112,33 @@ public class Order implements Observer {
         //TODO
         //  LLAMAR AL SERVICE PARA CALCULAR LA CANTIDAD TOTAL DE PEDIDOS QUE FUERON REALIZADOS
         //  Y SI HAY QUE AVISARLE AL CLIENTE DEL NUEVO PRECIO Y DEBITARLE EN CASO DE QUE LO SEA.
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public void setMenu(Menu menu) {
+        this.menu = menu;
+    }
+
+    public Integer getMenusAmount() {
+        return menusAmount;
+    }
+
+    public void setMenusAmount(Integer menusAmount) {
+        this.menusAmount = menusAmount;
+    }
+
+    public DeliverType getDeliverType() {
+        return deliverType;
+    }
+
+    public void setDeliverType(DeliverType deliverType) {
+        this.deliverType = deliverType;
+    }
+
+    public OrderState getOrderState() {
+        return orderState;
     }
 }

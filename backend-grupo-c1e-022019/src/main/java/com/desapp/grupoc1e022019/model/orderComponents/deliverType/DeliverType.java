@@ -1,9 +1,12 @@
 package com.desapp.grupoc1e022019.model.orderComponents.deliverType;
 
-public interface DeliverType {
+import com.desapp.grupoc1e022019.model.EntityId;
 
-    //TODO
-    //  NO ESTA CLARO COMO HACER EL CALCULO DEL DELIVERY
-    boolean haveToPickUp();
-    boolean isDelivery();
+import javax.persistence.Entity;
+
+@Entity
+public abstract class DeliverType extends EntityId {
+
+    public abstract boolean haveToPickUp();
+    public abstract boolean isDelivery();
 }

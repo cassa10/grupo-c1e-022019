@@ -1,6 +1,9 @@
 package com.desapp.grupoc1e022019.model.orderComponents.deliverType;
 
-public class PickUp implements DeliverType  {
+import javax.persistence.Entity;
+
+@Entity
+public class PickUp extends DeliverType  {
 
     //TODO
     // PREGUNTAR EL CALCULO DE DELIVERTIME
