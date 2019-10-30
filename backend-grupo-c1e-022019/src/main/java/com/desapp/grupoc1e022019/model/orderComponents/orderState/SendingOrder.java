@@ -3,6 +3,9 @@ package com.desapp.grupoc1e022019.model.orderComponents.orderState;
 
 import com.desapp.grupoc1e022019.model.Order;
 
+import javax.persistence.Entity;
+
+@Entity
 public class SendingOrder extends OrderState {
 
     @Override
@@ -10,7 +13,7 @@ public class SendingOrder extends OrderState {
 
     @Override
     public void delivered(Order order){
-        order.setState(new DeliveredOrder());
+        order.setOrderState(new DeliveredOrder());
         order.getClient().haveToRankOrder(order);
 
         //TODO

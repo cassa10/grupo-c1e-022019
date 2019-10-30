@@ -1,6 +1,9 @@
 package com.desapp.grupoc1e022019.model.orderComponents.deliverType;
 
-public class Delivery implements DeliverType {
+import javax.persistence.Entity;
+
+@Entity
+public class Delivery extends DeliverType {
 
     //TODO
     // PREGUNTAR EL CALCULO DE DELIVERTIME

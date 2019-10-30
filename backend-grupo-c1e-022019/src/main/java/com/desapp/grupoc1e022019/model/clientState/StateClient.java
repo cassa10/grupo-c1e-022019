@@ -1,8 +1,12 @@
 package com.desapp.grupoc1e022019.model.clientState;
 
+import com.desapp.grupoc1e022019.model.EntityId;
 import com.desapp.grupoc1e022019.model.Order;
 
-public abstract class StateClient {
+import javax.persistence.Entity;
+
+@Entity
+public abstract class StateClient extends EntityId {
 
     public abstract void buyOrder(Order order);
 

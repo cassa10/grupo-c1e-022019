@@ -2,6 +2,9 @@ package com.desapp.grupoc1e022019.model.menuComponents;
 
 import com.desapp.grupoc1e022019.model.EntityId;
 
+import javax.persistence.Entity;
+
+@Entity
 public class MenuPriceCalculator extends EntityId {
 
     private Double price;
@@ -9,6 +12,8 @@ public class MenuPriceCalculator extends EntityId {
     private Double firstMinAmountPrice;
     private Integer secondMinAmount;
     private Double secondMinAmountPrice;
+
+    public MenuPriceCalculator(){}
 
     public MenuPriceCalculator(Double price, Integer firstMinAmount,Double firstMinAmountPrice,
                                Integer secondMinAmount,Double secondMinAmountPrice){

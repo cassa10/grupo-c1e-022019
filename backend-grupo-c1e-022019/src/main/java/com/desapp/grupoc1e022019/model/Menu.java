@@ -7,26 +7,33 @@ import com.desapp.grupoc1e022019.model.menuComponents.RankAverageMenu;
 import com.desapp.grupoc1e022019.model.menuComponents.menuState.MenuState;
 
 import javax.persistence.*;
-import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
+
 @Entity
 public class Menu extends EntityId {
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_provider")
     private Provider provider;
     private String name;
     private String description;
     @ElementCollection
     private List<CategoryMenu> categories;
     private Double deliveryValue;
+    @OneToOne
+    @JoinColumn(name = "id_effective_date")
     private EffectiveDate effectiveDate;
     private Integer averageDeliveryTimeInMinutes;
-    @Transient
+    @OneToOne
+    @JoinColumn(name = "id_menu_price_calculator")
     private MenuPriceCalculator menuPriceCalculator;
     private Integer maxSalesPerDay;
-    @Transient
+    @OneToOne
+    @JoinColumn(name = "id_menu_rank")
     private RankAverageMenu menuRank;
+    @OneToOne
+    @JoinColumn(name = "id_menu_state")
     private MenuState menuState;
 
     public Menu(int id,Provider provider, String name,String description,List<CategoryMenu> categories,
@@ -198,4 +205,33 @@ public class Menu extends EntityId {
     public String getMenuStateName(){
         return menuState.toString();
     }
+
+    public void setProvider(Provider provider) {
+        this.provider = provider;
+    }
+
+    public EffectiveDate getEffectiveDate() {
+        return effectiveDate;
+    }
+
+    public MenuPriceCalculator getMenuPriceCalculator() {
+        return menuPriceCalculator;
+    }
+
+    public void setMenuPriceCalculator(MenuPriceCalculator menuPriceCalculator) {
+        this.menuPriceCalculator = menuPriceCalculator;
+    }
+
+    public RankAverageMenu getMenuRank() {
+        return menuRank;
+    }
+
+    public void setMenuRank(RankAverageMenu menuRank) {
+        this.menuRank = menuRank;
+    }
+
+    public MenuState getMenuState() {
+        return menuState;
+    }
+
 }

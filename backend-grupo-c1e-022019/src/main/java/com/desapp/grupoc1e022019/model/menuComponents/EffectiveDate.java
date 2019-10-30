@@ -10,6 +10,8 @@ public class EffectiveDate extends EntityId {
     private LocalDate validFrom;
     private LocalDate goodThru;
 
+    public EffectiveDate(){}
+
     public EffectiveDate(LocalDate validFrom,LocalDate goodThru){
         this.validFrom = validFrom;
         this.goodThru = goodThru;
@@ -21,6 +23,14 @@ public class EffectiveDate extends EntityId {
 
     public LocalDate getGoodThru() {
         return goodThru;
+    }
+
+    public void setValidFrom(LocalDate validFrom) {
+        this.validFrom = validFrom;
+    }
+
+    public void setGoodThru(LocalDate goodThru) {
+        this.goodThru = goodThru;
     }
 
     public boolean todayIsBeingAnEffectiveDate() {

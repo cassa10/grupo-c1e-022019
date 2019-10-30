@@ -1,9 +1,13 @@
 package com.desapp.grupoc1e022019.model.orderComponents.orderState;
 
 import com.desapp.grupoc1e022019.exception.RatingForbiddenException;
+import com.desapp.grupoc1e022019.model.EntityId;
 import com.desapp.grupoc1e022019.model.Order;
 
-public abstract class OrderState {
+import javax.persistence.Entity;
+
+@Entity
+public abstract class OrderState extends EntityId {
 
     @Override
     public abstract String toString();
@@ -26,7 +30,7 @@ public abstract class OrderState {
 
     public boolean isStateRanked(){return false;}
 
-    public void update(Order order){
+    public void confirm(Order order){
         //Confirm the order
         //Only Pending state will override this
     }

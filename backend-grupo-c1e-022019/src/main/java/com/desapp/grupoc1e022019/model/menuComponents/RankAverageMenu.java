@@ -35,4 +35,16 @@ public class RankAverageMenu extends EntityId {
     public boolean hasMoreTwentyRatesAmountAndAverageIsLessThanTwo(){
         return this.ratingsAmount >= 20 && (this.average() < 2);
     }
+
+    public void setRatingsAmount(Integer ratingsAmount) {
+        this.ratingsAmount = ratingsAmount;
+    }
+
+    public Integer getRatingSum() {
+        return ratingSum;
+    }
+
+    public void setRatingSum(Integer ratingSum) {
+        this.ratingSum = ratingSum;
+    }
 }
