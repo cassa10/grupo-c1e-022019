@@ -5,19 +5,34 @@ import com.desapp.grupoc1e022019.model.clientState.CannotBuyClient;
 import com.desapp.grupoc1e022019.model.clientState.NormalClient;
 import com.desapp.grupoc1e022019.model.clientState.StateClient;
 
+import javax.persistence.*;
 import java.util.List;
 
-public class Client {
+@Entity
+public class Client extends EntityId{
 
     private String firstName;
     private String lastName;
+    @Column(unique = true)
     private String email;
     private String phoneNumber;
     private String location;
     private String address;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ID_CREDIT")
     private Credit credit;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ID_CLIENT_STATE")
     private StateClient stateClient;
+    @OneToMany(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            mappedBy = "client"
+    )
     private List<Order> ordersHaveToRank;
+
+    public Client(){}
 
     public Client(String firstName, String lastName, String email, String phoneNumber,
                   String location, String address, Credit credit,StateClient stateClient,List<Order> ordersHaveToRank){
@@ -38,6 +53,18 @@ public class Client {
 
     public String getFirstName() {
         return firstName;
+    }
+
+    public StateClient getStateClient() {
+        return stateClient;
+    }
+
+    public List<Order> getOrdersHaveToRank() {
+        return ordersHaveToRank;
+    }
+
+    public void setOrdersHaveToRank(List<Order> ordersHaveToRank) {
+        this.ordersHaveToRank = ordersHaveToRank;
     }
 
     public void setFirstName(String firstName) {
@@ -94,7 +121,6 @@ public class Client {
     public void setStateClient(StateClient stateClient) {
         this.stateClient = stateClient;
     }
-
     //---------------------------
     //Getters And Setters --END--
     //---------------------------

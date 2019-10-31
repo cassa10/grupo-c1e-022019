@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 
 @Entity
 public class Coord extends EntityId {
+
     private Double latitude;
     private Double longitude;
 

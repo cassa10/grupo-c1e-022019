@@ -3,6 +3,9 @@ package com.desapp.grupoc1e022019.model.menuComponents.menuState;
 import com.desapp.grupoc1e022019.model.Menu;
 import com.desapp.grupoc1e022019.model.menuComponents.RankAverageMenu;
 
+import javax.persistence.Entity;
+
+@Entity
 public class NormalMenu extends MenuState {
 
     @Override

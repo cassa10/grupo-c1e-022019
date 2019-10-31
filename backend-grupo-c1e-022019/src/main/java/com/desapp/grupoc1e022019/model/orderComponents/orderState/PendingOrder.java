@@ -2,6 +2,9 @@ package com.desapp.grupoc1e022019.model.orderComponents.orderState;
 
 import com.desapp.grupoc1e022019.model.Order;
 
+import javax.persistence.Entity;
+
+@Entity
 public class PendingOrder extends OrderState {
 
     @Override
@@ -9,18 +12,18 @@ public class PendingOrder extends OrderState {
 
     @Override
     public void cancelled(Order order){
-        order.setState(new CancelledOrder());
+        order.setOrderState(new CancelledOrder());
         order.getClient().deposit(order.customerPayment());
         //TODO
         // LLAMAR AL SERVICE EN LA PROX ENTREGA
     }
 
     @Override
-    public void update(Order order) {
+    public void confirm(Order order) {
         //TODO
         // ---DUDA DE ENUNCIADO-----
         // EMAIL SENDER AL CLIENTE CUANDO EL PRECIO DISMINUYE
-        order.setState(new ConfirmedOrder());
+        order.setOrderState(new ConfirmedOrder());
         order.notifyClientIfTheirPriceHasBeenUpdated();
     }
 

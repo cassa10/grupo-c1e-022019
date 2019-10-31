@@ -1,6 +1,5 @@
 package com.desapp.grupoc1e022019.services.dtos;
 
-import com.desapp.grupoc1e022019.model.Provider;
 import com.desapp.grupoc1e022019.model.menuComponents.CategoryMenu;
 import com.desapp.grupoc1e022019.model.menuComponents.EffectiveDate;
 

@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 @Entity
 public class Provider extends EntityId{
 
+    @Column(unique = true)
     private String name;
     private String logo;
     private String city;
@@ -36,8 +37,10 @@ public class Provider extends EntityId{
     private Schedule schedule;
     private Double deliveryMaxDistanceInKM;
     @OneToMany(
+            fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
-            orphanRemoval = true
+            orphanRemoval = true,
+            mappedBy = "provider"
     )
     private List<Menu> menus;
     @OneToOne(cascade = CascadeType.ALL)

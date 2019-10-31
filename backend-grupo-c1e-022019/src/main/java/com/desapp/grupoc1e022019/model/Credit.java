@@ -5,7 +5,8 @@ import java.util.Objects;
 
 @Entity
 public class Credit extends EntityId{
-    Double amount;
+
+    private Double amount;
 
     @Override
     public boolean equals(Object o) {
@@ -27,6 +28,10 @@ public class Credit extends EntityId{
 
     public Double getAmount() {
         return amount;
+    }
+
+    public void setAmount(Double amount) {
+        this.amount = amount;
     }
 
     public boolean isGreaterOrEqual(Credit credits) {
