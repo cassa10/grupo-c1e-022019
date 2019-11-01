@@ -28,8 +28,10 @@ class NavBar extends React.Component {
                 <input type="text" name="name" />
               </label>
               <Button className="searchButton" variant="primary">{t('Search text')} </Button>
-              <ChangeLenguage />
             </form>
+          </Row>
+          <Row>
+            <ChangeLenguage />
           </Row>
         </Container>
       </Navbar>
