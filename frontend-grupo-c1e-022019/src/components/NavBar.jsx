@@ -1,8 +1,11 @@
 import Button from 'react-bootstrap/Button';
 import React from 'react';
+import { withTranslation } from 'react-i18next';
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
+import ChangeLenguage from './ChangeLenguage';
+
 
 class NavBar extends React.Component {
   constructor(props) {
@@ -12,6 +15,7 @@ class NavBar extends React.Component {
   }
 
   render() {
+    const { t, i18n } = this.props;
     return (
       <Navbar bg="dark" fixed="top">
         <Container>
@@ -23,7 +27,8 @@ class NavBar extends React.Component {
               <label>
                 <input type="text" name="name" />
               </label>
-              <Button className="searchButton" variant="primary">Buscar</Button>
+              <Button className="searchButton" variant="primary">{t('Search text')} </Button>
+              <ChangeLenguage />
             </form>
           </Row>
         </Container>
@@ -32,4 +37,4 @@ class NavBar extends React.Component {
   }
 }
 
-export default NavBar;
+export default withTranslation()(NavBar);

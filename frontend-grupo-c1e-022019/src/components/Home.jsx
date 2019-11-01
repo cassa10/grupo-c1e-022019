@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import API from '../service/api';
 import '../dist/css/Home.css';
-import NavBar from '../components/NavBar';
+import NavBar from './NavBar';
+
 
 class Home extends React.Component {
   constructor(props) {
@@ -29,20 +30,22 @@ class Home extends React.Component {
 
   render() {
     return (
-      <div className="container">
-        <NavBar/>
-        <div className="row">
-          <div className="col-12 titulo-banner">
-            <h4 className="titulo-materias-divider">
-              INICIO: {this.state.tmp}
-            </h4>
-          </div>
+      <Suspense fallback={<div>loading...</div>}>
+        <div className="container">
+          <NavBar />
           <div className="row">
-            <button type="button" className="btn btn-primary" onClick={() => this.goToMap()}>Go to map</button>
+            <div className="col-12 titulo-banner">
+              <h4 className="titulo-materias-divider">
+              INICIO: {this.state.tmp}
+              </h4>
+            </div>
+            <div className="row">
+              <button type="button" className="btn btn-primary" onClick={() => this.goToMap()}>Go to map</button>
+            </div>
           </div>
         </div>
-      </div>
+      </Suspense>
     );
   }
 }
-export default Home;
+export default (Home);
