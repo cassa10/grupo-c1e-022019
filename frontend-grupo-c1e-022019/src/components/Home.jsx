@@ -2,6 +2,7 @@ import React, { Suspense } from 'react';
 import API from '../service/api';
 import '../dist/css/Home.css';
 import NavBar from './NavBar';
+import { withTranslation } from 'react-i18next';
 
 
 class Home extends React.Component {
@@ -29,6 +30,7 @@ class Home extends React.Component {
   }
 
   render() {
+    const { t, i18n } = this.props;
     return (
       <Suspense fallback={<div>loading...</div>}>
         <div className="container">
@@ -40,7 +42,7 @@ class Home extends React.Component {
               </h4>
             </div>
             <div className="row">
-              <button type="button" className="btn btn-primary" onClick={() => this.goToMap()}>Go to map</button>
+              <button type="button" className="btn btn-primary" onClick={() => this.goToMap()}>{t("Go to map")}</button>
             </div>
           </div>
         </div>
@@ -48,4 +50,4 @@ class Home extends React.Component {
     );
   }
 }
-export default (Home);
+export default withTranslation()(Home);

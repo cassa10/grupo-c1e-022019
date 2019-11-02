@@ -1,6 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import Button from 'react-bootstrap/Button';
+import '../dist/css/ChangeLenguage.css';
+import argFlag from '../dist/icons/argentinianFlagHeart.png';
+import usaFlag from '../dist/icons/usaFlag.png';
 
 export default function ChangeLenguage() {
   const { t, i18n } = useTranslation();
@@ -9,9 +11,9 @@ export default function ChangeLenguage() {
     i18n.changeLanguage(lng);
   };
   return (
-      <div>
-      <button onClick={() => changeLanguage('es')}>spanish</button>
-      <button onClick={() => changeLanguage('en')}>english</button>
-      </div>
+    <div>
+      <button type="button"><img className="flag" src={argFlag} alt="Argentinian Flag" onClick={() => changeLanguage('es')} /></button>
+      <button type="button"><img className="flag" src={usaFlag} alt="USA flag" onClick={() => changeLanguage('en')} /></button>
+    </div>
   );
 }
