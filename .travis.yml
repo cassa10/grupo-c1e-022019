@@ -1,5 +1,13 @@
 language: java
 
+env:
+  - SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/ViendasApp
+  - SPRING_DATASOURCE_USERNAME=root
+  - SPRING_DATASOURCE_PASSWORD=root
+  - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.PostgreSQLDialect
+  - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+  - SPRING_H2_CONSOLE_ENABLED=false
+
 services: postgresql
 
 before_script:
