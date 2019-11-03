@@ -5,6 +5,7 @@ import com.desapp.grupoc1e022019.model.menuComponents.EffectiveDate;
 import com.desapp.grupoc1e022019.model.menuComponents.MenuPriceCalculator;
 import com.desapp.grupoc1e022019.model.menuComponents.RankAverageMenu;
 import com.desapp.grupoc1e022019.model.menuComponents.menuState.MenuState;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -13,6 +14,7 @@ import java.util.List;
 @Entity
 public class Menu extends EntityId {
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_provider")
     private Provider provider;
@@ -55,6 +57,8 @@ public class Menu extends EntityId {
     }
 
     public Menu(){}
+
+    public long getProviderId(){ return this.provider.getId();}
 
     public Double getPrice(){
         return menuPriceCalculator.getPrice();

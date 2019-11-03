@@ -8,6 +8,7 @@ import com.desapp.grupoc1e022019.model.providerComponents.schedule.BussinessTime
 import com.desapp.grupoc1e022019.model.providerComponents.schedule.Schedule;
 import com.desapp.grupoc1e022019.model.providerComponents.location.Address;
 import com.desapp.grupoc1e022019.model.providerComponents.schedule.SetOfBussinessTime;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.time.DayOfWeek;
@@ -35,6 +36,7 @@ public class Provider extends EntityId{
     @JoinColumn(name = "ID_SCHEDULE")
     private Schedule schedule;
     private Double deliveryMaxDistanceInKM;
+    @JsonManagedReference
     @OneToMany(
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,

@@ -35,11 +35,6 @@ public class MenuService {
         menuDAO.delete(idMenu);
     }
 
-    public List<Menu> search(String name, String category, String location) {
-
-        return null;
-    }
-
     public List<Menu> searchByName(String value,String priceOrder,String rankOrder) {
         return menuDAO.findAllLikeNameSort(value,priceOrder,rankOrder);
     }
@@ -50,10 +45,6 @@ public class MenuService {
 
     public List<Menu> searchByProviderCity(String value, String priceOrder, String rankOrder) {
         return menuDAO.findAllByProviderCity(value,priceOrder,rankOrder);
-    }
-
-    private boolean isNotValid(String s){
-        return s == null || s.isEmpty();
     }
 
     public List<Menu> searchByNameAndCategory(String name, CategoryMenu category, String priceOrder, String rankOrder) {

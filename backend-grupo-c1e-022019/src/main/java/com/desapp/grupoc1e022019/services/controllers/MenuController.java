@@ -80,7 +80,7 @@ public class MenuController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/name")
     public ResponseEntity searchMenuByName(@RequestBody HashMap<String,String> body){
-        List<Menu> values = new ArrayList<>();
+        List<Menu> values ;
 
         values = menuService.searchByName(body.get("name"),body.get("priceOrder"),body.get("rankOrder"));
 
@@ -89,7 +89,7 @@ public class MenuController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/category")
     public ResponseEntity searchMenuByCategory(@RequestBody HashMap<String,String> body){
-        List<Menu> values = new ArrayList<>();
+        List<Menu> values ;
 
         values = menuService.searchByCategory(CategoryMenu.valueOf(body.get("category")),body.get("priceOrder"),body.get("rankOrder"));
 
@@ -98,7 +98,7 @@ public class MenuController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/city")
     public ResponseEntity searchMenuByProviderCity(@RequestBody HashMap<String,String> body){
-        List<Menu> values = new ArrayList<>();
+        List<Menu> values ;
 
         values = menuService.searchByProviderCity(body.get("city"),body.get("priceOrder"),body.get("rankOrder"));
 
