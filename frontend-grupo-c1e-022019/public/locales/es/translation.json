@@ -22,5 +22,11 @@
     "Burger" : "Hamburguesa",
     "Beer" : "Cerveza",
     "Green" : "Vegetal",
-    "Vegan" : "Vegano"
+    "Vegan" : "Vegano",
+    "Max sales per day" : "Maximo de ventas al dia",
+    "insert max sales per day" : "Inserte aqui un numero",
+    "Average time" : "Tiempo promedio de entrega",
+    "Insert average time" : "Inserte aqui un numero",
+    "Insert date valid from" :"El menu estara disponible desde:",
+    "Insert date valid thru" :"hasta:"
 }
