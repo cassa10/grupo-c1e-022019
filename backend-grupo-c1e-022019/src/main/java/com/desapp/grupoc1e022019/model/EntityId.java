@@ -3,7 +3,6 @@ package com.desapp.grupoc1e022019.model;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
 import java.io.Serializable;
 
 @MappedSuperclass
@@ -26,8 +25,7 @@ public class EntityId implements Serializable {
         return id;
     }
 
-    @Transient
-    public int getIdAsInt(){
+    public int idAsInt(){
         return (int) id;
     }
 

@@ -22,8 +22,8 @@ public class MenuTest {
         Menu menu1 = aMenu().withId(1).build();
         Menu menu2 = aMenu().withId(2).build();
 
-        Assert.assertEquals(menu1.getIdAsInt(),1);
-        Assert.assertEquals(menu2.getIdAsInt(),2);
+        Assert.assertEquals(menu1.idAsInt(),1);
+        Assert.assertEquals(menu2.idAsInt(),2);
     }
 
     @Test
@@ -214,8 +214,8 @@ public class MenuTest {
         menu1.addRate(5);
         menu2.addRate(3);
 
-        Assert.assertEquals(menu1.rankAverage(),new Double(5));
-        Assert.assertEquals(menu2.rankAverage(),new Double(3));
+        Assert.assertEquals(menu1.getRankAverage(),new Double(5));
+        Assert.assertEquals(menu2.getRankAverage(),new Double(3));
     }
 
     @Test
@@ -225,7 +225,7 @@ public class MenuTest {
         addRateNTimes(aMenu,4,3);
         aMenu.addRate(3);
 
-        Assert.assertEquals(aMenu.rankAverage(),new Double(3.75));
+        Assert.assertEquals(aMenu.getRankAverage(),new Double(3.75));
     }
 
     @Test
@@ -235,15 +235,15 @@ public class MenuTest {
         addRateNTimes(aMenu,2,19);
         aMenu.addRate(1);
 
-        Assert.assertEquals(aMenu.rankAverage(),new Double(1.95));
+        Assert.assertEquals(aMenu.getRankAverage(),new Double(1.95));
         Assert.assertTrue(aMenu.isCancelledState());
         Assert.assertFalse(aMenu.isNormalState());
 
         aMenu.addRate(5);
-        Assert.assertEquals(aMenu.rankAverage(),new Double(1.95));
+        Assert.assertEquals(aMenu.getRankAverage(),new Double(1.95));
 
         aMenu.addRate(1);
-        Assert.assertEquals(aMenu.rankAverage(),new Double(1.95));
+        Assert.assertEquals(aMenu.getRankAverage(),new Double(1.95));
     }
 
     @Test
