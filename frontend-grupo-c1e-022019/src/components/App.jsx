@@ -6,6 +6,8 @@ import { Switch, Route } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
 import Home from './Home';
 import MapViendasYa from './MapViendasYa';
+import SignUpProvider from './SignUpProvider';
+import NavBar from './NavBar';
 
 export default class App extends React.Component {
   render() {
@@ -13,8 +15,9 @@ export default class App extends React.Component {
       <Suspense fallback={<div>Loading</div>}>
         <BrowserRouter>
           <Switch>
-            <Route exact path="/" render={(props) => <div><Home {...props} /> </div>} />
+            <Route exact path="/" render={(props) => <div><NavBar /><Home {...props} /> </div>} />
             <Route exact path="/map" render={() => <MapViendasYa />} />
+            <Route exact path="/signup_provider" render={(props) => <div><NavBar /><SignUpProvider {...props}/></div>} />
           </Switch>
         </BrowserRouter>
       </Suspense>

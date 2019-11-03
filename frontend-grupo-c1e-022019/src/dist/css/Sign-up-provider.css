@@ -1,0 +1,54 @@
+.sign-up-provider{
+    background: #FF5555;
+    color: white;
+    padding-top: 70px;
+}
+
+.form-inline{
+    background: white;
+}
+
+.text-provider-sign-up{
+    color:white;
+}
+
+.signup-buttons{
+    padding: 10px;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-top: 100px;
+}
+
+.sign-up-button{
+    margin-right: 10px;
+}
+
+.input-name-provider{
+    padding: 10px;
+    margin-top: 100px;
+    margin-left: 100px;
+}
+
+.input-address-location-provider{
+    padding: 10px;
+    margin-top: 100px;
+    margin-left: 100px;
+}
+
+.input-city-provider{
+    padding: 10px;
+    margin-top: 100px;
+    margin-left: 100px;
+}
+
+.input-tel-number-provider{
+    padding: 10px;
+    margin-top: 100px;
+    margin-left: 100px;
+}
+
+.input-description-provider{
+    padding: 10px;
+    margin-top: 100px;
+    margin-left: 100px;
+}

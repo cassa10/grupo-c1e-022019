@@ -1,4 +1,16 @@
 {
     "Search text" : "Search",
-    "Go to map" : "Go to map"
+    "Go to map" : "Go to map",
+    "Sign up as provider" : "Sign up as provider",
+    "Provider" : "Provider",
+    "provider" : "provider",
+    "Fill out this form for sign up as provider" : "Fill out this form for sign up as provider",
+    "Go back" : "Go back",
+    "Sign up" : "Sign up",
+    "sign up" : "sign up",
+    "Name provider": "Name as provider",
+    "Address": "Address",
+    "Telephone": "Telephone",
+    "City": "City",
+    "Description": "Description"
 }
