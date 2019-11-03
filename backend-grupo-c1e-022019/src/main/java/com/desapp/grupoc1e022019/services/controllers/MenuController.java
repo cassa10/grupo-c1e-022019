@@ -32,7 +32,7 @@ public class MenuController {
     private ProviderService providerService = new ProviderService();
 
     @RequestMapping(method = RequestMethod.POST, value = "/menu")
-    public ResponseEntity postMenu(@RequestBody MenuDTO menuDTO){
+    public ResponseEntity createMenu(@RequestBody MenuDTO menuDTO){
 
         if(! providerService.providerExists(menuDTO.getIdProvider())){
             return new ResponseEntity<>("Provider does not exist", HttpStatus.NOT_FOUND);
