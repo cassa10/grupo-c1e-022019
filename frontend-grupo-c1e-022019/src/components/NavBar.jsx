@@ -5,7 +5,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import ChangeLenguage from './ChangeLenguage';
-
+import '../dist/css/Navbar.css';
 
 class NavBar extends React.Component {
   constructor(props) {
@@ -14,13 +14,20 @@ class NavBar extends React.Component {
     };
   }
 
+  goToHome(){
+
+  }
+
   render() {
-    const { t, i18n } = this.props;
+    const { t } = this.props;
     return (
-      <Navbar bg="dark" fixed="top">
+      <div>
+      <Navbar bg="dark" color="#F55" fixed="top">
         <Container>
           <Row>
-            <Navbar.Brand href="#home">ViendasApp</Navbar.Brand>
+            <Navbar.Brand href="/">
+                <img src="https://fontmeme.com/permalink/191102/03a545ac680d1396fcfae624d4ee0c3a.png" width="250" alt="netflix-font" border="0" className="pointerImg" role="presentation" />
+            </Navbar.Brand>
           </Row>
           <Row>
             <form>
@@ -35,6 +42,7 @@ class NavBar extends React.Component {
           </Row>
         </Container>
       </Navbar>
+      </div>
     );
   }
 }

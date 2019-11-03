@@ -5,7 +5,7 @@ import argFlag from '../dist/icons/argentinianFlagHeart.png';
 import usaFlag from '../dist/icons/usaFlag.png';
 
 export default function ChangeLenguage() {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
 
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);

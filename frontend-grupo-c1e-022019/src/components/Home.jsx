@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import API from '../service/api';
 import '../dist/css/Home.css';
-import NavBar from './NavBar';
+
 import { withTranslation } from 'react-i18next';
 
 
@@ -29,20 +29,32 @@ class Home extends React.Component {
     });
   }
 
+  goToSignUpProvider() {
+    this.props.history.push({
+      pathname: '/signup_provider',
+    });
+  }
+
   render() {
-    const { t, i18n } = this.props;
+    const {t} = this.props;
     return (
       <Suspense fallback={<div>loading...</div>}>
         <div className="container">
-          <NavBar />
           <div className="row">
-            <div className="col-12 titulo-banner">
-              <h4 className="titulo-materias-divider">
+            <div className="col-12 title-home">
+              <h4 className="message-title-home">
               INICIO: {this.state.tmp}
               </h4>
             </div>
             <div className="row">
-              <button type="button" className="btn btn-primary" onClick={() => this.goToMap()}>{t("Go to map")}</button>
+              <div className="col-12 map-provider">
+                <button type="button" className="btn btn-primary" onClick={() => this.goToMap()}>{t("Go to map")}</button>
+              </div>
+              <div className="col-12 signup-provider-button">
+                <button type="button" className="btn btn-danger" onClick={()=> this.goToSignUpProvider()}>
+                  {t("Sign up as provider")}
+                </button>
+              </div>
             </div>
           </div>
         </div>

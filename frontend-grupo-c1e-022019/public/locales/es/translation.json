@@ -1,4 +1,12 @@
 {
     "Search text" : "Buscar",
-    "Go to map" : "Ir al mapa"
+    "Go to map" : "Ir al mapa",
+    "Sign up as provider" : "Hacerme proveedor",
+    "provider" : "proveedor",
+    "Provider" : "Proveedor",
+    "Fill out this form for sign up as provider": "Completa este formulario para darte de alta como un proveedor",
+    "Go back" : "Volver",
+    "Sign up" : "Darme de alta",
+    "sign up" : "darme de alta",
+    "Name provider": "Nombre de proveedor"
 }
