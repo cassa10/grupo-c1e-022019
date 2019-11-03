@@ -8,5 +8,9 @@
     "Go back" : "Volver",
     "Sign up" : "Darme de alta",
     "sign up" : "darme de alta",
-    "Name provider": "Nombre de proveedor"
+    "Name provider": "Nombre de proveedor",
+    "Address": "Direccion",
+    "Telephone": "Teléfono",
+    "City": "Ciudad",
+    "Description": "Descripción"
 }

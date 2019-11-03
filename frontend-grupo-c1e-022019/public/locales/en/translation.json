@@ -8,5 +8,9 @@
     "Go back" : "Go back",
     "Sign up" : "Sign up",
     "sign up" : "sign up",
-    "Name provider": "Name as provider"
+    "Name provider": "Name as provider",
+    "Address": "Address",
+    "Telephone": "Telephone",
+    "City": "City",
+    "Description": "Description"
 }

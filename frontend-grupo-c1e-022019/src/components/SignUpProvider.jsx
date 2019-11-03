@@ -2,8 +2,6 @@ import React from 'react';
 import { withTranslation } from 'react-i18next';
 import '../dist/css/Sign-up-provider.css';
 
-
-
 class SignUpProvider extends React.Component {
 
     constructor(props) {
@@ -26,10 +24,8 @@ class SignUpProvider extends React.Component {
         deliveryMaxDistanceInKM: 0.0,
         schedule: {
           daysAndHours: {
-
           }
         }
-
       };
     }
 
@@ -41,7 +37,7 @@ class SignUpProvider extends React.Component {
     }
 
     signUpProvider() {
-
+      console.log("ERROR")
     }
 
     handlerProviderName(e) {
@@ -113,7 +109,7 @@ class SignUpProvider extends React.Component {
 
     createInputOfTelephoneNumber({t}){
       return(
-        <input type="text" className="form-control input-tel-number-provider" id="inputTelephoneProvider" placeholder={t("Tel")} onChange={e => this.handlerProviderTelephoneNumber(e)} />
+        <input type="text" className="form-control input-tel-number-provider" id="inputTelephoneProvider" placeholder={t("Telephone")} onChange={e => this.handlerProviderTelephoneNumber(e)} />
       );
     }
   

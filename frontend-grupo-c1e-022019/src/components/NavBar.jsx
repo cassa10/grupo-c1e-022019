@@ -22,7 +22,7 @@ class NavBar extends React.Component {
     const { t } = this.props;
     return (
       <div>
-      <Navbar bg="dark" color="#F55" fixed="top">
+      <Navbar className="all-navbar" fixed="top">
         <Container>
           <Row>
             <Navbar.Brand href="/">
