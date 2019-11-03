@@ -1,7 +1,9 @@
 package com.desapp.grupoc1e022019.services.dtos;
 
+import com.desapp.grupoc1e022019.model.Menu;
 import com.desapp.grupoc1e022019.model.menuComponents.CategoryMenu;
 import com.desapp.grupoc1e022019.model.menuComponents.EffectiveDate;
+import com.desapp.grupoc1e022019.model.menuComponents.MenuPriceCalculator;
 
 import java.util.List;
 
@@ -15,12 +17,25 @@ public class MenuDTO {
     private EffectiveDate effectiveDate;
     private Integer averageDeliveryTimeInMinutes;
     private Integer maxSalesPerDay;
+    private MenuPriceCalculator menuPriceCalculator;
 
     public String getName() {
         return name;
     }
 
     public MenuDTO(){}
+
+    public MenuDTO(Menu menu){
+        idProvider = menu.getProvider().getId();
+        name = menu.getName();
+        description = menu.getDescription();
+        categories = menu.getCategories();
+        deliveryValue = menu.getDeliveryValue();
+        effectiveDate = menu.getEffectiveDate();
+        averageDeliveryTimeInMinutes = menu.getAverageDeliveryTimeInMinutes();
+        maxSalesPerDay = menu.getMaxSalesPerDay();
+        menuPriceCalculator = getMenuPriceCalculator();
+    }
 
     public long getIdProvider() {
         return idProvider;
@@ -77,5 +92,17 @@ public class MenuDTO {
 
     public void setMaxSalesPerDay(Integer maxSalesPerDay) {
         this.maxSalesPerDay = maxSalesPerDay;
+    }
+
+    public void setIdProvider(long idProvider) {
+        this.idProvider = idProvider;
+    }
+
+    public MenuPriceCalculator getMenuPriceCalculator() {
+        return menuPriceCalculator;
+    }
+
+    public void setMenuPriceCalculator(MenuPriceCalculator menuPriceCalculator) {
+        this.menuPriceCalculator = menuPriceCalculator;
     }
 }
