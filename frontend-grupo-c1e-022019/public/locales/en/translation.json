@@ -12,5 +12,15 @@
     "Address": "Address",
     "Telephone": "Telephone",
     "City": "City",
-    "Description": "Description"
+    "Description": "Description",
+    "register your menu" : "Register your menu",
+    "This name will appear in your posts" : "This name will appear in your posts",
+    "Menu name" : "Menu's name",
+    "Submit the name here" :"Submit the name here",
+    "Submit the discription here" : "Submit the discription here",
+    "Choose yout product category" :"Choose your product category",
+    "Burger" : "Burger",
+    "Green" :"Green",
+    "Vegan" :"Vegan",
+    "Beer": "Beer"
 }

@@ -1,0 +1,14 @@
+.register_menu_title{
+    padding-top: 80px;
+    text-align: center;
+}
+
+.register_menu_form{
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-top: 40px;
+}
+
+.line_of_checkboxs{
+    padding-left: 30px
+}

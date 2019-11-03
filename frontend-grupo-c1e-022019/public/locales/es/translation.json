@@ -12,5 +12,15 @@
     "Address": "Direccion",
     "Telephone": "Teléfono",
     "City": "Ciudad",
-    "Description": "Descripción"
+    "Description": "Descripción",
+    "register your menu" : "Registrar menú",
+    "This name will appear in your posts" : "Este nombre aparecerá en sus publicaciones",
+    "Menu name" : "Nombre del menu",
+    "Submit the name here" : "Ingrese el nombre aquí",
+    "Submit the discription here" :"Ingrese la descripcion aquí",
+    "Choose yout product category" : "Elija la categoría de su producto",
+    "Burger" : "Hamburguesa",
+    "Beer" : "Cerveza",
+    "Green" : "Vegetal",
+    "Vegan" : "Vegano"
 }
