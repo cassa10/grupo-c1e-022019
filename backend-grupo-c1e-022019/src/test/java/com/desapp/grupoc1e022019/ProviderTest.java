@@ -3,7 +3,6 @@ package com.desapp.grupoc1e022019;
 
 import com.desapp.grupoc1e022019.exception.InsufficientCreditException;
 import com.desapp.grupoc1e022019.exception.MaximumMenusSizeException;
-import com.desapp.grupoc1e022019.exception.RepeatedIDException;
 import com.desapp.grupoc1e022019.model.Credit;
 import com.desapp.grupoc1e022019.model.Menu;
 import com.desapp.grupoc1e022019.model.providerComponents.location.Address;
@@ -373,16 +372,6 @@ public class ProviderTest {
         Menu newMenu = MenuBuilder.aMenu().build();
 
         provider.addMenu(newMenu);
-    }
-
-    @Test(expected = RepeatedIDException.class)
-    public void testWhenAProviderAddAMenuButTheIdAlreadyExistsThenItRaiseRepeatedIDException()  {
-        Provider provider = ProviderBuilder.aProvider().build();
-        Menu newMenu1 = MenuBuilder.aMenu().withId(1).build();
-        Menu newMenu2 = MenuBuilder.aMenu().withId(1).build();
-
-        provider.addMenu(newMenu1);
-        provider.addMenu(newMenu2);
     }
 
     @Test

@@ -190,7 +190,7 @@ public class Menu extends EntityId {
         return effectiveDate.todayIsBeingAnEffectiveDate();
     }
 
-    public Double rankAverage(){
+    public Double getRankAverage(){
         return menuRank.average();
     }
 
