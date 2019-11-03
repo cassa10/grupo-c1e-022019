@@ -21,18 +21,18 @@ public class Menu extends EntityId {
     @ElementCollection
     private List<CategoryMenu> categories;
     private Double deliveryValue;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_effective_date")
     private EffectiveDate effectiveDate;
     private Integer averageDeliveryTimeInMinutes;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_menu_price_calculator")
     private MenuPriceCalculator menuPriceCalculator;
     private Integer maxSalesPerDay;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_menu_rank")
     private RankAverageMenu menuRank;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_menu_state")
     private MenuState menuState;
 

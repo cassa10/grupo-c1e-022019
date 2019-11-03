@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity
 public class Provider extends EntityId{
@@ -231,7 +230,7 @@ public class Provider extends EntityId{
     }
 
     private void checkMaxMenus(){
-        if(this.menus.size() == 20){
+        if(this.menus.size() >= 20){
             throw new MaximumMenusSizeException("Can't add more than twenty menus");
         }
     }
@@ -248,21 +247,6 @@ public class Provider extends EntityId{
 
     public void deleteMenu(Menu menu) {
         menus.remove(menu);
-    }
-
-    //TODO
-    // HACERLO POR SERVICE (BASE DE DATO)
-    public void updateMenu(int id, Menu updatedMenu) {
-        menus = menus.stream().map((m) -> swap(m,updatedMenu)).collect(Collectors.toList());
-    }
-
-    private Menu swap(Menu menu, Menu updatedMenu) {
-        //TODO
-        // BORRAR ESTO CUANDO ESTE EL SERVICE
-        if(menu.getIdAsInt() == updatedMenu.getIdAsInt()){
-            return updatedMenu;
-        }
-        return menu;
     }
 
     public void setMenus(List<Menu> menus) {

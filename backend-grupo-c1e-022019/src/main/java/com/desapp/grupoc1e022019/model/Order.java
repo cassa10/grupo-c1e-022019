@@ -14,10 +14,10 @@ public class Order extends EntityId {
     @JoinColumn(name = "id_client")
     private Client client;
     private Integer menusAmount;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_deliver_type")
     private DeliverType deliverType;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_order_state")
     private OrderState orderState;
     @ManyToOne(fetch = FetchType.LAZY)

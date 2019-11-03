@@ -397,20 +397,6 @@ public class ProviderTest {
     }
 
     @Test
-    public void testWhenProviderUpdatesAMenuThenItHasTheSameNumberOfMenus(){
-        Provider provider = ProviderBuilder.aProvider().build();
-        Menu oldMenu = MenuBuilder.aMenu().withId(1).build();
-        Menu dummyMenu = MenuBuilder.aMenu().withId(99).build();
-        Menu updatedMenu = MenuBuilder.aMenu().withId(1).build();
-        provider.addMenu(dummyMenu);
-        provider.addMenu(oldMenu);
-
-        provider.updateMenu(1,updatedMenu);
-
-        Assert.assertTrue(provider.getMenus().contains(updatedMenu));
-    }
-
-    @Test
     public void testWhenProviderGetsHisCreditsThenReturnACreditWithZeroAmount(){
         Provider provider = ProviderBuilder.aProvider().build();
 
