@@ -17,8 +17,8 @@ public class ProviderService {
     private ProviderDAO providerDAO = new ProviderDAO();
 
     @Transactional
-    public void save(Provider provider){
-        providerDAO.save(provider);
+    public Provider save(Provider provider){
+        return providerDAO.save(provider);
     }
 
     @Transactional
@@ -26,34 +26,31 @@ public class ProviderService {
         providerDAO.delete(id);
     }
 
-    @Transactional
     public boolean providerExists(long idProvider) {
         return providerDAO.providerExists(idProvider);
     }
 
-    @Transactional
     public Provider getProvider(long idProvider) {
         return providerDAO.getProvider(idProvider);
     }
 
     @Transactional
-    public void updateProvider(ProviderDTO updatedProvider) {
-        Provider tmp = providerDAO.getProvider(updatedProvider.getId());
+    public Provider updateProviderBasicInfo(ProviderDTO providerDTO) {
+        Provider tmp = providerDAO.getProvider(providerDTO.getId());
 
-        tmp.setName(updatedProvider.getName());
-        tmp.setLogo(updatedProvider.getLogo());
-        tmp.setAddress(updatedProvider.getAddress());
-        tmp.setCity(updatedProvider.getCity());
-        tmp.setDeliveryMaxDistanceInKM(updatedProvider.getDeliveryMaxDistanceInKM());
-        tmp.setDescription(updatedProvider.getDescription());
-        tmp.setTelNumber(updatedProvider.getTelNumber());
-        tmp.setEmail(updatedProvider.getEmail());
-        tmp.setWebURL(updatedProvider.getWebURL());
+        tmp.setName(providerDTO.getName());
+        tmp.setLogo(providerDTO.getLogo());
+        tmp.setAddress(providerDTO.getAddress());
+        tmp.setCity(providerDTO.getCity());
+        tmp.setDeliveryMaxDistanceInKM(providerDTO.getDeliveryMaxDistanceInKM());
+        tmp.setDescription(providerDTO.getDescription());
+        tmp.setTelNumber(providerDTO.getTelNumber());
+        tmp.setWebURL(providerDTO.getWebURL());
 
-        providerDAO.save(tmp);
+        return providerDAO.save(tmp);
     }
 
-    public boolean existsProviderWithSameName(String name) {
-        return providerDAO.existsProviderWithSameName(name);
+    public boolean existProviderWithSameEmail(String email) {
+        return providerDAO.existsProviderWithSameEmail(email);
     }
 }

@@ -10,8 +10,8 @@ public class ClientDAO {
     @Autowired
     private ClientRepository clientRepository;
 
-    public void save(Client client){
-        clientRepository.save(client);
+    public Client save(Client client){
+        return clientRepository.save(client);
     }
 
     public void delete(Long id){
@@ -20,5 +20,13 @@ public class ClientDAO {
 
     public Client getClient(long id){
         return clientRepository.getOne(id);
+    }
+
+    public boolean existSameClientEmail(String email) {
+        return ! clientRepository.findByEmail(email).isEmpty();
+    }
+
+    public boolean clientExist(long idClient) {
+        return clientRepository.findById(idClient).isPresent();
     }
 }

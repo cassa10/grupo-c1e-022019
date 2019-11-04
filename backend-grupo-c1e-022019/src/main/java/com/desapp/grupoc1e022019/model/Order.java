@@ -2,6 +2,7 @@ package com.desapp.grupoc1e022019.model;
 
 import com.desapp.grupoc1e022019.model.orderComponents.deliverType.DeliverType;
 import com.desapp.grupoc1e022019.model.orderComponents.orderState.OrderState;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 
@@ -10,6 +11,7 @@ import javax.persistence.*;
 public class Order extends EntityId {
 
     private Integer stars;
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_client")
     private Client client;
@@ -140,5 +142,17 @@ public class Order extends EntityId {
 
     public OrderState getOrderState() {
         return orderState;
+    }
+
+    public long getIdClient(){
+        return this.client.getId();
+    }
+
+    public long getIdMenu(){
+        return this.menu.getId();
+    }
+
+    public long getIdProviderOfMenu(){
+        return this.menu.getProviderId();
     }
 }

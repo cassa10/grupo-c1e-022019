@@ -18,8 +18,8 @@ public class MenuService {
     private MenuDAO menuDAO = new MenuDAO();
 
     @Transactional
-    public void saveMenu(Menu newMenu) {
-        menuDAO.save(newMenu);
+    public Menu saveMenu(Menu newMenu) {
+        return menuDAO.save(newMenu);
     }
 
     public boolean existsMenuWithSameName(String name) {

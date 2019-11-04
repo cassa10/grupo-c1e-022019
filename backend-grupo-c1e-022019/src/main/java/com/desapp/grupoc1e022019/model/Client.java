@@ -4,6 +4,7 @@ import com.desapp.grupoc1e022019.exception.InsufficientCreditException;
 import com.desapp.grupoc1e022019.model.clientState.CannotBuyClient;
 import com.desapp.grupoc1e022019.model.clientState.NormalClient;
 import com.desapp.grupoc1e022019.model.clientState.StateClient;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.List;
@@ -24,6 +25,7 @@ public class Client extends EntityId{
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ID_CLIENT_STATE")
     private StateClient stateClient;
+    @JsonManagedReference
     @OneToMany(
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
@@ -162,11 +164,13 @@ public class Client extends EntityId{
         return stateClient.isNormal();
     }
 
-    public boolean clientHaveToRank(){
+    public boolean isClientHaveToRank(){
         return stateClient.clientHaveToRank();
     }
 
     public boolean isCannotBuyClient(){
         return stateClient.isCannotBuyClient();
     }
+
+    public int getSizeOrderHaveToRank(){ return ordersHaveToRank.size();}
 }

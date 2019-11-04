@@ -10,8 +10,8 @@ public class OrderDAO {
     @Autowired
     private OrderRepository orderRepository;
 
-    public void save(Order order){
-        orderRepository.save(order);
+    public Order save(Order order){
+        return orderRepository.save(order);
     }
 
     public void delete(Long id){

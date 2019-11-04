@@ -20,7 +20,9 @@ public class Credit extends EntityId{
         this.amount = amount;
     }
 
-    public Credit(){}
+    public Credit(){
+        this.amount = 0d;
+    }
 
     public Credit sum(Credit credit){
         return new Credit(amount + credit.getAmount());

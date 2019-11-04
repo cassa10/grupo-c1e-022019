@@ -44,7 +44,7 @@ public class ProviderBuilder {
         schedule = new Schedule(daysOfWeekAndBussinessTime);
         deliveryMaxDistanceInKM = 4d;
         menus = new ArrayList<>();
-        credit = new Credit(0d);
+        credit = new Credit();
         strikesMenu = 0;
         providerState = new NormalProvider();
     }

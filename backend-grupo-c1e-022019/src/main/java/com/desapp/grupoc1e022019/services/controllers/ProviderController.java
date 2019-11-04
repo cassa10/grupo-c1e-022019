@@ -3,8 +3,6 @@ package com.desapp.grupoc1e022019.services.controllers;
 import com.desapp.grupoc1e022019.model.Credit;
 import com.desapp.grupoc1e022019.model.Provider;
 import com.desapp.grupoc1e022019.model.providerComponents.providerState.NormalProvider;
-import com.desapp.grupoc1e022019.model.providerComponents.schedule.Schedule;
-import com.desapp.grupoc1e022019.model.providerComponents.schedule.SetOfBussinessTime;
 import com.desapp.grupoc1e022019.services.ProviderService;
 import com.desapp.grupoc1e022019.services.builder.ProviderBuilder;
 import com.desapp.grupoc1e022019.services.dtos.ProviderDTO;
@@ -14,8 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 
 @CrossOrigin
 @RestController
@@ -29,12 +25,13 @@ public class ProviderController {
     @RequestMapping(method = RequestMethod.POST, value = "/provider")
     public ResponseEntity createProvider(@RequestBody ProviderDTO providerDTO) {
 
-        if(providerService.existsProviderWithSameName(providerDTO.getName())){
-            return new ResponseEntity("Please,choose a different name", HttpStatus.NOT_ACCEPTABLE);
+        if(providerService.existProviderWithSameEmail(providerDTO.getEmail())){
+            return new ResponseEntity<>("Provider already exists, please sign on with different email",HttpStatus.BAD_REQUEST);
         }
+
         Provider newProvider = ProviderBuilder.aProvider()
                 .withName(providerDTO.getName())
-                .withCredit(new Credit(0d))
+                .withCredit(new Credit())
                 .withProviderState(new NormalProvider())
                 .withDescription(providerDTO.getDescription())
                 .withStrikesMenu(0)
@@ -46,7 +43,6 @@ public class ProviderController {
                 .withLogo(providerDTO.getLogo())
                 .withTelNumber(providerDTO.getTelNumber())
                 .withWebUrl(providerDTO.getWebURL())
-                .withMenus(new ArrayList<>())
                 .build();
 
         providerService.save(newProvider);
@@ -54,7 +50,7 @@ public class ProviderController {
         return new ResponseEntity<>(newProvider, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value ="/provider/{idProvider}")
+    @RequestMapping(method = RequestMethod.POST, value ="/provider/delete/{idProvider}")
         public ResponseEntity deleteProvider(@PathVariable long idProvider) {
 
         if(! providerService.providerExists(idProvider)){
@@ -76,13 +72,14 @@ public class ProviderController {
         return new ResponseEntity<>(providerFound, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value ="/provider")
-    public ResponseEntity updateProvider(@RequestBody ProviderDTO updatedProvider) {
+    @RequestMapping(method = RequestMethod.PUT, value ="/provider/basicInfo")
+    public ResponseEntity updateProviderBasicInfo(@RequestBody ProviderDTO providerDTO) {
 
-        if(! providerService.providerExists(updatedProvider.getId())){
+        if(! providerService.providerExists(providerDTO.getId())){
             return new ResponseEntity<>("Provider does not exist", HttpStatus.NOT_FOUND);
         }
-        providerService.updateProvider(updatedProvider);
+
+        Provider updatedProvider = providerService.updateProviderBasicInfo(providerDTO);
 
         return new ResponseEntity<>(updatedProvider, HttpStatus.OK);
     }

@@ -11,8 +11,8 @@ public class ProviderDAO {
     @Autowired
     private ProviderRepository providerRepository;
 
-    public void save(Provider provider){
-        providerRepository.save(provider);
+    public Provider save(Provider provider){
+        return providerRepository.save(provider);
     }
 
     public void delete(Long id) {
@@ -27,7 +27,7 @@ public class ProviderDAO {
             return providerRepository.getOne(id);
     }
 
-    public boolean existsProviderWithSameName(String name) {
-        return !providerRepository.findByName(name).isEmpty();
+    public boolean existsProviderWithSameEmail(String email) {
+        return ! providerRepository.findByEmail(email).isEmpty();
     }
 }
