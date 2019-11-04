@@ -11,7 +11,7 @@ import java.util.Set;
 @Entity
 public class Schedule  extends EntityId{
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinTable(name = "schedule_mapping",
             joinColumns = {@JoinColumn(name = "id_schedule", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "id_set_of_bussiness_time", referencedColumnName = "id")})

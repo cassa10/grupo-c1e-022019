@@ -14,17 +14,15 @@ import java.time.DayOfWeek;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-
 import java.util.Set;
 
 @Entity
 public class Provider extends EntityId{
 
-    @Column(unique = true)
     private String name;
     private String logo;
     private String city;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ID_ADDRESS")
     private Address address;
     private String description;
@@ -32,7 +30,7 @@ public class Provider extends EntityId{
     @Column(unique = true)
     private String email;
     private String telNumber;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ID_SCHEDULE")
     private Schedule schedule;
     private Double deliveryMaxDistanceInKM;
@@ -44,11 +42,11 @@ public class Provider extends EntityId{
             mappedBy = "provider"
     )
     private List<Menu> menus;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ID_CREDIT")
     private Credit credit;
     private Integer strikesMenu;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ID_PROVIDER_STATE")
     private ProviderState providerState;
 

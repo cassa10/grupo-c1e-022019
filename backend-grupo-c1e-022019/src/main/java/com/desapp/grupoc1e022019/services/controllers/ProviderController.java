@@ -1,11 +1,13 @@
 package com.desapp.grupoc1e022019.services.controllers;
 
+import com.desapp.grupoc1e022019.exception.InsufficientCreditException;
 import com.desapp.grupoc1e022019.model.Credit;
 import com.desapp.grupoc1e022019.model.Provider;
 import com.desapp.grupoc1e022019.model.providerComponents.providerState.NormalProvider;
 import com.desapp.grupoc1e022019.services.ProviderService;
 import com.desapp.grupoc1e022019.services.builder.ProviderBuilder;
 import com.desapp.grupoc1e022019.services.dtos.ProviderDTO;
+import com.desapp.grupoc1e022019.services.dtos.WithdrawCreditDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
@@ -83,4 +85,25 @@ public class ProviderController {
 
         return new ResponseEntity<>(updatedProvider, HttpStatus.OK);
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/provider/credit/withdraw")
+    public ResponseEntity withdrawCredit(@RequestBody WithdrawCreditDTO withdrawCreditDTO) {
+
+        if(withdrawCreditDTO.getAmountToWithdraw() <= 0){
+            return new ResponseEntity<>("Invalid credit amount to withdraw",HttpStatus.BAD_REQUEST);
+        }
+        if(! providerService.providerExists(withdrawCreditDTO.getIdProvider())){
+            return new ResponseEntity<>("Provider does not exist",HttpStatus.NOT_FOUND);
+        }
+
+        Credit creditToWithdraw = new Credit(withdrawCreditDTO.getAmountToWithdraw());
+
+        try {
+            providerService.withdrawCredit(withdrawCreditDTO.getIdProvider(), creditToWithdraw);
+        }catch (InsufficientCreditException e){
+            return new ResponseEntity<>("Insufficient founds, withdraw cancelled",HttpStatus.NOT_ACCEPTABLE);
+        }
+        return new ResponseEntity<>("Withdraw accepted",HttpStatus.OK);
+    }
+
 }

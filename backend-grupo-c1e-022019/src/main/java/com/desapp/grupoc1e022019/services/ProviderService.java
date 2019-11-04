@@ -1,5 +1,6 @@
 package com.desapp.grupoc1e022019.services;
 
+import com.desapp.grupoc1e022019.model.Credit;
 import com.desapp.grupoc1e022019.model.Provider;
 import com.desapp.grupoc1e022019.persistence.ProviderDAO;
 import com.desapp.grupoc1e022019.services.dtos.ProviderDTO;
@@ -52,5 +53,14 @@ public class ProviderService {
 
     public boolean existProviderWithSameEmail(String email) {
         return providerDAO.existsProviderWithSameEmail(email);
+    }
+
+    @Transactional
+    public void withdrawCredit(long idProvider, Credit creditToWithdraw) {
+        Provider provider = providerDAO.getProvider(idProvider);
+
+        provider.withdrawCredit(creditToWithdraw);
+
+        providerDAO.save(provider);
     }
 }
