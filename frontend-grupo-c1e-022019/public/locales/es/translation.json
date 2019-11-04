@@ -28,5 +28,12 @@
     "Average time" : "Tiempo promedio de entrega",
     "Insert average time" : "Inserte aqui un numero",
     "Insert date valid from" :"El menu estara disponible desde:",
-    "Insert date valid thru" :"hasta:"
+    "Insert date valid thru" :"hasta:",
+    "Initial price" : "Precio por unidad",
+    "insert here the initial price" : "Inserte aqui el precio inicial en pesos",
+    "If you sell more than" : "Si vendes mas de :",
+    "insert here a quantity of menus" : "Inserte aqui una cantidad de menues",
+    "the price will be" : "el precio será:",
+    "insert here the wholesaler price" : "Inserte aqui el precio mayorista",
+    "register" : "Registrar"
 }

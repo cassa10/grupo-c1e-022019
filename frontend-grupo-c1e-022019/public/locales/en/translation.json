@@ -28,5 +28,12 @@
     "Average time" : "Average delivery time",
     "Insert average time" : "Insert here a number",
     "Insert date valid from" :"Menu will be available from:",
-    "Insert date valid thru" :"thru:"
+    "Insert date valid thru" :"thru:",
+    "Initial price" : "Price per unit",
+    "insert here the initial price" : "Insert here the initial price in pesos",
+    "If you sell more than" : "If you sell more than:",
+    "insert here a quantity of menus" : "Insert here a quantity of menus",
+    "the price will be" : "the price will be : ",
+    "insert here the wholesaler price" : "Insert here the wholesaler price",
+    "register" : "Register"
 }

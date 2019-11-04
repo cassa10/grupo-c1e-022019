@@ -23,10 +23,27 @@ class RegisterMenuForm extends React.Component {
       empanadas: false,
       green: false,
       vegan: false,
-      maxSalesPerDay: '',
-      averageDeliveryTime: '',
+      maxSalesPerDay: 0,
+      averageDeliveryTime: 0,
+      initialPrice: 0,
+      fstQuantity: 0,
+      sndQuantity: 0,
+      fstPrice: 0,
+      sndPrice: 0,
 
     };
+  }
+
+  getCategories() {
+    const cs = [];
+    this.checkPizza(cs);
+    this.checkBeer(cs);
+    this.checkVegan(cs);
+    this.checkGreen(cs);
+    this.checkSushi(cs);
+    this.checkHamburger(cs);
+    this.checkEmpanadas(cs);
+    return (cs);
   }
 
   changeName(e) {
@@ -105,11 +122,11 @@ class RegisterMenuForm extends React.Component {
   }
 
   changeSalesPerDay(e) {
-    this.setState({ maxSalesPerDay: e.target.value });
+    this.setState({ maxSalesPerDay: parseInt(e.target.value) });
   }
 
   changeAverageTime(e) {
-    this.setState({ averageDeliveryTime: e.target.value });
+    this.setState({ averageDeliveryTime: parseInt(e.target.value) });
   }
 
   timeAndSalesPerDay(t) {
@@ -169,8 +186,108 @@ class RegisterMenuForm extends React.Component {
     );
   }
 
-  getCategories() {
-    return ([]);
+  checkPizza(cs) {
+    if (this.state.pizza) {
+      cs.push('PIZZA');
+    }
+  }
+
+  checkBeer(cs) {
+    if (this.state.beer) {
+      cs.push('BEER');
+    }
+  }
+
+  checkHamburger(cs) {
+    if (this.state.hamburger) {
+      cs.push('HAMBURGER');
+    }
+  }
+
+  checkEmpanadas(cs) {
+    if (this.state.empanadas) {
+      cs.push('EMPANADAS');
+    }
+  }
+
+  checkGreen(cs) {
+    if (this.state.green) {
+      cs.push('GREEN');
+    }
+  }
+
+  checkSushi(cs) {
+    if (this.state.sushi) {
+      cs.push('SUSHI');
+    }
+  }
+
+  checkVegan(cs) {
+    if (this.state.vegan) {
+      cs.push('VEGAN');
+    }
+  }
+
+
+  changeInitialPrice(e) {
+    return (
+      this.setState({ initialPrice: e.target.value })
+    );
+  }
+
+  changeFstQuantity(e) {
+    return (
+      this.setState({ fstQuantity: e.target.value })
+    );
+  }
+
+  changeSndQuantity(e) {
+    return (
+      this.setState({ sndQuantity: e.target.value })
+    );
+  }
+
+  changeFstPrice(e) {
+    return (
+      this.setState({ fstPrice: e.target.value })
+    );
+  }
+
+  changeSndPrice(e) {
+    return (
+      this.setState({ sndPrice: e.target.value })
+    );
+  }
+
+  price(t) {
+    return (
+      <Form.Group>
+        <Row>
+          <Col>
+            <Form.Label className="initialPrice">{t('Initial price')}</Form.Label>
+            <Form.Control placeholder={t('insert here the initial price')} onChange={(e) => this.changeInitialPrice(e)} />
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Form.Label className="initialPrice">{t('If you sell more than')}</Form.Label>
+            <Form.Control placeholder={t('insert here a quantity of menus')} onChange={(e) => this.changeFstQuantity(e)} />
+          </Col>
+          <Col>
+            <Form.Label className="initialPrice">{t('the price will be')}</Form.Label>
+            <Form.Control placeholder={t('insert here the wholesaler price')} onChange={(e) => this.changeFstPrice(e)} />
+          </Col>
+          <Col>
+            <Form.Label className="initialPrice">{t('If you sell more than')}</Form.Label>
+            <Form.Control placeholder={t('insert here a quantity of menus')} onChange={(e) => this.changeSndQuantity(e)} />
+          </Col>
+          <Col>
+            <Form.Label className="initialPrice">{t('the price will be')}</Form.Label>
+            <Form.Control placeholder={t('insert here the wholesaler price')} onChange={(e) => this.changeSndPrice(e)} />
+          </Col>
+        </Row>
+      </Form.Group>
+    );
   }
 
   postInfo() {
@@ -179,13 +296,20 @@ class RegisterMenuForm extends React.Component {
       name: this.state.name,
       description: this.state.description,
       categories: this.getCategories(),
-      deliveryValue: this.deliveryValue,
+      deliveryValue: this.state.averageDeliveryTime,
       effectiveDate: {
         validFrom: this.parseDate(this.state.dateFrom),
         validThru: this.parseDate(this.state.dateThru),
       },
       averageDeliveryTimeInMinutes: this.state.averageDeliveryTime,
       maxSalesPerDay: this.state.maxSalesPerDay,
+      menuPriceCalculator: {
+        price: this.state.initialPrice,
+        firstMinAmount: this.state.fstQuantity,
+        firstMinAmountPrice: this.state.fstPrice,
+        secondMinAmount: this.state.sndQuantity,
+        secondMinAmountPrice: this.state.sndPrice,
+      },
     };
     API.post('/menu', body);
   }
@@ -204,9 +328,11 @@ class RegisterMenuForm extends React.Component {
           {this.timeAndSalesPerDay(t)}
 
           {this.validFromAndThru(t)}
+
+          {this.price(t)}
         </Form>
-        <Button variant="primary" type="submit" onClick={() => this.postInfo()}>
-        Submit
+        <Button className="register_button" variant="primary" size="lg" block>
+          {t('register')}
         </Button>
       </div>
     );

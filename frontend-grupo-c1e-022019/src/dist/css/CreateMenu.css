@@ -12,3 +12,13 @@
 .line_of_checkboxs{
     padding-left: 30px
 }
+
+.initialPrice{
+    text-align: center;
+    text-size-adjust: 10;
+}
+
+.register_button{
+    padding-left:100px !important;
+    padding-right: 100px !important;
+}
