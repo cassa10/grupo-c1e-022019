@@ -10,7 +10,8 @@ import java.util.Set;
 public class SetOfBussinessTime extends EntityId {
 
     @OneToMany(
-        cascade = CascadeType.ALL
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
     )
     @JoinColumn(name = "id_set_of_bussiness_time")
     private Set<BussinessTime> bussinessTimes = new HashSet<>();

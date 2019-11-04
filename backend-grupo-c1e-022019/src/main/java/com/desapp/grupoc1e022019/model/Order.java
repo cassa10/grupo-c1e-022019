@@ -16,10 +16,10 @@ public class Order extends EntityId {
     @JoinColumn(name = "id_client")
     private Client client;
     private Integer menusAmount;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(name = "id_deliver_type")
     private DeliverType deliverType;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(name = "id_order_state")
     private OrderState orderState;
     @ManyToOne(fetch = FetchType.LAZY)
@@ -37,7 +37,6 @@ public class Order extends EntityId {
         this.menu = menu;
         this.menusAmount = menusAmount;
         this.deliverType = deliverType;
-
     }
 
     public Integer getStars() {
@@ -154,5 +153,9 @@ public class Order extends EntityId {
 
     public long getIdProviderOfMenu(){
         return this.menu.getProviderId();
+    }
+
+    public int getDeliverTimeAverageInMinutes(){
+        return deliverType.getDeliverTimeAverageInMinutes(menu.getAverageDeliveryTimeInMinutes(),menu.getDeliveryMaxDistanceInKM());
     }
 }

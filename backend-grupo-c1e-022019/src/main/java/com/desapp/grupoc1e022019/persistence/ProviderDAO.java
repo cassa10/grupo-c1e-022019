@@ -30,4 +30,6 @@ public class ProviderDAO {
     public boolean existsProviderWithSameEmail(String email) {
         return ! providerRepository.findByEmail(email).isEmpty();
     }
+
+
 }

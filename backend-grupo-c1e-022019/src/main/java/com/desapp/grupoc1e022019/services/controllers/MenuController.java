@@ -1,5 +1,6 @@
 package com.desapp.grupoc1e022019.services.controllers;
 
+import com.desapp.grupoc1e022019.exception.MaximumMenusSizeException;
 import com.desapp.grupoc1e022019.model.Menu;
 import com.desapp.grupoc1e022019.model.Provider;
 import com.desapp.grupoc1e022019.model.menuComponents.CategoryMenu;
@@ -14,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -57,13 +57,11 @@ public class MenuController {
                 .build();
 
         try {
-            provider.addMenu(newMenu);
-            menuService.saveMenu(newMenu);
-
-            return new ResponseEntity<>(newMenu, HttpStatus.OK);
-        }catch (Exception e){
+            menuService.addAndSaveMenu(provider, newMenu);
+        }catch (MaximumMenusSizeException e){
             return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
+        return new ResponseEntity<>(newMenu, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/menu/{idMenu}")

@@ -1,6 +1,7 @@
 package com.desapp.grupoc1e022019.services;
 
 import com.desapp.grupoc1e022019.model.Menu;
+import com.desapp.grupoc1e022019.model.Provider;
 import com.desapp.grupoc1e022019.model.menuComponents.CategoryMenu;
 import com.desapp.grupoc1e022019.persistence.MenuDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,8 @@ public class MenuService {
     private MenuDAO menuDAO = new MenuDAO();
 
     @Transactional
-    public Menu saveMenu(Menu newMenu) {
+    public Menu addAndSaveMenu(Provider provider, Menu newMenu) {
+        provider.addMenu(newMenu);
         return menuDAO.save(newMenu);
     }
 

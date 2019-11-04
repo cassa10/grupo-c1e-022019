@@ -19,10 +19,10 @@ public class Client extends EntityId{
     private String phoneNumber;
     private String location;
     private String address;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ID_CREDIT")
     private Credit credit;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ID_CLIENT_STATE")
     private StateClient stateClient;
     @JsonManagedReference

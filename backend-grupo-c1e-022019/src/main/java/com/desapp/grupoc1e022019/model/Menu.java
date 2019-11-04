@@ -23,18 +23,18 @@ public class Menu extends EntityId {
     @ElementCollection
     private List<CategoryMenu> categories;
     private Double deliveryValue;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(name = "id_effective_date")
     private EffectiveDate effectiveDate;
     private Integer averageDeliveryTimeInMinutes;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(name = "id_menu_price_calculator")
     private MenuPriceCalculator menuPriceCalculator;
     private Integer maxSalesPerDay;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(name = "id_menu_rank")
     private RankAverageMenu menuRank;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(name = "id_menu_state")
     private MenuState menuState;
 
@@ -236,6 +236,10 @@ public class Menu extends EntityId {
 
     public MenuState getMenuState() {
         return menuState;
+    }
+
+    public double getDeliveryMaxDistanceInKM(){
+        return provider.getDeliveryMaxDistanceInKM();
     }
 
 }

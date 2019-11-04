@@ -5,14 +5,16 @@ import javax.persistence.Entity;
 @Entity
 public class PickUp extends DeliverType  {
 
-    //TODO
-    // PREGUNTAR EL CALCULO DE DELIVERTIME
-
     public boolean haveToPickUp(){
         return true;
     }
 
     public boolean isDelivery(){
         return false;
+    }
+
+    @Override
+    public int getDeliverTimeAverageInMinutes(int averageDeliveryTimeInMinutes,Double deliveryMaxDistanceInKM){
+        return averageDeliveryTimeInMinutes;
     }
 }

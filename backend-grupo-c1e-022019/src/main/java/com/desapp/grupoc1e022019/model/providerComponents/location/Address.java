@@ -10,7 +10,7 @@ import javax.persistence.OneToOne;
 @Entity
 public class Address extends EntityId {
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ID_COORD")
     private Coord coord;
     private String location;

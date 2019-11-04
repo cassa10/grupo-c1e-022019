@@ -9,4 +9,5 @@ public abstract class DeliverType extends EntityId {
 
     public abstract boolean haveToPickUp();
     public abstract boolean isDelivery();
+    public abstract int getDeliverTimeAverageInMinutes(int averageDeliveryTimeInMinutes,Double deliveryMaxDistanceInKM);
 }
