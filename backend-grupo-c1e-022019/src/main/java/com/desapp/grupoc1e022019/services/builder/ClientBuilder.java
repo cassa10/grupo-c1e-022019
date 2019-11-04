@@ -17,7 +17,7 @@ public class ClientBuilder {
     private String phoneNumber;
     private String location;
     private String address;
-    private Credit credit = new Credit(0d);
+    private Credit credit = new Credit();
     private StateClient stateClient = new NormalClient();
 
     public static ClientBuilder aClient(){

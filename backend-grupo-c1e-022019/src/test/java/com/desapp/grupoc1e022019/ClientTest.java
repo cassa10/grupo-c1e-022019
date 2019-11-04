@@ -154,7 +154,7 @@ public class ClientTest {
         Client client = ClientBuilder.aClient().build();
 
         Assert.assertTrue(client.isNormalClient());
-        Assert.assertFalse(client.clientHaveToRank());
+        Assert.assertFalse(client.isClientHaveToRank());
         Assert.assertFalse(client.isCannotBuyClient());
     }
     @Test
@@ -162,7 +162,7 @@ public class ClientTest {
         Client client = ClientBuilder.aClient().withStateClient(new CannotBuyClient()).build();
 
         Assert.assertFalse(client.isNormalClient());
-        Assert.assertTrue(client.clientHaveToRank());
+        Assert.assertTrue(client.isClientHaveToRank());
         Assert.assertTrue(client.isCannotBuyClient());
     }
     @Test(expected = InsufficientCreditException.class)

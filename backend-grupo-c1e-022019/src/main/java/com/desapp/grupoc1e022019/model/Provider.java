@@ -29,6 +29,7 @@ public class Provider extends EntityId{
     private Address address;
     private String description;
     private String webURL;
+    @Column(unique = true)
     private String email;
     private String telNumber;
     @OneToOne(cascade = CascadeType.ALL)

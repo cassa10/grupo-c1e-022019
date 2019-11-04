@@ -60,7 +60,7 @@ public class MenuController {
             provider.addMenu(newMenu);
             menuService.saveMenu(newMenu);
 
-            return new ResponseEntity<>(new MenuDTO(newMenu), HttpStatus.OK);
+            return new ResponseEntity<>(newMenu, HttpStatus.OK);
         }catch (Exception e){
             return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }

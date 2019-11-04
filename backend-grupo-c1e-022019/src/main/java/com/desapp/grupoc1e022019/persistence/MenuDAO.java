@@ -14,8 +14,8 @@ public class MenuDAO {
     @Autowired
     private MenuRepository menuRepository;
 
-    public void save(Menu newMenu) {
-        menuRepository.save(newMenu);
+    public Menu save(Menu newMenu) {
+        return menuRepository.save(newMenu);
     }
 
     public boolean existsMenuWithSameName(String name) {

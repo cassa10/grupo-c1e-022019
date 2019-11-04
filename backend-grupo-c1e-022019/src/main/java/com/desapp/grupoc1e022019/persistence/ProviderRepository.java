@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface ProviderRepository extends JpaRepository<Provider,Long> {
 
-    List<Provider> findByName(String name);
+    List<Provider> findByEmail(String email);
 
 }
