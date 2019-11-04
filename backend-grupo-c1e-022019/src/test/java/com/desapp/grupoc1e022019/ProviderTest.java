@@ -3,7 +3,6 @@ package com.desapp.grupoc1e022019;
 
 import com.desapp.grupoc1e022019.exception.InsufficientCreditException;
 import com.desapp.grupoc1e022019.exception.MaximumMenusSizeException;
-import com.desapp.grupoc1e022019.exception.RepeatedIDException;
 import com.desapp.grupoc1e022019.model.Credit;
 import com.desapp.grupoc1e022019.model.Menu;
 import com.desapp.grupoc1e022019.model.providerComponents.location.Address;
@@ -375,16 +374,6 @@ public class ProviderTest {
         provider.addMenu(newMenu);
     }
 
-    @Test(expected = RepeatedIDException.class)
-    public void testWhenAProviderAddAMenuButTheIdAlreadyExistsThenItRaiseRepeatedIDException()  {
-        Provider provider = ProviderBuilder.aProvider().build();
-        Menu newMenu1 = MenuBuilder.aMenu().withId(1).build();
-        Menu newMenu2 = MenuBuilder.aMenu().withId(1).build();
-
-        provider.addMenu(newMenu1);
-        provider.addMenu(newMenu2);
-    }
-
     @Test
     public void testWhenProviderDeletesAMenuThenItHasOneLessMenu(){
         Provider provider = ProviderBuilder.aProvider().build();
@@ -394,20 +383,6 @@ public class ProviderTest {
         provider.deleteMenu(dummyMenu);
 
         Assert.assertTrue(provider.getMenus().isEmpty());
-    }
-
-    @Test
-    public void testWhenProviderUpdatesAMenuThenItHasTheSameNumberOfMenus(){
-        Provider provider = ProviderBuilder.aProvider().build();
-        Menu oldMenu = MenuBuilder.aMenu().withId(1).build();
-        Menu dummyMenu = MenuBuilder.aMenu().withId(99).build();
-        Menu updatedMenu = MenuBuilder.aMenu().withId(1).build();
-        provider.addMenu(dummyMenu);
-        provider.addMenu(oldMenu);
-
-        provider.updateMenu(1,updatedMenu);
-
-        Assert.assertTrue(provider.getMenus().contains(updatedMenu));
     }
 
     @Test

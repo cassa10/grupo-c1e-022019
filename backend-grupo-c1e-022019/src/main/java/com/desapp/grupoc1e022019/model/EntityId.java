@@ -21,16 +21,15 @@ public class EntityId implements Serializable {
         this.id = id;
     }
 
-    public int getIdAsInt(){
+    public Long getId(){
+        return id;
+    }
+
+    public int idAsInt(){
         return (int) id;
     }
 
     public void setId(long id){
         this.id = id;
     }
-    public Long getId(){
-        return id;
-    }
-
-
 }

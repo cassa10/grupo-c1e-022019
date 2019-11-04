@@ -2,12 +2,12 @@ package com.desapp.grupoc1e022019.model;
 
 import com.desapp.grupoc1e022019.exception.InsufficientCreditException;
 import com.desapp.grupoc1e022019.exception.MaximumMenusSizeException;
-import com.desapp.grupoc1e022019.exception.RepeatedIDException;
 import com.desapp.grupoc1e022019.model.providerComponents.providerState.ProviderState;
 import com.desapp.grupoc1e022019.model.providerComponents.schedule.BussinessTime;
 import com.desapp.grupoc1e022019.model.providerComponents.schedule.Schedule;
 import com.desapp.grupoc1e022019.model.providerComponents.location.Address;
 import com.desapp.grupoc1e022019.model.providerComponents.schedule.SetOfBussinessTime;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.time.DayOfWeek;
@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Entity
 public class Provider extends EntityId{
@@ -36,6 +35,7 @@ public class Provider extends EntityId{
     @JoinColumn(name = "ID_SCHEDULE")
     private Schedule schedule;
     private Double deliveryMaxDistanceInKM;
+    @JsonManagedReference
     @OneToMany(
             fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
@@ -224,14 +224,8 @@ public class Provider extends EntityId{
         this.schedule = schedule;
     }
 
-    private void checkIdNotRepeated(Integer id ) {
-        if( menus.stream().anyMatch(menu -> menu.getIdAsInt() == id)){
-            throw new RepeatedIDException("The menu's id is already in our system :)");
-        }
-    }
-
     private void checkMaxMenus(){
-        if(this.menus.size() == 20){
+        if(this.menus.size() >= 20){
             throw new MaximumMenusSizeException("Can't add more than twenty menus");
         }
     }
@@ -242,27 +236,11 @@ public class Provider extends EntityId{
 
     public void addMenu(Menu menu) {
         checkMaxMenus();
-        checkIdNotRepeated(menu.getIdAsInt());
         menus.add(menu);
     }
 
     public void deleteMenu(Menu menu) {
         menus.remove(menu);
-    }
-
-    //TODO
-    // HACERLO POR SERVICE (BASE DE DATO)
-    public void updateMenu(int id, Menu updatedMenu) {
-        menus = menus.stream().map((m) -> swap(m,updatedMenu)).collect(Collectors.toList());
-    }
-
-    private Menu swap(Menu menu, Menu updatedMenu) {
-        //TODO
-        // BORRAR ESTO CUANDO ESTE EL SERVICE
-        if(menu.getIdAsInt() == updatedMenu.getIdAsInt()){
-            return updatedMenu;
-        }
-        return menu;
     }
 
     public void setMenus(List<Menu> menus) {
