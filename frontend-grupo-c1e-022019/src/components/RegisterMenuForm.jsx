@@ -180,9 +180,16 @@ class RegisterMenuForm extends React.Component {
     );
   }
 
+  pad(n) {
+    if (n.toString().length === 1) {
+      return (`0${n}`);
+    }
+    return n;
+  }
+
   parseDate(date) {
     return (
-      `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+      `${date.getFullYear()}-${this.pad(date.getMonth())}-${this.pad(date.getDate())}`
     );
   }
 
@@ -265,25 +272,25 @@ class RegisterMenuForm extends React.Component {
         <Row>
           <Col>
             <Form.Label className="initialPrice">{t('Initial price')}</Form.Label>
-            <Form.Control placeholder={t('insert here the initial price')} onChange={(e) => this.changeInitialPrice(e)} />
+            <Form.Control type="number" placeholder={t('insert here the initial price')} onChange={(e) => this.changeInitialPrice(e)} />
           </Col>
         </Row>
         <Row>
           <Col>
             <Form.Label className="initialPrice">{t('If you sell more than')}</Form.Label>
-            <Form.Control placeholder={t('insert here a quantity of menus')} onChange={(e) => this.changeFstQuantity(e)} />
+            <Form.Control type="number" placeholder={t('insert here a quantity of menus')} onChange={(e) => this.changeFstQuantity(e)} />
           </Col>
           <Col>
             <Form.Label className="initialPrice">{t('the price will be')}</Form.Label>
-            <Form.Control placeholder={t('insert here the wholesaler price')} onChange={(e) => this.changeFstPrice(e)} />
+            <Form.Control type="number" placeholder={t('insert here the wholesaler price')} onChange={(e) => this.changeFstPrice(e)} />
           </Col>
           <Col>
             <Form.Label className="initialPrice">{t('If you sell more than')}</Form.Label>
-            <Form.Control placeholder={t('insert here a quantity of menus')} onChange={(e) => this.changeSndQuantity(e)} />
+            <Form.Control type="number" placeholder={t('insert here a quantity of menus')} onChange={(e) => this.changeSndQuantity(e)} />
           </Col>
           <Col>
             <Form.Label className="initialPrice">{t('the price will be')}</Form.Label>
-            <Form.Control placeholder={t('insert here the wholesaler price')} onChange={(e) => this.changeSndPrice(e)} />
+            <Form.Control type="number" placeholder={t('insert here the wholesaler price')} onChange={(e) => this.changeSndPrice(e)} />
           </Col>
         </Row>
       </Form.Group>
@@ -311,7 +318,28 @@ class RegisterMenuForm extends React.Component {
         secondMinAmountPrice: this.state.sndPrice,
       },
     };
-    API.post('/menu', body);
+    console.log("Deberia postear");
+    console.log(body);
+    API.post('/menu', body)
+      .then((response) => alert(`${response.name} creado`))
+      .catch((error) => console.log(error.response.data));   
+  }
+
+  checkFieldsAndPost() {
+    if (this.state.name !== ''
+      && this.state.description !== ''
+      && this.state.maxSalesPerDay !== 0
+      && this.state.averageDeliveryTime !== 0
+      && this.state.initialPrice !== 0
+      && this.state.fstPrice !== 0
+      && this.state.fstQuantity !== 0
+      && this.state.sndPrice !== 0
+      && this.state.sndQuantity !== 0
+    ) {
+      this.postInfo();
+    } else {
+      alert('Complete todos los campos');
+    }
   }
 
   render() {
@@ -331,7 +359,7 @@ class RegisterMenuForm extends React.Component {
 
           {this.price(t)}
         </Form>
-        <Button className="register_button" variant="primary" size="lg" block>
+        <Button className="register_button" variant="primary" size="lg" onClick={() => this.checkFieldsAndPost()}>
           {t('register')}
         </Button>
       </div>
