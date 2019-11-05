@@ -35,5 +35,9 @@
     "insert here a quantity of menus" : "Insert here a quantity of menus",
     "the price will be" : "the price will be : ",
     "insert here the wholesaler price" : "Insert here the wholesaler price",
-    "register" : "Register"
+    "register" : "Register",
+    "the first wholesaler price will be" : "the first wholesaler price will be",
+    "the second wholesaler price will be" : "the second wholesaler price will be",
+    "Price must be lower than price per unit" : "Must be lower than price per unit",
+    "Price must be lower than the last" : "Must be lower than the last"
 }

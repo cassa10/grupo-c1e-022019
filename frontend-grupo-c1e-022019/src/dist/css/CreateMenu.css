@@ -13,12 +13,18 @@
     padding-left: 30px
 }
 
+.form-feedback{
+    color : red;
+}
+
 .initialPrice{
     text-align: center;
     text-size-adjust: 10;
 }
 
 .register_button{
+    width: 500px;
+    margin-left: 350px;
     padding-left:100px !important;
     padding-right: 100px !important;
 }

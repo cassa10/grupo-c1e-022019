@@ -35,5 +35,9 @@
     "insert here a quantity of menus" : "Inserte aqui una cantidad de menues",
     "the price will be" : "el precio será:",
     "insert here the wholesaler price" : "Inserte aqui el precio mayorista",
-    "register" : "Registrar"
+    "register" : "Registrar",
+    "the first wholesaler price will be" : "El primer precio mayorista será :",
+    "the second wholesaler price will be" : "El segundo precio mayorista será :",
+    "Price must be lower than price per unit" : "Debe ser menor al precio por unidad",
+    "Price must be lower than the last" : "Debe ser menor al precio anterior"
 }
