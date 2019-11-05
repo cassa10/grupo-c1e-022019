@@ -281,16 +281,18 @@ class RegisterMenuForm extends React.Component {
             <Form.Control type="number" placeholder={t('insert here a quantity of menus')} onChange={(e) => this.changeFstQuantity(e)} />
           </Col>
           <Col>
-            <Form.Label className="initialPrice">{t('the price will be')}</Form.Label>
+            <Form.Label className="initialPrice">{t('the first wholesaler price will be')}</Form.Label>
             <Form.Control type="number" placeholder={t('insert here the wholesaler price')} onChange={(e) => this.changeFstPrice(e)} />
+            {this.renderFirstPriceFeedback(t)}
           </Col>
           <Col>
             <Form.Label className="initialPrice">{t('If you sell more than')}</Form.Label>
             <Form.Control type="number" placeholder={t('insert here a quantity of menus')} onChange={(e) => this.changeSndQuantity(e)} />
           </Col>
           <Col>
-            <Form.Label className="initialPrice">{t('the price will be')}</Form.Label>
+            <Form.Label className="initialPrice">{t('the second wholesaler price will be')}</Form.Label>
             <Form.Control type="number" placeholder={t('insert here the wholesaler price')} onChange={(e) => this.changeSndPrice(e)} />
+            {this.renderSecondPriceFeedback(t)}
           </Col>
         </Row>
       </Form.Group>
@@ -318,11 +320,9 @@ class RegisterMenuForm extends React.Component {
         secondMinAmountPrice: this.state.sndPrice,
       },
     };
-    console.log("Deberia postear");
-    console.log(body);
     API.post('/menu', body)
       .then((response) => alert(`${response.name} creado`))
-      .catch((error) => console.log(error.response.data));   
+      .catch((error) => console.log(error.response.data));
   }
 
   checkFieldsAndPost() {
@@ -340,6 +340,24 @@ class RegisterMenuForm extends React.Component {
     } else {
       alert('Complete todos los campos');
     }
+  }
+
+  renderSecondPriceFeedback(t) {
+    if (this.state.fstPrice <= this.state.sndPrice) {
+      return (
+        <Form.Text className="form-feedback">{t('Price must be lower than the last')}</Form.Text>
+      );
+    }
+    return <div />;
+  }
+
+  renderFirstPriceFeedback(t) {
+    if (this.state.initialPrice <= this.state.fstPrice) {
+      return (
+        <Form.Text className="form-feedback">{t('Price must be lower than price per unit')}</Form.Text>
+      );
+    }
+    return <div />;
   }
 
   render() {

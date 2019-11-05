@@ -13,6 +13,10 @@
     padding-left: 30px
 }
 
+.form-feedback{
+    color : red;
+}
+
 .initialPrice{
     text-align: center;
     text-size-adjust: 10;
