@@ -11,6 +11,7 @@ import SignUpProvider from './SignUpProvider';
 import NavBar from './NavBar';
 import CreateMenu from './CreateMenu';
 import LogIn from './LogIn';
+import SearchResult from './SearchResult';
 
 export default class App extends React.Component {
   render() {
@@ -19,9 +20,10 @@ export default class App extends React.Component {
         <BrowserRouter>
           <Switch>
             <Route path="/login" render={() => <LogIn />} />
-            <Route exact path="/" render={(props) => <div><NavBar /><Home {...props} /> </div>} />
+            <Route exact path="/" render={(props) => <div><NavBar {...props}/><Home {...props} /> </div>} />
             <Route exact path="/map" render={() => <MapViendasYa />} />
-            <Route exact path="/create_menu" render={() => <CreateMenu />} />
+            <Route exact path="/create_menu" render={(props) => <CreateMenu {...props}/>} />
+            <Route exact path="/search" render={(props) => <div><NavBar {...props}/><SearchResult {...props}/></div>} />
             <Route exact path="/signup_provider" render={(props) => <div><NavBar /><SignUpProvider {...props}/></div>} />
           </Switch>
         </BrowserRouter>

@@ -11,7 +11,21 @@ class NavBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      searchInput: '',
     };
+  }
+
+  search() {
+    this.props.history.push({
+      pathname: '/search',
+      state: {
+        input: this.state.searchInput,
+      },
+    });
+  }
+
+  handleSearchInput(e) {
+    this.setState({ searchInput: e.target.value });
   }
 
   render() {
@@ -28,9 +42,9 @@ class NavBar extends React.Component {
             <Row>
               <form>
                 <label>
-                  <input type="text" name="name" />
+                  <input type="text" name="name" onChange={(e) => this.handleSearchInput(e)} />
                 </label>
-                <Button className="searchButton" variant="primary">{t('Search text')} </Button>
+                <Button className="searchButton" variant="primary" onClick={() => this.search()}>{t('Search text')} </Button>
               </form>
             </Row>
             <Row>
