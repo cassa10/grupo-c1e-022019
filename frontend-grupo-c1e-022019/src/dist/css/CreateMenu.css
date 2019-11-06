@@ -1,4 +1,5 @@
 .register_menu_title{
+    color: white;
     padding-top: 80px;
     text-align: center;
 }
@@ -25,6 +26,14 @@
 .register_button{
     width: 500px;
     margin-left: 350px;
-    padding-left:100px !important;
+    padding-left: 100px !important;
     padding-right: 100px !important;
+}
+
+.name-menu-create{
+    color:white;
+}
+
+.form-name-menu-alert{
+    color : white;
 }

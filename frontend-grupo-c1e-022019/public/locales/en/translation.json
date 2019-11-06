@@ -1,5 +1,6 @@
 {
     "Search text" : "Search",
+    "Inicio": "Home",
     "Go to map" : "Go to map",
     "Sign up as provider" : "Sign up as provider",
     "Provider" : "Provider",
@@ -39,5 +40,7 @@
     "the first wholesaler price will be" : "the first wholesaler price will be",
     "the second wholesaler price will be" : "the second wholesaler price will be",
     "Price must be lower than price per unit" : "Must be lower than price per unit",
-    "Price must be lower than the last" : "Must be lower than the last"
+    "Price must be lower than the last" : "Must be lower than the last",
+    "Log in": "Log In",
+    "Sing up/log in as provider": "Sing up/log in as provider"
 }

@@ -11,9 +11,9 @@ export default function ChangeLenguage() {
     i18n.changeLanguage(lng);
   };
   return (
-    <div>
-      <button type="button"><img className="flag" src={argFlag} alt="Argentinian Flag" onClick={() => changeLanguage('es')} /></button>
-      <button type="button"><img className="flag" src={usaFlag} alt="USA flag" onClick={() => changeLanguage('en')} /></button>
+    <div className="col text-right">
+      <img className="flag-arg" src={argFlag} alt="Argentinian Flag" onClick={() => changeLanguage('es')} role="presentation" />
+      <img className="flag-usa" src={usaFlag} alt="USA flag" onClick={() => changeLanguage('en')} role="presentation" />
     </div>
   );
 }

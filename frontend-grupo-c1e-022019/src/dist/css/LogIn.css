@@ -1,0 +1,20 @@
+.logIn{
+	background: rgba(255, 46, 46, 0.678);
+	margin: auto;
+	padding-top: 50px;
+	padding-right: 50px;
+	padding-left: 50px;
+    border-radius: 11px;
+}
+
+.header-logIn{
+    color: white;
+    font-family: sans-serif;
+	margin-bottom: 20px;
+	font-size: 40px;
+}
+
+.providerSingUpLogIn{
+	margin-top: 100px;
+	color: white;
+}
