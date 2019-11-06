@@ -77,7 +77,7 @@ public class MenuController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/name")
-    public ResponseEntity searchMenuByName(@RequestBody HashMap<String,String> body){
+    public ResponseEntity searchMenuByName(@RequestParam HashMap<String,String> body){
         List<Menu> values ;
 
         values = menuService.searchByName(body.get("name"),body.get("priceOrder"),body.get("rankOrder"));
@@ -86,7 +86,7 @@ public class MenuController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/category")
-    public ResponseEntity searchMenuByCategory(@RequestBody HashMap<String,String> body){
+    public ResponseEntity searchMenuByCategory(@RequestParam HashMap<String,String> body){
         List<Menu> values ;
 
         values = menuService.searchByCategory(CategoryMenu.valueOf(body.get("category")),body.get("priceOrder"),body.get("rankOrder"));
@@ -95,7 +95,7 @@ public class MenuController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/city")
-    public ResponseEntity searchMenuByProviderCity(@RequestBody HashMap<String,String> body){
+    public ResponseEntity searchMenuByProviderCity(@RequestParam HashMap<String,String> body){
         List<Menu> values ;
 
         values = menuService.searchByProviderCity(body.get("city"),body.get("priceOrder"),body.get("rankOrder"));
@@ -104,7 +104,7 @@ public class MenuController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/name_category")
-    public ResponseEntity searchMenuByNameAndCategory(@RequestBody HashMap<String,String> body){
+    public ResponseEntity searchMenuByNameAndCategory(@RequestParam HashMap<String,String> body){
         List<Menu> values;
 
         values = menuService.searchByNameAndCategory(body.get("name"),CategoryMenu.valueOf(body.get("category")),body.get("priceOrder"),body.get("rankOrder"));
@@ -113,7 +113,7 @@ public class MenuController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/name_city")
-    public ResponseEntity searchMenuByNameAndCity(@RequestBody HashMap<String,String> body){
+    public ResponseEntity searchMenuByNameAndCity(@RequestParam HashMap<String,String> body){
         List<Menu> values;
 
         values = menuService.searchByNameAndCity(body.get("name"),body.get("city"),body.get("priceOrder"),body.get("rankOrder"));
@@ -122,7 +122,7 @@ public class MenuController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/category_city")
-    public ResponseEntity searchMenuByCategoryAndCity(@RequestBody HashMap<String,String> body){
+    public ResponseEntity searchMenuByCategoryAndCity(@RequestParam HashMap<String,String> body){
         List<Menu> values;
 
         values = menuService.searchByCategoryAndCity(CategoryMenu.valueOf(body.get("category")),body.get("city"),body.get("priceOrder"),body.get("rankOrder"));
@@ -131,7 +131,7 @@ public class MenuController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/name_category_city")
-    public ResponseEntity searchMenuByNameAndCategoryAndCity(@RequestBody HashMap<String,String> body){
+    public ResponseEntity searchMenuByNameAndCategoryAndCity(@RequestParam HashMap<String,String> body){
         List<Menu> values;
 
         values = menuService.searchByNameAndCategoryAndCity(body.get("name"),CategoryMenu.valueOf(body.get("category")),body.get("city"),body.get("priceOrder"),body.get("rankOrder"));
