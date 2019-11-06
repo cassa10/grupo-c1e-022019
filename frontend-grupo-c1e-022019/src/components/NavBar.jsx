@@ -4,7 +4,7 @@ import { withTranslation } from 'react-i18next';
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import ChangeLenguage from './ChangeLenguage';
+import ChangeLanguage from './ChangeLanguage';
 import '../dist/css/Navbar.css';
 
 class NavBar extends React.Component {
@@ -48,7 +48,7 @@ class NavBar extends React.Component {
               </form>
             </Row>
             <Row>
-              <ChangeLenguage />
+              <ChangeLanguage />
             </Row>
           </Container>
         </Navbar>

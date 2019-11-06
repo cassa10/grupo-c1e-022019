@@ -1,7 +1,16 @@
-.flag{
+.flag-arg{
     background-color:transparent;
     background-repeat: no-repeat;
-    
+    cursor: pointer;
+    height: 30px;
+    width: 30px;
+    margin-left: 15px;
+}
+
+.flag-usa{
+    background-color:transparent;
+    background-repeat: no-repeat;
+    cursor: pointer;
     height: 30px;
     width: 30px;
     margin-left: 15px;

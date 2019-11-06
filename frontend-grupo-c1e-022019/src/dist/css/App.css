@@ -1,0 +1,21 @@
+body{
+	background: url("../imgs/viendasYaBackground.jpg");
+    height: 900px;
+	background-position: center;
+	background-size: cover;
+}
+
+img{
+	height: 50px;
+}
+
+header{
+	padding-top: 10px;
+	padding-left: 30px;
+	padding-bottom: 100px;
+}
+
+label{
+	color: white;
+}
+

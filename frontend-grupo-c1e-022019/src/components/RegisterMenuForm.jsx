@@ -55,7 +55,7 @@ class RegisterMenuForm extends React.Component {
       <Form.Group controlId="formBasicEmail">
         <Form.Label>{t('Menu name')}</Form.Label>
         <Form.Control type="text" placeholder={t('Submit the name here')} onChange={(e) => this.changeName(e)} />
-        <Form.Text className="text-muted">
+        <Form.Text className="form-name-menu-alert">
           {t('This name will appear in your posts')}
         </Form.Text>
       </Form.Group>
@@ -122,11 +122,11 @@ class RegisterMenuForm extends React.Component {
   }
 
   changeSalesPerDay(e) {
-    this.setState({ maxSalesPerDay: parseInt(e.target.value) });
+    this.setState({ maxSalesPerDay: parseInt(e.target.value, 10) });
   }
 
   changeAverageTime(e) {
-    this.setState({ averageDeliveryTime: parseInt(e.target.value) });
+    this.setState({ averageDeliveryTime: parseInt(e.target.value, 10) });
   }
 
   timeAndSalesPerDay(t) {
@@ -352,7 +352,7 @@ class RegisterMenuForm extends React.Component {
   }
 
   renderFirstPriceFeedback(t) {
-    if (this.state.initialPrice <= this.state.fstPrice) {
+    if (this.state.initialPrice >= this.state.fstPrice) {
       return (
         <Form.Text className="form-feedback">{t('Price must be lower than price per unit')}</Form.Text>
       );

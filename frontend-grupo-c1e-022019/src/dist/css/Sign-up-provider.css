@@ -1,11 +1,11 @@
 .sign-up-provider{
-    background: #FF5555;
-    color: white;
+    background: transparent;
+    color: black;
     padding-top: 70px;
 }
 
 .form-inline{
-    background: white;
+    background: whitesmoke;
 }
 
 .text-provider-sign-up{
