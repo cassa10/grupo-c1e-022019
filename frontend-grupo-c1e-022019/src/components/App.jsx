@@ -19,7 +19,7 @@ export default class App extends React.Component {
       <Suspense fallback={<div />}>
         <BrowserRouter>
           <Switch>
-            <Route path="/login" render={() => <LogIn />} />
+            <Route exact path="/login" render={() => <LogIn />} />
             <Route exact path="/" render={(props) => <div><NavBar {...props}/><Home {...props} /> </div>} />
             <Route exact path="/map" render={() => <MapViendasYa />} />
             <Route exact path="/create_menu" render={(props) => <CreateMenu {...props}/>} />

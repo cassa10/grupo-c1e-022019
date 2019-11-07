@@ -42,5 +42,13 @@
     "Price must be lower than price per unit" : "Must be lower than price per unit",
     "Price must be lower than the last" : "Must be lower than the last",
     "Log in": "Log In",
-    "Sing up/log in as provider": "Sing up/log in as provider"
+    "Sing up/log in as provider": "Sing up/log in as provider",
+    "Search results": "Search results ",
+    "Balance": "Balance",
+    "Enter Menu Name": "Enter Menu Name",
+    "Enter City Location": "Enter City Location",
+    "Select a Category": "Select a Category",
+    "Hamburger": "Hamburger",
+    "No results found": "No results found, click on our logo for go back home and do a new search",
+    "Please, complete any field": "Please, complete any field"
 }

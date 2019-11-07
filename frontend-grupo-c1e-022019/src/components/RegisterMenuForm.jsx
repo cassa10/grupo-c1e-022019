@@ -343,7 +343,7 @@ class RegisterMenuForm extends React.Component {
   }
 
   renderSecondPriceFeedback(t) {
-    if (this.state.fstPrice <= this.state.sndPrice) {
+    if (parseInt(this.state.fstPrice, 10) <= parseInt(this.state.sndPrice, 10)) {
       return (
         <Form.Text className="form-feedback">{t('Price must be lower than the last')}</Form.Text>
       );
@@ -352,7 +352,7 @@ class RegisterMenuForm extends React.Component {
   }
 
   renderFirstPriceFeedback(t) {
-    if (this.state.initialPrice >= this.state.fstPrice) {
+    if (parseInt(this.state.initialPrice, 10) <= parseInt(this.state.fstPrice, 10)) {
       return (
         <Form.Text className="form-feedback">{t('Price must be lower than price per unit')}</Form.Text>
       );

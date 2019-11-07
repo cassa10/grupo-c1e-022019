@@ -5,12 +5,18 @@ import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
+import { withTranslation } from 'react-i18next';
 import API from '../service/api';
 
 class SearchResult extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      name: '',
+      category: '',
+      city: '',
+      priceOrder: 'min',
+      rankOrder: 'max',
       results: [],
       pictures: [
         'https://www.seriouseats.com/recipes/images/2015/07/20150728-homemade-whopper-food-lab-35-1500x1125.jpg',
@@ -25,19 +31,75 @@ class SearchResult extends React.Component {
   }
 
   componentDidMount() {
+    if (this.props.location.state !== undefined && this.props.location.state.searchFromHome) {
+      this.requestAPISearch();
+    } else {
+      this.props.history.push({
+        pathname: '/',
+      });
+    }
+  }
+
+  requestAPISearch() {
+    const locState = this.props.location.state;
+    this.setState({ name: locState.searchInputName });
+    this.setState({ category: locState.searchInputCategory });
+    this.setState({ city: locState.searchInputCity });
     const body = {
-      name: `${this.props.location.state.input}`,
-      city: 'QUILMES',
-      category: 'SUSHI',
-      priceOrder: 'min',
-      rankOrder: 'max',
+      name: this.state.name,
+      city: this.state.city,
+      category: this.state.category,
+      priceOrder: this.state.priceOrder,
+      rankOrder: this.state.rankOrder,
     };
-    API.get('/menu/search/name', body)
+    API.get(`/menu/search/${this.detectPathSearch(locState)}/`, body)
       .then((response) => this.setState({ results: response }))
       .catch((error) => console.log(error));
   }
 
-  mapResults() {
+  detectPathSearch(locState) {
+    if (locState.searchInputName !== '' && locState.searchInputCategory !== ''
+          && locState.searchInputCity !== '') {
+      return ('name_category_city');
+    }
+
+    if (locState.searchInputName !== '' && locState.searchInputCategory !== '') {
+      return ('name_category');
+    }
+
+    if (locState.searchInputName !== '' && locState.searchInputCity !== '') {
+      return ('name_city');
+    }
+
+    if (locState.searchInputName !== '') {
+      return ('name');
+    }
+
+    if (locState.searchInputCategory !== '' && locState.searchInputCity !== '') {
+      return ('category_city');
+    }
+
+    if (locState.searchInputCategory !== '') {
+      return ('category');
+    }
+
+    return ('city');
+  }
+
+  mapResults(t) {
+    if (this.state.results && this.state.results.length <= 0) {
+      return (
+        <Container className="card container">
+          <Row>
+            <Col className="text-center">
+              <div className="no_results">
+                {t('No results found')}
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      );
+    }
     return (
       <Container className="card_container">
         <Row className="card_row">
@@ -72,15 +134,16 @@ class SearchResult extends React.Component {
   }
 
   render() {
+    const { t } = this.props;
     return (
-      <div>
+      <div className="search_results">
         <h1 className="title">
-          Resultados de {`"${this.props.location.state.input}"`}
+          {`${t('Search results')}`}
         </h1>
-        {this.mapResults()}
+        {this.mapResults(t)}
       </div>
     );
   }
 }
 
-export default SearchResult;
+export default withTranslation()(SearchResult);

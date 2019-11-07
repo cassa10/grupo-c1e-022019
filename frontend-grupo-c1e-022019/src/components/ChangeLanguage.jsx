@@ -8,8 +8,11 @@ export default function ChangeLenguage() {
   const { i18n } = useTranslation();
 
   const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng);
+    if (lng !== i18n.language) {
+      i18n.changeLanguage(lng);
+    }
   };
+
   return (
     <div className="col text-right">
       <img className="flag-arg" src={argFlag} alt="Argentinian Flag" onClick={() => changeLanguage('es')} role="presentation" />
