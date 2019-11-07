@@ -1,4 +1,3 @@
-import Button from 'react-bootstrap/Button';
 import React from 'react';
 import { withTranslation } from 'react-i18next';
 import Navbar from 'react-bootstrap/Navbar';
@@ -11,21 +10,12 @@ class NavBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchInput: '',
+      credit: '100,00',
     };
   }
 
-  search() {
-    this.props.history.push({
-      pathname: '/search',
-      state: {
-        input: this.state.searchInput,
-      },
-    });
-  }
-
-  handleSearchInput(e) {
-    this.setState({ searchInput: e.target.value });
+  getClientBalance() {
+    return this.state.credit;
   }
 
   render() {
@@ -40,14 +30,9 @@ class NavBar extends React.Component {
               </Navbar.Brand>
             </Row>
             <Row>
-              <form>
-                <label>
-                  <input type="text" name="name" onChange={(e) => this.handleSearchInput(e)} />
-                </label>
-                <Button className="searchButton" variant="primary" onClick={() => this.search()}>{t('Search text')} </Button>
-              </form>
-            </Row>
-            <Row>
+              <div className="balance">
+                {t('Balance')}: ${this.getClientBalance()}
+              </div>
               <ChangeLanguage />
             </Row>
           </Container>

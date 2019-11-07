@@ -42,5 +42,4 @@ public class AddressTest {
 
         Assert.assertEquals(address.getCoord(),coord);
     }
-
 }

@@ -22,7 +22,7 @@
     "Choose yout product category" : "Elija la categoría de su producto",
     "Burger" : "Hamburguesa",
     "Beer" : "Cerveza",
-    "Green" : "Vegetal",
+    "Green" : "Vegetariano",
     "Vegan" : "Vegano",
     "Max sales per day" : "Maximo de ventas al dia",
     "insert max sales per day" : "Inserte aqui un numero",
@@ -42,5 +42,13 @@
     "Price must be lower than price per unit" : "Debe ser menor al precio por unidad",
     "Price must be lower than the last" : "Debe ser menor al precio anterior",
     "Log in": "Inicia Sesión",
-    "Sing up/log in as provider": "Eres proveedor/Hacerte proveedor"
+    "Sing up/log in as provider": "Eres proveedor/Hacerte proveedor",
+    "Search results": "Resultados de la busqueda",
+    "Balance": "Saldo",
+    "Enter Menu Name": "Nombre de menu",
+    "Enter City Location": "Ciudad o localidad",
+    "Select a Category": "Selecciona una categoria",
+    "Hamburger": "Hamburguesa",
+    "No results found": "Sin resultados, vuelve al home presionando en el logo para una nueva busqueda",
+    "Please, complete any field": "Complete algun campo de busqueda, por favor."
 }
