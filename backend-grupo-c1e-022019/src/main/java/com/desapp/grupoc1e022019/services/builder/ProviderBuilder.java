@@ -30,6 +30,7 @@ public class ProviderBuilder {
     private Credit credit;
     private Integer strikesMenu;
     private ProviderState providerState;
+    private Long id;
 
     public ProviderBuilder(){
         name = "builderName";
@@ -77,6 +78,11 @@ public class ProviderBuilder {
 
     public ProviderBuilder withName(String name) {
         this.name = name;
+        return this;
+    }
+
+    public ProviderBuilder withId(Long id){
+        this.id = id;
         return this;
     }
 
