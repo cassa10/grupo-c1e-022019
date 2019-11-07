@@ -46,12 +46,13 @@ class SearchResult extends React.Component {
     this.setState({ category: locState.searchInputCategory });
     this.setState({ city: locState.searchInputCity });
     const body = {
-      name: this.state.name,
-      city: this.state.city,
-      category: this.state.category,
+      name: this.props.location.state.searchInputName,
+      city: this.props.location.state.searchInputCity,
+      category: this.props.location.state.searchInputCategory,
       priceOrder: this.state.priceOrder,
       rankOrder: this.state.rankOrder,
     };
+    console.log(body);
     API.get(`/menu/search/${this.detectPathSearch(locState)}/`, body)
       .then((response) => this.setState({ results: response }))
       .catch((error) => console.log(error));
@@ -116,7 +117,7 @@ class SearchResult extends React.Component {
   renderMenu(menu) {
     const randomNumber = Math.floor(Math.random() * (this.state.pictures.length));
     return (
-      <div className="menu_card">
+      <div className="menu_card" key={menu.id}>
         <Col>
           <Card>
             <Card.Img className="card_img" variant="top" src={this.state.pictures[randomNumber]} />
