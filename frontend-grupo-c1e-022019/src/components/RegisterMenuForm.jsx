@@ -6,6 +6,7 @@ import '../dist/css/CreateMenu.css';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Calendar from 'react-calendar';
+import Swal from 'sweetalert2';
 import API from '../service/api';
 
 class RegisterMenuForm extends React.Component {
@@ -299,7 +300,14 @@ class RegisterMenuForm extends React.Component {
     );
   }
 
-  postInfo() {
+  menuCreated(t) {
+    Swal.fire({
+      title: t('Done'),
+      icon: 'success',
+    });
+  }
+
+  postInfo(t) {
     const body = {
       idProvider: 1,
       name: this.state.name,
@@ -321,11 +329,11 @@ class RegisterMenuForm extends React.Component {
       },
     };
     API.post('/menu', body)
-      .then((response) => alert(`${response.name} creado`))
+      .then(() => this.menuCreated(t))
       .catch((error) => console.log(error.response.data));
   }
 
-  checkFieldsAndPost() {
+  checkFieldsAndPost(t) {
     if (this.state.name !== ''
       && this.state.description !== ''
       && this.state.maxSalesPerDay !== 0
@@ -336,7 +344,7 @@ class RegisterMenuForm extends React.Component {
       && this.state.sndPrice !== 0
       && this.state.sndQuantity !== 0
     ) {
-      this.postInfo();
+      this.postInfo(t);
     } else {
       alert('Complete todos los campos');
     }
@@ -377,7 +385,7 @@ class RegisterMenuForm extends React.Component {
 
           {this.price(t)}
         </Form>
-        <Button className="register_button" variant="primary" size="lg" onClick={() => this.checkFieldsAndPost()}>
+        <Button className="register_button" variant="primary" size="lg" onClick={() => this.checkFieldsAndPost(t)}>
           {t('register')}
         </Button>
       </div>

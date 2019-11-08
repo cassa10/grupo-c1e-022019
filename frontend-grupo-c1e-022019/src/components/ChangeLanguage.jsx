@@ -14,7 +14,7 @@ export default function ChangeLenguage() {
   };
 
   return (
-    <div className="col text-right">
+    <div className="container-flags">
       <img className="flag-arg" src={argFlag} alt="Argentinian Flag" onClick={() => changeLanguage('es')} role="presentation" />
       <img className="flag-usa" src={usaFlag} alt="USA flag" onClick={() => changeLanguage('en')} role="presentation" />
     </div>

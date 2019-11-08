@@ -1,6 +1,7 @@
 package com.desapp.grupoc1e022019.services;
 
 import com.desapp.grupoc1e022019.model.Client;
+import com.desapp.grupoc1e022019.model.Credit;
 import com.desapp.grupoc1e022019.persistence.ClientDAO;
 import com.desapp.grupoc1e022019.services.dtos.ClientDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,5 +46,23 @@ public class ClientService {
         tmp.setLocation(clientDTO.getLocation());
 
         return clientDAO.save(tmp);
+    }
+
+    public Client buy(long id, double price) {
+        Client tmp = clientDAO.getClient(id);
+
+        tmp.debit(new Credit(price));
+
+        clientDAO.save(tmp);
+        return tmp;
+    }
+
+    public Client accredit(long id, double amount) {
+        Client tmp = clientDAO.getClient(id);
+
+        tmp.deposit(new Credit(amount));
+
+        clientDAO.save(tmp);
+        return tmp;
     }
 }

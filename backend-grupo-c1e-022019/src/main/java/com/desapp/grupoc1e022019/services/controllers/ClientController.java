@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+
 @CrossOrigin
 @RestController
 @Scope(value = "session")
@@ -60,6 +62,30 @@ public class ClientController {
             return new ResponseEntity<>("Client does not exist", HttpStatus.NOT_FOUND);
         }
         Client updatedClient = clientService.updateClientBasicInfo(clientDTO);
+
+        return new ResponseEntity<>(updatedClient, HttpStatus.OK);
+    }
+
+    //*TODO
+    // ESTO ES TEMPORAL PARA LA ENTREGA 2 */
+    @RequestMapping(method = RequestMethod.POST, value = "/client/buy")
+    public ResponseEntity buy(@RequestBody HashMap<String,String> body) {
+
+        if(! clientService.clientExist(Long.parseLong(body.get("id")))){
+            return new ResponseEntity<>("Client does not exist", HttpStatus.NOT_FOUND);
+        }
+        Client updatedClient = clientService.buy(Long.parseLong(body.get("id")),Double.parseDouble(body.get("price")));
+
+        return new ResponseEntity<>(updatedClient, HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/client/accredit")
+    public ResponseEntity accredit(@RequestBody HashMap<String,String> body) {
+
+        if(! clientService.clientExist(Long.parseLong(body.get("id")))){
+            return new ResponseEntity<>("Client does not exist", HttpStatus.NOT_FOUND);
+        }
+        Client updatedClient = clientService.accredit(Long.parseLong(body.get("id")),Double.parseDouble(body.get("amount")));
 
         return new ResponseEntity<>(updatedClient, HttpStatus.OK);
     }
