@@ -6,15 +6,13 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import { withTranslation } from 'react-i18next';
+import Swal from 'sweetalert2';
 import API from '../service/api';
 
 class SearchResult extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      category: '',
-      city: '',
       priceOrder: 'min',
       rankOrder: 'max',
       results: [],
@@ -42,9 +40,6 @@ class SearchResult extends React.Component {
 
   requestAPISearch() {
     const locState = this.props.location.state;
-    this.setState({ name: locState.searchInputName });
-    this.setState({ category: locState.searchInputCategory });
-    this.setState({ city: locState.searchInputCity });
     const body = {
       name: this.props.location.state.searchInputName,
       city: this.props.location.state.searchInputCity,
@@ -52,7 +47,6 @@ class SearchResult extends React.Component {
       priceOrder: this.state.priceOrder,
       rankOrder: this.state.rankOrder,
     };
-    console.log(body);
     API.get(`/menu/search/${this.detectPathSearch(locState)}/`, body)
       .then((response) => this.setState({ results: response }))
       .catch((error) => console.log(error));
@@ -106,7 +100,7 @@ class SearchResult extends React.Component {
         <Row className="card_row">
           {this.state.results.map(
             (menu) => (
-              this.renderMenu(menu)
+              this.renderMenu(menu, t)
             ),
           )}
         </Row>
@@ -114,7 +108,59 @@ class SearchResult extends React.Component {
     );
   }
 
-  renderMenu(menu) {
+  handleInsuficientCredit(menu, t) {
+    Swal.fire({
+      title: t('Insufficient credit'),
+      imageUrl: 'https://cdn.memegenerator.es/imagenes/memes/full/6/96/6965905.jpg',
+      imageHeight: 250,
+      imageWidth: 250,
+      imageAlt: 'Maldita pobreza',
+      icon: 'error',
+    });
+  }
+
+  buyDone() {
+    this.props.history.push('/');
+    window.location.reload();
+  }
+
+  makeApiPost(menu, t) {
+    const body = {
+      id: 47,
+      price: menu.price,
+    };
+    API.post('/client/buy', body)
+      .then(() => this.buyDone())
+      .catch(() => this.handleInsuficientCredit(menu, t));
+  }
+
+  buyConfirmed(isConfirmed, menu, t) {
+    if (isConfirmed) {
+      Swal.fire(
+        t('Done!'),
+        `${t('enjoy your')} ${menu.name}`,
+        'success',
+      );
+      this.makeApiPost(menu, t);
+    }
+  }
+
+  handleBuy(menu, t) {
+    Swal.fire({
+      title: t('¿Estas seguro?'),
+      text: `${t("We'll debit ")} ${menu.price}  pesos`,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: 'Green',
+      cancelButtonColor: 'Red',
+      confirmButtonText: t('buy'),
+      cancelButtonText: t('cancel'),
+    })
+      .then((result) => this.buyConfirmed(result.value, menu, t))
+      .catch((error) => console.log(error.response));
+  }
+
+  renderMenu(menu, t) {
     const randomNumber = Math.floor(Math.random() * (this.state.pictures.length));
     return (
       <div className="menu_card" key={menu.id}>
@@ -126,7 +172,7 @@ class SearchResult extends React.Component {
               <Card.Text>
                 {menu.description}
               </Card.Text>
-              <Button variant="primary">Comprar!</Button>
+              <Button variant="primary" onClick={() => this.handleBuy(menu, t)}>Comprar!</Button>
             </Card.Body>
           </Card>
         </Col>
