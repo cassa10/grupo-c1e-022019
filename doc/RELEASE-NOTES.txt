@@ -30,5 +30,27 @@ KNOWN ISSUES:
 ---------------------------------------------------------------------
 TAG ENTREGA 2.0
 ---------------------------------------------------------------------
+NEW FEATURES:
 
+BACKEND
+* Integration with Hibernate and JPA.
+* Mapping model object classes(including their components): Provider, Client, Menu and Order.
+* DAO: Provider, Client and Menu.
+* Rest Services: Provider, Client, Menu. CRUD.
+* Services: Client, Provider and Menu.
 
+FRONTEND
+* Home page
+* Search menu results page
+* Create menu form page
+* Accredit balance
+* I18n-US_ES implemented
+
+NOTES:
+* Implementation of twelve o'clock task on next release. (schedule annotation)
+* Implementation of Log in and OAuth on next release.
+
+KNOWN ISSUES:
+* Not handling inputs properly in create menu form.
+* Not handling requests errors, just only logging in console.
+* Not handling path inputs by user.
