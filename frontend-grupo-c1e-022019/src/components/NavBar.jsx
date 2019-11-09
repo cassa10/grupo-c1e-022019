@@ -100,8 +100,6 @@ class NavBar extends React.Component {
                 <div className="balance container-balance">
                   {t('Balance')}: ${this.getClientBalance()}
                 </div>
-              </Col>
-              <Col>
                 <ChangeLanguage />
               </Col>
             </Row>
