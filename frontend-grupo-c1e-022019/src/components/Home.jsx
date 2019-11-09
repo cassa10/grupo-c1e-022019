@@ -107,11 +107,7 @@ class Home extends React.Component {
       <Suspense fallback={<div />}>
         <div className="container">
           <div className="row">
-            <div className="col-12 title-home">
-              <h4 className="message-title-home">
-                {`${t('Inicio')}:`} {this.state.tmp}
-              </h4>
-            </div>
+            <div className="col-12" />
           </div>
           {this.createSearchForm(t)}
         </div>

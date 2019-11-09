@@ -44,6 +44,14 @@ class NavBar extends React.Component {
     this.setState({ client: newClient });
   }
 
+  handleAccredit(t) {
+    if (this.state.creditInput > 0) {
+      this.accredit();
+    } else {
+      alert(t('Please fill with a positive mount'));
+    }
+  }
+
   accredit() {
     const body = {
       id: 47,
@@ -74,7 +82,7 @@ class NavBar extends React.Component {
             <Button variant="secondary" onClick={handleClose}>
               {t('cancel')}
             </Button>
-            <Button variant="primary" onClick={() => this.accredit()}>
+            <Button variant="primary" onClick={() => this.handleAccredit(t)}>
               {t('Accredit')}
             </Button>
           </Modal.Footer>

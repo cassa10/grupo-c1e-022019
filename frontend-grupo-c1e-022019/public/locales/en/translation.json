@@ -60,5 +60,6 @@
     "How much?" : "How many pesos?",
     "cancel" : "Cancel",
     "buy" : "Buy",
-    "Done" : "Done"
+    "Done" : "Done",
+    "Please fill with a positive mount": "Please fill with a positive mount"
 }
