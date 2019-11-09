@@ -60,5 +60,6 @@
     "How much?" : "Cuanto dinero?",
     "cancel" : "Cancelar",
     "buy" : "Comprar",
-    "Done" :"Listo"
+    "Done" :"Listo",
+    "Please fill with a positive mount": "Ponga un monto positivo, por favor"
 }
