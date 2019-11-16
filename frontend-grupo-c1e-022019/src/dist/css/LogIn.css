@@ -1,20 +1,46 @@
-.logIn{
-	background: rgba(255, 46, 46, 0.678);
-	margin: auto;
-	padding-top: 50px;
-	padding-right: 50px;
-	padding-left: 50px;
-    border-radius: 11px;
+.logo {
+	margin-left: -15px;
 }
 
-.header-logIn{
-    color: white;
-    font-family: sans-serif;
-	margin-bottom: 20px;
-	font-size: 40px;
-}
+.card-signin {
+	border: 0;
+	border-radius: 1rem;
+	box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
+  }
 
-.providerSingUpLogIn{
-	margin-top: 100px;
+.card-signin .card-title {
+	margin-bottom: 2rem;
+	font-weight: 300;
+	font-size: 1.5rem;
 	color: white;
 }
+  
+.card-signin .card-body {
+	padding: 2rem;
+	background-color: #d64747f3;
+}
+  
+  /* Fallback for Edge
+  -------------------------------------------------- */
+  
+@supports (-ms-ime-align: auto) {
+	.form-label-group>label {
+	  display: none;
+	}
+	.form-label-group input::-ms-input-placeholder {
+	  color: #777;
+	}
+}
+  
+  /* Fallback for IE
+  -------------------------------------------------- */
+  
+  @media all and (-ms-high-contrast: none),
+  (-ms-high-contrast: active) {
+	.form-label-group>label {
+	  display: none;
+	}
+	.form-label-group input:-ms-input-placeholder {
+	  color: #777;
+	}
+  }
