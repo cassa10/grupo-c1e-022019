@@ -13,6 +13,8 @@ public class ClientBuilder {
 
     private String firstName;
     private String lastName;
+    private String googleId;
+    private String imageUrl;
     private String email;
     private String phoneNumber;
     private String location;
@@ -26,8 +28,13 @@ public class ClientBuilder {
 
     public Client build(){
         List<Order> orderHaveToRank = new ArrayList<>();
-        return new Client(firstName,lastName,email,phoneNumber,
+        return new Client(firstName,lastName,email,googleId,imageUrl,phoneNumber,
                 location,address,credit,stateClient,orderHaveToRank);
+    }
+
+    public ClientBuilder withImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+        return this;
     }
 
     public ClientBuilder withFirstName(String firstName){
@@ -42,6 +49,11 @@ public class ClientBuilder {
 
     public ClientBuilder withEmail(String email){
         this.email = email;
+        return this;
+    }
+
+    public ClientBuilder withGoogleId(String googleId){
+        this.googleId = googleId;
         return this;
     }
 

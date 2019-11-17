@@ -15,6 +15,8 @@ class SearchResult extends React.Component {
     this.state = {
       priceOrder: 'min',
       rankOrder: 'max',
+      fromPage: 0,
+      sizePage: 4,
       results: [],
       pictures: [
         'https://www.seriouseats.com/recipes/images/2015/07/20150728-homemade-whopper-food-lab-35-1500x1125.jpg',
@@ -46,6 +48,8 @@ class SearchResult extends React.Component {
       category: this.props.location.state.searchInputCategory,
       priceOrder: this.state.priceOrder,
       rankOrder: this.state.rankOrder,
+      fromPage: this.state.fromPage,
+      sizePage: this.state.sizePage,
     };
     API.get(`/menu/search/${this.detectPathSearch(locState)}/`, body)
       .then((response) => this.setState({ results: response }))

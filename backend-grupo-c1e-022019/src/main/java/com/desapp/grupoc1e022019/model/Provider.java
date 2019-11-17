@@ -19,6 +19,8 @@ import java.util.Set;
 @Entity
 public class Provider extends EntityId{
 
+    @Column(unique = true)
+    private String googleId;
     private String name;
     private String logo;
     private String city;
@@ -50,10 +52,11 @@ public class Provider extends EntityId{
     @JoinColumn(name = "ID_PROVIDER_STATE")
     private ProviderState providerState;
 
-    public Provider(String name, String logo, String city, Address address, String description, String webURL,
+    public Provider(String googleId, String name, String logo, String city, Address address, String description, String webURL,
                     String email, String telNumber, Schedule schedule, Credit credit, Double deliveryMaxDistanceInKM,
                     List<Menu> menus,ProviderState providerState,Integer strikesMenu) {
 
+        setGoogleId(googleId);
         setName(name);
         setLogo(logo);
         setCity(city);
@@ -71,6 +74,14 @@ public class Provider extends EntityId{
     }
 
     public Provider(){}
+
+    public String getGoogleId() {
+        return googleId;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
+    }
 
     public String getName() {
         return name;

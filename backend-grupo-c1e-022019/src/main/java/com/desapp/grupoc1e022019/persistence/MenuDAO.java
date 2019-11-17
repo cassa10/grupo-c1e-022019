@@ -3,6 +3,8 @@ package com.desapp.grupoc1e022019.persistence;
 import com.desapp.grupoc1e022019.model.Menu;
 import com.desapp.grupoc1e022019.model.menuComponents.CategoryMenu;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
@@ -30,16 +32,36 @@ public class MenuDAO {
         menuRepository.deleteById(idMenu);
     }
 
-    public List<Menu> findAllLikeNameSort(String value,String orderPrice,String orderRank){
-       return menuRepository.findAllLikeName(value,getApropiateSort(orderPrice,orderRank));
+    public Page<Menu> findAllLikeNameSort(String value, String orderPrice, String orderRank, int fromPage, int sizePage){
+       return menuRepository.findAllLikeName(value, PageRequest.of(fromPage,sizePage,getApropiateSort(orderPrice,orderRank)));
     }
 
-    public List<Menu> findAllContainCategory(CategoryMenu value, String orderPrice, String orderRank){
-        return menuRepository.findAllContainCategory(value,getApropiateSort(orderPrice,orderRank));
+    public Page<Menu> findAllContainCategory(CategoryMenu value, String orderPrice, String orderRank, int fromPage, int sizePage){
+        return menuRepository.findAllContainCategory(value, PageRequest.of(fromPage,sizePage,getApropiateSort(orderPrice,orderRank)));
     }
 
-    public List<Menu> findAllByProviderCity(String value,String orderPrice,String orderRank){
-        return menuRepository.findAllByProviderCity(value,getApropiateSort(orderPrice,orderRank));
+    public Page<Menu> findAllByProviderCity(String value,String orderPrice,String orderRank, int fromPage, int sizePage){
+        return menuRepository.findAllByProviderCity(value,PageRequest.of(fromPage,sizePage,getApropiateSort(orderPrice,orderRank)));
+    }
+
+    public Page<Menu> findAllByNameAndCategory(String name, CategoryMenu category, String orderPrice, String orderRank, int fromPage, int sizePage) {
+        return menuRepository.findAllLikeNameAndCategory(name,category,PageRequest.of(fromPage,sizePage,getApropiateSort(orderPrice,orderRank)));
+    }
+
+    public Page<Menu> findAllByNameAndCity(String name, String city, String orderPrice, String orderRank, int fromPage, int sizePage) {
+        return menuRepository.findAllLikeNameAndCity(name,city,PageRequest.of(fromPage,sizePage,getApropiateSort(orderPrice,orderRank)));
+    }
+
+    public Page<Menu> findAllByCategoryAndCity(CategoryMenu category, String city, String orderPrice, String orderRank, int fromPage, int sizePage) {
+        return menuRepository.findAllByCategoryAndCity(category,city,PageRequest.of(fromPage,sizePage,getApropiateSort(orderPrice,orderRank)));
+    }
+
+    public Page<Menu> findAllLikeNameAndCategoryAndCity(String name, CategoryMenu category, String city, String orderPrice, String orderRank, int fromPage, int sizePage) {
+        return menuRepository.findAllLikeNameAndCategoryAndCity(name,category,city,PageRequest.of(fromPage,sizePage,getApropiateSort(orderPrice,orderRank)));
+    }
+
+    public List<Menu> getMenusSortedByMaxRank(){
+        return menuRepository.findAll(new Sort(Sort.Direction.DESC,"menuRank.ratingSum"));
     }
 
     private Sort getApropiateSort(String priceOrder,String rankOrder){
@@ -56,25 +78,5 @@ public class MenuDAO {
             sortRank = new Sort(Sort.Direction.DESC,"menuRank.ratingSum");;
         }
         return sortPrice.and(sortRank);
-    }
-
-    public List<Menu> findAllByNameAndCategory(String name, CategoryMenu category, String priceOrder, String rankOrder) {
-        return menuRepository.findAllLikeNameAndCategory(name,category,getApropiateSort(priceOrder,rankOrder));
-    }
-
-    public List<Menu> findAllByNameAndCity(String name, String city, String priceOrder, String rankOrder) {
-        return menuRepository.findAllLikeNameAndCity(name,city,getApropiateSort(priceOrder,rankOrder));
-    }
-
-    public List<Menu> findAllByCategoryAndCity(CategoryMenu category, String city, String priceOrder, String rankOrder) {
-        return menuRepository.findAllByCategoryAndCity(category,city,getApropiateSort(priceOrder,rankOrder));
-    }
-
-    public List<Menu> findAllLikeNameAndCategoryAndCity(String name, CategoryMenu category, String city, String priceOrder, String rankOrder) {
-        return menuRepository.findAllLikeNameAndCategoryAndCity(name,category,city,getApropiateSort(priceOrder,rankOrder));
-    }
-
-    public List<Menu> getMenusSortedByMaxRank(){
-        return menuRepository.findAll(new Sort(Sort.Direction.DESC,"menuRank.ratingSum"));
     }
 }

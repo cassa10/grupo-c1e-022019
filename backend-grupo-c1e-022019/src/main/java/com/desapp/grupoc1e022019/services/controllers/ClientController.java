@@ -2,9 +2,12 @@ package com.desapp.grupoc1e022019.services.controllers;
 
 import com.desapp.grupoc1e022019.model.Client;
 import com.desapp.grupoc1e022019.model.Credit;
+import com.desapp.grupoc1e022019.model.GoogleToken;
 import com.desapp.grupoc1e022019.model.clientState.NormalClient;
+import com.desapp.grupoc1e022019.services.GoogleAuthService;
 import com.desapp.grupoc1e022019.services.ClientService;
 import com.desapp.grupoc1e022019.services.builder.ClientBuilder;
+import com.desapp.grupoc1e022019.services.builder.GoogleAuthBuilder;
 import com.desapp.grupoc1e022019.services.dtos.ClientDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -24,28 +27,16 @@ public class ClientController {
     @Autowired
     private ClientService clientService = new ClientService();
 
-    @RequestMapping(method = RequestMethod.POST, value = "/client")
-    public ResponseEntity createClient(@RequestBody ClientDTO clientDTO) {
+    @Autowired
+    private GoogleAuthService googleAuthService = new GoogleAuthService();
 
-        if(clientService.existSameClientEmail(clientDTO.getEmail())){
-            return new ResponseEntity<>("Email is used, please use another email",HttpStatus.BAD_REQUEST);
-        }
 
-        Client client = ClientBuilder.aClient()
-                        .withFirstName(clientDTO.getFirstName())
-                        .withLastName(clientDTO.getLastName())
-                        .withStateClient(new NormalClient())
-                        .withEmail(clientDTO.getEmail())
-                        .withCredit(new Credit())
-                        .build();
-
-        clientService.save(client);
-
-        return new ResponseEntity<>(client, HttpStatus.OK);
-    }
+    //EL POST DEL CLIENT SE HACE EN EL SIGNUP DEL AUTH CONTROLLER
 
     @RequestMapping(method = RequestMethod.GET, value = "/client/{idClient}")
     public ResponseEntity getClient(@PathVariable long idClient) {
+        //TODO
+        // ACA VA EL ASPECTO DEL AUTH TOKEN DE GOOGLE
 
         if(! clientService.clientExist(idClient)){
             return new ResponseEntity<>("Client does not exist", HttpStatus.NOT_FOUND);
@@ -57,6 +48,8 @@ public class ClientController {
 
     @RequestMapping(method = RequestMethod.PUT, value = "/client/basicInfo")
     public ResponseEntity updateClientBasicInfo(@RequestBody ClientDTO clientDTO) {
+        //TODO
+        // ACA VA EL ASPECTO DEL AUTH TOKEN DE GOOGLE
 
         if(! clientService.clientExist(clientDTO.getId())){
             return new ResponseEntity<>("Client does not exist", HttpStatus.NOT_FOUND);
@@ -67,9 +60,11 @@ public class ClientController {
     }
 
     //*TODO
-    // ESTO ES TEMPORAL PARA LA ENTREGA 2 */
+    //   ESTO ES TEMPORAL PARA LA ENTREGA 2 */
     @RequestMapping(method = RequestMethod.POST, value = "/client/buy")
     public ResponseEntity buy(@RequestBody HashMap<String,String> body) {
+        //TODO
+        // ACA VA EL ASPECTO DEL AUTH TOKEN DE GOOGLE
 
         if(! clientService.clientExist(Long.parseLong(body.get("id")))){
             return new ResponseEntity<>("Client does not exist", HttpStatus.NOT_FOUND);
@@ -81,6 +76,8 @@ public class ClientController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/client/accredit")
     public ResponseEntity accredit(@RequestBody HashMap<String,String> body) {
+        //TODO
+        // ACA VA EL ASPECTO DEL AUTH TOKEN DE GOOGLE
 
         if(! clientService.clientExist(Long.parseLong(body.get("id")))){
             return new ResponseEntity<>("Client does not exist", HttpStatus.NOT_FOUND);
