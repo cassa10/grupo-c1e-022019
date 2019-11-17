@@ -16,6 +16,8 @@ import java.time.DayOfWeek;
 import java.util.*;
 
 public class ProviderBuilder {
+
+    private String googleId;
     private String name;
     private String logo;
     private String city;
@@ -72,8 +74,13 @@ public class ProviderBuilder {
     }
 
     public Provider build() {
-        return new Provider(name,logo,city, address,description,webURL,email,
+        return new Provider(googleId,name,logo,city, address,description,webURL,email,
                 telNumber,schedule,credit,deliveryMaxDistanceInKM,menus,providerState, strikesMenu);
+    }
+
+    public ProviderBuilder withGoogleId(String googleId) {
+        this.googleId = googleId;
+        return this;
     }
 
     public ProviderBuilder withName(String name) {

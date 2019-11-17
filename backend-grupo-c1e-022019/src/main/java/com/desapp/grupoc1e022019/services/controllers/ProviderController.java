@@ -26,12 +26,14 @@ public class ProviderController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/provider")
     public ResponseEntity createProvider(@RequestBody ProviderDTO providerDTO) {
-
+        //TODO
+        // ACA VA EL ASPECTO DEL AUTH TOKEN DE GOOGLE
         if(providerService.existProviderWithSameEmail(providerDTO.getEmail())){
             return new ResponseEntity<>("Provider already exists, please sign on with different email",HttpStatus.BAD_REQUEST);
         }
 
         Provider newProvider = ProviderBuilder.aProvider()
+                .withGoogleId(providerDTO.getGoogleId())
                 .withName(providerDTO.getName())
                 .withCredit(new Credit())
                 .withProviderState(new NormalProvider())
@@ -54,6 +56,8 @@ public class ProviderController {
 
     @RequestMapping(method = RequestMethod.POST, value ="/provider/delete/{idProvider}")
         public ResponseEntity deleteProvider(@PathVariable long idProvider) {
+        //TODO
+        // ACA VA EL ASPECTO DEL AUTH TOKEN DE GOOGLE
 
         if(! providerService.providerExists(idProvider)){
             return new ResponseEntity<>("Provider does not exist", HttpStatus.NOT_FOUND);
@@ -65,6 +69,8 @@ public class ProviderController {
 
     @RequestMapping(method = RequestMethod.GET, value ="/provider/{idProvider}")
     public ResponseEntity getProvider(@PathVariable long idProvider) {
+        //TODO
+        // ACA VA EL ASPECTO DEL AUTH TOKEN DE GOOGLE
 
         if(! providerService.providerExists(idProvider)){
             return new ResponseEntity<>("Provider does not exist", HttpStatus.NOT_FOUND);
@@ -76,6 +82,8 @@ public class ProviderController {
 
     @RequestMapping(method = RequestMethod.PUT, value ="/provider/basicInfo")
     public ResponseEntity updateProviderBasicInfo(@RequestBody ProviderDTO providerDTO) {
+        //TODO
+        // ACA VA EL ASPECTO DEL AUTH TOKEN DE GOOGLE
 
         if(! providerService.providerExists(providerDTO.getId())){
             return new ResponseEntity<>("Provider does not exist", HttpStatus.NOT_FOUND);
@@ -88,6 +96,8 @@ public class ProviderController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/provider/credit/withdraw")
     public ResponseEntity withdrawCredit(@RequestBody WithdrawCreditDTO withdrawCreditDTO) {
+        //TODO
+        // ACA VA EL ASPECTO DEL AUTH TOKEN DE GOOGLE
 
         if(withdrawCreditDTO.getAmountToWithdraw() <= 0){
             return new ResponseEntity<>("Invalid credit amount to withdraw",HttpStatus.BAD_REQUEST);

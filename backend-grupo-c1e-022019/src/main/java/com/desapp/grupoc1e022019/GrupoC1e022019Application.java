@@ -1,9 +1,7 @@
 package com.desapp.grupoc1e022019;
 
-import com.desapp.grupoc1e022019.model.Client;
-import com.desapp.grupoc1e022019.model.Credit;
+import com.desapp.grupoc1e022019.model.*;
 import com.desapp.grupoc1e022019.model.Menu;
-import com.desapp.grupoc1e022019.model.Provider;
 import com.desapp.grupoc1e022019.model.menuComponents.CategoryMenu;
 import com.desapp.grupoc1e022019.model.menuComponents.MenuPriceCalculator;
 import com.desapp.grupoc1e022019.model.providerComponents.location.Address;
@@ -12,10 +10,12 @@ import com.desapp.grupoc1e022019.model.providerComponents.providerState.NormalPr
 import com.desapp.grupoc1e022019.model.providerComponents.schedule.Schedule;
 import com.desapp.grupoc1e022019.model.providerComponents.schedule.SetOfBussinessTime;
 import com.desapp.grupoc1e022019.persistence.ClientRepository;
+import com.desapp.grupoc1e022019.persistence.GoogleTokenRepository;
 import com.desapp.grupoc1e022019.persistence.MenuRepository;
 import com.desapp.grupoc1e022019.persistence.ProviderRepository;
 import com.desapp.grupoc1e022019.services.ProviderService;
 import com.desapp.grupoc1e022019.services.builder.ClientBuilder;
+import com.desapp.grupoc1e022019.services.builder.GoogleAuthBuilder;
 import com.desapp.grupoc1e022019.services.builder.MenuBuilder;
 import com.desapp.grupoc1e022019.services.builder.ProviderBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,15 +39,16 @@ public class GrupoC1e022019Application {
 	}
 
 	@Bean
-	public CommandLineRunner demo(ProviderRepository providerRepository, MenuRepository menuRepository, ClientRepository clientRepository) {
+	public CommandLineRunner demo(ProviderRepository providerRepository, MenuRepository menuRepository, ClientRepository clientRepository, GoogleTokenRepository googleTokenRepository) {
 		return (args) -> {
 			Schedule schedule =new Schedule(new HashMap<DayOfWeek, SetOfBussinessTime>());
-			Provider jose = new Provider("Jose","log","Quilmes",new Address(new Coord(0.0d,0.0d),"West Quilmes"),"Josee","jose.com.ar","Jose@gmail.com","13281349",schedule,new Credit(),40.0,new ArrayList(),new NormalProvider(),0);
+			Provider jose = new Provider("FAKEID1","Jose","log","Quilmes",new Address(new Coord(0.0d,0.0d),"West Quilmes"),"Josee","jose.com.ar","Jose@gmail.com","13281349",schedule,new Credit(),40.0,new ArrayList(),new NormalProvider(),0);
 			providerRepository.save(jose);
 
 			this.createMenus(menuRepository,jose);
 
 			Client nico = ClientBuilder.aClient()
+					.withGoogleId("FAKEID2")
 					.withFirstName("Nico")
 					.withPhoneNumber("1243143")
 					.withLocation("Varela city")
@@ -57,6 +58,21 @@ public class GrupoC1e022019Application {
 					.withCredit(new Credit(100.0))
 					.build();
 			clientRepository.save(nico);
+
+			GoogleToken joseGoogleAuth = new GoogleAuthBuilder().withGoogleId("FAKEID1")
+					.withTokenId("FAKETOKENID1")
+					.withAccessToken("FAKEACCESSTOKEN1")
+					.withExpiresIn(0)
+					.build();
+
+			GoogleToken nicoGoogleAuth = new GoogleAuthBuilder().withGoogleId("FAKEID2")
+					.withTokenId("FAKETOKENID2")
+					.withAccessToken("FAKEACCESSTOKEN2")
+					.withExpiresIn(0)
+					.build();
+
+			googleTokenRepository.save(joseGoogleAuth);
+			googleTokenRepository.save(nicoGoogleAuth);
 		};
 	}
 

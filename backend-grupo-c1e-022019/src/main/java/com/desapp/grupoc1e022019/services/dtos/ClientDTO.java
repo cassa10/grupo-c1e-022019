@@ -7,18 +7,22 @@ import com.desapp.grupoc1e022019.model.clientState.StateClient;
 public class ClientDTO {
 
     private long id;
+    private GoogleAuthDTO googleAuthDTO;
     private String firstName;
     private String lastName;
     private String email;
+    private String googleId;
+    private String imageUrl;
     private String phoneNumber;
     private String location;
     private String address;
     private Credit credit;
     private StateClient stateClient;
 
-    public ClientDTO(){}
+    public ClientDTO() {
+    }
 
-    public ClientDTO(Client client){
+    public ClientDTO(Client client) {
         setFirstName(client.getFirstName());
         setLastName(client.getLastName());
         setEmail(client.getEmail());
@@ -27,6 +31,32 @@ public class ClientDTO {
         setAddress(client.getAddress());
         setCredit(client.getCredit());
         setStateClient(client.getStateClient());
+        setGoogleId(client.getGoogleId());
+        setImageUrl(client.getImageUrl());
+    }
+
+    public GoogleAuthDTO getGoogleAuthDTO() {
+        return googleAuthDTO;
+    }
+
+    public void setGoogleAuthDTO(GoogleAuthDTO googleAuthDTO) {
+        this.googleAuthDTO = googleAuthDTO;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getGoogleId() {
+        return googleId;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
     }
 
     public String getFirstName() {

@@ -8,6 +8,7 @@ public class ProviderDTO  {
     public ProviderDTO(){}
 
     private Long id;
+    private String googleId;
     private String name;
     private String logo;
     private String city;
@@ -22,6 +23,15 @@ public class ProviderDTO  {
     private String telNumber;
     private Double deliveryMaxDistanceInKM;
     private Schedule schedule;
+
+
+    public String getGoogleId() {
+        return googleId;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
+    }
 
     public String getName() {
         return name;

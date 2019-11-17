@@ -14,8 +14,11 @@ public class Client extends EntityId{
 
     private String firstName;
     private String lastName;
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
+    @Column(unique = true)
+    private String googleId;
+    private String imageUrl;
     private String phoneNumber;
     private String location;
     private String address;
@@ -36,7 +39,7 @@ public class Client extends EntityId{
 
     public Client(){}
 
-    public Client(String firstName, String lastName, String email, String phoneNumber,
+    public Client(String firstName, String lastName, String email,String googleId, String imageUrl, String phoneNumber,
                   String location, String address, Credit credit,StateClient stateClient,List<Order> ordersHaveToRank){
         this.setFirstName(firstName);
         this.setLastName(lastName);
@@ -47,11 +50,30 @@ public class Client extends EntityId{
         this.setCredit(credit);
         this.setStateClient(stateClient);
         this.ordersHaveToRank = ordersHaveToRank;
+        this.setGoogleId(googleId);
+        setImageUrl(imageUrl);
     }
 
     //-----------------------------
     //Getters And Setters --START--
     //-----------------------------
+
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getGoogleId() {
+        return googleId;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
+    }
 
     public String getFirstName() {
         return firstName;
