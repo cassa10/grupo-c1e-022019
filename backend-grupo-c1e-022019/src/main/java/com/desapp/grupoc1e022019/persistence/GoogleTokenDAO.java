@@ -4,6 +4,7 @@ import com.desapp.grupoc1e022019.model.GoogleToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+
 @Component
 public class GoogleTokenDAO {
 
@@ -18,7 +19,7 @@ public class GoogleTokenDAO {
         return ! googleTokenRepository.findByGoogleId(googleId).isEmpty();
     }
 
-    public boolean checkInvalidAuthToken(String googleId, String accessToken) {
+    public boolean checkExistGoogleIdAndAuthToken(String googleId, String accessToken) {
         return ! googleTokenRepository.findByGoogleIdAndAccessToken(googleId,accessToken).isEmpty();
     }
 

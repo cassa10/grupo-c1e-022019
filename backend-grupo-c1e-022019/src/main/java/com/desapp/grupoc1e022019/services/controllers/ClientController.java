@@ -36,7 +36,7 @@ public class ClientController {
         // ACA VA EL ASPECTO DEL AUTH TOKEN DE GOOGLE ----------------------------
         //  CLIENTDTO TIENE AUTHDTO (Que tiene el token)
         GoogleToken googleToken = new GoogleAuthBuilder().build(clientDTO.getGoogleAuthDTO());
-        if(googleAuthService.checkInvalidAuthToken(googleToken)){
+        if(! googleAuthService.checkExistAuthToken(googleToken)){
             return new ResponseEntity<>("Please, log in or sign up if you do not have an account",HttpStatus.UNAUTHORIZED);
         }
         //TODO

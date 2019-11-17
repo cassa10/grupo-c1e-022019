@@ -55,7 +55,7 @@ public class GoogleAuthController {
         //  ASPECT AUTHENTICATION
         GoogleToken googleToken = new GoogleAuthBuilder().build(googleAuthDTO);
 
-        if(googleAuthService.checkInvalidAuthToken(googleToken)) {
+        if(! googleAuthService.checkExistAuthToken(googleToken)) {
             return new ResponseEntity<>("Please, log in or sign up if you do not have an account", HttpStatus.UNAUTHORIZED);
         }
         //TODO

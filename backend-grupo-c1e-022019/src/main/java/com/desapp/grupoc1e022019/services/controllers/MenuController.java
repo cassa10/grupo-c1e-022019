@@ -8,7 +8,6 @@ import com.desapp.grupoc1e022019.services.MenuService;
 import com.desapp.grupoc1e022019.services.ProviderService;
 import com.desapp.grupoc1e022019.services.builder.MenuBuilder;
 import com.desapp.grupoc1e022019.services.dtos.MenuDTO;
-import com.desapp.grupoc1e022019.services.dtos.SearchDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;

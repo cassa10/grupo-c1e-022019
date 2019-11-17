@@ -25,9 +25,9 @@ public class GoogleAuthService {
         return googleTokenDAO.existsGoogleId(googleId);
     }
 
-    public boolean checkInvalidAuthToken(GoogleToken googleToken) {
+    public boolean checkExistAuthToken(GoogleToken googleToken) {
 
-        return googleTokenDAO.checkInvalidAuthToken(googleToken.getGoogleId(),googleToken.getAccessToken());
+        return googleTokenDAO.checkExistGoogleIdAndAuthToken(googleToken.getGoogleId(),googleToken.getAccessToken());
     }
 
     @Transactional
