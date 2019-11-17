@@ -6,6 +6,7 @@ import com.desapp.grupoc1e022019.model.menuComponents.CategoryMenu;
 import com.desapp.grupoc1e022019.persistence.MenuDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
@@ -37,8 +38,8 @@ public class MenuService {
         menuDAO.delete(idMenu);
     }
 
-    public List<Menu> searchByName(String value,String priceOrder,String rankOrder) {
-        return menuDAO.findAllLikeNameSort(value,priceOrder,rankOrder);
+    public Page<Menu> searchByName(String value, String priceOrder, String rankOrder, int fromPage, int sizePage) {
+        return menuDAO.findAllLikeNameSort(value,priceOrder,rankOrder,fromPage,sizePage);
     }
 
     public List<Menu> searchByCategory(CategoryMenu value, String priceOrder, String rankOrder) {

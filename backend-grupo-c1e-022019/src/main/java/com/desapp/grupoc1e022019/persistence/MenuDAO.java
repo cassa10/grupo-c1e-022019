@@ -3,6 +3,8 @@ package com.desapp.grupoc1e022019.persistence;
 import com.desapp.grupoc1e022019.model.Menu;
 import com.desapp.grupoc1e022019.model.menuComponents.CategoryMenu;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
@@ -30,8 +32,8 @@ public class MenuDAO {
         menuRepository.deleteById(idMenu);
     }
 
-    public List<Menu> findAllLikeNameSort(String value,String orderPrice,String orderRank){
-       return menuRepository.findAllLikeName(value,getApropiateSort(orderPrice,orderRank));
+    public Page<Menu> findAllLikeNameSort(String value, String orderPrice, String orderRank, int fromPage, int sizePage){
+       return menuRepository.findAllLikeName(value, PageRequest.of(fromPage,sizePage,getApropiateSort(orderPrice,orderRank)));
     }
 
     public List<Menu> findAllContainCategory(CategoryMenu value, String orderPrice, String orderRank){

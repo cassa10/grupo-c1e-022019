@@ -2,6 +2,8 @@ package com.desapp.grupoc1e022019.persistence;
 
 import com.desapp.grupoc1e022019.model.Menu;
 import com.desapp.grupoc1e022019.model.menuComponents.CategoryMenu;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,7 +19,7 @@ public interface MenuRepository extends JpaRepository<Menu,Long> {
     List<Menu> findByName(String name);
 
     @Query("SELECT m FROM Menu m WHERE lower(m.name) LIKE lower(concat('%',?1,'%'))")
-    List<Menu> findAllLikeName(String value, Sort criteriaSort);
+    Page<Menu> findAllLikeName(String value, Pageable pageable);
 
     @Query("SELECT m FROM Menu m WHERE ?1 member of m.categories")
     List<Menu> findAllContainCategory(CategoryMenu category, Sort criteriaSort);

@@ -8,8 +8,10 @@ import com.desapp.grupoc1e022019.services.MenuService;
 import com.desapp.grupoc1e022019.services.ProviderService;
 import com.desapp.grupoc1e022019.services.builder.MenuBuilder;
 import com.desapp.grupoc1e022019.services.dtos.MenuDTO;
+import com.desapp.grupoc1e022019.services.dtos.SearchDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -66,7 +68,9 @@ public class MenuController {
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/menu/{idMenu}")
     public ResponseEntity deleteMenu(@PathVariable long idMenu){
-
+        //TODO
+        //  NO BORRARLO PORQUE HARIA INCONSISTENTE LAS ORDENES, ENTONCES
+        //  HACERLO INVALIDO Y SACARLO DE LAS BUSQUEDAS Y EN EL SCHEDULER MANDARLO A BORRAR
         if(!menuService.existMenu(idMenu)){
             return new ResponseEntity<>("Menu not found",HttpStatus.NOT_FOUND);
         }
@@ -78,9 +82,10 @@ public class MenuController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/name/")
     public ResponseEntity searchMenuByName(@RequestParam HashMap<String,String> body){
-        List<Menu> values ;
+        Page<Menu> values ;
 
-        values = menuService.searchByName(body.get("name"),body.get("priceOrder"),body.get("rankOrder"));
+        values = menuService.searchByName(body.get("name"),body.get("priceOrder"),
+                body.get("rankOrder"),Integer.parseInt(body.get("fromPage")),Integer.parseInt(body.get("sizePage")));
 
         return new ResponseEntity<>(values,HttpStatus.OK);
     }
