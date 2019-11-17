@@ -16,7 +16,7 @@ class SearchResult extends React.Component {
       priceOrder: 'min',
       rankOrder: 'max',
       fromPage: 0,
-      sizePage: 6,
+      sizePage: 4,
       results: [],
       pictures: [
         'https://www.seriouseats.com/recipes/images/2015/07/20150728-homemade-whopper-food-lab-35-1500x1125.jpg',
