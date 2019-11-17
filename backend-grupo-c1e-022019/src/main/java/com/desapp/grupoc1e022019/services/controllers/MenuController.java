@@ -10,7 +10,6 @@ import com.desapp.grupoc1e022019.services.builder.MenuBuilder;
 import com.desapp.grupoc1e022019.services.dtos.MenuDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -81,10 +80,12 @@ public class MenuController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/name/")
     public ResponseEntity searchMenuByName(@RequestParam HashMap<String,String> body){
-        Page<Menu> values ;
+        List<Menu> values ;
+        int fromPage = Integer.parseInt(body.get("fromPage"));
+        int sizePage = Integer.parseInt(body.get("sizePage"));
 
         values = menuService.searchByName(body.get("name"),body.get("priceOrder"),
-                body.get("rankOrder"),Integer.parseInt(body.get("fromPage")),Integer.parseInt(body.get("sizePage")));
+                body.get("rankOrder"),fromPage,sizePage).getContent();
 
         return new ResponseEntity<>(values,HttpStatus.OK);
     }
@@ -92,7 +93,10 @@ public class MenuController {
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/category/")
     public ResponseEntity searchMenuByCategory(@RequestParam HashMap<String,String> body){
         List<Menu> values ;
-        values = menuService.searchByCategory(CategoryMenu.valueOf(body.get("category")),body.get("priceOrder"),body.get("rankOrder"));
+        int fromPage = Integer.parseInt(body.get("fromPage"));
+        int sizePage = Integer.parseInt(body.get("sizePage"));
+
+        values = menuService.searchByCategory(CategoryMenu.valueOf(body.get("category")),body.get("priceOrder"),body.get("rankOrder"),fromPage,sizePage).getContent();
 
         return new ResponseEntity<>(values,HttpStatus.OK);
     }
@@ -100,8 +104,10 @@ public class MenuController {
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/city/")
     public ResponseEntity searchMenuByProviderCity(@RequestParam HashMap<String,String> body){
         List<Menu> values ;
+        int fromPage = Integer.parseInt(body.get("fromPage"));
+        int sizePage = Integer.parseInt(body.get("sizePage"));
 
-        values = menuService.searchByProviderCity(body.get("city"),body.get("priceOrder"),body.get("rankOrder"));
+        values = menuService.searchByProviderCity(body.get("city"),body.get("priceOrder"),body.get("rankOrder"),fromPage,sizePage).getContent();
 
         return new ResponseEntity<>(values,HttpStatus.OK);
     }
@@ -109,8 +115,10 @@ public class MenuController {
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/name_category/")
     public ResponseEntity searchMenuByNameAndCategory(@RequestParam HashMap<String,String> body){
         List<Menu> values;
+        int fromPage = Integer.parseInt(body.get("fromPage"));
+        int sizePage = Integer.parseInt(body.get("sizePage"));
 
-        values = menuService.searchByNameAndCategory(body.get("name"),CategoryMenu.valueOf(body.get("category")),body.get("priceOrder"),body.get("rankOrder"));
+        values = menuService.searchByNameAndCategory(body.get("name"),CategoryMenu.valueOf(body.get("category")),body.get("priceOrder"),body.get("rankOrder"),fromPage,sizePage).getContent();
 
         return new ResponseEntity<>(values,HttpStatus.OK);
     }
@@ -118,8 +126,10 @@ public class MenuController {
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/name_city/")
     public ResponseEntity searchMenuByNameAndCity(@RequestParam HashMap<String,String> body){
         List<Menu> values;
+        int fromPage = Integer.parseInt(body.get("fromPage"));
+        int sizePage = Integer.parseInt(body.get("sizePage"));
 
-        values = menuService.searchByNameAndCity(body.get("name"),body.get("city"),body.get("priceOrder"),body.get("rankOrder"));
+        values = menuService.searchByNameAndCity(body.get("name"),body.get("city"),body.get("priceOrder"),body.get("rankOrder"),fromPage,sizePage).getContent();
 
         return new ResponseEntity<>(values,HttpStatus.OK);
     }
@@ -127,8 +137,10 @@ public class MenuController {
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/category_city/")
     public ResponseEntity searchMenuByCategoryAndCity(@RequestParam HashMap<String,String> body){
         List<Menu> values;
+        int fromPage = Integer.parseInt(body.get("fromPage"));
+        int sizePage = Integer.parseInt(body.get("sizePage"));
 
-        values = menuService.searchByCategoryAndCity(CategoryMenu.valueOf(body.get("category")),body.get("city"),body.get("priceOrder"),body.get("rankOrder"));
+        values = menuService.searchByCategoryAndCity(CategoryMenu.valueOf(body.get("category")),body.get("city"),body.get("priceOrder"),body.get("rankOrder"),fromPage,sizePage).getContent();
 
         return new ResponseEntity<>(values,HttpStatus.OK);
     }
@@ -136,8 +148,14 @@ public class MenuController {
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/name_category_city/")
     public ResponseEntity searchMenuByNameAndCategoryAndCity(@RequestParam HashMap<String,String> body){
         List<Menu> values;
+        int fromPage = Integer.parseInt(body.get("fromPage"));
+        int sizePage = Integer.parseInt(body.get("sizePage"));
 
-        values = menuService.searchByNameAndCategoryAndCity(body.get("name"),CategoryMenu.valueOf(body.get("category")),body.get("city"),body.get("priceOrder"),body.get("rankOrder"));
+        values = menuService.searchByNameAndCategoryAndCity(body.get("name"),
+                        CategoryMenu.valueOf(body.get("category")),
+                        body.get("city"),
+                        body.get("priceOrder"),
+                        body.get("rankOrder"),fromPage,sizePage).getContent();
 
         return new ResponseEntity<>(values,HttpStatus.OK);
     }
