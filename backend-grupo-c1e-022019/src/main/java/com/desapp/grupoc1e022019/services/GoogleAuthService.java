@@ -17,8 +17,8 @@ public class GoogleAuthService {
 
 
     @Transactional
-    public void saveGoogleToken(GoogleToken googleAuth) {
-        googleTokenDAO.save(googleAuth);
+    public void saveOrUpdateGoogleToken(GoogleToken googleAuth) {
+        googleTokenDAO.saveOrUpdate(googleAuth);
     }
 
     public boolean existGoogleId(String googleId) {

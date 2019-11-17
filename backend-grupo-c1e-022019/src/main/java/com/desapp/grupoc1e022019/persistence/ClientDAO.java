@@ -29,4 +29,8 @@ public class ClientDAO {
     public boolean clientExist(long idClient) {
         return clientRepository.findById(idClient).isPresent();
     }
+
+    public boolean existClientByGoogleId(String googleId) {
+        return clientRepository.existsByGoogleId(googleId);
+    }
 }

@@ -41,6 +41,7 @@ public class GrupoC1e022019Application {
 	@Bean
 	public CommandLineRunner demo(ProviderRepository providerRepository, MenuRepository menuRepository, ClientRepository clientRepository, GoogleTokenRepository googleTokenRepository) {
 		return (args) -> {
+
 			Schedule schedule =new Schedule(new HashMap<DayOfWeek, SetOfBussinessTime>());
 			Provider jose = new Provider("FAKEID1","Jose","log","Quilmes",new Address(new Coord(0.0d,0.0d),"West Quilmes"),"Josee","jose.com.ar","Jose@gmail.com","13281349",schedule,new Credit(),40.0,new ArrayList(),new NormalProvider(),0);
 			providerRepository.save(jose);
@@ -73,6 +74,17 @@ public class GrupoC1e022019Application {
 
 			googleTokenRepository.save(joseGoogleAuth);
 			googleTokenRepository.save(nicoGoogleAuth);
+			Client joseClient = ClientBuilder.aClient()
+					.withGoogleId("FAKEID1")
+					.withFirstName("Josesin")
+					.withPhoneNumber("1243143")
+					.withLocation("Quilmes city")
+					.withEmail("Jose@gmail.com")
+					.withAddress("Av siempreviva 3029")
+					.withLastName("Cassanin")
+					.withCredit(new Credit(100.0))
+					.build();
+			clientRepository.save(joseClient);
 		};
 	}
 

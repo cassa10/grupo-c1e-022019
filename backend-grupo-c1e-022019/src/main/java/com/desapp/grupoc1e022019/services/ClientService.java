@@ -2,7 +2,9 @@ package com.desapp.grupoc1e022019.services;
 
 import com.desapp.grupoc1e022019.model.Client;
 import com.desapp.grupoc1e022019.model.Credit;
+import com.desapp.grupoc1e022019.model.GoogleToken;
 import com.desapp.grupoc1e022019.persistence.ClientDAO;
+import com.desapp.grupoc1e022019.persistence.GoogleTokenDAO;
 import com.desapp.grupoc1e022019.services.dtos.ClientDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -16,6 +18,9 @@ public class ClientService {
 
     @Autowired
     private ClientDAO clientDAO = new ClientDAO();
+
+    @Autowired
+    private GoogleTokenDAO googleTokenDAO = new GoogleTokenDAO();
 
     public boolean existSameClientEmail(String email) {
         return clientDAO.existSameClientEmail(email);
@@ -48,6 +53,7 @@ public class ClientService {
         return clientDAO.save(tmp);
     }
 
+    @Transactional
     public Client buy(long id, double price) {
         Client tmp = clientDAO.getClient(id);
 
@@ -57,6 +63,7 @@ public class ClientService {
         return tmp;
     }
 
+    @Transactional
     public Client accredit(long id, double amount) {
         Client tmp = clientDAO.getClient(id);
 
@@ -64,5 +71,17 @@ public class ClientService {
 
         clientDAO.save(tmp);
         return tmp;
+    }
+
+    public boolean existClientByGoogleId(String googleId) {
+        return clientDAO.existClientByGoogleId(googleId);
+    }
+
+    @Transactional
+    public void saveClientAndGoogleAuth(Client client, GoogleToken googleAuth) {
+        clientDAO.save(client);
+
+        googleTokenDAO.save(googleAuth);
+
     }
 }

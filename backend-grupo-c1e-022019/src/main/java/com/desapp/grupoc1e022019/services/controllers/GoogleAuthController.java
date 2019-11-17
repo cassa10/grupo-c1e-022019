@@ -1,8 +1,14 @@
 package com.desapp.grupoc1e022019.services.controllers;
 
+import com.desapp.grupoc1e022019.model.Client;
+import com.desapp.grupoc1e022019.model.Credit;
 import com.desapp.grupoc1e022019.model.GoogleToken;
+import com.desapp.grupoc1e022019.model.clientState.NormalClient;
+import com.desapp.grupoc1e022019.services.ClientService;
 import com.desapp.grupoc1e022019.services.GoogleAuthService;
+import com.desapp.grupoc1e022019.services.builder.ClientBuilder;
 import com.desapp.grupoc1e022019.services.builder.GoogleAuthBuilder;
+import com.desapp.grupoc1e022019.services.dtos.ClientDTO;
 import com.desapp.grupoc1e022019.services.dtos.GoogleAuthDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -20,32 +26,47 @@ public class GoogleAuthController {
     @Autowired
     private GoogleAuthService googleAuthService = new GoogleAuthService();
 
+    @Autowired
+    private ClientService clientService = new ClientService();
+
     //TODO
     // MANAGE EXPIRE TOKEN SESSION
 
     @RequestMapping(method = RequestMethod.POST, value = "/login")
     public ResponseEntity loginAuth(@RequestBody GoogleAuthDTO googleAuthDTO) {
-        if(! googleAuthService.existGoogleId(googleAuthDTO.getGoogleId())) {
-            return new ResponseEntity<>("Your account does not exist.Sign up, please", HttpStatus.UNAUTHORIZED);
+
+        if(! clientService.existClientByGoogleId(googleAuthDTO.getGoogleId())) {
+            return new ResponseEntity<>("Your account does not exist.Sign up, please", HttpStatus.BAD_REQUEST);
         }
+
         GoogleToken googleAuth = new GoogleAuthBuilder().build(googleAuthDTO);
 
-        googleAuthService.saveGoogleToken(googleAuth);
+        googleAuthService.saveOrUpdateGoogleToken(googleAuth);
 
         return new ResponseEntity<>("Auth completed", HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/signup")
-    public ResponseEntity signupAuth(@RequestBody GoogleAuthDTO googleAuthDTO) {
-        if(googleAuthService.existGoogleId(googleAuthDTO.getGoogleId())){
+    public ResponseEntity signupAuth(@RequestBody ClientDTO clientDTO) {
+        if(clientService.existClientByGoogleId(clientDTO.getGoogleId())){
             return new ResponseEntity<>("Account already exists, please log in", HttpStatus.OK);
         }
 
-        GoogleToken googleAuth = new GoogleAuthBuilder().build(googleAuthDTO);
+        GoogleToken googleAuth = new GoogleAuthBuilder().build(clientDTO.getGoogleAuthDTO());
 
-        googleAuthService.saveGoogleToken(googleAuth);
+        Client client = ClientBuilder.aClient()
+                .withGoogleId(clientDTO.getGoogleId())
+                .withImageUrl(clientDTO.getImageUrl())
+                .withFirstName(clientDTO.getFirstName())
+                .withLastName(clientDTO.getLastName())
+                .withStateClient(new NormalClient())
+                .withEmail(clientDTO.getEmail())
+                .withCredit(new Credit())
+                .build();
 
-        return new ResponseEntity<>("Auth completed", HttpStatus.OK);
+        clientService.saveClientAndGoogleAuth(client,googleAuth);
+
+        return new ResponseEntity<>("Sign up completed", HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/logout")

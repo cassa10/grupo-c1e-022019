@@ -30,36 +30,8 @@ public class ClientController {
     @Autowired
     private GoogleAuthService googleAuthService = new GoogleAuthService();
 
-    @RequestMapping(method = RequestMethod.POST, value = "/client")
-    public ResponseEntity createClient(@RequestBody ClientDTO clientDTO) {
-        //TODO
-        // ACA VA EL ASPECTO DEL AUTH TOKEN DE GOOGLE ----------------------------
-        //  CLIENTDTO TIENE AUTHDTO (Que tiene el token)
-        GoogleToken googleToken = new GoogleAuthBuilder().build(clientDTO.getGoogleAuthDTO());
-        if(! googleAuthService.checkExistAuthToken(googleToken)){
-            return new ResponseEntity<>("Please, log in or sign up if you do not have an account",HttpStatus.UNAUTHORIZED);
-        }
-        //TODO
-        //      ACA TERMINA EL AUTH TOKEN DE GOOGLE EXAMPLE ----------------------------
 
-        if(clientService.existSameClientEmail(clientDTO.getEmail())){
-            return new ResponseEntity<>("Email is used, please use another email",HttpStatus.BAD_REQUEST);
-        }
-
-        Client client = ClientBuilder.aClient()
-                        .withGoogleId(clientDTO.getGoogleId())
-                        .withImageUrl(clientDTO.getImageUrl())
-                        .withFirstName(clientDTO.getFirstName())
-                        .withLastName(clientDTO.getLastName())
-                        .withStateClient(new NormalClient())
-                        .withEmail(clientDTO.getEmail())
-                        .withCredit(new Credit())
-                        .build();
-
-        clientService.save(client);
-
-        return new ResponseEntity<>(client, HttpStatus.OK);
-    }
+    //EL POST DEL CLIENT SE HACE EN EL SIGNUP DEL AUTH CONTROLLER
 
     @RequestMapping(method = RequestMethod.GET, value = "/client/{idClient}")
     public ResponseEntity getClient(@PathVariable long idClient) {
