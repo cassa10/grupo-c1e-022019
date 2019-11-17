@@ -24,7 +24,9 @@ public class GoogleAuthController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/login")
     public ResponseEntity loginAuth(@RequestBody GoogleAuthDTO googleAuthDTO) {
-
+        if(! googleAuthService.existGoogleId(googleAuthDTO.getGoogleId())) {
+            return new ResponseEntity<>("Your account does not exist.Sign up, please", HttpStatus.UNAUTHORIZED);
+        }
         GoogleToken googleAuth = buildGoogleToken(googleAuthDTO);
 
         googleAuthService.saveGoogleToken(googleAuth);
