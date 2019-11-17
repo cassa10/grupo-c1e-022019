@@ -21,4 +21,8 @@ public class GoogleTokenDAO {
     public boolean checkInvalidAuthToken(String googleId, String accessToken) {
         return ! googleTokenRepository.findByGoogleIdAndAccessToken(googleId,accessToken).isEmpty();
     }
+
+    public Long deleteAuthTokenByGoogleId(String googleId) {
+        return googleTokenRepository.deleteByGoogleId(googleId);
+    }
 }

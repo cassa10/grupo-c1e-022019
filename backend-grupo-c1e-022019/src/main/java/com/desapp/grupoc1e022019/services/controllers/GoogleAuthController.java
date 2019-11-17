@@ -2,6 +2,7 @@ package com.desapp.grupoc1e022019.services.controllers;
 
 import com.desapp.grupoc1e022019.model.GoogleToken;
 import com.desapp.grupoc1e022019.services.GoogleAuthService;
+import com.desapp.grupoc1e022019.services.builder.GoogleAuthBuilder;
 import com.desapp.grupoc1e022019.services.dtos.GoogleAuthDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -27,7 +28,7 @@ public class GoogleAuthController {
         if(! googleAuthService.existGoogleId(googleAuthDTO.getGoogleId())) {
             return new ResponseEntity<>("Your account does not exist.Sign up, please", HttpStatus.UNAUTHORIZED);
         }
-        GoogleToken googleAuth = buildGoogleToken(googleAuthDTO);
+        GoogleToken googleAuth = new GoogleAuthBuilder().build(googleAuthDTO);
 
         googleAuthService.saveGoogleToken(googleAuth);
 
@@ -40,17 +41,29 @@ public class GoogleAuthController {
             return new ResponseEntity<>("Account already exists, please log in", HttpStatus.OK);
         }
 
-        GoogleToken googleAuth = buildGoogleToken(googleAuthDTO);
+        GoogleToken googleAuth = new GoogleAuthBuilder().build(googleAuthDTO);
 
         googleAuthService.saveGoogleToken(googleAuth);
 
         return new ResponseEntity<>("Auth completed", HttpStatus.OK);
     }
 
-    private GoogleToken buildGoogleToken(GoogleAuthDTO googleAuthDTO) {
-        return new GoogleToken(googleAuthDTO.getGoogleId(),
-                googleAuthDTO.getTokenId(),
-                googleAuthDTO.getAccessToken(),
-                googleAuthDTO.getExpires_in()) ;
+    @RequestMapping(method = RequestMethod.POST, value = "/logout")
+    public ResponseEntity logoutAuth(@RequestBody GoogleAuthDTO googleAuthDTO) {
+
+        // TODO
+        //  ASPECT AUTHENTICATION
+        GoogleToken googleToken = new GoogleAuthBuilder().build(googleAuthDTO);
+
+        if(googleAuthService.checkInvalidAuthToken(googleToken)) {
+            return new ResponseEntity<>("Please, log in or sign up if you do not have an account", HttpStatus.UNAUTHORIZED);
+        }
+        //TODO
+        //  AUTHENTICATION END HERE
+
+        //DELETE TOKEN FROM TABLE GOOGLE TOKEN
+        googleAuthService.logoutGoogleToken(googleToken);
+
+        return new ResponseEntity<>("Log out successful",HttpStatus.OK);
     }
 }

@@ -29,4 +29,9 @@ public class GoogleAuthService {
 
         return googleTokenDAO.checkInvalidAuthToken(googleToken.getGoogleId(),googleToken.getAccessToken());
     }
+
+    @Transactional
+    public void logoutGoogleToken(GoogleToken googleToken) {
+        googleTokenDAO.deleteAuthTokenByGoogleId(googleToken.getGoogleId());
+    }
 }
