@@ -36,7 +36,7 @@ public class GoogleAuthController {
     public ResponseEntity loginAuth(@RequestBody GoogleAuthDTO googleAuthDTO) {
 
         if(! clientService.existClientByGoogleId(googleAuthDTO.getGoogleId())) {
-            return new ResponseEntity<>("Your account does not exist.Sign up, please", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Your account does not exist", HttpStatus.BAD_REQUEST);
         }
 
         GoogleToken googleAuth = new GoogleAuthBuilder().build(googleAuthDTO);
@@ -49,7 +49,7 @@ public class GoogleAuthController {
     @RequestMapping(method = RequestMethod.POST, value = "/signup")
     public ResponseEntity signupAuth(@RequestBody ClientDTO clientDTO) {
         if(clientService.existClientByGoogleId(clientDTO.getGoogleId())){
-            return new ResponseEntity<>("Account already exists, please log in", HttpStatus.OK);
+            return new ResponseEntity<>("Account already exists, please log in", HttpStatus.BAD_REQUEST);
         }
 
         GoogleToken googleAuth = new GoogleAuthBuilder().build(clientDTO.getGoogleAuthDTO());

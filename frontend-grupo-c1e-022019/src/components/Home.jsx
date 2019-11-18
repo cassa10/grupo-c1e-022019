@@ -1,14 +1,12 @@
 import { withTranslation } from 'react-i18next';
 import React, { Suspense } from 'react';
 import Button from 'react-bootstrap/Button';
-import API from '../service/api';
 import '../dist/css/Home.css';
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tmp: '',
       searchInputName: '',
       searchInputCategory: '',
       searchInputCity: '',
@@ -16,13 +14,7 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    this.useAPI();
-  }
-
-  useAPI() {
-    API.get('/')
-      .then((response) => this.setState({ tmp: response }))
-      .catch((error) => error);
+    console.log(this.props.history);
   }
 
   goToSignUpProvider() {
