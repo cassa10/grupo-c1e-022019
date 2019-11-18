@@ -10,7 +10,7 @@ public class GoogleToken extends EntityId{
 
     @Column(unique = true, nullable = false)
     private String googleId;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 1300)
     private String tokenId;
     @Column(nullable = false)
     private String accessToken;

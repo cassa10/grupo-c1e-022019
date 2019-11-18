@@ -64,5 +64,8 @@
     "Please fill with a positive mount": "Please fill with a positive mount",
     "Sign up 2": "Sign up",
     "Welcome to Viendas Ya": "Welcome to Viendas Ya!",
-    "Intro logging error message": "Ops, something went wrong... "
+    "Intro logging error message": "Ops, something went wrong... ",
+    "Account already exists, please log in": "Account already exists, please log in",
+    "Ups something went wrong, please try again": "Ups something went wrong, please try again",
+    "Your account does not exist": "Your account does not exist. Sign up and try again"
 }

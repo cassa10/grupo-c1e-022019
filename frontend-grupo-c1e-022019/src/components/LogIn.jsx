@@ -2,6 +2,7 @@ import { withTranslation } from 'react-i18next';
 import { GoogleLogin } from 'react-google-login';
 import React from 'react';
 import ChangeLanguage from './ChangeLanguage';
+import API from '../service/api';
 import '../dist/css/LogIn.css';
 
 class LogIn extends React.Component {
@@ -23,9 +24,67 @@ class LogIn extends React.Component {
     );
   }
 
+  goToHomePage(googleDataResponse) {
+    this.props.history.push({
+      pathname: '/home',
+      loginState: googleDataResponse,
+    });
+  }
+
+  handleLoginResponseOk(response) {
+    const googleDataResponse = {
+      googleId: response.googleId,
+      accessToken: response.tokenObj.access_token,
+      tokenId: response.tokenObj.id_token,
+      expires_in: response.tokenObj.expires_in,
+    };
+
+    API.post('/login', googleDataResponse)
+      .then(() => this.goToHomePage(googleDataResponse))
+      .catch((error) => this.handleAuthAPIError(error));
+  }
+
+  handleSignUpResponseOk(response) {
+    const googleDataResponse = {
+      googleId: response.googleId,
+      accessToken: response.tokenObj.access_token,
+      tokenId: response.tokenObj.id_token,
+      expires_in: response.tokenObj.expires_in,
+    };
+
+    const clientDataResponse = {
+      firstName: response.profileObj.givenName,
+      lastName: response.profileObj.familyName,
+      email: response.profileObj.email,
+      googleId: response.googleId,
+      imageUrl: response.profileObj.imageUrl,
+      googleAuthDTO: googleDataResponse,
+    };
+
+    API.post('/signup', clientDataResponse)
+      .then(() => this.goToHomePage(googleDataResponse))
+      .catch((error) => this.handleAuthAPIError(error));
+  }
+
+  handleAuthAPIError(error) {
+    const { t } = this.props;
+    alert(t(error.response.data));
+  }
+
+  handleGoogleResponseError() {
+    const { t } = this.props;
+    alert(t('Ups something went wrong, please try again'));
+  }
+
   createLoginForm(t) {
-    const responseGoogle = (response) => {
-      console.log(response);
+    const responseLoginOk = (response) => {
+      this.handleLoginResponseOk(response);
+    };
+    const responseSignupOk = (response) => {
+      this.handleSignUpResponseOk(response);
+    };
+    const responseError = () => {
+      this.handleGoogleResponseError();
     };
     return (
       <div className="container">
@@ -35,11 +94,11 @@ class LogIn extends React.Component {
               <div className="card-body">
                 <h5 className="card-title text-center">{t('Welcome to Viendas Ya')}</h5>
                 <div className="text-center">
-                  {this.createGoogleButtonAuth(t('Log in'), responseGoogle, responseGoogle)}
+                  {this.createGoogleButtonAuth(t('Log in'), responseLoginOk, responseError)}
                 </div>
                 <hr className="my_4" />
                 <div className="text-center">
-                  {this.createGoogleButtonAuth(t('Sign up 2'), responseGoogle, responseGoogle)}
+                  {this.createGoogleButtonAuth(t('Sign up 2'), responseSignupOk, responseError)}
                 </div>
               </div>
             </div>
@@ -56,7 +115,7 @@ class LogIn extends React.Component {
         <header>
           <div className="row">
             <div className="col">
-              <img className="logo" src="https://fontmeme.com/permalink/191102/03a545ac680d1396fcfae624d4ee0c3a.png" alt="viendasYa-logo" border="0"/>
+              <img className="logo" src="https://fontmeme.com/permalink/191102/03a545ac680d1396fcfae624d4ee0c3a.png" alt="viendasYa-logo" border="0" />
             </div>
             <ChangeLanguage />
           </div>
