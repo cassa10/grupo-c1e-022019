@@ -9,6 +9,7 @@ import { withTranslation } from 'react-i18next';
 import Swal from 'sweetalert2';
 import API from '../service/api';
 
+
 class SearchResult extends React.Component {
   constructor(props) {
     super(props);
@@ -175,6 +176,9 @@ class SearchResult extends React.Component {
               <Card.Title>{menu.name}</Card.Title>
               <Card.Text>
                 {menu.description}
+              </Card.Text>
+              <Card.Text>
+                {`${menu.price} pesos`}
               </Card.Text>
               <Button variant="primary" onClick={() => this.handleBuy(menu, t)}>Comprar!</Button>
             </Card.Body>
