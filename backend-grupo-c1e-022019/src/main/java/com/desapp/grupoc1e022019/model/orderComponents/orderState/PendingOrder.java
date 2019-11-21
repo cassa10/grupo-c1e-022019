@@ -20,11 +20,7 @@ public class PendingOrder extends OrderState {
 
     @Override
     public void confirm(Order order) {
-        //TODO
-        // ---DUDA DE ENUNCIADO-----
-        // EMAIL SENDER AL CLIENTE CUANDO EL PRECIO DISMINUYE
         order.setOrderState(new ConfirmedOrder());
-        order.notifyClientIfTheirPriceHasBeenUpdated();
     }
 
     @Override

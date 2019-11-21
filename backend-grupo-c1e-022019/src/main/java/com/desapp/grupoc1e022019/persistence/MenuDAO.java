@@ -79,4 +79,8 @@ public class MenuDAO {
         }
         return sortPrice.and(sortRank);
     }
+
+    public Menu getMenu(long idMenu) {
+        return menuRepository.getOne(idMenu);
+    }
 }

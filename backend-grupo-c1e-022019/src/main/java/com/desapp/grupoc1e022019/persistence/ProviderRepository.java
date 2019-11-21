@@ -11,4 +11,5 @@ public interface ProviderRepository extends JpaRepository<Provider,Long> {
 
     List<Provider> findByEmail(String email);
 
+    boolean existsByGoogleId(String googleId);
 }

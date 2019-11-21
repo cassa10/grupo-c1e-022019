@@ -69,4 +69,8 @@ public class MenuService {
     public List<Menu> getMenusSortedByMaxRank() {
         return menuDAO.getMenusSortedByMaxRank();
     }
+
+    public Menu getMenu(long idMenu) {
+        return menuDAO.getMenu(idMenu);
+    }
 }

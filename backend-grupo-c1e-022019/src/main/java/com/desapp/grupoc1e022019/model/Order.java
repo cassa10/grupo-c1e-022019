@@ -2,9 +2,11 @@ package com.desapp.grupoc1e022019.model;
 
 import com.desapp.grupoc1e022019.model.orderComponents.deliverType.DeliverType;
 import com.desapp.grupoc1e022019.model.orderComponents.orderState.OrderState;
+import com.desapp.grupoc1e022019.model.providerComponents.location.Address;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "orders")
@@ -24,9 +26,8 @@ public class Order extends EntityId {
     private OrderState orderState;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_menu")
+    @JsonBackReference
     private Menu menu;
-    //TODO
-    // EN CONTROLLER ORDER: NO SE PODRIA CREAR LA ORDEN SI EL MENU A ORDENAR ESTA CANCELADO
 
     public Order(){}
 
@@ -97,22 +98,14 @@ public class Order extends EntityId {
         return deliverType.isDelivery();
     }
 
-    public boolean clientHaveToPickUp(){
+    public boolean isPickUpDeliver(){
         return deliverType.haveToPickUp();
     }
 
     public Credit customerPayment(){ return new Credit(menu.priceWithAmount(menusAmount));}
 
-    public Double orderPrice(){
-        //TODO
-        //  DUDA DE ENUNCIADO SI GUARDAR EL PRECIO ABONADO
+    public Double getOrderPrice(){
         return menu.priceWithAmount(this.menusAmount);
-    }
-
-    public void notifyClientIfTheirPriceHasBeenUpdated() {
-        //TODO
-        //  LLAMAR AL SERVICE PARA CALCULAR LA CANTIDAD TOTAL DE PEDIDOS QUE FUERON REALIZADOS
-        //  Y SI HAY QUE AVISARLE AL CLIENTE DEL NUEVO PRECIO Y DEBITARLE EN CASO DE QUE LO SEA.
     }
 
     public void setClient(Client client) {
@@ -158,4 +151,15 @@ public class Order extends EntityId {
     public int getDeliverTimeAverageInMinutes(){
         return deliverType.getDeliverTimeAverageInMinutes(menu.getAverageDeliveryTimeInMinutes(),menu.getDeliveryMaxDistanceInKM());
     }
+
+    public Address getOrderDestinationAddress(){
+        return deliverType.getDestinationOrder(this);
+    }
+
+    public LocalDateTime getDeliverDate() {return deliverType.getDeliverDate();}
+
+    public String getMenuName(){
+        return menu.getName();
+    }
+
 }

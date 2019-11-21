@@ -218,14 +218,14 @@ public class OrderTest {
         Order newOrder = OrderBuilder.anOrder().withDeliverType(new Delivery()).build();
 
         Assert.assertTrue(newOrder.isDelivery());
-        Assert.assertFalse(newOrder.clientHaveToPickUp());
+        Assert.assertFalse(newOrder.isPickUpDeliver());
     }
 
     @Test
     public void testGivenOrderWithDeliverTypePickUpWhenOrderRecievesIsDeliveryIsFalseAndClientHaveToPickUpIsTrue(){
         Order newOrder = OrderBuilder.anOrder().withDeliverType(new PickUp()).build();
 
-        Assert.assertTrue(newOrder.clientHaveToPickUp());
+        Assert.assertTrue(newOrder.isPickUpDeliver());
         Assert.assertFalse(newOrder.isDelivery());
     }
 

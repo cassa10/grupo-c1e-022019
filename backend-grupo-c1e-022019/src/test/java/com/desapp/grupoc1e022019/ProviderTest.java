@@ -52,10 +52,10 @@ public class ProviderTest {
 
     @Test
     public void testGivenProvider1WithAddress1AndProvider2WithAddress1WhenTheyReceiveGetAddressThenTheyReturnTheirAddress(){
-        Coord coord1 = new Coord(-34.72418,-58.25265);
+        Coord coord1 = new Coord("-34.72418","-58.25265");
         Address address1 = new Address(coord1,"Quilmes, Buenos Aires");
 
-        Coord coord2 = new Coord(-41.14557, -71.30822);
+        Coord coord2 = new Coord("-41.14557", "-71.30822");
         Address address2 = new Address(coord2,"Bariloche, Rio Negro");
 
         Provider provider1 = ProviderBuilder.aProvider().withAddress(address1).build();
