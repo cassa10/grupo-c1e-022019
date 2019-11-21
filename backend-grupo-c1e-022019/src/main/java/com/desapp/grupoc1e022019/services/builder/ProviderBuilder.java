@@ -38,7 +38,7 @@ public class ProviderBuilder {
         name = "builderName";
         logo = "builderLogo";
         city = "builderCity";
-        address = new Address(new Coord(0d,0d),"Quilmes, Buenos Aires, Argentina");
+        address = new Address(new Coord("0","0"),"Quilmes, Buenos Aires, Argentina");
         description = "builderDescription";
         webURL = "builderWebURL";
         email = "builderEmail@gmail.com";

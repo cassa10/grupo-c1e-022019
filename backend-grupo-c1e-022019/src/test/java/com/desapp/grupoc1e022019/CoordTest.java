@@ -7,26 +7,26 @@ import org.junit.Test;
 public class CoordTest {
 
     @Test
-    public void testGivenACoordinateWithLatitude0dAndLongitude2dWhenCoordRecievesGetLatitudeThenItReturnADoubleWithValue0d(){
-        Coord coord = new Coord(0d,2d);
-        Assert.assertEquals(coord.getLatitude(),new Double(0d));
+    public void testGivenACoordinateWithLatitude0dAndLongitude2dWhenCoordRecievesGetLatitudeThenItReturn0(){
+        Coord coord = new Coord("0","2");
+        Assert.assertEquals(coord.getLatitude(),"0");
     }
 
     @Test
-    public void testGivenACoordinateWithLatitude0dAndLongitude2dWhenCoordRecievesGetLongitudeThenItReturnADoubleWithValue2d(){
-        Coord coord = new Coord(0d,2d);
-        Assert.assertEquals(coord.getLongitude(),new Double(2d));
+    public void testGivenACoordinateWithLatitude0dAndLongitude2dWhenCoordRecievesGetLongitudeThenItReturn2(){
+        Coord coord = new Coord("0","2");
+        Assert.assertEquals(coord.getLongitude(),"2");
     }
 
     @Test
-    public void testGivenACoordinateWithLatitude5dAndLongitude0dWhenCoordRecievesGetLatitudeThenItReturnADoubleWithValue0d(){
-        Coord coord = new Coord(5d,2d);
-        Assert.assertEquals(coord.getLatitude(),new Double(5d));
+    public void testGivenACoordinateWithLatitude5dAndLongitude0dWhenCoordRecievesGetLatitudeThenItReturn0(){
+        Coord coord = new Coord("5","2");
+        Assert.assertEquals(coord.getLatitude(),"5");
     }
 
     @Test
-    public void testGivenACoordinateWithLatitude0dAndLongitude0dWhenCoordRecievesGetLongitudeThenItReturnADoubleWithValue2d(){
-        Coord coord = new Coord(0d,0d);
-        Assert.assertEquals(coord.getLongitude(),new Double(0d));
+    public void testGivenACoordinateWithLatitude0dAndLongitude0dWhenCoordRecievesGetLongitudeThenItReturn0(){
+        Coord coord = new Coord("0","0");
+        Assert.assertEquals(coord.getLongitude(),"0");
     }
 }

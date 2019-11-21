@@ -1,7 +1,6 @@
 package com.desapp.grupoc1e022019.persistence;
 
 import com.desapp.grupoc1e022019.model.Provider;
-import com.desapp.grupoc1e022019.services.dtos.ProviderDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -31,5 +30,7 @@ public class ProviderDAO {
         return ! providerRepository.findByEmail(email).isEmpty();
     }
 
-
+    public boolean existProviderByGoogleId(String googleId) {
+        return providerRepository.existsByGoogleId(googleId);
+    }
 }

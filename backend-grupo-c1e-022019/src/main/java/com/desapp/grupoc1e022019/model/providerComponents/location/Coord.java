@@ -7,28 +7,28 @@ import javax.persistence.Entity;
 @Entity
 public class Coord extends EntityId {
 
-    private Double latitude;
-    private Double longitude;
+    private String latitude;
+    private String longitude;
 
-    public Coord(Double latitude, Double longitude){
+    public Coord(String latitude, String longitude){
         this.setLatitude(latitude);
         this.setLongitude(longitude);
     }
     public Coord(){}
 
-    public Double getLatitude() {
+    public String getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Double latitude) {
+    public void setLatitude(String latitude) {
         this.latitude = latitude;
     }
 
-    public Double getLongitude() {
+    public String getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Double longitude) {
+    public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
 }

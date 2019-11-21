@@ -43,7 +43,10 @@ public class GrupoC1e022019Application {
 		return (args) -> {
 
 			Schedule schedule =new Schedule(new HashMap<DayOfWeek, SetOfBussinessTime>());
-			Provider jose = new Provider("FAKEID1","Jose","log","Quilmes",new Address(new Coord(0.0d,0.0d),"West Quilmes"),"Josee","jose.com.ar","Jose@gmail.com","13281349",schedule,new Credit(),40.0,new ArrayList(),new NormalProvider(),0);
+			Provider jose = new Provider("FAKEID1","Jose","log","Quilmes",
+					new Address(new Coord("0","0"),"West Quilmes"),"Josee",
+					"jose.com.ar","pepe@unmail.com","13281349",schedule,
+					new Credit(),40.0,new ArrayList<>(),new NormalProvider(),0);
 			providerRepository.save(jose);
 
 			this.createMenus(menuRepository,jose);
@@ -79,7 +82,7 @@ public class GrupoC1e022019Application {
 					.withFirstName("Josesin")
 					.withPhoneNumber("1243143")
 					.withLocation("Quilmes city")
-					.withEmail("Jose@gmail.com")
+					.withEmail("pepe@unmail.com")
 					.withAddress("Av siempreviva 3029")
 					.withLastName("Cassanin")
 					.withCredit(new Credit(100.0))
@@ -90,7 +93,7 @@ public class GrupoC1e022019Application {
 
 	private void createMenus(MenuRepository menuRepository,Provider jose) {
 		//** Mila napo *//*
-		ArrayList<CategoryMenu> cMiladeNico = new ArrayList();
+		ArrayList<CategoryMenu> cMiladeNico = new ArrayList<>();
 		cMiladeNico.add(CategoryMenu.valueOf("PIZZA"));
 
 		Menu milaNapo = MenuBuilder.aMenu()
@@ -104,7 +107,7 @@ public class GrupoC1e022019Application {
 		menuRepository.save(milaNapo);
 
 		//**Burger  *//*
-		ArrayList<CategoryMenu> cBurger = new ArrayList();
+		ArrayList<CategoryMenu> cBurger = new ArrayList<>();
 		cBurger.add(CategoryMenu.valueOf("HAMBURGER"));
 
 		Menu burger = MenuBuilder.aMenu()
@@ -118,12 +121,12 @@ public class GrupoC1e022019Application {
 		menuRepository.save(burger);
 
 		//**Pizza  *//*
-		ArrayList<CategoryMenu> cPizza = new ArrayList();
+		ArrayList<CategoryMenu> cPizza = new ArrayList<>();
 		cPizza.add(CategoryMenu.valueOf("PIZZA"));
 
 		Menu pizza = MenuBuilder.aMenu()
 				.withName("Pizza de palmitos")
-				.withCategories(cBurger)
+				.withCategories(cPizza)
 				.withMenuPriceCalculator(new MenuPriceCalculator(50.0,10,40.0,20,30.0))
 				.withDescription("Tiene solo 2 palmitos")
 				.withProvider(jose)
@@ -132,7 +135,7 @@ public class GrupoC1e022019Application {
 		menuRepository.save(pizza);
 
 		//**SUSHI  *//*
-		ArrayList<CategoryMenu> cSushi = new ArrayList();
+		ArrayList<CategoryMenu> cSushi = new ArrayList<>();
 		cSushi.add(CategoryMenu.valueOf("SUSHI"));
 
 		Menu sushi = MenuBuilder.aMenu()
@@ -146,7 +149,7 @@ public class GrupoC1e022019Application {
 		menuRepository.save(sushi);
 
 		//**PLATO VEGANO  *//*
-		ArrayList<CategoryMenu> cVegan = new ArrayList();
+		ArrayList<CategoryMenu> cVegan = new ArrayList<>();
 		cVegan.add(CategoryMenu.valueOf("VEGAN"));
 
 		Menu platoVegano = MenuBuilder.aMenu()
@@ -160,7 +163,7 @@ public class GrupoC1e022019Application {
 		menuRepository.save(platoVegano);
 
 		//**PLATO GREEN  *//*
-		ArrayList<CategoryMenu> cGreen = new ArrayList();
+		ArrayList<CategoryMenu> cGreen = new ArrayList<>();
 		cGreen.add(CategoryMenu.valueOf("GREEN"));
 
 		Menu platoGreen = MenuBuilder.aMenu()
@@ -174,7 +177,7 @@ public class GrupoC1e022019Application {
 		menuRepository.save(platoGreen);
 
 		//** Ceveza artesanal  *//*
-		ArrayList<CategoryMenu> cCerveza = new ArrayList();
+		ArrayList<CategoryMenu> cCerveza = new ArrayList<>();
 		cCerveza.add(CategoryMenu.valueOf("BEER"));
 
 		Menu cerveza = MenuBuilder.aMenu()
@@ -188,7 +191,7 @@ public class GrupoC1e022019Application {
 		menuRepository.save(cerveza);
 
 		//**Empanadas  *//*
-		ArrayList<CategoryMenu> cEmpanadas = new ArrayList();
+		ArrayList<CategoryMenu> cEmpanadas = new ArrayList<>();
 		cEmpanadas.add(CategoryMenu.valueOf("EMPANADAS"));
 
 		Menu empanadas = MenuBuilder.aMenu()

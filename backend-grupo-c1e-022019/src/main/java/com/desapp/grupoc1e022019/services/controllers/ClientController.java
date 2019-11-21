@@ -1,13 +1,8 @@
 package com.desapp.grupoc1e022019.services.controllers;
 
 import com.desapp.grupoc1e022019.model.Client;
-import com.desapp.grupoc1e022019.model.Credit;
-import com.desapp.grupoc1e022019.model.GoogleToken;
-import com.desapp.grupoc1e022019.model.clientState.NormalClient;
 import com.desapp.grupoc1e022019.services.GoogleAuthService;
 import com.desapp.grupoc1e022019.services.ClientService;
-import com.desapp.grupoc1e022019.services.builder.ClientBuilder;
-import com.desapp.grupoc1e022019.services.builder.GoogleAuthBuilder;
 import com.desapp.grupoc1e022019.services.dtos.ClientDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;

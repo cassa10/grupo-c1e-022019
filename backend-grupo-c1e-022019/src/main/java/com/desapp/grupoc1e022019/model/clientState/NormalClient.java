@@ -16,6 +16,6 @@ public class NormalClient extends StateClient {
     public void buyOrder(Order order){
         //TODO
         // UTILIZAR SERVICE
-        order.getClient().debit(new Credit(order.orderPrice()));
+        order.getClient().debit(new Credit(order.getOrderPrice()));
     }
 }
