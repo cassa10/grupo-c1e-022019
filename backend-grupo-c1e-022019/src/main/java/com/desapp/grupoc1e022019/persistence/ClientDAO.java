@@ -4,6 +4,8 @@ import com.desapp.grupoc1e022019.model.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class ClientDAO {
 
@@ -32,5 +34,9 @@ public class ClientDAO {
 
     public boolean existClientByGoogleId(String googleId) {
         return clientRepository.existsByGoogleId(googleId);
+    }
+
+    public Optional<Client> findClientByGoogleId(String googleId) {
+        return clientRepository.findByGoogleId(googleId);
     }
 }

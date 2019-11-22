@@ -17,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @CrossOrigin
 @RestController
 @Scope(value = "session")
@@ -31,7 +33,10 @@ public class GoogleAuthController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/login")
     public ResponseEntity loginAuth(@RequestBody GoogleAuthDTO googleAuthDTO) {
-        if(! clientService.existClientByGoogleId(googleAuthDTO.getGoogleId())) {
+
+        Optional<Client> maybeClient = clientService.findClientByGoogleId(googleAuthDTO.getGoogleId());
+
+        if(! maybeClient.isPresent()) {
             return new ResponseEntity<>("Your account does not exist", HttpStatus.BAD_REQUEST);
         }
 
@@ -39,7 +44,7 @@ public class GoogleAuthController {
 
         googleAuthService.saveOrUpdateGoogleToken(googleAuth);
 
-        return new ResponseEntity<>("Auth completed", HttpStatus.OK);
+        return new ResponseEntity<>(maybeClient.get(), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/signup")

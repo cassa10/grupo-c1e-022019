@@ -41,7 +41,12 @@ class SearchResult extends React.Component {
       this.requestAPISearch();
     } else {
       this.props.history.push({
-        pathname: '/',
+        pathname: '/home',
+        state: {
+          googleId: this.props.location.state.googleId,
+          accessToken: this.props.location.state.accessToken,
+          client: this.props.location.state.client,
+        },
       });
     }
   }
@@ -88,6 +93,8 @@ class SearchResult extends React.Component {
   requestAPISearch() {
     const locState = this.props.location.state;
     const body = {
+      googleId: this.props.location.state.googleId,
+      accessToken: this.props.location.state.accessToken,
       name: this.props.location.state.searchInputName,
       city: this.props.location.state.searchInputCity,
       category: this.props.location.state.searchInputCategory,

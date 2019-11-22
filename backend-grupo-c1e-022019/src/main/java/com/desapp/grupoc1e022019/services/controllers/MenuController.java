@@ -4,6 +4,7 @@ import com.desapp.grupoc1e022019.exception.MaximumMenusSizeException;
 import com.desapp.grupoc1e022019.model.Menu;
 import com.desapp.grupoc1e022019.model.Provider;
 import com.desapp.grupoc1e022019.model.menuComponents.CategoryMenu;
+import com.desapp.grupoc1e022019.services.GoogleAuthService;
 import com.desapp.grupoc1e022019.services.MenuService;
 import com.desapp.grupoc1e022019.services.ProviderService;
 import com.desapp.grupoc1e022019.services.builder.MenuBuilder;
@@ -24,6 +25,9 @@ import java.util.List;
 @Scope(value = "session")
 @Component(value = "menuController")
 public class MenuController {
+
+    @Autowired
+    private GoogleAuthService googleAuthService = new GoogleAuthService();
 
     @Autowired
     private MenuService menuService = new MenuService();
@@ -64,8 +68,8 @@ public class MenuController {
         return new ResponseEntity<>(newMenu, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.DELETE, value = "/menu/{idMenu}")
-    public ResponseEntity deleteMenu(@PathVariable long idMenu){
+    @RequestMapping(method = RequestMethod.POST, value = "/menu/{idMenu}")
+    public ResponseEntity cancelMenu(@PathVariable long idMenu){
         //TODO
         //  NO BORRARLO PORQUE HARIA INCONSISTENTE LAS ORDENES, ENTONCES
         //  HACERLO INVALIDO Y SACARLO DE LAS BUSQUEDAS Y EN EL SCHEDULER MANDARLO A BORRAR
@@ -73,13 +77,20 @@ public class MenuController {
             return new ResponseEntity<>("Menu not found",HttpStatus.NOT_FOUND);
         }
 
-        menuService.delete(idMenu);
+        //menuService.delete(idMenu);
 
         return new ResponseEntity<>("Menu successfully removed",HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/name/")
     public ResponseEntity searchMenuByName(@RequestParam HashMap<String,String> body){
+        String googleId = body.get("googleId");
+        String accessToken = body.get("accessToken");
+
+        if(! googleAuthService.clientHasAccess(googleId,accessToken)){
+            return new ResponseEntity<>("Please, log in",HttpStatus.UNAUTHORIZED);
+        }
+
         List<Menu> values ;
         int fromPage = Integer.parseInt(body.get("fromPage"));
         int sizePage = Integer.parseInt(body.get("sizePage"));
@@ -92,6 +103,13 @@ public class MenuController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/category/")
     public ResponseEntity searchMenuByCategory(@RequestParam HashMap<String,String> body){
+        String googleId = body.get("googleId");
+        String accessToken = body.get("accessToken");
+
+        if(! googleAuthService.clientHasAccess(googleId,accessToken)){
+            return new ResponseEntity<>("Please, log in",HttpStatus.UNAUTHORIZED);
+        }
+
         List<Menu> values ;
         int fromPage = Integer.parseInt(body.get("fromPage"));
         int sizePage = Integer.parseInt(body.get("sizePage"));
@@ -103,6 +121,13 @@ public class MenuController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/city/")
     public ResponseEntity searchMenuByProviderCity(@RequestParam HashMap<String,String> body){
+        String googleId = body.get("googleId");
+        String accessToken = body.get("accessToken");
+
+        if(! googleAuthService.clientHasAccess(googleId,accessToken)){
+            return new ResponseEntity<>("Please, log in",HttpStatus.UNAUTHORIZED);
+        }
+
         List<Menu> values ;
         int fromPage = Integer.parseInt(body.get("fromPage"));
         int sizePage = Integer.parseInt(body.get("sizePage"));
@@ -114,6 +139,13 @@ public class MenuController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/name_category/")
     public ResponseEntity searchMenuByNameAndCategory(@RequestParam HashMap<String,String> body){
+        String googleId = body.get("googleId");
+        String accessToken = body.get("accessToken");
+
+        if(! googleAuthService.clientHasAccess(googleId,accessToken)){
+            return new ResponseEntity<>("Please, log in",HttpStatus.UNAUTHORIZED);
+        }
+
         List<Menu> values;
         int fromPage = Integer.parseInt(body.get("fromPage"));
         int sizePage = Integer.parseInt(body.get("sizePage"));
@@ -125,6 +157,13 @@ public class MenuController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/name_city/")
     public ResponseEntity searchMenuByNameAndCity(@RequestParam HashMap<String,String> body){
+        String googleId = body.get("googleId");
+        String accessToken = body.get("accessToken");
+
+        if(! googleAuthService.clientHasAccess(googleId,accessToken)){
+            return new ResponseEntity<>("Please, log in",HttpStatus.UNAUTHORIZED);
+        }
+
         List<Menu> values;
         int fromPage = Integer.parseInt(body.get("fromPage"));
         int sizePage = Integer.parseInt(body.get("sizePage"));
@@ -136,6 +175,13 @@ public class MenuController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/category_city/")
     public ResponseEntity searchMenuByCategoryAndCity(@RequestParam HashMap<String,String> body){
+        String googleId = body.get("googleId");
+        String accessToken = body.get("accessToken");
+
+        if(! googleAuthService.clientHasAccess(googleId,accessToken)){
+            return new ResponseEntity<>("Please, log in",HttpStatus.UNAUTHORIZED);
+        }
+
         List<Menu> values;
         int fromPage = Integer.parseInt(body.get("fromPage"));
         int sizePage = Integer.parseInt(body.get("sizePage"));
@@ -147,6 +193,13 @@ public class MenuController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/name_category_city/")
     public ResponseEntity searchMenuByNameAndCategoryAndCity(@RequestParam HashMap<String,String> body){
+        String googleId = body.get("googleId");
+        String accessToken = body.get("accessToken");
+
+        if(! googleAuthService.clientHasAccess(googleId,accessToken)){
+            return new ResponseEntity<>("Please, log in",HttpStatus.UNAUTHORIZED);
+        }
+
         List<Menu> values;
         int fromPage = Integer.parseInt(body.get("fromPage"));
         int sizePage = Integer.parseInt(body.get("sizePage"));
@@ -161,7 +214,13 @@ public class MenuController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/menu/top_ranked")
-    public ResponseEntity getMenusTopRanked(){
+    public ResponseEntity getMenusTopRanked(@RequestParam HashMap<String,String> body){
+        String googleId = body.get("googleId");
+        String accessToken = body.get("accessToken");
+
+        if(! googleAuthService.clientHasAccess(googleId,accessToken)){
+            return new ResponseEntity<>("Please, log in",HttpStatus.UNAUTHORIZED);
+        }
 
         return new ResponseEntity<>(menuService.getMenusSortedByMaxRank(),HttpStatus.OK);
     }
