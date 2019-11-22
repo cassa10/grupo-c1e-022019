@@ -15,7 +15,7 @@ class LogIn extends React.Component {
   createGoogleButtonAuth(buttonText, onSuccessFunc, onFailureFunc) {
     return (
       <GoogleLogin
-        clientId="723708835832-24ugpa2lt64gs3149fvdceb5g9gv81on.apps.googleusercontent.com"
+        clientId="677456909751-9cfvoal7a938s5sd07u3qee5bfm2ba4o.apps.googleusercontent.com"
         buttonText={buttonText}
         onSuccess={onSuccessFunc}
         onFailure={onFailureFunc}

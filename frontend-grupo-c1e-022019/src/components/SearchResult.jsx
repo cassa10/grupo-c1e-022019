@@ -3,11 +3,14 @@ import '../dist/css/SearchResult.css';
 import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
+import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
+import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { withTranslation } from 'react-i18next';
 import Swal from 'sweetalert2';
 import API from '../service/api';
+
 
 class SearchResult extends React.Component {
   constructor(props) {
@@ -18,6 +21,9 @@ class SearchResult extends React.Component {
       fromPage: 0,
       sizePage: 4,
       results: [],
+      showModal: false,
+      quantityOfMenus: 0,
+      delivery: false,
       pictures: [
         'https://www.seriouseats.com/recipes/images/2015/07/20150728-homemade-whopper-food-lab-35-1500x1125.jpg',
         'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSZdKVn9EaecGuHITxS6GZO8d7eGSLO66qHcA-sG9fI-dc3-PWZ',
@@ -38,6 +44,45 @@ class SearchResult extends React.Component {
         pathname: '/',
       });
     }
+  }
+
+  setShow(b) {
+    this.setState({ showModal: b });
+  }
+
+  getBodyFromDelivery(menu) {
+    if (this.state.delivery) {
+      return (
+        {
+          tokenAccess: 'FAKEACCESSTOKEN1',
+          googleId: 'FAKEID1',
+          idClient: 52,
+          idMenu: menu.id,
+          menusAmount: this.state.quantityOfMenus,
+          deliverType: 'delivery',
+          deliverDate: new Date().toJSON(),
+          destination: {
+            coord: {
+              latitude: -34.707191,
+              longitude: -58.276366,
+            },
+            location: 'Dean Funes 630, Bernal, Buenos Aires, Argentina',
+          },
+        }
+      );
+    }
+
+    return (
+      {
+        tokenAccess: 'FAKEACCESSTOKEN1',
+        googleId: 'FAKEID1',
+        idClient: 52,
+        idMenu: menu.id,
+        menusAmount: this.state.quantityOfMenus,
+        deliverType: 'pickup',
+        deliverDate: new Date().toJSON(),
+      }
+    );
   }
 
   requestAPISearch() {
@@ -128,14 +173,13 @@ class SearchResult extends React.Component {
     window.location.reload();
   }
 
+
   makeApiPost(menu, t) {
-    const body = {
-      id: 47,
-      price: menu.price,
-    };
-    API.post('/client/buy', body)
-      .then(() => this.buyDone())
-      .catch(() => this.handleInsuficientCredit(menu, t));
+    const body = this.getBodyFromDelivery(menu);
+    console.log(body)
+    // API.post('/order', body)
+    //   .then(() => this.buyDone())
+    //   .catch(() => this.handleInsuficientCredit(menu, t));
   }
 
   buyConfirmed(isConfirmed, menu, t) {
@@ -149,7 +193,7 @@ class SearchResult extends React.Component {
     }
   }
 
-  handleBuy(menu, t) {
+  handleBuyFromModal(menu, t) {
     Swal.fire({
       title: t('¿Estas seguro?'),
       text: `${t("We'll debit ")} ${menu.price}  pesos`,
@@ -164,6 +208,44 @@ class SearchResult extends React.Component {
       .catch((error) => console.log(error.response));
   }
 
+  handleQuantityOfMenus(e) {
+    this.setState({ quantityOfMenus: e.target.value });
+  }
+
+  handleDelivery(e) {
+    this.setState({ delivery: e.target.checked });
+  }
+
+  buyButton(menu, t) {
+    const handleClose = () => this.setShow(false);
+    const handleShow = () => this.setShow(true);
+    return (
+      <div className="">
+        <Button variant="primary" onClick={handleShow}>
+          {t('buy')}
+        </Button>
+
+        <Modal show={this.state.showModal} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>{t('buy')}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="buy-body">{t('How many?')}</Modal.Body>
+          <input type="number" onChange={(e) => this.handleQuantityOfMenus(e)} />
+          <p className="buy-body">Do you want delivery?</p>
+          <Form.Check label="Delivery" type="checkbox" id="inline-checkbox-1" onClick={(e) => this.handleDelivery(e)} />
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              {t('cancel')}
+            </Button>
+            <Button variant="primary" onClick={() => this.handleBuyFromModal(t, menu)}>
+              {t('buy')}
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
+    );
+  }
+
   renderMenu(menu, t) {
     const randomNumber = Math.floor(Math.random() * (this.state.pictures.length));
     return (
@@ -176,7 +258,10 @@ class SearchResult extends React.Component {
               <Card.Text>
                 {menu.description}
               </Card.Text>
-              <Button variant="primary" onClick={() => this.handleBuy(menu, t)}>Comprar!</Button>
+              <Card.Text>
+                {`${menu.price} pesos`}
+              </Card.Text>
+              {this.buyButton(menu, t)}
             </Card.Body>
           </Card>
         </Col>

@@ -78,10 +78,11 @@ public class ClientService {
     }
 
     @Transactional
-    public void saveClientAndGoogleAuth(Client client, GoogleToken googleAuth) {
-        clientDAO.save(client);
+    public Client saveClientAndGoogleAuth(Client client, GoogleToken googleAuth) {
+        Client newClient = clientDAO.save(client);
 
         googleTokenDAO.save(googleAuth);
 
+        return newClient;
     }
 }

@@ -25,6 +25,10 @@
     margin-right: 20px;
 }
 
+.buy-body{
+    align-content: center
+}
+
 .card_img{
     width: auto;
     height: 200px;

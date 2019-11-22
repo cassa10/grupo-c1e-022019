@@ -64,9 +64,9 @@ public class GoogleAuthController {
                 .withCredit(new Credit())
                 .build();
 
-        clientService.saveClientAndGoogleAuth(client,googleAuth);
+        Client newClient = clientService.saveClientAndGoogleAuth(client,googleAuth);
 
-        return new ResponseEntity<>("Sign up completed", HttpStatus.OK);
+        return new ResponseEntity<>(newClient, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/logout")
