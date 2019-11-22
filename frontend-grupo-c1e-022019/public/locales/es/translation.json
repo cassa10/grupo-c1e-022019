@@ -67,5 +67,6 @@
     "Intro logging error message": "Ups, algo salio mal...",
     "Account already exists, please log in": "La cuenta ya existe, por favor inicia sesion",
     "Ups something went wrong, please try again": "Algo salio mal, intente devuelta",
-    "Your account does not exist": "Tu cuenta no existe. Registrate, y intentalo de nuevo."
+    "Your account does not exist": "Tu cuenta no existe. Registrate, y intentalo de nuevo.",
+    "Request with bad data": "Algo malio sal"
 }

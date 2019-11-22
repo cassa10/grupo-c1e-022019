@@ -134,4 +134,12 @@ public class OrderDTO {
         }
         return value;
     }
+
+    @Override
+    public String toString(){
+        return "{ "+ "id: "+ id + " ,googleId: " + googleId + " ,tokenAccess: " + tokenAccess
+                + " ,idClient: "+idClient +" ,idMenu: " +idMenu  + " ,stars: "+ stars + " ,menusAmount: " + menusAmount
+                + " ,deliverType: "+ deliverType + " ,deliverDate: " + deliverDate + " ,destination: "+ destination +
+                " ,orderState: "+ orderState +" }";
+    }
 }

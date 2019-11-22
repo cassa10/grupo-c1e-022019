@@ -13,23 +13,17 @@ import com.desapp.grupoc1e022019.persistence.ClientRepository;
 import com.desapp.grupoc1e022019.persistence.GoogleTokenRepository;
 import com.desapp.grupoc1e022019.persistence.MenuRepository;
 import com.desapp.grupoc1e022019.persistence.ProviderRepository;
-import com.desapp.grupoc1e022019.services.ProviderService;
 import com.desapp.grupoc1e022019.services.builder.ClientBuilder;
 import com.desapp.grupoc1e022019.services.builder.GoogleAuthBuilder;
 import com.desapp.grupoc1e022019.services.builder.MenuBuilder;
-import com.desapp.grupoc1e022019.services.builder.ProviderBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.awt.*;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 @SpringBootApplication
 public class GrupoC1e022019Application {

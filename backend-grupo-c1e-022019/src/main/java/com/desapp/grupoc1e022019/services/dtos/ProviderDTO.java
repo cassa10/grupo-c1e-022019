@@ -5,17 +5,12 @@ import com.desapp.grupoc1e022019.model.providerComponents.schedule.Schedule;
 
 public class ProviderDTO  {
 
-    public ProviderDTO(){}
-
     private Long id;
     private String googleId;
+    private String tokenAccess;
     private String name;
     private String logo;
     private String city;
-    /**
-     * En mi opinion, el provider deberia inicar sin menues*/
-    //private List<MenuDTO> menus ;
-
     private Address address;
     private String description;
     private String webURL;
@@ -24,6 +19,7 @@ public class ProviderDTO  {
     private Double deliveryMaxDistanceInKM;
     private Schedule schedule;
 
+    public ProviderDTO(){}
 
     public String getGoogleId() {
         return googleId;
@@ -119,5 +115,21 @@ public class ProviderDTO  {
 
     public void setSchedule(Schedule schedule) {
         this.schedule = schedule;
+    }
+
+    public String getTokenAccess() {
+        return tokenAccess;
+    }
+
+    public void setTokenAccess(String tokenAccess) {
+        this.tokenAccess = tokenAccess;
+    }
+
+    @Override
+    public String toString(){
+        return "{ "+ "id: "+ id + " ,googleId: " + googleId + " ,tokenAccess: " + tokenAccess
+                + " ,name: "+name +" ,logo: " +logo  + " ,city: "+ city + " ,address: " + address
+                + " ,description: "+ description + " ,webURL: " + webURL + " ,email: "+ email +
+                " ,telNumber: "+ telNumber+ " ,deliveryMaxDistanceInKM: "+ deliveryMaxDistanceInKM + " ,schedule: "+schedule +" }";
     }
 }
