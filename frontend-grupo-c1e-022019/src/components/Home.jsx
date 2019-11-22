@@ -2,11 +2,39 @@ import { withTranslation } from 'react-i18next';
 import React, { Suspense } from 'react';
 import Button from 'react-bootstrap/Button';
 import '../dist/css/Home.css';
+import API from '../service/api';
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      googleId: '',
+      accessToken: '',
+      client: {
+        address: {},
+        cannotBuyClient: false,
+        clientHaveToRank: false,
+        credit: {
+          id: 0,
+          amount: 0,
+        },
+        email: '',
+        firstName: '',
+        googleId: '',
+        id: 0,
+        imageUrl: '',
+        lastName: '',
+        location: null,
+        normalClient: true,
+        ordersHaveToRank: [],
+        phoneNumber: null,
+        sizeOrderHaveToRank: 0,
+        stateClient: {
+          cannotBuyClient: false,
+          id: 0,
+          normal: true,
+        },
+      },
       searchInputName: '',
       searchInputCategory: '',
       searchInputCity: '',
@@ -14,7 +42,17 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.history);
+    const bodyRequest = {
+      googleId: this.props.location.state.googleId,
+      accessToken: this.props.location.state.accessToken,
+      idClient: this.props.location.state.client.id,
+    };
+
+    this.setState({ googleId: bodyRequest.googleId, accessToken: bodyRequest.accessToken });
+
+    API.get('/client', bodyRequest)
+      .then((response) => this.setState({ client: response }))
+      .catch((error) => console.log(error));
   }
 
   goToSignUpProvider() {
@@ -37,6 +75,9 @@ class Home extends React.Component {
     this.props.history.push({
       pathname: '/search',
       state: {
+        googleId: this.state.googleId,
+        accessToken: this.state.accessToken,
+        client: this.state.client,
         searchFromHome: true,
         searchInputName: this.state.searchInputName.trim(),
         searchInputCity: this.state.searchInputCity.trim(),

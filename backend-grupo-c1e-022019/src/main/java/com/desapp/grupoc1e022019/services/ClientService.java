@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Scope(value = "session")
 @Component(value = "clientService")
@@ -84,5 +85,9 @@ public class ClientService {
         googleTokenDAO.save(googleAuth);
 
         return newClient;
+    }
+
+    public Optional<Client> findClientByGoogleId(String googleId) {
+        return clientDAO.findClientByGoogleId(googleId);
     }
 }

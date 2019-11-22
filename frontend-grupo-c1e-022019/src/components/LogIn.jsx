@@ -24,10 +24,16 @@ class LogIn extends React.Component {
     );
   }
 
-  goToHomePage(googleDataResponse) {
+  goToHomePage(response, googleDataResponse) {
+    const loginStateValues = {
+      googleId: googleDataResponse.googleId,
+      accessToken: googleDataResponse.accessToken,
+      client: response,
+    };
+
     this.props.history.push({
       pathname: '/home',
-      loginState: googleDataResponse,
+      state: loginStateValues,
     });
   }
 
@@ -40,7 +46,7 @@ class LogIn extends React.Component {
     };
 
     API.post('/login', googleDataResponse)
-      .then(() => this.goToHomePage(googleDataResponse))
+      .then((client) => this.goToHomePage(client, googleDataResponse))
       .catch((error) => this.handleAuthAPIError(error));
   }
 
@@ -62,7 +68,7 @@ class LogIn extends React.Component {
     };
 
     API.post('/signup', clientDataResponse)
-      .then(() => this.goToHomePage(googleDataResponse))
+      .then((client) => this.goToHomePage(client, googleDataResponse))
       .catch((error) => this.handleAuthAPIError(error));
   }
 
@@ -119,7 +125,7 @@ class LogIn extends React.Component {
         <header>
           <div className="row">
             <div className="col">
-              <img className="logo" src="https://fontmeme.com/permalink/191102/03a545ac680d1396fcfae624d4ee0c3a.png" alt="viendasYa-logo" border="0" />
+              <img className="logginlogo" src="https://fontmeme.com/permalink/191102/03a545ac680d1396fcfae624d4ee0c3a.png" alt="viendasYa-logo" border="0" />
             </div>
             <ChangeLanguage />
           </div>

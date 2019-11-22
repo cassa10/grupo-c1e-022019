@@ -14,8 +14,32 @@ class NavBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      googleId: '',
+      accessToken: '',
       client: {
-        credit: { amount: 0 },
+        address: {},
+        cannotBuyClient: false,
+        clientHaveToRank: false,
+        credit: {
+          id: 0,
+          amount: 0,
+        },
+        email: '',
+        firstName: '',
+        googleId: '',
+        id: 0,
+        imageUrl: '',
+        lastName: '',
+        location: null,
+        normalClient: true,
+        ordersHaveToRank: [],
+        phoneNumber: null,
+        sizeOrderHaveToRank: 0,
+        stateClient: {
+          cannotBuyClient: false,
+          id: 0,
+          normal: true,
+        },
       },
       showModal: false,
       creditInput: 0,
@@ -23,7 +47,15 @@ class NavBar extends React.Component {
   }
 
   componentDidMount() {
-    API.get('/client/47')
+    const bodyRequest = {
+      googleId: this.props.location.state.googleId,
+      accessToken: this.props.location.state.accessToken,
+      idClient: this.props.location.state.client.id,
+    };
+
+    this.setState({ googleId: bodyRequest.googleId, accessToken: bodyRequest.accessToken });
+
+    API.get('/client', bodyRequest)
       .then((response) => this.setState({ client: response }))
       .catch((error) => console.log(error));
   }
@@ -54,7 +86,9 @@ class NavBar extends React.Component {
 
   accredit() {
     const body = {
-      id: 47,
+      id: this.state.client.id,
+      googleId: this.state.googleId,
+      accessToken: this.state.accessToken,
       amount: this.state.creditInput,
     };
     API.post('/client/accredit', body)
@@ -91,16 +125,28 @@ class NavBar extends React.Component {
     );
   }
 
+  goBackHome() {
+    this.props.history.push({
+      pathname: '/home',
+      state: {
+        googleId: this.props.location.state.googleId,
+        accessToken: this.props.location.state.accessToken,
+        client: this.props.location.state.client,
+      },
+    });
+  }
+
   render() {
     const { t } = this.props;
+    console.log(this.state);
     return (
       <div>
         <Navbar className="all-navbar" fixed="top">
           <Container className="container-navbar">
             <Row className="row-navbar">
               <Col className="logo-col">
-                <Navbar.Brand href="/">
-                  <img src="https://fontmeme.com/permalink/191102/03a545ac680d1396fcfae624d4ee0c3a.png" width="250" alt="netflix-font" border="0" className="pointerImg" role="presentation" />
+                <Navbar.Brand className="homelogoimg">
+                  <img src="https://fontmeme.com/permalink/191102/03a545ac680d1396fcfae624d4ee0c3a.png" width="250" onClick={() => this.goBackHome()} alt="netflix-font" border="0" className="pointerImg" role="presentation" />
                 </Navbar.Brand>
               </Col>
               <Col>

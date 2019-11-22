@@ -2,8 +2,10 @@ package com.desapp.grupoc1e022019.services.controllers;
 
 import com.desapp.grupoc1e022019.model.Client;
 import com.desapp.grupoc1e022019.services.ClientService;
+import com.desapp.grupoc1e022019.services.GoogleAuthService;
 import com.desapp.grupoc1e022019.services.dtos.AccreditDTO;
 import com.desapp.grupoc1e022019.services.dtos.ClientDTO;
+import com.desapp.grupoc1e022019.services.dtos.GoogleAuthDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
@@ -22,8 +24,18 @@ public class ClientController {
     @Autowired
     private ClientService clientService = new ClientService();
 
-    @RequestMapping(method = RequestMethod.GET, value = "/client/{idClient}")
-    public ResponseEntity getClient(@PathVariable long idClient) {
+    @Autowired
+    private GoogleAuthService googleAuthService = new GoogleAuthService();
+
+    @RequestMapping(method = RequestMethod.GET, value = "/client")
+    public ResponseEntity getClient(@RequestParam HashMap<String,String> body) {
+        String idGoogle = body.get("googleId");
+        String accessToken = body.get("accessToken");
+        long idClient = Long.parseLong(body.get("idClient"));
+
+        if(! googleAuthService.clientHasAccess(idGoogle,accessToken)){
+            return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
+        }
 
         if(! clientService.clientExist(idClient)){
             return new ResponseEntity<>("Client does not exist", HttpStatus.NOT_FOUND);
@@ -33,8 +45,12 @@ public class ClientController {
         return new ResponseEntity<>(clientFound, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value = "/client/basicInfo")
+    @RequestMapping(method = RequestMethod.POST, value = "/client/basicInfo")
     public ResponseEntity updateClientBasicInfo(@RequestBody ClientDTO clientDTO) {
+        GoogleAuthDTO googleAuthDTO = clientDTO.getGoogleAuthDTO();
+        if(! googleAuthService.clientHasAccess(googleAuthDTO.getGoogleId(),googleAuthDTO.getAccessToken())){
+            return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
+        }
 
         if(! clientService.clientExist(clientDTO.getId())){
             return new ResponseEntity<>("Client does not exist", HttpStatus.NOT_FOUND);
