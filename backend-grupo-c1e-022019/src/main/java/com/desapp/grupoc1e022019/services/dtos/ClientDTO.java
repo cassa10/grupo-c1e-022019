@@ -1,17 +1,17 @@
 package com.desapp.grupoc1e022019.services.dtos;
 
-import com.desapp.grupoc1e022019.model.Client;
 import com.desapp.grupoc1e022019.model.Credit;
 import com.desapp.grupoc1e022019.model.clientState.StateClient;
 
 public class ClientDTO {
 
     private long id;
+    private String googleId;
+    private String tokenAccess;
     private GoogleAuthDTO googleAuthDTO;
     private String firstName;
     private String lastName;
     private String email;
-    private String googleId;
     private String imageUrl;
     private String phoneNumber;
     private String location;
@@ -20,19 +20,6 @@ public class ClientDTO {
     private StateClient stateClient;
 
     public ClientDTO() {
-    }
-
-    public ClientDTO(Client client) {
-        setFirstName(client.getFirstName());
-        setLastName(client.getLastName());
-        setEmail(client.getEmail());
-        setPhoneNumber(client.getPhoneNumber());
-        setLocation(client.getLocation());
-        setAddress(client.getAddress());
-        setCredit(client.getCredit());
-        setStateClient(client.getStateClient());
-        setGoogleId(client.getGoogleId());
-        setImageUrl(client.getImageUrl());
     }
 
     public GoogleAuthDTO getGoogleAuthDTO() {
@@ -129,5 +116,22 @@ public class ClientDTO {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getTokenAccess() {
+        return tokenAccess;
+    }
+
+    public void setTokenAccess(String tokenAccess) {
+        this.tokenAccess = tokenAccess;
+    }
+
+    @Override
+    public String toString(){
+        return "{ "+ "id: "+ this.id + " ,googleAuthDTO: " +this.googleAuthDTO + " ,firstName: " +this.firstName
+                + " ,lastName: "+this.lastName +" ,email: " +this.email  + " ,googleId: "+ this.googleId +
+                " ,tokenAccess: "+ tokenAccess + " ,imageUrl: " + this.imageUrl
+                + " ,phoneNumber: "+ this.phoneNumber + " ,location: " +this.location+ " ,address: "+ this.address +
+                " ,credit: "+ this.credit + " ,StateClient:"+ this.stateClient +" }";
     }
 }

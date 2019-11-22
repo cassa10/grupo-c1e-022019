@@ -3,6 +3,8 @@ package com.desapp.grupoc1e022019.services.dtos;
 public class WithdrawCreditDTO {
 
     private long idProvider;
+    private String googleId;
+    private String tokenAccess;
     private Double amountToWithdraw;
     private String paymentMethod;
     private String destinationAddress;
@@ -41,5 +43,29 @@ public class WithdrawCreditDTO {
 
     public void setDestinationAddress(String destinationAddress) {
         this.destinationAddress = destinationAddress;
+    }
+
+    public String getGoogleId() {
+        return googleId;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
+    }
+
+    public String getTokenAccess() {
+        return tokenAccess;
+    }
+
+    public void setTokenAccess(String tokenAccess) {
+        this.tokenAccess = tokenAccess;
+    }
+
+    @Override
+    public String toString(){
+
+        return "{ "+ "idProvider: "+ idProvider + " ,googleId: " + googleId +
+                " ,tokenAccess: " + tokenAccess + " ,amountToWithdraw: "+amountToWithdraw +
+                " ,paymentMethod: " +paymentMethod  + " ,destinationAddress: "+ destinationAddress +" }";
     }
 }

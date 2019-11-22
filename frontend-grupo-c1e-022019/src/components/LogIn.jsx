@@ -68,7 +68,11 @@ class LogIn extends React.Component {
 
   handleAuthAPIError(error) {
     const { t } = this.props;
-    alert(t(error.response.data));
+    if (error.response && error.response.data) {
+      alert(t(error.response.data));
+    } else {
+      alert(t('Server is not responding, please try again later'));
+    }
   }
 
   handleGoogleResponseError() {

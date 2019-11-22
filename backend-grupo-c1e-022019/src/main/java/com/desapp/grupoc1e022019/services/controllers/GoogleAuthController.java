@@ -29,12 +29,8 @@ public class GoogleAuthController {
     @Autowired
     private ClientService clientService = new ClientService();
 
-    //TODO
-    // MANAGE EXPIRE TOKEN SESSION
-
     @RequestMapping(method = RequestMethod.POST, value = "/login")
     public ResponseEntity loginAuth(@RequestBody GoogleAuthDTO googleAuthDTO) {
-
         if(! clientService.existClientByGoogleId(googleAuthDTO.getGoogleId())) {
             return new ResponseEntity<>("Your account does not exist", HttpStatus.BAD_REQUEST);
         }
@@ -48,6 +44,10 @@ public class GoogleAuthController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/signup")
     public ResponseEntity signupAuth(@RequestBody ClientDTO clientDTO) {
+        if(! clientDTO.getGoogleAuthDTO().getGoogleId().equals(clientDTO.getGoogleId())){
+            return new ResponseEntity<>("Request with bad data", HttpStatus.BAD_REQUEST);
+        }
+
         if(clientService.existClientByGoogleId(clientDTO.getGoogleId())){
             return new ResponseEntity<>("Account already exists, please log in", HttpStatus.BAD_REQUEST);
         }

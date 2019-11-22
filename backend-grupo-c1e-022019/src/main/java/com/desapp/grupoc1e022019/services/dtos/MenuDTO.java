@@ -1,6 +1,5 @@
 package com.desapp.grupoc1e022019.services.dtos;
 
-import com.desapp.grupoc1e022019.model.Menu;
 import com.desapp.grupoc1e022019.model.menuComponents.CategoryMenu;
 import com.desapp.grupoc1e022019.model.menuComponents.EffectiveDate;
 import com.desapp.grupoc1e022019.model.menuComponents.MenuPriceCalculator;
@@ -10,6 +9,8 @@ import java.util.List;
 public class MenuDTO {
 
     private long idProvider;
+    private String tokenAccess;
+    private String googleId;
     private String name;
     private String description;
     private List<CategoryMenu> categories;
@@ -25,22 +26,9 @@ public class MenuDTO {
 
     public MenuDTO(){}
 
-    public MenuDTO(Menu menu){
-        idProvider = menu.getProvider().getId();
-        name = menu.getName();
-        description = menu.getDescription();
-        categories = menu.getCategories();
-        deliveryValue = menu.getDeliveryValue();
-        effectiveDate = menu.getEffectiveDate();
-        averageDeliveryTimeInMinutes = menu.getAverageDeliveryTimeInMinutes();
-        maxSalesPerDay = menu.getMaxSalesPerDay();
-        menuPriceCalculator = getMenuPriceCalculator();
-    }
-
     public long getIdProvider() {
         return idProvider;
     }
-
 
     public void setName(String name) {
         this.name = name;
@@ -104,5 +92,31 @@ public class MenuDTO {
 
     public void setMenuPriceCalculator(MenuPriceCalculator menuPriceCalculator) {
         this.menuPriceCalculator = menuPriceCalculator;
+    }
+
+    public String getTokenAccess() {
+        return tokenAccess;
+    }
+
+    public void setTokenAccess(String tokenAccess) {
+        this.tokenAccess = tokenAccess;
+    }
+
+    public String getGoogleId() {
+        return googleId;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
+    }
+
+    @Override
+    public String toString(){
+
+        return "{ "+ "idProvider: "+ this.idProvider + " ,googleId: " +this.googleId + " ,accessToken: "+this.tokenAccess
+                + " ,name: " +this.name + " ,description: "+this.description +" ,categories: " +this.categories  +
+                " ,deliveryValue: "+ this.deliveryValue + " ,effectiveDate: " +
+                this.effectiveDate + " ,averageDeliveryTimeInMinutes: "+ this.averageDeliveryTimeInMinutes
+                + " ,maxSalesPerDay: " +this.maxSalesPerDay+ " ,menuPriceCalculator: "+ this.menuPriceCalculator +" }";
     }
 }

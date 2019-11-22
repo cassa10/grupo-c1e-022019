@@ -42,5 +42,8 @@ public class GoogleAuthDTO {
         this.googleId = googleId;
     }
 
-
+    @Override
+    public String toString() {
+        return "{ googleId: "+googleId+", tokenId: "+tokenId + ", accessToken :"+accessToken+ ", expires_in: "+ expires_in +" }";
+    }
 }
