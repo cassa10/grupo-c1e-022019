@@ -4,11 +4,14 @@ import Card from 'react-bootstrap/Card';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Modal from 'react-bootstrap/Modal';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+import Dropdown from 'react-bootstrap/Dropdown';
 import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { withTranslation } from 'react-i18next';
 import Swal from 'sweetalert2';
+import StarRatingComponent from 'react-star-rating-component';
 import API from '../service/api';
 
 
@@ -165,6 +168,7 @@ class SearchResult extends React.Component {
   }
 
   handleInsuficientCredit(menu, t) {
+    console.log(this.state);
     Swal.fire({
       title: t('Insufficient credit'),
       imageUrl: 'https://cdn.memegenerator.es/imagenes/memes/full/6/96/6965905.jpg',
@@ -175,27 +179,27 @@ class SearchResult extends React.Component {
     });
   }
 
-  buyDone() {
-    this.props.history.push('/');
+  buyDone(t, menu) {
+    this.props.history.push('/home');
+    Swal.fire(
+      t('Done!'),
+      `${t('enjoy your')} ${menu.name}`,
+      'success',
+    );
     window.location.reload();
   }
 
 
   makeApiPost(menu, t) {
     const body = this.getBodyFromDelivery(menu);
-    console.log(body)
-    // API.post('/order', body)
-    //   .then(() => this.buyDone())
-    //   .catch(() => this.handleInsuficientCredit(menu, t));
+    console.log(body);
+    API.post('/order', body)
+      .then(() => this.buyDone(t, menu))
+      .catch(() => this.handleInsuficientCredit(menu, t));
   }
 
   buyConfirmed(isConfirmed, menu, t) {
     if (isConfirmed) {
-      Swal.fire(
-        t('Done!'),
-        `${t('enjoy your')} ${menu.name}`,
-        'success',
-      );
       this.makeApiPost(menu, t);
     }
   }
@@ -203,7 +207,7 @@ class SearchResult extends React.Component {
   handleBuyFromModal(menu, t) {
     Swal.fire({
       title: t('¿Estas seguro?'),
-      text: `${t("We'll debit ")} ${menu.price}  pesos`,
+      text: `${t("We'll debit ")} ${menu.price * this.state.quantityOfMenus}  pesos`,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: 'Green',
@@ -223,6 +227,51 @@ class SearchResult extends React.Component {
     this.setState({ delivery: e.target.checked });
   }
 
+  handleRankMaxSelected() {
+    this.setState({ rankOrder: 'min' });
+    this.requestAPISearch();
+  }
+
+  handleRankMinSelected() {
+    this.setState({ rankOrder: 'max' });
+    this.requestAPISearch();
+  }
+
+  handlePriceMaxSelected() {
+    this.setState({ priceOrder: 'min' });
+    this.requestAPISearch();
+  }
+
+  handlePriceMinSelected() {
+    this.setState({ priceOrder: 'max' });
+    this.requestAPISearch();
+  }
+
+  searchConfig(t) {
+    return (
+      <div className="config-bar">
+        <Row>
+          <h3>Filtrar por : </h3>
+          <DropdownButton
+            title="Puntuacion"
+            variant="info"
+            className="dropdown-config"
+          >
+            <Dropdown.Item eventKey="1" onSelect={() => this.handleRankMinSelected()}>Minimo</Dropdown.Item>
+            <Dropdown.Item eventKey="2" onSelect={() => this.handleRankMaxSelected()}>Maximo</Dropdown.Item>
+          </DropdownButton>
+          <DropdownButton
+            title="Precio"
+            variant="info"
+          >
+            <Dropdown.Item eventKey="1" onSelect={() => this.handlePriceMinSelected()}>Minimo</Dropdown.Item>
+            <Dropdown.Item eventKey="2" onSelect={() => this.handlePriceMaxSelected()}>Maximo</Dropdown.Item>
+          </DropdownButton>
+        </Row>
+      </div>
+    );
+  }
+
   buyButton(menu, t) {
     const handleClose = () => this.setShow(false);
     const handleShow = () => this.setShow(true);
@@ -239,12 +288,12 @@ class SearchResult extends React.Component {
           <Modal.Body className="buy-body">{t('How many?')}</Modal.Body>
           <input type="number" onChange={(e) => this.handleQuantityOfMenus(e)} />
           <p className="buy-body">Do you want delivery?</p>
-          <Form.Check label="Delivery" type="checkbox" id="inline-checkbox-1" onClick={(e) => this.handleDelivery(e)} />
+          <Form.Check label="Delivery" type="checkbox" id="inline-checkbox-1" onChange={(e) => this.handleDelivery(e)} />
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
               {t('cancel')}
             </Button>
-            <Button variant="primary" onClick={() => this.handleBuyFromModal(t, menu)}>
+            <Button variant="primary" onClick={() => this.handleBuyFromModal(menu, t)}>
               {t('buy')}
             </Button>
           </Modal.Footer>
@@ -264,6 +313,12 @@ class SearchResult extends React.Component {
               <Card.Title>{menu.name}</Card.Title>
               <Card.Text>
                 {menu.description}
+                <StarRatingComponent
+                  name="rate2"
+                  editing={false}
+                  starCount={5}
+                  value={menu.rankAverage}
+                />
               </Card.Text>
               <Card.Text>
                 {`${menu.price} pesos`}
@@ -276,6 +331,7 @@ class SearchResult extends React.Component {
     );
   }
 
+
   render() {
     const { t } = this.props;
     return (
@@ -283,6 +339,7 @@ class SearchResult extends React.Component {
         <h1 className="title">
           {`${t('Search results')}`}
         </h1>
+        {this.searchConfig(t)}
         {this.mapResults(t)}
       </div>
     );

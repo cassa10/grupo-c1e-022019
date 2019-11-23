@@ -121,12 +121,60 @@ public class GrupoC1e022019Application {
 		Menu pizza = MenuBuilder.aMenu()
 				.withName("Pizza de palmitos")
 				.withCategories(cPizza)
-				.withMenuPriceCalculator(new MenuPriceCalculator(50.0,10,40.0,20,30.0))
+				.withMenuPriceCalculator(new MenuPriceCalculator(300.0,10,40.0,20,30.0))
 				.withDescription("Tiene solo 2 palmitos")
 				.withProvider(jose)
 				.build();
-
+		pizza.addRate(3);
 		menuRepository.save(pizza);
+
+		//**Pizza  *//*
+		Menu pizzaNapo = MenuBuilder.aMenu()
+				.withName("Pizza Napolitana")
+				.withCategories(cPizza)
+				.withMenuPriceCalculator(new MenuPriceCalculator(300.0,10,40.0,20,30.0))
+				.withDescription("Tiene napoli y tana")
+				.withProvider(jose)
+				.build();
+		pizzaNapo.addRate(5);
+
+		menuRepository.save(pizzaNapo);
+
+		//**Pizza  *//*
+		Menu pizzaSalchi = MenuBuilder.aMenu()
+				.withName("Salchipizza")
+				.withCategories(cPizza)
+				.withMenuPriceCalculator(new MenuPriceCalculator(400.0,10,40.0,20,30.0))
+				.withDescription("Tiene salchi y pizza")
+				.withProvider(jose)
+				.build();
+		pizzaSalchi.addRate(4);
+
+		menuRepository.save(pizzaSalchi);
+
+		//**Pizza  *//*
+		Menu pizzaAnana = MenuBuilder.aMenu()
+				.withName("Pizza ananá")
+				.withCategories(cPizza)
+				.withMenuPriceCalculator(new MenuPriceCalculator(400.0,10,40.0,20,30.0))
+				.withDescription("Tiene ana y ná")
+				.withProvider(jose)
+				.build();
+		pizzaAnana.addRate(1);
+
+		menuRepository.save(pizzaAnana);
+
+		//**Pizza  *//*
+		Menu pizzaCalabresa = MenuBuilder.aMenu()
+				.withName("Pizza calabresa")
+				.withCategories(cPizza)
+				.withMenuPriceCalculator(new MenuPriceCalculator(400.0,10,40.0,20,30.0))
+				.withDescription("Tiene cala y bresa")
+				.withProvider(jose)
+				.build();
+		pizzaCalabresa.addRate(5);
+
+		menuRepository.save(pizzaCalabresa);
 
 		//**SUSHI  *//*
 		ArrayList<CategoryMenu> cSushi = new ArrayList<>();
