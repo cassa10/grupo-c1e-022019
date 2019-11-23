@@ -8,7 +8,7 @@ import com.desapp.grupoc1e022019.model.providerComponents.location.Address;
 import com.desapp.grupoc1e022019.model.providerComponents.location.Coord;
 import com.desapp.grupoc1e022019.model.providerComponents.providerState.NormalProvider;
 import com.desapp.grupoc1e022019.model.providerComponents.schedule.Schedule;
-import com.desapp.grupoc1e022019.model.providerComponents.schedule.SetOfBussinessTime;
+import com.desapp.grupoc1e022019.model.providerComponents.schedule.SetOfBusinessTime;
 import com.desapp.grupoc1e022019.persistence.ClientRepository;
 import com.desapp.grupoc1e022019.persistence.GoogleTokenRepository;
 import com.desapp.grupoc1e022019.persistence.MenuRepository;
@@ -36,7 +36,7 @@ public class GrupoC1e022019Application {
 	public CommandLineRunner demo(ProviderRepository providerRepository, MenuRepository menuRepository, ClientRepository clientRepository, GoogleTokenRepository googleTokenRepository) {
 		return (args) -> {
 
-			Schedule schedule =new Schedule(new HashMap<DayOfWeek, SetOfBussinessTime>());
+			Schedule schedule =new Schedule(new HashMap<DayOfWeek, SetOfBusinessTime>());
 			Provider jose = new Provider("FAKEID1","Jose","log","Quilmes",
 					new Address(new Coord("0","0"),"West Quilmes"),"Josee",
 					"jose.com.ar","pepe@unmail.com","13281349",schedule,

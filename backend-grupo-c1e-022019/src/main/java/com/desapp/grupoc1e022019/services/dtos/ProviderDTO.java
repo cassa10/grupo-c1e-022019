@@ -132,4 +132,62 @@ public class ProviderDTO  {
                 + " ,description: "+ description + " ,webURL: " + webURL + " ,email: "+ email +
                 " ,telNumber: "+ telNumber+ " ,deliveryMaxDistanceInKM: "+ deliveryMaxDistanceInKM + " ,schedule: "+schedule +" }";
     }
+
+    public boolean formPostProviderIsOk() {
+
+        return (isValidString(name) && isValidString(logo) && isValidString(city) &&
+                    isValidDescription() && isValidString(webURL) && isValidString(email) &&
+                    isValidAddress() && isValidTelNumber() && isValidDeliveryMaxDistanceInKM());
+    }
+
+    private boolean isValidDeliveryMaxDistanceInKM() {
+        // 0.5 <= deliveryMaxDistanceInKM <= 60.499..
+        float roundDistance = Math.round(deliveryMaxDistanceInKM);
+        return roundDistance >= 1 && roundDistance < 60;
+    }
+
+    private boolean isValidTelNumber() {
+        String regex = "^\\+(?:[0-9] ?){6,14}[0-9]$";
+
+        return telNumber.trim().matches(regex);
+    }
+
+    private boolean isValidAddress() {
+        return address != null && address.isValid();
+    }
+
+    private boolean isValidDescription() {
+        //ENUNCIADO PIDE QUE LA DESCRIPCION SEA 30 <= X <= 200
+        return isValidString(description) && description.trim().length() >= 30 && description.trim().length() <= 200;
+    }
+
+    private boolean isValidString(String name) {
+        return name != null && ! name.trim().equals("");
+    }
+
+
+    public void trimAllStringInputs() {
+        name = name.trim();
+        logo = logo.trim();
+        city = city.trim();
+        description = description.trim();
+        email = email.trim();
+        webURL = webURL.trim();
+        telNumber = telNumber.trim();
+    }
+
+    public void trimAllStringBasicInfo() {
+        name = name.trim();
+        logo = logo.trim();
+        city = city.trim();
+        description = description.trim();
+        webURL = webURL.trim();
+        telNumber = telNumber.trim();
+    }
+
+    public boolean isValidBasicInfo() {
+        return (isValidString(name) && isValidString(logo) && isValidString(city) &&
+                isValidDescription() && isValidString(webURL) &&
+                isValidTelNumber() && isValidDeliveryMaxDistanceInKM());
+    }
 }

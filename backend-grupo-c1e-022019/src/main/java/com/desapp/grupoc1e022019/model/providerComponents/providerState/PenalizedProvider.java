@@ -21,4 +21,9 @@ public class PenalizedProvider extends ProviderState {
     public void addStrike(Provider provider){
         //NOTHING BECAUSE PROVIDER IS PENALIZED
     }
+
+    @Override
+    public void setDeletingProcessProviderState(Provider provider){
+        //NOTHING BECAUSE PROVIDER IS PENALIZED
+    }
 }

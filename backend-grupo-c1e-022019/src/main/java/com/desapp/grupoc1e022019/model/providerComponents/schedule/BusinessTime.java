@@ -4,16 +4,17 @@ import com.desapp.grupoc1e022019.model.EntityId;
 
 import javax.persistence.Entity;
 import java.sql.Time;
+import java.util.Iterator;
 
 @Entity
-public class BussinessTime extends EntityId {
+public class BusinessTime extends EntityId {
 
     private Time open;
     private Time close;
 
-    public BussinessTime(){}
+    public BusinessTime(){}
 
-    public BussinessTime(Time open, Time close){
+    public BusinessTime(Time open, Time close){
         this.close = close;
         this.open = open;
     }
@@ -47,7 +48,7 @@ public class BussinessTime extends EntityId {
         if((obj == null) || (obj.getClass() != this.getClass())) {
             return false;
         }
-        BussinessTime bt = (BussinessTime) obj;
+        BusinessTime bt = (BusinessTime) obj;
         return bt.getOpen().equals(getOpen()) && bt.getClose().equals(getClose());
     }
 
@@ -58,5 +59,24 @@ public class BussinessTime extends EntityId {
         result = prime * result + ((open == null) ? 0 : open.hashCode());
         result = prime * result + ((close == null) ? 0 : close.hashCode());
         return result;
+    }
+
+    public boolean hasIntersection(Iterator<BusinessTime> iterator) {
+        boolean value = false;
+        BusinessTime bCompare;
+        while(iterator.hasNext()){
+            bCompare = iterator.next();
+            value = value || (! this.isNotIntersection(bCompare));
+        }
+
+        return value;
+    }
+
+    private boolean isNotIntersection(BusinessTime bCompare) {
+        return (close.before(bCompare.open)) || (open.after(bCompare.close));
+    }
+
+    public boolean isValidBusinessTime(){
+        return open.before(close);
     }
 }

@@ -37,4 +37,8 @@ public class Address extends EntityId {
     public void setLocation(String location) {
         this.location = location;
     }
+
+    public boolean isValid() {
+        return ! location.trim().equals("") && coord.isValid();
+    }
 }

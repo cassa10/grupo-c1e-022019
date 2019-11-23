@@ -31,4 +31,8 @@ public class Coord extends EntityId {
     public void setLongitude(String longitude) {
         this.longitude = longitude;
     }
+
+    public boolean isValid() {
+        return !latitude.trim().equals("") && !longitude.trim().equals("");
+    }
 }
