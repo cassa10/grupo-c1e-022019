@@ -3,10 +3,10 @@ package com.desapp.grupoc1e022019.model;
 import com.desapp.grupoc1e022019.exception.InsufficientCreditException;
 import com.desapp.grupoc1e022019.exception.MaximumMenusSizeException;
 import com.desapp.grupoc1e022019.model.providerComponents.providerState.ProviderState;
-import com.desapp.grupoc1e022019.model.providerComponents.schedule.BussinessTime;
+import com.desapp.grupoc1e022019.model.providerComponents.schedule.BusinessTime;
 import com.desapp.grupoc1e022019.model.providerComponents.schedule.Schedule;
 import com.desapp.grupoc1e022019.model.providerComponents.location.Address;
-import com.desapp.grupoc1e022019.model.providerComponents.schedule.SetOfBussinessTime;
+import com.desapp.grupoc1e022019.model.providerComponents.schedule.SetOfBusinessTime;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -196,11 +196,13 @@ public class Provider extends EntityId{
         return providerState.isNormalProvider();
     }
 
+    public boolean isDeletingProcessProvider() {return providerState.isDeletingProcessProvider();}
+
     public String getProviderStateName(){
         return providerState.toString();
     }
 
-    public Map<DayOfWeek, SetOfBussinessTime> getMapSchedule(){
+    public Map<DayOfWeek, SetOfBusinessTime> getMapSchedule(){
         return schedule.getDaysAndBussinessTime();
     }
 
@@ -210,15 +212,15 @@ public class Provider extends EntityId{
         this.schedule.deleteBussinessTime(day);
     }
 
-    public void addBussinessTime(DayOfWeek day,BussinessTime newBussinessHour){
+    public void addBussinessTime(DayOfWeek day, BusinessTime newBussinessHour){
         this.schedule.addBussinessTime(day,newBussinessHour);
     }
 
-    public void setBussinessTime(DayOfWeek day,SetOfBussinessTime newBussinessHours){
+    public void setBussinessTime(DayOfWeek day, SetOfBusinessTime newBussinessHours){
         this.schedule.setBussinessTime(day,newBussinessHours);
     }
 
-    public Set<BussinessTime> getBussinessHoursOf(DayOfWeek day){
+    public Set<BusinessTime> getBussinessHoursOf(DayOfWeek day){
         return schedule.getBussinessHoursOf(day);
     }
 
@@ -226,11 +228,11 @@ public class Provider extends EntityId{
         return schedule.getDays();
     }
 
-    public Collection<SetOfBussinessTime> getScheduleBussinessTimes(){
+    public Collection<SetOfBusinessTime> getScheduleBussinessTimes(){
         return schedule.getBussinessTimes();
     }
 
-    private void setSchedule(Schedule schedule){
+    public void setSchedule(Schedule schedule){
         this.schedule = schedule;
     }
 
@@ -263,5 +265,9 @@ public class Provider extends EntityId{
 
     public ProviderState getProviderState() {
         return providerState;
+    }
+
+    public void setDeletingProcessProviderState() {
+        this.providerState.setDeletingProcessProviderState(this);
     }
 }

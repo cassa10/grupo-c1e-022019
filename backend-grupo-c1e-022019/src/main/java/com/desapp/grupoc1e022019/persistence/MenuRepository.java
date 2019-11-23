@@ -1,6 +1,7 @@
 package com.desapp.grupoc1e022019.persistence;
 
 import com.desapp.grupoc1e022019.model.Menu;
+import com.desapp.grupoc1e022019.model.Provider;
 import com.desapp.grupoc1e022019.model.menuComponents.CategoryMenu;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,4 +40,5 @@ public interface MenuRepository extends JpaRepository<Menu,Long> {
     @Query("SELECT m FROM Menu m WHERE lower(m.name) LIKE lower(concat('%',?1,'%')) AND lower(m.provider.city) = lower(?3) AND ?2 member of m.categories")
     Page<Menu> findAllLikeNameAndCategoryAndCity(String name,CategoryMenu category,String city,Pageable pageable);
 
+    List<Menu> findAllByProvider(Provider providerRecovered);
 }

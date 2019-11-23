@@ -1,7 +1,9 @@
 package com.desapp.grupoc1e022019.persistence;
 
 import com.desapp.grupoc1e022019.model.Menu;
+import com.desapp.grupoc1e022019.model.Provider;
 import com.desapp.grupoc1e022019.model.menuComponents.CategoryMenu;
+import com.desapp.grupoc1e022019.model.menuComponents.menuState.CancelledMenu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -82,5 +84,16 @@ public class MenuDAO {
 
     public Menu getMenu(long idMenu) {
         return menuRepository.getOne(idMenu);
+    }
+
+    public List<Menu> findAllByProvider(Provider providerRecovered) {
+        return menuRepository.findAllByProvider(providerRecovered);
+    }
+
+    public void cancelAndSaveMenus(List<Menu> providerMenus) {
+        for(Menu menu: providerMenus){
+            menu.setMenuState(new CancelledMenu());
+            menuRepository.save(menu);
+        }
     }
 }

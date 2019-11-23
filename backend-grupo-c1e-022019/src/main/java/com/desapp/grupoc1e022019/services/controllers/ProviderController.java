@@ -4,9 +4,12 @@ import com.desapp.grupoc1e022019.exception.InsufficientCreditException;
 import com.desapp.grupoc1e022019.model.Credit;
 import com.desapp.grupoc1e022019.model.Provider;
 import com.desapp.grupoc1e022019.model.providerComponents.providerState.NormalProvider;
+import com.desapp.grupoc1e022019.model.providerComponents.schedule.Schedule;
+import com.desapp.grupoc1e022019.services.GoogleAuthService;
 import com.desapp.grupoc1e022019.services.ProviderService;
 import com.desapp.grupoc1e022019.services.builder.ProviderBuilder;
 import com.desapp.grupoc1e022019.services.dtos.ProviderDTO;
+import com.desapp.grupoc1e022019.services.dtos.ScheduleDTO;
 import com.desapp.grupoc1e022019.services.dtos.WithdrawCreditDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -14,6 +17,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -24,13 +30,42 @@ public class ProviderController {
     @Autowired
     private ProviderService providerService = new ProviderService();
 
+    @Autowired
+    private GoogleAuthService googleAuthService = new GoogleAuthService();
+
+    @RequestMapping(method = RequestMethod.GET, value = "/exist_provider")
+    public ResponseEntity isAProvider(@RequestParam HashMap<String,String> body) {
+        String googleId = body.get("googleId");
+        String accessToken = body.get("accessToken");
+        if(! googleAuthService.clientHasAccess(googleId,accessToken)){
+            return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
+        }
+
+        boolean value = providerService.existProviderByGoogleId(googleId);
+
+        return new ResponseEntity<>(value, HttpStatus.OK);
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "/provider")
     public ResponseEntity createProvider(@RequestBody ProviderDTO providerDTO) {
-        //TODO
-        // ACA VA EL ASPECTO DEL AUTH TOKEN DE GOOGLE
-        if(providerService.existProviderWithSameEmail(providerDTO.getEmail())){
-            return new ResponseEntity<>("Provider already exists, please sign on with different email",HttpStatus.BAD_REQUEST);
+
+        if(! googleAuthService.clientHasAccess(providerDTO.getGoogleId(),providerDTO.getTokenAccess())){
+            return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
         }
+
+        Optional<Provider> mayBeProvider = providerService.findProviderByGoogleId(providerDTO.getGoogleId());
+
+        if(mayBeProvider.isPresent()){
+            return new ResponseEntity<>("You are already a provider",HttpStatus.BAD_REQUEST);
+        }
+
+        providerDTO.trimAllStringInputs();
+
+        if(! providerDTO.formPostProviderIsOk()){
+           return new ResponseEntity<>("Invalid data form",HttpStatus.BAD_REQUEST);
+        }
+
+        //SE INICIALIZA CON UN SCHEDULE VACIO Y DESPUES LO AGREGARA MAS ADELANTE
 
         Provider newProvider = ProviderBuilder.aProvider()
                 .withGoogleId(providerDTO.getGoogleId())
@@ -39,7 +74,7 @@ public class ProviderController {
                 .withProviderState(new NormalProvider())
                 .withDescription(providerDTO.getDescription())
                 .withStrikesMenu(0)
-                .withSchedule(providerDTO.getSchedule())
+                .withSchedule(new Schedule())
                 .withAddress(providerDTO.getAddress())
                 .withCity(providerDTO.getCity())
                 .withDeliveryMaxDistanceInKM(providerDTO.getDeliveryMaxDistanceInKM())
@@ -49,71 +84,132 @@ public class ProviderController {
                 .withWebUrl(providerDTO.getWebURL())
                 .build();
 
-        providerService.save(newProvider);
+        newProvider = providerService.save(newProvider);
 
         return new ResponseEntity<>(newProvider, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value ="/provider/delete/{idProvider}")
-        public ResponseEntity deleteProvider(@PathVariable long idProvider) {
-        //TODO
-        // ACA VA EL ASPECTO DEL AUTH TOKEN DE GOOGLE
+    @RequestMapping(method = RequestMethod.GET, value ="/provider")
+    public ResponseEntity getProvider(@RequestParam HashMap<String,String> body) {
+        String googleId = body.get("googleId");
+        String accessToken = body.get("accessToken");
+        if(! googleAuthService.providerHasAccess(googleId,accessToken)){
+            return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
+        }
 
-        if(! providerService.providerExists(idProvider)){
+        Optional<Provider> mayBeProvider = providerService.findProviderByGoogleId(googleId);
+
+        if(! mayBeProvider.isPresent()){
             return new ResponseEntity<>("Provider does not exist", HttpStatus.NOT_FOUND);
         }
-        providerService.delete(idProvider);
 
-        return new ResponseEntity<>("Provider has been removed", HttpStatus.OK);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value ="/provider/{idProvider}")
-    public ResponseEntity getProvider(@PathVariable long idProvider) {
-        //TODO
-        // ACA VA EL ASPECTO DEL AUTH TOKEN DE GOOGLE
-
-        if(! providerService.providerExists(idProvider)){
-            return new ResponseEntity<>("Provider does not exist", HttpStatus.NOT_FOUND);
+        if(mayBeProvider.get().isPenalized()){
+            return new ResponseEntity<>("You are a provider penalized", HttpStatus.BAD_REQUEST);
         }
-        Provider providerFound = providerService.getProvider(idProvider);
 
-        return new ResponseEntity<>(providerFound, HttpStatus.OK);
+        return new ResponseEntity<>(mayBeProvider.get(), HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.PUT, value ="/provider/basicInfo")
+    @RequestMapping(method = RequestMethod.POST, value ="/provider/basicInfo")
     public ResponseEntity updateProviderBasicInfo(@RequestBody ProviderDTO providerDTO) {
-        //TODO
-        // ACA VA EL ASPECTO DEL AUTH TOKEN DE GOOGLE
 
-        if(! providerService.providerExists(providerDTO.getId())){
+        if(! googleAuthService.providerHasAccess(providerDTO.getGoogleId(),providerDTO.getTokenAccess())){
+            return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
+        }
+
+        Optional<Provider> mayBeProvider = providerService.findProviderByGoogleId(providerDTO.getGoogleId());
+
+        if(! mayBeProvider.isPresent()){
             return new ResponseEntity<>("Provider does not exist", HttpStatus.NOT_FOUND);
         }
 
-        Provider updatedProvider = providerService.updateProviderBasicInfo(providerDTO);
+        // Aplica trim() a todos los strins menos el email que no esta presente en este post
+        providerDTO.trimAllStringBasicInfo();
+
+        if(! providerDTO.isValidBasicInfo()){
+            return new ResponseEntity<>("Bad request data", HttpStatus.BAD_REQUEST);
+        }
+
+        Provider updatedProvider = providerService.updateProviderBasicInfo(mayBeProvider.get(), providerDTO);
 
         return new ResponseEntity<>(updatedProvider, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/provider/credit/withdraw")
     public ResponseEntity withdrawCredit(@RequestBody WithdrawCreditDTO withdrawCreditDTO) {
-        //TODO
-        // ACA VA EL ASPECTO DEL AUTH TOKEN DE GOOGLE
+
+        if(! googleAuthService.providerHasAccess(withdrawCreditDTO.getGoogleId(),withdrawCreditDTO.getTokenAccess())){
+            return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
+        }
 
         if(withdrawCreditDTO.getAmountToWithdraw() <= 0){
             return new ResponseEntity<>("Invalid credit amount to withdraw",HttpStatus.BAD_REQUEST);
         }
-        if(! providerService.providerExists(withdrawCreditDTO.getIdProvider())){
+
+        Optional<Provider> mayBeProvider = providerService.findProviderByGoogleId(withdrawCreditDTO.getGoogleId());
+
+        if(! mayBeProvider.isPresent()){
             return new ResponseEntity<>("Provider does not exist",HttpStatus.NOT_FOUND);
         }
 
         Credit creditToWithdraw = new Credit(withdrawCreditDTO.getAmountToWithdraw());
 
         try {
-            providerService.withdrawCredit(withdrawCreditDTO.getIdProvider(), creditToWithdraw);
+            Provider providerRecovered = providerService.withdrawCredit(mayBeProvider.get(), creditToWithdraw);
+            return new ResponseEntity<>(providerRecovered,HttpStatus.OK);
         }catch (InsufficientCreditException e){
-            return new ResponseEntity<>("Insufficient founds, withdraw cancelled",HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>("Insufficient founds, withdraw cancelled",HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>("Withdraw accepted",HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value ="/provider/schedule")
+    public ResponseEntity updateProviderSchedule(@RequestBody ScheduleDTO scheduleDTO) {
+
+        if(! googleAuthService.providerHasAccess(scheduleDTO.getGoogleId(),scheduleDTO.getTokenAccess())){
+            return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
+        }
+
+        Optional<Provider> mayBeProvider = providerService.findProviderByGoogleId(scheduleDTO.getGoogleId());
+
+        if(! mayBeProvider.isPresent()){
+            return new ResponseEntity<>("Provider does not exist", HttpStatus.NOT_FOUND);
+        }
+
+        if(! scheduleDTO.isValidSchedule()){
+            return new ResponseEntity<>("Bad request data", HttpStatus.BAD_REQUEST);
+        }
+
+        Provider updatedProvider = providerService.updateProviderSchedule(mayBeProvider.get(), scheduleDTO);
+
+        return new ResponseEntity<>(updatedProvider, HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value ="/provider/delete")
+    public ResponseEntity deleteProvider(@RequestBody ProviderDTO providerDTO) {
+
+        if(! googleAuthService.providerHasAccess(providerDTO.getGoogleId(),providerDTO.getTokenAccess())){
+            return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
+        }
+
+        Optional<Provider> maybeProviderRecovered = providerService.findProviderByGoogleId(providerDTO.getGoogleId());
+
+        if(! maybeProviderRecovered.isPresent()){
+            return new ResponseEntity<>("Provider does not exist", HttpStatus.NOT_FOUND);
+        }
+
+        if(maybeProviderRecovered.get().isPenalized()){
+            return new ResponseEntity<>("You cannot be deleted because you are penalized", HttpStatus.NOT_ACCEPTABLE);
+        }
+
+        if(maybeProviderRecovered.get().getStrikesMenu() > 0){
+            return new ResponseEntity<>("You cannot be deleted because you have 1 or more strikes", HttpStatus.NOT_ACCEPTABLE);
+        }
+
+        //  CREATE A SAFE DELETE (CANCEL ALL MENUS OF PROVIDER)
+        //  AND SET A PROVIDER DELETE STATE WHEN SCHEDULE(00hs) RUNS, DELETE PROVIDER WITH ALL HIS MENUS
+        Provider providerInDeletingState = providerService.setProviderDeletingProcess(maybeProviderRecovered.get());
+
+        return new ResponseEntity<>(providerInDeletingState, HttpStatus.OK);
     }
 
 }

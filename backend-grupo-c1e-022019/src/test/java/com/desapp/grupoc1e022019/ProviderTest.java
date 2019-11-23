@@ -8,9 +8,9 @@ import com.desapp.grupoc1e022019.model.Menu;
 import com.desapp.grupoc1e022019.model.providerComponents.location.Address;
 import com.desapp.grupoc1e022019.model.providerComponents.location.Coord;
 import com.desapp.grupoc1e022019.model.providerComponents.providerState.PenalizedProvider;
-import com.desapp.grupoc1e022019.model.providerComponents.schedule.BussinessTime;
+import com.desapp.grupoc1e022019.model.providerComponents.schedule.BusinessTime;
 import com.desapp.grupoc1e022019.model.providerComponents.schedule.Schedule;
-import com.desapp.grupoc1e022019.model.providerComponents.schedule.SetOfBussinessTime;
+import com.desapp.grupoc1e022019.model.providerComponents.schedule.SetOfBusinessTime;
 import com.desapp.grupoc1e022019.services.builder.MenuBuilder;
 import com.desapp.grupoc1e022019.model.Provider;
 import com.desapp.grupoc1e022019.services.builder.ProviderBuilder;
@@ -112,16 +112,16 @@ public class ProviderTest {
 
     @Test
     public void testGivenAProviderWithScheduleMondayAndTuesdayWithHour8To12WhenProviderRecievesGetScheduleThenItReturnsASetOfThesesBussinessHoursAndDay(){
-        BussinessTime bussinessHourMonday = new BussinessTime(Time.valueOf("8:00:00"),Time.valueOf("12:00:00"));
-        BussinessTime bussinessHourTuesday = new BussinessTime(Time.valueOf("8:00:00"),Time.valueOf("12:00:00"));
+        BusinessTime bussinessHourMonday = new BusinessTime(Time.valueOf("8:00:00"),Time.valueOf("12:00:00"));
+        BusinessTime bussinessHourTuesday = new BusinessTime(Time.valueOf("8:00:00"),Time.valueOf("12:00:00"));
 
-        SetOfBussinessTime setBussinessHoursMonday = new SetOfBussinessTime();
+        SetOfBusinessTime setBussinessHoursMonday = new SetOfBusinessTime();
         setBussinessHoursMonday.add(bussinessHourMonday);
 
-        SetOfBussinessTime setBussinessHoursTuesday = new SetOfBussinessTime();
+        SetOfBusinessTime setBussinessHoursTuesday = new SetOfBusinessTime();
         setBussinessHoursTuesday.add(bussinessHourTuesday);
 
-        Map<DayOfWeek, SetOfBussinessTime> mapOfBussinessDayAndHour = new HashMap<>();
+        Map<DayOfWeek, SetOfBusinessTime> mapOfBussinessDayAndHour = new HashMap<>();
         mapOfBussinessDayAndHour.put(DayOfWeek.MONDAY,setBussinessHoursMonday);
         mapOfBussinessDayAndHour.put(DayOfWeek.TUESDAY,setBussinessHoursTuesday);
 
@@ -137,20 +137,20 @@ public class ProviderTest {
 
     @Test
     public void testGivenAProviderWithScheduleMonday8To12Wednesday16To20Friday8To20WhenProviderRecievesGetScheduleThenItReturnsASetOfThesesBussinessHoursAndDay(){
-        BussinessTime bussinessHourMonday = new BussinessTime(Time.valueOf("8:00:00"),Time.valueOf("12:00:00"));
-        BussinessTime bussinessHourWednesday = new BussinessTime(Time.valueOf("16:00:00"),Time.valueOf("20:00:00"));
-        BussinessTime bussinessHourFriday = new BussinessTime(Time.valueOf("8:00:00"),Time.valueOf("20:00:00"));
+        BusinessTime bussinessHourMonday = new BusinessTime(Time.valueOf("8:00:00"),Time.valueOf("12:00:00"));
+        BusinessTime bussinessHourWednesday = new BusinessTime(Time.valueOf("16:00:00"),Time.valueOf("20:00:00"));
+        BusinessTime bussinessHourFriday = new BusinessTime(Time.valueOf("8:00:00"),Time.valueOf("20:00:00"));
 
-        SetOfBussinessTime setBussinessHoursMonday = new SetOfBussinessTime();
+        SetOfBusinessTime setBussinessHoursMonday = new SetOfBusinessTime();
         setBussinessHoursMonday.add(bussinessHourMonday);
 
-        SetOfBussinessTime setBussinessHoursWednesday = new SetOfBussinessTime();
+        SetOfBusinessTime setBussinessHoursWednesday = new SetOfBusinessTime();
         setBussinessHoursWednesday.add(bussinessHourWednesday);
 
-        SetOfBussinessTime setBussinessHoursFriday = new SetOfBussinessTime();
+        SetOfBusinessTime setBussinessHoursFriday = new SetOfBusinessTime();
         setBussinessHoursFriday.add(bussinessHourFriday);
 
-        Map<DayOfWeek, SetOfBussinessTime> mapOfBussinessDayAndHour = new HashMap<>();
+        Map<DayOfWeek, SetOfBusinessTime> mapOfBussinessDayAndHour = new HashMap<>();
         mapOfBussinessDayAndHour.put(DayOfWeek.MONDAY,setBussinessHoursMonday);
         mapOfBussinessDayAndHour.put(DayOfWeek.WEDNESDAY,setBussinessHoursWednesday);
         mapOfBussinessDayAndHour.put(DayOfWeek.FRIDAY,setBussinessHoursFriday);
@@ -168,20 +168,20 @@ public class ProviderTest {
 
     @Test
     public void testGivenAProviderWithScheduleMonday8To12Wednesday16To20Friday8To20WhenProviderRecievesDeleteBussinessTimeWEDNESDAYThenDayWednesdayAndTheirValueIsRemovedFromSchedule(){
-        BussinessTime bussinessHourMonday = new BussinessTime(Time.valueOf("8:00:00"),Time.valueOf("12:00:00"));
-        BussinessTime bussinessHourWednesday = new BussinessTime(Time.valueOf("16:00:00"),Time.valueOf("20:00:00"));
-        BussinessTime bussinessHourFriday = new BussinessTime(Time.valueOf("8:00:00"),Time.valueOf("20:00:00"));
+        BusinessTime bussinessHourMonday = new BusinessTime(Time.valueOf("8:00:00"),Time.valueOf("12:00:00"));
+        BusinessTime bussinessHourWednesday = new BusinessTime(Time.valueOf("16:00:00"),Time.valueOf("20:00:00"));
+        BusinessTime bussinessHourFriday = new BusinessTime(Time.valueOf("8:00:00"),Time.valueOf("20:00:00"));
 
-        SetOfBussinessTime setBussinessHoursMonday = new SetOfBussinessTime();
+        SetOfBusinessTime setBussinessHoursMonday = new SetOfBusinessTime();
         setBussinessHoursMonday.add(bussinessHourMonday);
 
-        SetOfBussinessTime setBussinessHoursWednesday = new SetOfBussinessTime();
+        SetOfBusinessTime setBussinessHoursWednesday = new SetOfBusinessTime();
         setBussinessHoursWednesday.add(bussinessHourWednesday);
 
-        SetOfBussinessTime setBussinessHoursFriday = new SetOfBussinessTime();
+        SetOfBusinessTime setBussinessHoursFriday = new SetOfBusinessTime();
         setBussinessHoursFriday.add(bussinessHourFriday);
 
-        Map<DayOfWeek, SetOfBussinessTime> mapOfBussinessDayAndHour = new HashMap<>();
+        Map<DayOfWeek, SetOfBusinessTime> mapOfBussinessDayAndHour = new HashMap<>();
         mapOfBussinessDayAndHour.put(DayOfWeek.MONDAY,setBussinessHoursMonday);
         mapOfBussinessDayAndHour.put(DayOfWeek.WEDNESDAY,setBussinessHoursWednesday);
         mapOfBussinessDayAndHour.put(DayOfWeek.FRIDAY,setBussinessHoursFriday);
@@ -207,16 +207,16 @@ public class ProviderTest {
 
     @Test
     public void testGivenAProviderWithScheduleMondayAndTuesdayWithHour8To12WhenProviderRecievesDeleteBussinessTimeFRIDAYThenItIsNotAffected(){
-        BussinessTime bussinessHourMonday = new BussinessTime(Time.valueOf("8:00:00"),Time.valueOf("12:00:00"));
-        BussinessTime bussinessHourTuesday = new BussinessTime(Time.valueOf("8:00:00"),Time.valueOf("12:00:00"));
+        BusinessTime bussinessHourMonday = new BusinessTime(Time.valueOf("8:00:00"),Time.valueOf("12:00:00"));
+        BusinessTime bussinessHourTuesday = new BusinessTime(Time.valueOf("8:00:00"),Time.valueOf("12:00:00"));
 
-        SetOfBussinessTime setBussinessHoursMonday = new SetOfBussinessTime();
+        SetOfBusinessTime setBussinessHoursMonday = new SetOfBusinessTime();
         setBussinessHoursMonday.add(bussinessHourMonday);
 
-        SetOfBussinessTime setBussinessHoursTuesday = new SetOfBussinessTime();
+        SetOfBusinessTime setBussinessHoursTuesday = new SetOfBusinessTime();
         setBussinessHoursTuesday.add(bussinessHourTuesday);
 
-        Map<DayOfWeek, SetOfBussinessTime> mapOfBussinessDayAndHour = new HashMap<>();
+        Map<DayOfWeek, SetOfBusinessTime> mapOfBussinessDayAndHour = new HashMap<>();
         mapOfBussinessDayAndHour.put(DayOfWeek.MONDAY,setBussinessHoursMonday);
         mapOfBussinessDayAndHour.put(DayOfWeek.TUESDAY,setBussinessHoursTuesday);
 
@@ -234,19 +234,19 @@ public class ProviderTest {
 
     @Test
     public void testGivenAProviderWithScheduleMonday8To12WhenItRecievesAddBussinessTimeSUNDAYAndSetBussinessHoursSundayThenProviderScheduleAddTheNewBussinessHour(){
-        BussinessTime bussinessHourMonday = new BussinessTime(Time.valueOf("8:00:00"),Time.valueOf("12:00:00"));
+        BusinessTime bussinessHourMonday = new BusinessTime(Time.valueOf("8:00:00"),Time.valueOf("12:00:00"));
 
-        SetOfBussinessTime setBussinessHoursMonday = new SetOfBussinessTime();
+        SetOfBusinessTime setBussinessHoursMonday = new SetOfBusinessTime();
         setBussinessHoursMonday.add(bussinessHourMonday);
 
-        Map<DayOfWeek, SetOfBussinessTime> mapOfBussinessDayAndHour = new HashMap<>();
+        Map<DayOfWeek, SetOfBusinessTime> mapOfBussinessDayAndHour = new HashMap<>();
         mapOfBussinessDayAndHour.put(DayOfWeek.MONDAY,setBussinessHoursMonday);
 
         Schedule schedule1 = new Schedule(mapOfBussinessDayAndHour);
 
         Provider provider = ProviderBuilder.aProvider().withSchedule(schedule1).build();
 
-        BussinessTime bussinessHourSunday = new BussinessTime(Time.valueOf("8:00:00"),Time.valueOf("12:00:00"));
+        BusinessTime bussinessHourSunday = new BusinessTime(Time.valueOf("8:00:00"),Time.valueOf("12:00:00"));
 
         provider.addBussinessTime(DayOfWeek.SUNDAY,bussinessHourSunday);
 
@@ -254,7 +254,7 @@ public class ProviderTest {
         Assert.assertTrue(provider.getMapSchedule().containsKey(DayOfWeek.SUNDAY));
         Assert.assertEquals(provider.getScheduleDays().size(),2);
 
-        SetOfBussinessTime setBussinessHoursSunday = new SetOfBussinessTime();
+        SetOfBusinessTime setBussinessHoursSunday = new SetOfBusinessTime();
         setBussinessHoursSunday.add(bussinessHourSunday);
 
         Assert.assertTrue(provider.getSchedule().containsDayAndBussinessTime(DayOfWeek.MONDAY,setBussinessHoursMonday));
@@ -264,19 +264,19 @@ public class ProviderTest {
 
     @Test
     public void testGivenAProviderWithScheduleMonday8To12WhenItRecievesAddBussinessTimeMONDAY17To20ThenProviderScheduleAddTheNewBussinessHour(){
-        BussinessTime bussinessHourMonday = new BussinessTime(Time.valueOf("8:00:00"),Time.valueOf("12:00:00"));
+        BusinessTime bussinessHourMonday = new BusinessTime(Time.valueOf("8:00:00"),Time.valueOf("12:00:00"));
 
-        SetOfBussinessTime setBussinessHoursMonday = new SetOfBussinessTime();
+        SetOfBusinessTime setBussinessHoursMonday = new SetOfBusinessTime();
         setBussinessHoursMonday.add(bussinessHourMonday);
 
-        Map<DayOfWeek, SetOfBussinessTime> mapOfBussinessDayAndHour = new HashMap<>();
+        Map<DayOfWeek, SetOfBusinessTime> mapOfBussinessDayAndHour = new HashMap<>();
         mapOfBussinessDayAndHour.put(DayOfWeek.MONDAY,setBussinessHoursMonday);
 
         Schedule schedule1 = new Schedule(mapOfBussinessDayAndHour);
 
         Provider provider = ProviderBuilder.aProvider().withSchedule(schedule1).build();
 
-        BussinessTime newBussinessHour = new BussinessTime(Time.valueOf("17:00:00"),Time.valueOf("20:00:00"));
+        BusinessTime newBussinessHour = new BusinessTime(Time.valueOf("17:00:00"),Time.valueOf("20:00:00"));
 
         provider.addBussinessTime(DayOfWeek.MONDAY,newBussinessHour);
 
@@ -291,20 +291,20 @@ public class ProviderTest {
 
     @Test
     public void testGivenAProviderWithScheduleMonday8To12WhenItRecievesSetBussinessTimeMONDAY17To20ThenProviderScheduleSetTheNewBussinessHourDeletingThePrevious(){
-        BussinessTime bussinessHourMonday = new BussinessTime(Time.valueOf("8:00:00"),Time.valueOf("12:00:00"));
+        BusinessTime bussinessHourMonday = new BusinessTime(Time.valueOf("8:00:00"),Time.valueOf("12:00:00"));
 
-        SetOfBussinessTime setBussinessHoursMonday = new SetOfBussinessTime();
+        SetOfBusinessTime setBussinessHoursMonday = new SetOfBusinessTime();
         setBussinessHoursMonday.add(bussinessHourMonday);
 
-        Map<DayOfWeek, SetOfBussinessTime> mapOfBussinessDayAndHour = new HashMap<>();
+        Map<DayOfWeek, SetOfBusinessTime> mapOfBussinessDayAndHour = new HashMap<>();
         mapOfBussinessDayAndHour.put(DayOfWeek.MONDAY,setBussinessHoursMonday);
 
         Schedule schedule1 = new Schedule(mapOfBussinessDayAndHour);
 
         Provider provider = ProviderBuilder.aProvider().withSchedule(schedule1).build();
 
-        BussinessTime newBussinessHour = new BussinessTime(Time.valueOf("17:00:00"),Time.valueOf("20:00:00"));
-        SetOfBussinessTime newSetBussinessHoursMonday = new SetOfBussinessTime();
+        BusinessTime newBussinessHour = new BusinessTime(Time.valueOf("17:00:00"),Time.valueOf("20:00:00"));
+        SetOfBusinessTime newSetBussinessHoursMonday = new SetOfBusinessTime();
         newSetBussinessHoursMonday.add(newBussinessHour);
 
         provider.setBussinessTime(DayOfWeek.MONDAY,newSetBussinessHoursMonday);
@@ -319,20 +319,20 @@ public class ProviderTest {
 
     @Test
     public void testGivenAProviderWithScheduleMonday8To12WhenItRecievesSetBussinessTimeTUESDAY17To20ThenProviderScheduleSetTheNewBussinessHour(){
-        BussinessTime bussinessHourMonday = new BussinessTime(Time.valueOf("8:00:00"),Time.valueOf("12:00:00"));
+        BusinessTime bussinessHourMonday = new BusinessTime(Time.valueOf("8:00:00"),Time.valueOf("12:00:00"));
 
-        SetOfBussinessTime setBussinessHoursMonday = new SetOfBussinessTime();
+        SetOfBusinessTime setBussinessHoursMonday = new SetOfBusinessTime();
         setBussinessHoursMonday.add(bussinessHourMonday);
 
-        Map<DayOfWeek, SetOfBussinessTime> mapOfBussinessDayAndHour = new HashMap<>();
+        Map<DayOfWeek, SetOfBusinessTime> mapOfBussinessDayAndHour = new HashMap<>();
         mapOfBussinessDayAndHour.put(DayOfWeek.MONDAY,setBussinessHoursMonday);
 
         Schedule schedule1 = new Schedule(mapOfBussinessDayAndHour);
 
         Provider provider = ProviderBuilder.aProvider().withSchedule(schedule1).build();
 
-        BussinessTime newBussinessHourTuesday = new BussinessTime(Time.valueOf("17:00:00"),Time.valueOf("20:00:00"));
-        SetOfBussinessTime setNewBussinessHourTuesday = new SetOfBussinessTime();
+        BusinessTime newBussinessHourTuesday = new BusinessTime(Time.valueOf("17:00:00"),Time.valueOf("20:00:00"));
+        SetOfBusinessTime setNewBussinessHourTuesday = new SetOfBusinessTime();
         setNewBussinessHourTuesday.add(newBussinessHourTuesday);
 
         provider.setBussinessTime(DayOfWeek.TUESDAY,setNewBussinessHourTuesday);

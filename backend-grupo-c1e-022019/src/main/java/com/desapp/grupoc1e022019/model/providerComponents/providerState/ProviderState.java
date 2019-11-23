@@ -16,7 +16,15 @@ public abstract class ProviderState  extends EntityId{
         return false;
     }
 
+    public boolean isDeletingProcessProvider() {return false;}
+
     public abstract String toString();
 
     public abstract void addStrike(Provider provider);
+
+    public void setDeletingProcessProviderState(Provider provider){
+        if(provider.getStrikesMenu() == 0){
+            provider.setProviderState(new DeletingProcessProvider());
+        }
+    }
 }

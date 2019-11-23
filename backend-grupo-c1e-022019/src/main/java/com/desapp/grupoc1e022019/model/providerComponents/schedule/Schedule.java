@@ -5,6 +5,7 @@ import com.desapp.grupoc1e022019.model.EntityId;
 import javax.persistence.*;
 import java.time.DayOfWeek;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,20 +18,22 @@ public class Schedule  extends EntityId{
             inverseJoinColumns = {@JoinColumn(name = "id_set_of_bussiness_time", referencedColumnName = "id")})
     @MapKeyColumn(name = "day_of_week")
     @MapKeyEnumerated(EnumType.STRING)
-    private Map<DayOfWeek, SetOfBussinessTime> daysAndHours;
+    private Map<DayOfWeek, SetOfBusinessTime> daysAndHours;
 
-    public Schedule(){}
+    public Schedule(){
+        daysAndHours = new HashMap<>();
+    }
 
-    public Schedule(Map<DayOfWeek,SetOfBussinessTime> daysAndHours){
+    public Schedule(Map<DayOfWeek, SetOfBusinessTime> daysAndHours){
         this.daysAndHours = daysAndHours;
     }
 
-    public Map<DayOfWeek,SetOfBussinessTime> getDaysAndBussinessTime() {
+    public Map<DayOfWeek, SetOfBusinessTime> getDaysAndBussinessTime() {
         return daysAndHours;
     }
 
-    public void addBussinessTime(DayOfWeek day,BussinessTime newBussinessHour){
-        SetOfBussinessTime value = new SetOfBussinessTime();
+    public void addBussinessTime(DayOfWeek day, BusinessTime newBussinessHour){
+        SetOfBusinessTime value = new SetOfBusinessTime();
         if(daysAndHours.containsKey(day)){
             value = daysAndHours.get(day);
         }
@@ -42,34 +45,38 @@ public class Schedule  extends EntityId{
         daysAndHours.remove(day);
     }
 
-    public void setBussinessTime(DayOfWeek day,SetOfBussinessTime newBussinessHours){
+    public void setBussinessTime(DayOfWeek day, SetOfBusinessTime newBussinessHours){
         daysAndHours.put(day,newBussinessHours);
     }
 
-    public Set<BussinessTime> getBussinessHoursOf(DayOfWeek day){
-        return daysAndHours.get(day).getBussinessTimes();
+    public Set<BusinessTime> getBussinessHoursOf(DayOfWeek day){
+        return daysAndHours.get(day).getBusinessTimes();
     }
 
     public Set<DayOfWeek> getDays(){
         return daysAndHours.keySet();
     }
 
-    public Collection<SetOfBussinessTime> getBussinessTimes(){
+    public Collection<SetOfBusinessTime> getBussinessTimes(){
         return daysAndHours.values();
     }
 
-    public boolean containsDayAndBussinessTime(DayOfWeek dayOfWeek,SetOfBussinessTime setOfBussinessTime){
+    public boolean containsDayAndBussinessTime(DayOfWeek dayOfWeek, SetOfBusinessTime setOfBusinessTime){
         if(daysAndHours.containsKey(dayOfWeek)){
-            return this.daysAndHours.get(dayOfWeek).containsAll(setOfBussinessTime);
+            return this.daysAndHours.get(dayOfWeek).containsAll(setOfBusinessTime);
         }
         return false;
     }
 
-    public Map<DayOfWeek, SetOfBussinessTime> getDaysAndHours() {
+    public Map<DayOfWeek, SetOfBusinessTime> getDaysAndHours() {
         return daysAndHours;
     }
 
-    public void setDaysAndHours(Map<DayOfWeek, SetOfBussinessTime> daysAndHours) {
+    public void setDaysAndHours(Map<DayOfWeek, SetOfBusinessTime> daysAndHours) {
         this.daysAndHours = daysAndHours;
+    }
+
+    public boolean isValid() {
+        return daysAndHours != null && ! daysAndHours.isEmpty();
     }
 }
