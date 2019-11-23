@@ -138,7 +138,6 @@ class NavBar extends React.Component {
 
   render() {
     const { t } = this.props;
-    console.log(this.state);
     return (
       <div>
         <Navbar className="all-navbar" fixed="top">
