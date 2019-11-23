@@ -6,14 +6,15 @@ import '../dist/css/App.css';
 import React, { Suspense } from 'react';
 import { Switch, Route } from 'react-router';
 import { BrowserRouter } from 'react-router-dom';
+import PrivateRouteNavbar from './PrivateRoutesComponents/PrivateRouteNavbar';
 import Home from './Home';
-import MapViendasYa from './MapViendasYa';
 import SignUpProvider from './SignUpProvider';
 import NavBar from './NavBar';
 import CreateMenu from './CreateMenu';
 import LogIn from './LogIn';
 import SearchResult from './SearchResult';
 import ErrorPage from './ErrorPage';
+
 
 export default class App extends React.Component {
   render() {
@@ -22,11 +23,16 @@ export default class App extends React.Component {
         <BrowserRouter>
           <Switch>
             <Route exact path="/" render={(props) => <LogIn {...props} />} />
-            <Route exact path="/home" render={(props) => <div><NavBar {...props} /><Home {...props} /> </div>} />
-            <Route exact path="/map" render={() => <MapViendasYa />} />
+            <PrivateRouteNavbar exact path="/home" navbar={NavBar} component={Home} />
+            {
+              // (Cambiar este Route cuando tengamos el Navbar del provider y
+              // una forma de llegar al create menu desde la ui.)
+              // eslint-disable-next-line max-len
+              // <PrivateRouteNavbar exact path="/create_menu" navbar={NavBarProvider} component={CreateMenu} />
+            }
             <Route exact path="/create_menu" render={(props) => <CreateMenu {...props} />} />
-            <Route exact path="/search" render={(props) => <div><NavBar {...props} /><SearchResult {...props} /></div>} />
-            <Route exact path="/signup_provider" render={(props) => <div><NavBar /><SignUpProvider {...props} /></div>} />
+            <PrivateRouteNavbar exact path="/search" navbar={NavBar} component={SearchResult} />
+            <PrivateRouteNavbar exact path="/signup_provider" navbar={NavBar} component={SignUpProvider} />
             <Route path="/" render={(props) => <ErrorPage {...props} />} />
           </Switch>
         </BrowserRouter>

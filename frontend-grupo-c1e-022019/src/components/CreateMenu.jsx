@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
-import NavBar from './NavBar';
 import RegisterMenuForm from './RegisterMenuForm';
 import '../dist/css/CreateMenu.css';
 
@@ -15,7 +14,9 @@ class CreateMenu extends Component {
     const { t } = this.props;
     return (
       <div>
-        <NavBar />
+        {
+          // <NavBar /> CREAR UN NAVBAR DEL PROVIDER
+        }
         <h1 className="register_menu_title"> {t('register your menu')}
         </h1>
         <RegisterMenuForm />
