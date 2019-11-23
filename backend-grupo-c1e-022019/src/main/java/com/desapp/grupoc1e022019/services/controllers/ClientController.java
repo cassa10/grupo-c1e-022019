@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -31,18 +32,17 @@ public class ClientController {
     public ResponseEntity getClient(@RequestParam HashMap<String,String> body) {
         String idGoogle = body.get("googleId");
         String accessToken = body.get("accessToken");
-        long idClient = Long.parseLong(body.get("idClient"));
 
         if(! googleAuthService.clientHasAccess(idGoogle,accessToken)){
             return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
         }
 
-        if(! clientService.clientExist(idClient)){
+        Optional<Client> maybeClient = clientService.findClientByGoogleId(idGoogle);
+        if(! maybeClient.isPresent()){
             return new ResponseEntity<>("Client does not exist", HttpStatus.NOT_FOUND);
         }
-        Client clientFound = clientService.getClient(idClient);
 
-        return new ResponseEntity<>(clientFound, HttpStatus.OK);
+        return new ResponseEntity<>(maybeClient.get(), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/client/basicInfo")
@@ -51,11 +51,12 @@ public class ClientController {
         if(! googleAuthService.clientHasAccess(googleAuthDTO.getGoogleId(),googleAuthDTO.getAccessToken())){
             return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
         }
+        Optional<Client> maybeClient = clientService.findClientById(clientDTO.getId());
 
-        if(! clientService.clientExist(clientDTO.getId())){
+        if(! maybeClient.isPresent()){
             return new ResponseEntity<>("Client does not exist", HttpStatus.NOT_FOUND);
         }
-        Client updatedClient = clientService.updateClientBasicInfo(clientDTO);
+        Client updatedClient = clientService.updateClientBasicInfo(maybeClient.get(),clientDTO);
 
         return new ResponseEntity<>(updatedClient, HttpStatus.OK);
     }

@@ -39,4 +39,8 @@ public class ClientDAO {
     public Optional<Client> findClientByGoogleId(String googleId) {
         return clientRepository.findByGoogleId(googleId);
     }
+
+    public Optional<Client> findClientById(long id) {
+        return clientRepository.findById(id);
+    }
 }
