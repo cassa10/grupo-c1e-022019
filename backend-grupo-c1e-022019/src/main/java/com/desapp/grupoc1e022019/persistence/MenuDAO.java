@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class MenuDAO {
@@ -28,10 +29,6 @@ public class MenuDAO {
 
     public boolean existsMenu(long idMenu) {
         return menuRepository.findById(idMenu).isPresent();
-    }
-
-    public void delete(long idMenu) {
-        menuRepository.deleteById(idMenu);
     }
 
     public Page<Menu> findAllLikeNameSort(String value, String orderPrice, String orderRank, int fromPage, int sizePage){
@@ -95,5 +92,9 @@ public class MenuDAO {
             menu.setMenuState(new CancelledMenu());
             menuRepository.save(menu);
         }
+    }
+
+    public Optional<Menu> findMenuById(long id) {
+        return menuRepository.findById(id);
     }
 }

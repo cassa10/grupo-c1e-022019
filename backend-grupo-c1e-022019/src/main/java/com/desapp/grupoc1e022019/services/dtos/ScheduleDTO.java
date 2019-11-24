@@ -76,4 +76,9 @@ public class ScheduleDTO {
     public Schedule getSchedule() {
         return new Schedule(daysWithHours);
     }
+
+    @Override
+    public String toString(){
+        return "{ "+" googleId: "+googleId + " , tokenAccess: "+tokenAccess+" , daysWithHours: "+ daysWithHours  +"}";
+    }
 }

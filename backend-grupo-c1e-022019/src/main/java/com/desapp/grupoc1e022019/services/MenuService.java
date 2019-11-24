@@ -3,6 +3,7 @@ package com.desapp.grupoc1e022019.services;
 import com.desapp.grupoc1e022019.model.Menu;
 import com.desapp.grupoc1e022019.model.Provider;
 import com.desapp.grupoc1e022019.model.menuComponents.CategoryMenu;
+import com.desapp.grupoc1e022019.model.menuComponents.menuState.CancelledMenu;
 import com.desapp.grupoc1e022019.persistence.MenuDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Scope(value = "session")
 @Component(value = "menuService")
@@ -31,11 +33,6 @@ public class MenuService {
 
     public boolean existMenu(long idMenu) {
         return menuDAO.existsMenu(idMenu);
-    }
-
-    @Transactional
-    public void delete(long idMenu) {
-        menuDAO.delete(idMenu);
     }
 
     public Page<Menu> searchByName(String value, String priceOrder, String rankOrder, int fromPage, int sizePage) {
@@ -72,5 +69,16 @@ public class MenuService {
 
     public Menu getMenu(long idMenu) {
         return menuDAO.getMenu(idMenu);
+    }
+
+    public Optional<Menu> findMenuById(long id) {
+        return menuDAO.findMenuById(id);
+    }
+
+    @Transactional
+    public Menu cancelMenu(Menu menu) {
+        menu.setMenuState(new CancelledMenu());
+
+        return menuDAO.save(menu);
     }
 }

@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 public class Provider extends EntityId{
@@ -237,7 +238,9 @@ public class Provider extends EntityId{
     }
 
     private void checkMaxMenus(){
-        if(this.menus.size() >= 20){
+        //MENUS IN NORMAL STATE ARE VALID. (CANCELLED STATE IS LIKE DELETED)
+        int sizeNormalMenus = this.getSizeNormalMenus();
+        if(sizeNormalMenus >= 20){
             throw new MaximumMenusSizeException("Can't add more than twenty menus");
         }
     }
@@ -269,5 +272,9 @@ public class Provider extends EntityId{
 
     public void setDeletingProcessProviderState() {
         this.providerState.setDeletingProcessProviderState(this);
+    }
+
+    public int getSizeNormalMenus(){
+        return (int) this.menus.stream().filter(m -> ! m.isCancelledState()).count();
     }
 }
