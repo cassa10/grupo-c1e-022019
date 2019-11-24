@@ -39,4 +39,8 @@ public class ProviderDAO {
     public Optional<Provider> findByGoogleId(String googleId) {
         return providerRepository.findByGoogleId(googleId);
     }
+
+    public Optional<Provider> findProviderById(long providerId) {
+        return providerRepository.findById(providerId);
+    }
 }

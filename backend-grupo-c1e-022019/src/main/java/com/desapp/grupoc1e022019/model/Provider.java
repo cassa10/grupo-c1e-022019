@@ -239,8 +239,7 @@ public class Provider extends EntityId{
 
     private void checkMaxMenus(){
         //MENUS IN NORMAL STATE ARE VALID. (CANCELLED STATE IS LIKE DELETED)
-        int sizeNormalMenus = this.getSizeNormalMenus();
-        if(sizeNormalMenus >= 20){
+        if(getNormalMenus().size() >= 20){
             throw new MaximumMenusSizeException("Can't add more than twenty menus");
         }
     }
@@ -274,7 +273,11 @@ public class Provider extends EntityId{
         this.providerState.setDeletingProcessProviderState(this);
     }
 
-    public int getSizeNormalMenus(){
-        return (int) this.menus.stream().filter(m -> ! m.isCancelledState()).count();
+    public List<Menu> getNormalMenus() {
+        return this.menus.stream().filter(m -> ! m.isCancelledState()).collect(Collectors.toList());
+    }
+
+    public List<Menu> getCancelledMenus() {
+        return this.menus.stream().filter(Menu::isCancelledState).collect(Collectors.toList());
     }
 }
