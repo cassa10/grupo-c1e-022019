@@ -9,6 +9,7 @@ import com.desapp.grupoc1e022019.services.GoogleAuthService;
 import com.desapp.grupoc1e022019.services.ProviderService;
 import com.desapp.grupoc1e022019.services.builder.ProviderBuilder;
 import com.desapp.grupoc1e022019.services.dtos.ProviderDTO;
+import com.desapp.grupoc1e022019.services.dtos.ProviderPublicDataDTO;
 import com.desapp.grupoc1e022019.services.dtos.ScheduleDTO;
 import com.desapp.grupoc1e022019.services.dtos.WithdrawCreditDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -210,6 +211,27 @@ public class ProviderController {
         Provider providerInDeletingState = providerService.setProviderDeletingProcess(maybeProviderRecovered.get());
 
         return new ResponseEntity<>(providerInDeletingState, HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/provider/public")
+    public ResponseEntity clientGetMenuProvider(@RequestParam HashMap<String,String> body){
+        String googleId = body.get("googleId");
+        String accessToken = body.get("accessToken");
+
+        if(! googleAuthService.clientHasAccess(googleId,accessToken)){
+            return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
+        }
+
+        long providerId = Long.parseLong(body.get("providerId"));
+        Optional<Provider> maybeProvider = providerService.findProviderById(providerId);
+
+        if(! maybeProvider.isPresent()){
+            return new ResponseEntity<>("Provider not found",HttpStatus.NOT_FOUND);
+        }
+
+        ProviderPublicDataDTO providerPublicDataDTO = new ProviderPublicDataDTO(maybeProvider.get());
+
+        return new ResponseEntity<>(providerPublicDataDTO,HttpStatus.OK);
     }
 
 }

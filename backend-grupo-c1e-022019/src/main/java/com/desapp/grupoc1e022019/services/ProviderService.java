@@ -100,4 +100,8 @@ public class ProviderService {
 
         return providerDAO.save(providerRecovered);
     }
+
+    public Optional<Provider> findProviderById(long providerId) {
+        return providerDAO.findProviderById(providerId);
+    }
 }
