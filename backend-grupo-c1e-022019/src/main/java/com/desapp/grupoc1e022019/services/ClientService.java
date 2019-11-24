@@ -41,17 +41,15 @@ public class ClientService {
     }
 
     @Transactional
-    public Client updateClientBasicInfo(ClientDTO clientDTO) {
+    public Client updateClientBasicInfo(Client clientRecovered, ClientDTO clientDTO) {
 
-        Client tmp = clientDAO.getClient(clientDTO.getId());
+        clientRecovered.setAddress(clientDTO.getAddress());
+        clientRecovered.setPhoneNumber(clientDTO.getPhoneNumber());
+        clientRecovered.setFirstName(clientDTO.getFirstName());
+        clientRecovered.setLastName(clientDTO.getLastName());
+        clientRecovered.setLocation(clientDTO.getLocation());
 
-        tmp.setAddress(clientDTO.getAddress());
-        tmp.setPhoneNumber(clientDTO.getPhoneNumber());
-        tmp.setFirstName(clientDTO.getFirstName());
-        tmp.setLastName(clientDTO.getLastName());
-        tmp.setLocation(clientDTO.getLocation());
-
-        return clientDAO.save(tmp);
+        return clientDAO.save(clientRecovered);
     }
 
     @Transactional
@@ -89,5 +87,9 @@ public class ClientService {
 
     public Optional<Client> findClientByGoogleId(String googleId) {
         return clientDAO.findClientByGoogleId(googleId);
+    }
+
+    public Optional<Client> findClientById(long id) {
+        return clientDAO.findClientById(id);
     }
 }

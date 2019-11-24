@@ -42,15 +42,10 @@ public class OrderController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/order")
     public ResponseEntity getClient(@RequestBody OrderDTO orderDTO) {
-        //TODO
-        //  AUTHENTICACION ACA (REFACTOR A UN ASPECTO)
 
         if(! googleAuthService.clientHasAccess(orderDTO.getGoogleId(),orderDTO.getTokenAccess())) {
             return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
         }
-
-        //TODO
-        // END AUTHENTICACION--
 
         Client recoverClient = clientService.getClient(orderDTO.getIdClient());
         Menu recoverMenu = menuService.getMenu(orderDTO.getIdMenu());
