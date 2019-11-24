@@ -27,6 +27,7 @@ class SearchResult extends React.Component {
       showModal: false,
       quantityOfMenus: 0,
       delivery: false,
+      showModalSee: false,
       pictures: [
         'https://www.seriouseats.com/recipes/images/2015/07/20150728-homemade-whopper-food-lab-35-1500x1125.jpg',
         'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSZdKVn9EaecGuHITxS6GZO8d7eGSLO66qHcA-sG9fI-dc3-PWZ',
@@ -56,6 +57,10 @@ class SearchResult extends React.Component {
 
   setShow(b) {
     this.setState({ showModal: b });
+  }
+
+  setShowSee(b) {
+    this.setState({ showModalSee: b });
   }
 
   getBodyFromDelivery(menu) {
@@ -156,13 +161,11 @@ class SearchResult extends React.Component {
     }
     return (
       <Container className="card_container">
-        <Row className="card_row">
-          {this.state.results.map(
-            (menu) => (
-              this.renderMenu(menu, t)
-            ),
-          )}
-        </Row>
+        {this.state.results.map(
+          (menu) => (
+            this.renderMenu(menu, t)
+          ),
+        )}
       </Container>
     );
   }
@@ -277,10 +280,9 @@ class SearchResult extends React.Component {
     const handleShow = () => this.setShow(true);
     return (
       <div className="">
-        <Button variant="primary" onClick={handleShow}>
+        <Button className="buy-button" variant="success" onClick={handleShow}>
           {t('buy')}
         </Button>
-
         <Modal show={this.state.showModal} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>{t('buy')}</Modal.Title>
@@ -302,31 +304,74 @@ class SearchResult extends React.Component {
     );
   }
 
+  seeButton(menu, t) {
+    const randomNumber = Math.floor(Math.random() * (this.state.pictures.length));
+    const handleClose = () => this.setShowSee(false);
+    const handleShow = () => this.setShowSee(true);
+    return (
+      <div className="">
+        <Button className="buy-button" variant="info" onClick={handleShow}>
+          {t('Ver')}
+        </Button>
+        <Modal show={this.state.showModalSee} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <h1>{menu.name}</h1>
+          </Modal.Header>
+          <Modal.Title>{menu.description}</Modal.Title>
+          <Modal.Body>
+            <Card.Img className="card_img" variant="left" src={this.state.pictures[randomNumber]} /><br />
+            <h5>Delivery value : {menu.deliveryValue} pesos<br />
+            Comprando mas de : {menu.firstMinAmount} unidades<br />
+            El precio es : {menu.firstMinAmountPrice} pesos<br />
+            Comprando mas de : {menu.menuPriceCalculator.secondMinAmount} unidades<br />
+            El precio es : {menu.menuPriceCalculator.secondMinPrice} pesos<br />
+            Distancia de delivery : {menu.deliveryMaxDistanceInKM} kms<br />
+            Estado del menu : {menu.menuStateName}<br />
+            </h5>
+          </Modal.Body>
+
+        </Modal>
+      </div>
+    );
+  }
+
   renderMenu(menu, t) {
     const randomNumber = Math.floor(Math.random() * (this.state.pictures.length));
     return (
       <div className="menu_card" key={menu.id}>
-        <Col>
-          <Card>
-            <Card.Img className="card_img" variant="top" src={this.state.pictures[randomNumber]} />
-            <Card.Body>
-              <Card.Title>{menu.name}</Card.Title>
-              <Card.Text>
-                {menu.description}
-                <StarRatingComponent
-                  name="rate2"
-                  editing={false}
-                  starCount={5}
-                  value={menu.rankAverage}
-                />
-              </Card.Text>
-              <Card.Text>
-                {`${menu.price} pesos`}
-              </Card.Text>
-              {this.buyButton(menu, t)}
-            </Card.Body>
-          </Card>
-        </Col>
+        <Card>
+          <Card.Header as="h4">{menu.name}</Card.Header>
+          <Card.Body>
+            <Row>
+              <Col lg={4.5}>
+                <Card.Img className="card_img" variant="left" src={this.state.pictures[randomNumber]} />
+              </Col>
+              <Col>
+                <Card.Text>
+                  <StarRatingComponent
+                    className="stars"
+                    name="rate2"
+                    editing={false}
+                    starCount={5}
+                    value={menu.rankAverage}
+                  />
+                  <h5>
+                    Description: {menu.description}<br />
+                    Delivery: {menu.deliveryValue}<br />
+                    Valido hasta: {menu.effectiveDateGoodThru}<br />
+                  </h5>
+                  <h4>
+                    {`${menu.price} pesos`}
+                  </h4>
+                </Card.Text>
+              </Col>
+              <Col lg={2}>
+                {this.buyButton(menu, t)}
+                {this.seeButton(menu, t)}
+              </Col>
+            </Row>
+          </Card.Body>
+        </Card>
       </div>
     );
   }

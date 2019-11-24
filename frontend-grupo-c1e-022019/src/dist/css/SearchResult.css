@@ -9,10 +9,10 @@
 }
 
 .menu_card{
-    width: 300px;
-    height: 400px;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 60px;
+    padding-right: 60px;
+    padding-bottom: 10px;
+    padding-top: 10px;
 }
 
 .config-bar{
@@ -29,10 +29,10 @@
     color : black;
     max-width : 1280px;
     align-content: center;
-    padding-left: 20px;
-    padding-right: 20px;
-    margin-left: 20px;
-    margin-right: 20px;
+}
+
+.stars{
+    font-size: 2rem;
 }
 
 .buy-body{
@@ -40,7 +40,9 @@
 }
 
 .card_img{
-    width: auto;
+    margin-left:20px;
+    margin-right:20px;
+    width: 200px;
     height: 200px;
 }
 
@@ -52,4 +54,11 @@
 
 .no_results{
     color: black;
+}
+
+.buy-button{
+    margin : 20px;
+    height: 50px;
+    width: 140px
+    
 }
