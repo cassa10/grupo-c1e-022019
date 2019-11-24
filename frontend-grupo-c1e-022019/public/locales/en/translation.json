@@ -76,5 +76,8 @@
     "Ver" : "See",
     "Comprando mas de" : "Buying more than",
     "Distancia de delivery" : "Max delivery distance",
-    "Estado del menu" : "Menu state"
+    "Estado del menu" : "Menu state",
+    "Filtrar por" :"Filter by",
+    "puntuacion" :"Rating",
+    "Price" : "Price"
 }

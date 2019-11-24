@@ -250,25 +250,25 @@ class SearchResult extends React.Component {
     this.requestAPISearch();
   }
 
-  searchConfig() {
+  searchConfig(t) {
     return (
       <div className="config-bar">
         <Row>
-          <h3>Filtrar por : </h3>
+          <h3>{t('Filtrar por')} : </h3>
           <DropdownButton
-            title="Puntuacion"
+            title={t('Price')}
+            variant="info"
+          >
+            <Dropdown.Item eventKey="1" onSelect={() => this.handlePriceMinSelected()}>Min</Dropdown.Item>
+            <Dropdown.Item eventKey="2" onSelect={() => this.handlePriceMaxSelected()}>Max</Dropdown.Item>
+          </DropdownButton>
+          <DropdownButton
+            title={t('puntuacion')}
             variant="info"
             className="dropdown-config"
           >
             <Dropdown.Item eventKey="1" onSelect={() => this.handleRankMinSelected()}>Min</Dropdown.Item>
             <Dropdown.Item eventKey="2" onSelect={() => this.handleRankMaxSelected()}>Max</Dropdown.Item>
-          </DropdownButton>
-          <DropdownButton
-            title="Precio"
-            variant="info"
-          >
-            <Dropdown.Item eventKey="1" onSelect={() => this.handlePriceMinSelected()}>Min</Dropdown.Item>
-            <Dropdown.Item eventKey="2" onSelect={() => this.handlePriceMaxSelected()}>Max</Dropdown.Item>
           </DropdownButton>
         </Row>
       </div>
@@ -338,6 +338,7 @@ class SearchResult extends React.Component {
     );
   }
 
+
   renderMenu(menu, t) {
     const randomNumber = Math.floor(Math.random() * (this.state.pictures.length));
     return (
@@ -367,6 +368,9 @@ class SearchResult extends React.Component {
                     {`${menu.price} pesos`}
                   </h4>
                 </Card.Text>
+              </Col>
+              <Col>
+                {this.showProviderInfo()}
               </Col>
               <Col lg={2}>
                 {this.buyButton(menu, t)}
