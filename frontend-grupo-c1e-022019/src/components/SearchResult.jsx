@@ -19,7 +19,7 @@ class SearchResult extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      priceOrder: 'min',
+      priceOrder: 'max',
       rankOrder: 'max',
       fromPage: 0,
       sizePage: 4,
@@ -76,8 +76,8 @@ class SearchResult extends React.Component {
           deliverDate: new Date().toJSON(),
           destination: {
             coord: {
-              latitude: -34.707191,
-              longitude: -58.276366,
+              latitude: '-34.707191',
+              longitude: '-58.276366',
             },
             location: 'Dean Funes 630, Bernal, Buenos Aires, Argentina',
           },
@@ -198,7 +198,7 @@ class SearchResult extends React.Component {
     console.log(body);
     API.post('/order', body)
       .then(() => this.buyDone(t, menu))
-      .catch(() => this.handleInsuficientCredit(menu, t));
+      .catch((e) => console.log(e));
   }
 
   buyConfirmed(isConfirmed, menu, t) {
@@ -250,7 +250,7 @@ class SearchResult extends React.Component {
     this.requestAPISearch();
   }
 
-  searchConfig(t) {
+  searchConfig() {
     return (
       <div className="config-bar">
         <Row>
@@ -260,15 +260,15 @@ class SearchResult extends React.Component {
             variant="info"
             className="dropdown-config"
           >
-            <Dropdown.Item eventKey="1" onSelect={() => this.handleRankMinSelected()}>Minimo</Dropdown.Item>
-            <Dropdown.Item eventKey="2" onSelect={() => this.handleRankMaxSelected()}>Maximo</Dropdown.Item>
+            <Dropdown.Item eventKey="1" onSelect={() => this.handleRankMinSelected()}>Min</Dropdown.Item>
+            <Dropdown.Item eventKey="2" onSelect={() => this.handleRankMaxSelected()}>Max</Dropdown.Item>
           </DropdownButton>
           <DropdownButton
             title="Precio"
             variant="info"
           >
-            <Dropdown.Item eventKey="1" onSelect={() => this.handlePriceMinSelected()}>Minimo</Dropdown.Item>
-            <Dropdown.Item eventKey="2" onSelect={() => this.handlePriceMaxSelected()}>Maximo</Dropdown.Item>
+            <Dropdown.Item eventKey="1" onSelect={() => this.handlePriceMinSelected()}>Min</Dropdown.Item>
+            <Dropdown.Item eventKey="2" onSelect={() => this.handlePriceMaxSelected()}>Max</Dropdown.Item>
           </DropdownButton>
         </Row>
       </div>
@@ -283,14 +283,17 @@ class SearchResult extends React.Component {
         <Button className="buy-button" variant="success" onClick={handleShow}>
           {t('buy')}
         </Button>
+
         <Modal show={this.state.showModal} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>{t('buy')}</Modal.Title>
           </Modal.Header>
-          <Modal.Body className="buy-body">{t('How many?')}</Modal.Body>
-          <input type="number" onChange={(e) => this.handleQuantityOfMenus(e)} />
-          <p className="buy-body">Do you want delivery?</p>
-          <Form.Check label="Delivery" type="checkbox" id="inline-checkbox-1" onChange={(e) => this.handleDelivery(e)} />
+          <Modal.Body className="buy-body">{t('How many?')}
+            <br />
+            <input type="number" onChange={(e) => this.handleQuantityOfMenus(e)} />
+            <p className="buy-body">{t('Do you want delivery?')}</p>
+            <Form.Check inline label="Delivery" type="checkbox" id="inline-checkbox-1" onChange={(e) => this.handleDelivery(e)} />
+          </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
               {t('cancel')}
@@ -320,13 +323,13 @@ class SearchResult extends React.Component {
           <Modal.Title>{menu.description}</Modal.Title>
           <Modal.Body>
             <Card.Img className="card_img" variant="left" src={this.state.pictures[randomNumber]} /><br />
-            <h5>Delivery value : {menu.deliveryValue} pesos<br />
-            Comprando mas de : {menu.firstMinAmount} unidades<br />
-            El precio es : {menu.firstMinAmountPrice} pesos<br />
-            Comprando mas de : {menu.menuPriceCalculator.secondMinAmount} unidades<br />
-            El precio es : {menu.menuPriceCalculator.secondMinPrice} pesos<br />
-            Distancia de delivery : {menu.deliveryMaxDistanceInKM} kms<br />
-            Estado del menu : {menu.menuStateName}<br />
+            <h5>Delivery : {menu.deliveryValue} pesos<br />
+              {t('Comprando mas de')}: {menu.firstMinAmount} unidades<br />
+              {t('the price will be')} {menu.firstMinAmountPrice} pesos<br />
+              {t('Comprando mas de')}: {menu.menuPriceCalculator.secondMinAmount} unidades<br />
+              {t('the price will be')} {menu.menuPriceCalculator.secondMinPrice} pesos<br />
+              {t('Distancia de delivery')} : {menu.deliveryMaxDistanceInKM} kms<br />
+              {t('Estado del menu')} {menu.menuStateName}<br />
             </h5>
           </Modal.Body>
 
@@ -356,9 +359,9 @@ class SearchResult extends React.Component {
                     value={menu.rankAverage}
                   />
                   <h5>
-                    Description: {menu.description}<br />
+                    {t('Description')}: {menu.description}<br />
                     Delivery: {menu.deliveryValue}<br />
-                    Valido hasta: {menu.effectiveDateGoodThru}<br />
+                    {t('Valido hasta')} {menu.effectiveDateGoodThru}<br />
                   </h5>
                   <h4>
                     {`${menu.price} pesos`}

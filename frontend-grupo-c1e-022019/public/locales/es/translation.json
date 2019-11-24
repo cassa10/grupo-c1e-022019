@@ -58,6 +58,7 @@
     "Insufficient credit" : "Credito insuficiente",
     "Accredit" : "Cargar saldo",
     "How much?" : "Cuanto dinero?",
+    "How many?" : "Cuantos?",
     "cancel" : "Cancelar",
     "buy" : "Comprar",
     "Done" :"Listo",
@@ -69,5 +70,11 @@
     "Ups something went wrong, please try again": "Algo salio mal, intente devuelta",
     "Your account does not exist": "Tu cuenta no existe. Registrate, y intentalo de nuevo.",
     "Request with bad data": "Algo malio sal",
-    "Server is not responding, please try again later": "El servidor no esta respondiendo, por favor intente mas tarde."
+    "Server is not responding, please try again later": "El servidor no esta respondiendo, por favor intente mas tarde.",
+    "Valido hasta" : "Valido hasta",
+    "Do you want delivery?" : "Vas a querer delivery?",
+    "Ver" : "Ver",
+    "Comprando mas de" : "Comprando mas de ",
+    "Distancia de delivery" : "Distancia de delivery",
+    "Estado del menu" :"Estado del menu"
 }

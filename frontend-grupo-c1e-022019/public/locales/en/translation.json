@@ -58,6 +58,7 @@
     "Insufficient credit" : "Insufficient credit",
     "Accredit" : "Accredit",
     "How much?" : "How many pesos?",
+    "How many?" : "How many?",
     "cancel" : "Cancel",
     "buy" : "Buy",
     "Done" : "Done",
@@ -69,5 +70,11 @@
     "Ups something went wrong, please try again": "Ups something went wrong, please try again",
     "Your account does not exist": "Your account does not exist. Sign up and try again",
     "Request with bad data": "Something went wrong",
-    "Server is not responding, please try again later": "Server is not responding, please try again later."
+    "Server is not responding, please try again later": "Server is not responding, please try again later.",
+    "Valido hasta" : "Valid thru",
+    "Do you want delivery?" : "Do you want delivery?",
+    "Ver" : "See",
+    "Comprando mas de" : "Buying more than",
+    "Distancia de delivery" : "Max delivery distance",
+    "Estado del menu" : "Menu state"
 }
