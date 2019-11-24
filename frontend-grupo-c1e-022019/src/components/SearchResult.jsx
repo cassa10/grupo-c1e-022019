@@ -8,6 +8,7 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
+import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/Button';
 import { withTranslation } from 'react-i18next';
 import Swal from 'sweetalert2';
@@ -338,6 +339,33 @@ class SearchResult extends React.Component {
     );
   }
 
+  showProviderInfo() {
+    return <h5>Aca iria la info del provider</h5>;
+  }
+
+  showBadge(rankAverage) {
+    if (rankAverage === 5) {
+      return (
+        <Badge pill variant="warning">
+          Destacado
+        </Badge>
+      );
+    }
+    return (<div />);
+  }
+
+  showStars(menu) {
+    return (
+      <StarRatingComponent
+        className="stars"
+        name="rate2"
+        editing={false}
+        starCount={5}
+        value={menu.rankAverage}
+      />
+    );
+  }
+
 
   renderMenu(menu, t) {
     const randomNumber = Math.floor(Math.random() * (this.state.pictures.length));
@@ -351,23 +379,16 @@ class SearchResult extends React.Component {
                 <Card.Img className="card_img" variant="left" src={this.state.pictures[randomNumber]} />
               </Col>
               <Col>
-                <Card.Text>
-                  <StarRatingComponent
-                    className="stars"
-                    name="rate2"
-                    editing={false}
-                    starCount={5}
-                    value={menu.rankAverage}
-                  />
-                  <h5>
-                    {t('Description')}: {menu.description}<br />
-                    Delivery: {menu.deliveryValue}<br />
-                    {t('Valido hasta')} {menu.effectiveDateGoodThru}<br />
-                  </h5>
-                  <h4>
-                    {`${menu.price} pesos`}
-                  </h4>
-                </Card.Text>
+                {this.showStars(menu)}
+                {this.showBadge(menu.rankAverage)}
+                <h5>
+                  {t('Description')}: {menu.description}<br />
+                    Delivery: ${menu.deliveryValue}<br />
+                  {t('Valido hasta')} {menu.effectiveDateGoodThru}<br />
+                </h5>
+                <h4>
+                  {`a solo $${menu.price}`}
+                </h4>
               </Col>
               <Col>
                 {this.showProviderInfo()}
