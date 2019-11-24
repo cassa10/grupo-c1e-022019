@@ -26,8 +26,6 @@ public class MenuPriceCalculator extends EntityId {
     }
 
     public Double calculateCurrentMenuPrice(Integer amount) {
-        //TODO
-        // DUDA DE ENUNCIADO (RELACION ENTRE EL MIN Y EL AMOUNT O CANTIDAD DE VENTAS)
         double value;
         if(amount >= secondMinAmount){
             value = secondMinAmountPrice * amount;

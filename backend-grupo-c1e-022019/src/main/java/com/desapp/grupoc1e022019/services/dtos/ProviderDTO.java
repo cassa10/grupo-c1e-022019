@@ -161,8 +161,8 @@ public class ProviderDTO  {
         return isValidString(description) && description.trim().length() >= 30 && description.trim().length() <= 200;
     }
 
-    private boolean isValidString(String name) {
-        return name != null && ! name.trim().equals("");
+    private boolean isValidString(String string) {
+        return string != null && string.trim().length() > 0;
     }
 
 

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
-
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -38,18 +38,28 @@ public class MenuController {
     @RequestMapping(method = RequestMethod.POST, value = "/menu")
     public ResponseEntity createMenu(@RequestBody MenuDTO menuDTO){
 
-        if(! providerService.providerExists(menuDTO.getIdProvider())){
+        if(! googleAuthService.providerHasAccess(menuDTO.getGoogleId(),menuDTO.getTokenAccess())){
+            return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
+        }
+
+        Optional<Provider> maybeProvider = providerService.findProviderByGoogleId(menuDTO.getGoogleId());
+
+        if(! maybeProvider.isPresent()){
             return new ResponseEntity<>("Provider does not exist", HttpStatus.NOT_FOUND);
         }
 
-        if( menuService.existsMenuWithSameName(menuDTO.getName())){
-            return new ResponseEntity<>("Please, choose a different name", HttpStatus.BAD_REQUEST);
+        if(! menuDTO.formMenuIsValid()){
+            return new ResponseEntity<>("Request bad data", HttpStatus.BAD_REQUEST);
         }
 
-        Provider provider = providerService.getProvider(menuDTO.getIdProvider());
+        if(menuDTO.existMenuWithSameName(maybeProvider.get().getMenus())){
+            return new ResponseEntity<>("You own a menu with that name", HttpStatus.BAD_REQUEST);
+        }
+
+        menuDTO.trimAllStringValues();
 
         Menu newMenu = MenuBuilder.aMenu()
-                .withProvider(provider)
+                .withProvider(maybeProvider.get())
                 .withName(menuDTO.getName())
                 .withDescription(menuDTO.getDescription())
                 .withCategories(menuDTO.getCategories())
@@ -61,25 +71,29 @@ public class MenuController {
                 .build();
 
         try {
-            menuService.addAndSaveMenu(provider, newMenu);
+            menuService.addAndSaveMenu(maybeProvider.get(), newMenu);
         }catch (MaximumMenusSizeException e){
             return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(newMenu, HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/menu/{idMenu}")
-    public ResponseEntity cancelMenu(@PathVariable long idMenu){
-        //TODO
-        //  NO BORRARLO PORQUE HARIA INCONSISTENTE LAS ORDENES, ENTONCES
-        //  HACERLO INVALIDO Y SACARLO DE LAS BUSQUEDAS Y EN EL SCHEDULER MANDARLO A BORRAR
-        if(!menuService.existMenu(idMenu)){
+    @RequestMapping(method = RequestMethod.POST, value = "/menu/delete")
+    public ResponseEntity cancelMenu(@RequestBody MenuDTO menuDTO){
+
+        if(! googleAuthService.providerHasAccess(menuDTO.getGoogleId(),menuDTO.getTokenAccess())){
+            return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
+        }
+
+        Optional<Menu> maybeMenu = menuService.findMenuById(menuDTO.getId());
+
+        if(! maybeMenu.isPresent()){
             return new ResponseEntity<>("Menu not found",HttpStatus.NOT_FOUND);
         }
 
-        //menuService.delete(idMenu);
+        Menu menuCanceled = menuService.cancelMenu(maybeMenu.get());
 
-        return new ResponseEntity<>("Menu successfully removed",HttpStatus.OK);
+        return new ResponseEntity<>(menuCanceled,HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/name/")
@@ -211,18 +225,6 @@ public class MenuController {
                         body.get("rankOrder"),fromPage,sizePage).getContent();
 
         return new ResponseEntity<>(values,HttpStatus.OK);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/menu/top_ranked")
-    public ResponseEntity getMenusTopRanked(@RequestParam HashMap<String,String> body){
-        String googleId = body.get("googleId");
-        String accessToken = body.get("accessToken");
-
-        if(! googleAuthService.clientHasAccess(googleId,accessToken)){
-            return new ResponseEntity<>("Please, log in",HttpStatus.UNAUTHORIZED);
-        }
-
-        return new ResponseEntity<>(menuService.getMenusSortedByMaxRank(),HttpStatus.OK);
     }
 
 }
