@@ -19,7 +19,7 @@ class SearchResult extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      priceOrder: 'min',
+      priceOrder: 'max',
       rankOrder: 'max',
       fromPage: 0,
       sizePage: 4,
@@ -27,6 +27,7 @@ class SearchResult extends React.Component {
       showModal: false,
       quantityOfMenus: 0,
       delivery: false,
+      showModalSee: false,
       pictures: [
         'https://www.seriouseats.com/recipes/images/2015/07/20150728-homemade-whopper-food-lab-35-1500x1125.jpg',
         'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSZdKVn9EaecGuHITxS6GZO8d7eGSLO66qHcA-sG9fI-dc3-PWZ',
@@ -58,6 +59,10 @@ class SearchResult extends React.Component {
     this.setState({ showModal: b });
   }
 
+  setShowSee(b) {
+    this.setState({ showModalSee: b });
+  }
+
   getBodyFromDelivery(menu) {
     if (this.state.delivery) {
       return (
@@ -71,8 +76,8 @@ class SearchResult extends React.Component {
           deliverDate: new Date().toJSON(),
           destination: {
             coord: {
-              latitude: -34.707191,
-              longitude: -58.276366,
+              latitude: '-34.707191',
+              longitude: '-58.276366',
             },
             location: 'Dean Funes 630, Bernal, Buenos Aires, Argentina',
           },
@@ -156,13 +161,11 @@ class SearchResult extends React.Component {
     }
     return (
       <Container className="card_container">
-        <Row className="card_row">
-          {this.state.results.map(
-            (menu) => (
-              this.renderMenu(menu, t)
-            ),
-          )}
-        </Row>
+        {this.state.results.map(
+          (menu) => (
+            this.renderMenu(menu, t)
+          ),
+        )}
       </Container>
     );
   }
@@ -195,7 +198,7 @@ class SearchResult extends React.Component {
     console.log(body);
     API.post('/order', body)
       .then(() => this.buyDone(t, menu))
-      .catch(() => this.handleInsuficientCredit(menu, t));
+      .catch((e) => console.log(e));
   }
 
   buyConfirmed(isConfirmed, menu, t) {
@@ -251,21 +254,21 @@ class SearchResult extends React.Component {
     return (
       <div className="config-bar">
         <Row>
-          <h3>Filtrar por : </h3>
+          <h3>{t('Filtrar por')} : </h3>
           <DropdownButton
-            title="Puntuacion"
+            title={t('Price')}
+            variant="info"
+          >
+            <Dropdown.Item eventKey="1" onSelect={() => this.handlePriceMinSelected()}>Min</Dropdown.Item>
+            <Dropdown.Item eventKey="2" onSelect={() => this.handlePriceMaxSelected()}>Max</Dropdown.Item>
+          </DropdownButton>
+          <DropdownButton
+            title={t('puntuacion')}
             variant="info"
             className="dropdown-config"
           >
-            <Dropdown.Item eventKey="1" onSelect={() => this.handleRankMinSelected()}>Minimo</Dropdown.Item>
-            <Dropdown.Item eventKey="2" onSelect={() => this.handleRankMaxSelected()}>Maximo</Dropdown.Item>
-          </DropdownButton>
-          <DropdownButton
-            title="Precio"
-            variant="info"
-          >
-            <Dropdown.Item eventKey="1" onSelect={() => this.handlePriceMinSelected()}>Minimo</Dropdown.Item>
-            <Dropdown.Item eventKey="2" onSelect={() => this.handlePriceMaxSelected()}>Maximo</Dropdown.Item>
+            <Dropdown.Item eventKey="1" onSelect={() => this.handleRankMinSelected()}>Min</Dropdown.Item>
+            <Dropdown.Item eventKey="2" onSelect={() => this.handleRankMaxSelected()}>Max</Dropdown.Item>
           </DropdownButton>
         </Row>
       </div>
@@ -277,7 +280,7 @@ class SearchResult extends React.Component {
     const handleShow = () => this.setShow(true);
     return (
       <div className="">
-        <Button variant="primary" onClick={handleShow}>
+        <Button className="buy-button" variant="success" onClick={handleShow}>
           {t('buy')}
         </Button>
 
@@ -285,10 +288,12 @@ class SearchResult extends React.Component {
           <Modal.Header closeButton>
             <Modal.Title>{t('buy')}</Modal.Title>
           </Modal.Header>
-          <Modal.Body className="buy-body">{t('How many?')}</Modal.Body>
-          <input type="number" onChange={(e) => this.handleQuantityOfMenus(e)} />
-          <p className="buy-body">Do you want delivery?</p>
-          <Form.Check label="Delivery" type="checkbox" id="inline-checkbox-1" onChange={(e) => this.handleDelivery(e)} />
+          <Modal.Body className="buy-body">{t('How many?')}
+            <br />
+            <input type="number" onChange={(e) => this.handleQuantityOfMenus(e)} />
+            <p className="buy-body">{t('Do you want delivery?')}</p>
+            <Form.Check inline label="Delivery" type="checkbox" id="inline-checkbox-1" onChange={(e) => this.handleDelivery(e)} />
+          </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
               {t('cancel')}
@@ -302,31 +307,78 @@ class SearchResult extends React.Component {
     );
   }
 
+  seeButton(menu, t) {
+    const randomNumber = Math.floor(Math.random() * (this.state.pictures.length));
+    const handleClose = () => this.setShowSee(false);
+    const handleShow = () => this.setShowSee(true);
+    return (
+      <div className="">
+        <Button className="buy-button" variant="info" onClick={handleShow}>
+          {t('Ver')}
+        </Button>
+        <Modal show={this.state.showModalSee} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <h1>{menu.name}</h1>
+          </Modal.Header>
+          <Modal.Title>{menu.description}</Modal.Title>
+          <Modal.Body>
+            <Card.Img className="card_img" variant="left" src={this.state.pictures[randomNumber]} /><br />
+            <h5>Delivery : {menu.deliveryValue} pesos<br />
+              {t('Comprando mas de')}: {menu.firstMinAmount} unidades<br />
+              {t('the price will be')} {menu.firstMinAmountPrice} pesos<br />
+              {t('Comprando mas de')}: {menu.menuPriceCalculator.secondMinAmount} unidades<br />
+              {t('the price will be')} {menu.menuPriceCalculator.secondMinPrice} pesos<br />
+              {t('Distancia de delivery')} : {menu.deliveryMaxDistanceInKM} kms<br />
+              {t('Estado del menu')} {menu.menuStateName}<br />
+            </h5>
+          </Modal.Body>
+
+        </Modal>
+      </div>
+    );
+  }
+
+
   renderMenu(menu, t) {
     const randomNumber = Math.floor(Math.random() * (this.state.pictures.length));
     return (
       <div className="menu_card" key={menu.id}>
-        <Col>
-          <Card>
-            <Card.Img className="card_img" variant="top" src={this.state.pictures[randomNumber]} />
-            <Card.Body>
-              <Card.Title>{menu.name}</Card.Title>
-              <Card.Text>
-                {menu.description}
-                <StarRatingComponent
-                  name="rate2"
-                  editing={false}
-                  starCount={5}
-                  value={menu.rankAverage}
-                />
-              </Card.Text>
-              <Card.Text>
-                {`${menu.price} pesos`}
-              </Card.Text>
-              {this.buyButton(menu, t)}
-            </Card.Body>
-          </Card>
-        </Col>
+        <Card>
+          <Card.Header as="h4">{menu.name}</Card.Header>
+          <Card.Body>
+            <Row>
+              <Col lg={4.5}>
+                <Card.Img className="card_img" variant="left" src={this.state.pictures[randomNumber]} />
+              </Col>
+              <Col>
+                <Card.Text>
+                  <StarRatingComponent
+                    className="stars"
+                    name="rate2"
+                    editing={false}
+                    starCount={5}
+                    value={menu.rankAverage}
+                  />
+                  <h5>
+                    {t('Description')}: {menu.description}<br />
+                    Delivery: {menu.deliveryValue}<br />
+                    {t('Valido hasta')} {menu.effectiveDateGoodThru}<br />
+                  </h5>
+                  <h4>
+                    {`${menu.price} pesos`}
+                  </h4>
+                </Card.Text>
+              </Col>
+              <Col>
+                {this.showProviderInfo()}
+              </Col>
+              <Col lg={2}>
+                {this.buyButton(menu, t)}
+                {this.seeButton(menu, t)}
+              </Col>
+            </Row>
+          </Card.Body>
+        </Card>
       </div>
     );
   }
