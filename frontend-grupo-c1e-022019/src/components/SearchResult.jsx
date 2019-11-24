@@ -354,6 +354,18 @@ class SearchResult extends React.Component {
     return (<div />);
   }
 
+  showStars(menu) {
+    return (
+      <StarRatingComponent
+        className="stars"
+        name="rate2"
+        editing={false}
+        starCount={5}
+        value={menu.rankAverage}
+      />
+    );
+  }
+
 
   renderMenu(menu, t) {
     const randomNumber = Math.floor(Math.random() * (this.state.pictures.length));
@@ -367,24 +379,16 @@ class SearchResult extends React.Component {
                 <Card.Img className="card_img" variant="left" src={this.state.pictures[randomNumber]} />
               </Col>
               <Col>
-                <Card.Text>
-                  <StarRatingComponent
-                    className="stars"
-                    name="rate2"
-                    editing={false}
-                    starCount={5}
-                    value={menu.rankAverage}
-                  />
-                  {this.showBadge(menu.rankAverage)}
-                  <h5>
-                    {t('Description')}: {menu.description}<br />
+                {this.showStars(menu)}
+                {this.showBadge(menu.rankAverage)}
+                <h5>
+                  {t('Description')}: {menu.description}<br />
                     Delivery: ${menu.deliveryValue}<br />
-                    {t('Valido hasta')} {menu.effectiveDateGoodThru}<br />
-                  </h5>
-                  <h4>
-                    {`a solo $${menu.price}`}
-                  </h4>
-                </Card.Text>
+                  {t('Valido hasta')} {menu.effectiveDateGoodThru}<br />
+                </h5>
+                <h4>
+                  {`a solo $${menu.price}`}
+                </h4>
               </Col>
               <Col>
                 {this.showProviderInfo()}
