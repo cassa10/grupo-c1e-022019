@@ -33,13 +33,13 @@ public class OrderService {
 
         DecimalFormat df = new DecimalFormat("#.00");
 
-        SendEmailTLS.send(newOrder.getClient().getEmail(),"Order is pending",
+        /*SendEmailTLS.send(newOrder.getClient().getEmail(),"Order is pending",
                 "Hi, Your order is pending. Yours '"+df.format(orderPrice.getAmount())+"' credits was debited, please wait " +
                         "until today midnight when your order will be confirmed. If your order is cancelled, you will be accredit as soon as possible.");
 
         SendEmailTLS.send(newOrder.getMenu().getProvider().getEmail(),"Your menu "+ newOrder.getMenu().getName() + " was ordered",
                 "Hi, Congrats. Your menu has a new customer. If the order is confirmed, you will recieve in your balance account the following amount: " +
-                        "'"+df.format(orderPrice.getAmount())+"'. Thank you for being a good provider! ;D");
+                        "'"+df.format(orderPrice.getAmount())+"'. Thank you for being a good provider! ;D");*/
 
         return orderSaved;
     }

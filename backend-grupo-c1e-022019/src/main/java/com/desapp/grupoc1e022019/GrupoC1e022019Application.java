@@ -39,7 +39,7 @@ public class GrupoC1e022019Application {
 			Schedule schedule =new Schedule(new HashMap<DayOfWeek, SetOfBusinessTime>());
 			Provider jose = new Provider("FAKEID1","Jose","log","Quilmes",
 					new Address(new Coord("0","0"),"West Quilmes"),"Josee",
-					"jose.com.ar","pepe@unmail.com","13281349",schedule,
+					"jose.com.ar","cassanojoseluis97@gmail.com","13281349",schedule,
 					new Credit(),40.0,new ArrayList<>(),new NormalProvider(),0);
 			providerRepository.save(jose);
 
@@ -50,7 +50,7 @@ public class GrupoC1e022019Application {
 					.withFirstName("Nico")
 					.withPhoneNumber("1243143")
 					.withLocation("Varela city")
-					.withEmail("nico@gmail.com")
+					.withEmail("nicolas.alv3@gmail.com")
 					.withAddress("Av siempreviva 3029")
 					.withLastName("Alvarez")
 					.withCredit(new Credit(100.0))
@@ -76,7 +76,7 @@ public class GrupoC1e022019Application {
 					.withFirstName("Josesin")
 					.withPhoneNumber("1243143")
 					.withLocation("Quilmes city")
-					.withEmail("pepe@unmail.com")
+					.withEmail("cassanojoseluis97@gmail.com")
 					.withAddress("Av siempreviva 3029")
 					.withLastName("Cassanin")
 					.withCredit(new Credit(100.0))

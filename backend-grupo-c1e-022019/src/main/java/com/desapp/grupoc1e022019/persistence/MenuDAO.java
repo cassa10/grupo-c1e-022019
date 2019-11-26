@@ -79,8 +79,8 @@ public class MenuDAO {
         return sortPrice.and(sortRank);
     }
 
-    public Menu getMenu(long idMenu) {
-        return menuRepository.getOne(idMenu);
+    public Optional<Menu> getMenu(long idMenu) {
+        return menuRepository.findById(idMenu);
     }
 
     public List<Menu> findAllByProvider(Provider providerRecovered) {
