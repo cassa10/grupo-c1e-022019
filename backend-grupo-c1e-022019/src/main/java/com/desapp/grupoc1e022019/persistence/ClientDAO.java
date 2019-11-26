@@ -20,8 +20,8 @@ public class ClientDAO {
         clientRepository.deleteById(id);
     }
 
-    public Client getClient(long id){
-        return clientRepository.getOne(id);
+    public Optional<Client> getClient(long id){
+        return clientRepository.findById(id);
     }
 
     public boolean existSameClientEmail(String email) {

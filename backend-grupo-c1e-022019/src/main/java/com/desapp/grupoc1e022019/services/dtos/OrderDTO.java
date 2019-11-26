@@ -1,5 +1,6 @@
 package com.desapp.grupoc1e022019.services.dtos;
 
+import com.desapp.grupoc1e022019.model.orderComponents.MenuInfo;
 import com.desapp.grupoc1e022019.model.orderComponents.deliverType.DeliverType;
 import com.desapp.grupoc1e022019.model.orderComponents.deliverType.Delivery;
 import com.desapp.grupoc1e022019.model.orderComponents.deliverType.PickUp;
@@ -21,6 +22,7 @@ public class OrderDTO {
     private LocalDateTime deliverDate;
     private Address destination;
     private OrderState orderState;
+    private MenuInfo menuInfo;
 
 
     public OrderDTO() {}
@@ -141,5 +143,13 @@ public class OrderDTO {
                 + " ,idClient: "+idClient +" ,idMenu: " +idMenu  + " ,stars: "+ stars + " ,menusAmount: " + menusAmount
                 + " ,deliverType: "+ deliverType + " ,deliverDate: " + deliverDate + " ,destination: "+ destination +
                 " ,orderState: "+ orderState +" }";
+    }
+
+    public MenuInfo getMenuInfo() {
+        return menuInfo;
+    }
+
+    public void setMenuInfo(MenuInfo menuInfo) {
+        this.menuInfo = menuInfo;
     }
 }

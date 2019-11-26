@@ -36,7 +36,7 @@ public class ClientService {
         return clientDAO.clientExist(idClient);
     }
 
-    public Client getClient(long idClient) {
+    public Optional<Client> getClient(long idClient) {
         return clientDAO.getClient(idClient);
     }
 
@@ -54,7 +54,7 @@ public class ClientService {
 
     @Transactional
     public Client buy(long id, double price) {
-        Client tmp = clientDAO.getClient(id);
+        Client tmp = clientDAO.getClient(id).get();
 
         tmp.debit(new Credit(price));
 
@@ -64,7 +64,7 @@ public class ClientService {
 
     @Transactional
     public Client accredit(long id, double amount) {
-        Client tmp = clientDAO.getClient(id);
+        Client tmp = clientDAO.getClient(id).get();
 
         tmp.deposit(new Credit(amount));
 

@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 
 @CrossOrigin
@@ -47,18 +48,18 @@ public class OrderController {
             return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
         }
 
-        Client recoverClient = clientService.getClient(orderDTO.getIdClient());
-        Menu recoverMenu = menuService.getMenu(orderDTO.getIdMenu());
+        Optional<Client> recoverClient = clientService.getClient(orderDTO.getIdClient());
+        Optional<Menu> recoverMenu = menuService.getMenu(orderDTO.getIdMenu());
 
-        if(recoverClient == null || recoverMenu == null) {
+        if(!recoverClient.isPresent() || !recoverMenu.isPresent()) {
             return new ResponseEntity<>("Invalid data request", HttpStatus.BAD_REQUEST);
         }
 
-        if(recoverMenu.isCancelledState()){
+        if(recoverMenu.get().isCancelledState()){
             return new ResponseEntity<>("Sorry, this menu is cancelled",HttpStatus.BAD_REQUEST);
         }
 
-        if(recoverClient.isClientHaveToRank()){
+        if(recoverClient.get().isClientHaveToRank()){
             return new ResponseEntity<>("Rank your previous orders, please",HttpStatus.BAD_REQUEST);
         }
 
@@ -70,13 +71,13 @@ public class OrderController {
 
         Order newOrder = new OrderBuilder()
                                 .withMenusAmount(orderDTO.getMenusAmount())
-                                .withMenu(recoverMenu)
-                                .withClient(recoverClient)
+                                .withMenu(recoverMenu.get())
+                                .withClient(recoverClient.get())
                                 .withDeliverType(deliverType)
                                 .withState(new PendingOrder())
                                 .build();
 
-        if(notEnoughCredit(recoverClient.getCredit(),recoverMenu,orderDTO.getMenusAmount())) {
+        if(notEnoughCredit(recoverClient.get().getCredit(),recoverMenu.get(),orderDTO.getMenusAmount())) {
             return new ResponseEntity<>("Client does not has enough credits",HttpStatus.NOT_ACCEPTABLE);
         }
 

@@ -1,5 +1,6 @@
 package com.desapp.grupoc1e022019.model;
 
+import com.desapp.grupoc1e022019.model.orderComponents.MenuInfo;
 import com.desapp.grupoc1e022019.model.orderComponents.deliverType.DeliverType;
 import com.desapp.grupoc1e022019.model.orderComponents.orderState.OrderState;
 import com.desapp.grupoc1e022019.model.providerComponents.location.Address;
@@ -28,6 +29,9 @@ public class Order extends EntityId {
     @JoinColumn(name = "id_menu")
     @JsonBackReference
     private Menu menu;
+    @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
+    @JoinColumn(name = "id_menu_info")
+    private MenuInfo menuInfo;
 
     public Order(){}
 
@@ -38,6 +42,7 @@ public class Order extends EntityId {
         this.menu = menu;
         this.menusAmount = menusAmount;
         this.deliverType = deliverType;
+        this.menuInfo = new MenuInfo(menu);
     }
 
     public Integer getStars() {
@@ -162,4 +167,11 @@ public class Order extends EntityId {
         return menu.getName();
     }
 
+    public MenuInfo getMenuInfo() {
+        return menuInfo;
+    }
+
+    public void setMenuInfo(MenuInfo menuInfo) {
+        this.menuInfo = menuInfo;
+    }
 }
