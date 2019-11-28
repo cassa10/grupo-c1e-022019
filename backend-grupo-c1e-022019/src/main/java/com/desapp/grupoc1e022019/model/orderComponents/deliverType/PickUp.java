@@ -34,4 +34,9 @@ public class PickUp extends DeliverType  {
     public  Address getDestinationOrder(Order order){
         return order.getMenu().getProvider().getAddress();
     }
+
+    @Override
+    public String toString(){
+        return "PickUp";
+    }
 }
