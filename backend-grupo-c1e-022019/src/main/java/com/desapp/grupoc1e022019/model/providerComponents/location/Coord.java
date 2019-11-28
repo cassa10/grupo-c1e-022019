@@ -33,6 +33,6 @@ public class Coord extends EntityId {
     }
 
     public boolean isValid() {
-        return !latitude.trim().equals("") && !longitude.trim().equals("");
+        return latitude != null && longitude != null && ! latitude.trim().equals("") && ! longitude.trim().equals("");
     }
 }

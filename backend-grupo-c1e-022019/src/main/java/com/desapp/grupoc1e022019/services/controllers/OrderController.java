@@ -65,7 +65,7 @@ public class OrderController {
             return new ResponseEntity<>("Rank your previous orders, please",HttpStatus.BAD_REQUEST);
         }
 
-        if(hasErrorDataOrderDTO(orderDTO)){
+        if(! orderDTO.formIsValid()){
             return new ResponseEntity<>("Invalid data form",HttpStatus.BAD_REQUEST);
         }
 
@@ -121,15 +121,6 @@ public class OrderController {
 
     private boolean notEnoughCredit(Credit credit, Menu menu, Integer menusAmount) {
         return ! credit.isGreaterOrEqual(new Credit(menu.priceWithAmount(menusAmount)));
-    }
-
-    private boolean hasErrorDataOrderDTO(OrderDTO orderDTO) {
-        return orderDTO.getMenusAmount() <= 0 ||
-                orderDTO.getDeliverType() == null ||
-                orderDTO.getMenusAmount() == null ||
-                ! orderDTO.hasValidDeliverType() ||
-                orderDTO.getDeliverDate().isAfter(LocalDateTime.now().plusDays(2)) ||
-                orderDTO.getDeliverDate().isBefore(LocalDateTime.now().plusHours(1));
     }
 
 }

@@ -55,7 +55,7 @@ public class GrupoC1e022019Application {
 			Schedule schedule =new Schedule(new HashMap<DayOfWeek, SetOfBusinessTime>());
 			Provider jose = new Provider("FAKEID1","Jose","log","Quilmes",
 					new Address(new Coord("0","0"),"West Quilmes"),"Josee",
-					"jose.com.ar","cassanojoseluis97@gmail.com","13281349",schedule,
+					"jose.com.ar","cualquieracuenta03@gmail.com","13281349",schedule,
 					new Credit(),40.0,new ArrayList<>(),new NormalProvider(),0);
 			providerRepository.save(jose);
 
@@ -111,6 +111,7 @@ public class GrupoC1e022019Application {
 				.withCategories(cMiladeNico)
 				.withDescription("Milanesa estilo pizza")
 				.withProvider(jose)
+				.withMaxSalesPerDay(5)
 				.withMenuPriceCalculator(new MenuPriceCalculator(50.0,10,40.0,20,30.0))
 				.build();
 
@@ -124,6 +125,7 @@ public class GrupoC1e022019Application {
 				.withName("Hamburguesa completa")
 				.withCategories(cBurger)
 				.withDescription("Tiene de todo señora")
+				.withMaxSalesPerDay(5)
 				.withMenuPriceCalculator(new MenuPriceCalculator(50.0,10,40.0,20,30.0))
 				.withProvider(jose)
 				.build();
@@ -137,6 +139,7 @@ public class GrupoC1e022019Application {
 		Menu pizza = MenuBuilder.aMenu()
 				.withName("Pizza de palmitos")
 				.withCategories(cPizza)
+				.withMaxSalesPerDay(5)
 				.withMenuPriceCalculator(new MenuPriceCalculator(300.0,10,40.0,20,30.0))
 				.withDescription("Tiene solo 2 palmitos")
 				.withProvider(jose)
@@ -148,6 +151,7 @@ public class GrupoC1e022019Application {
 		Menu pizzaNapo = MenuBuilder.aMenu()
 				.withName("Pizza Napolitana")
 				.withCategories(cPizza)
+				.withMaxSalesPerDay(5)
 				.withMenuPriceCalculator(new MenuPriceCalculator(300.0,10,40.0,20,30.0))
 				.withDescription("Tiene napoli y tana")
 				.withProvider(jose)
@@ -160,6 +164,7 @@ public class GrupoC1e022019Application {
 		Menu pizzaSalchi = MenuBuilder.aMenu()
 				.withName("Salchipizza")
 				.withCategories(cPizza)
+				.withMaxSalesPerDay(5)
 				.withMenuPriceCalculator(new MenuPriceCalculator(400.0,10,40.0,20,30.0))
 				.withDescription("Tiene salchi y pizza")
 				.withProvider(jose)
@@ -172,6 +177,7 @@ public class GrupoC1e022019Application {
 		Menu pizzaAnana = MenuBuilder.aMenu()
 				.withName("Pizza ananá")
 				.withCategories(cPizza)
+				.withMaxSalesPerDay(5)
 				.withMenuPriceCalculator(new MenuPriceCalculator(400.0,10,40.0,20,30.0))
 				.withDescription("Tiene ana y ná")
 				.withProvider(jose)
@@ -184,6 +190,7 @@ public class GrupoC1e022019Application {
 		Menu pizzaCalabresa = MenuBuilder.aMenu()
 				.withName("Pizza calabresa")
 				.withCategories(cPizza)
+				.withMaxSalesPerDay(5)
 				.withMenuPriceCalculator(new MenuPriceCalculator(400.0,10,40.0,20,30.0))
 				.withDescription("Tiene cala y bresa")
 				.withProvider(jose)
@@ -199,6 +206,7 @@ public class GrupoC1e022019Application {
 		Menu sushi = MenuBuilder.aMenu()
 				.withName("Sushi chino")
 				.withCategories(cSushi)
+				.withMaxSalesPerDay(5)
 				.withMenuPriceCalculator(new MenuPriceCalculator(50.0,10,40.0,20,30.0))
 				.withDescription("Basicamente aló con palito")
 				.withProvider(jose)
@@ -213,6 +221,7 @@ public class GrupoC1e022019Application {
 		Menu platoVegano = MenuBuilder.aMenu()
 				.withName("Lechuga con lentejas")
 				.withCategories(cVegan)
+				.withMaxSalesPerDay(5)
 				.withDescription("Bajo en calorias...")
 				.withMenuPriceCalculator(new MenuPriceCalculator(50.0,10,40.0,20,30.0))
 				.withProvider(jose)
@@ -227,6 +236,7 @@ public class GrupoC1e022019Application {
 		Menu platoGreen = MenuBuilder.aMenu()
 				.withName("Alcachofas al vapor")
 				.withCategories(cGreen)
+				.withMaxSalesPerDay(5)
 				.withDescription("Pocas alcachofas, mucho vapor...")
 				.withMenuPriceCalculator(new MenuPriceCalculator(50.0,10,40.0,20,30.0))
 				.withProvider(jose)
@@ -241,6 +251,7 @@ public class GrupoC1e022019Application {
 		Menu cerveza = MenuBuilder.aMenu()
 				.withName("Cerveza artesanal")
 				.withCategories(cCerveza)
+				.withMaxSalesPerDay(5)
 				.withMenuPriceCalculator(new MenuPriceCalculator(50.0,10,40.0,20,30.0))
 				.withDescription("Tomar poquito xq es fuerte")
 				.withProvider(jose)
@@ -255,6 +266,7 @@ public class GrupoC1e022019Application {
 		Menu empanadas = MenuBuilder.aMenu()
 				.withName("Empanadas")
 				.withCategories(cEmpanadas)
+				.withMaxSalesPerDay(5)
 				.withMenuPriceCalculator(new MenuPriceCalculator(50.0,10,40.0,20,30.0))
 				.withDescription("Una de carne,dos de pollo, una de jyq, una de pollo, dos de carne...")
 				.withProvider(jose)
