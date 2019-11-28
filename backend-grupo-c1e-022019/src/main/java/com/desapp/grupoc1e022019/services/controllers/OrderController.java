@@ -6,10 +6,7 @@ import com.desapp.grupoc1e022019.model.Menu;
 import com.desapp.grupoc1e022019.model.Order;
 import com.desapp.grupoc1e022019.model.orderComponents.deliverType.DeliverType;
 import com.desapp.grupoc1e022019.model.orderComponents.orderState.PendingOrder;
-import com.desapp.grupoc1e022019.services.ClientService;
-import com.desapp.grupoc1e022019.services.GoogleAuthService;
-import com.desapp.grupoc1e022019.services.MenuService;
-import com.desapp.grupoc1e022019.services.OrderService;
+import com.desapp.grupoc1e022019.services.*;
 import com.desapp.grupoc1e022019.services.builder.OrderBuilder;
 import com.desapp.grupoc1e022019.services.dtos.OrderDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +37,9 @@ public class OrderController {
 
     @Autowired
     private GoogleAuthService googleAuthService = new GoogleAuthService();
+
+    @Autowired
+    private EmailSenderService emailSenderService = new EmailSenderService();
 
     @RequestMapping(method = RequestMethod.POST, value = "/order")
     public ResponseEntity getClient(@RequestBody OrderDTO orderDTO) {
@@ -77,11 +77,18 @@ public class OrderController {
                                 .withState(new PendingOrder())
                                 .build();
 
+        //TODO
+        // FALTA CHEQUEO DE LIMIT ORDER MAKE IN PROVIDER
+
         if(notEnoughCredit(recoverClient.get().getCredit(),recoverMenu.get(),orderDTO.getMenusAmount())) {
             return new ResponseEntity<>("Client does not has enough credits",HttpStatus.NOT_ACCEPTABLE);
         }
 
+        //TRANSACTIONAL
         newOrder = orderService.createOrder(newOrder);
+
+        //ASYNC METHOD
+        emailSenderService.sendOrderPendingEmail(newOrder);
 
         return new ResponseEntity<>(newOrder, HttpStatus.OK);
     }

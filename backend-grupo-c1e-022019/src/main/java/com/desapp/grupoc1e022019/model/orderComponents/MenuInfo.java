@@ -76,4 +76,8 @@ public class MenuInfo extends EntityId {
     public void setMenuState(MenuState menuState) {
         this.menuState = menuState;
     }
+
+    public Double getMenuPriceWithAmount(Integer amount){
+        return menuPriceCalculator.calculateCurrentMenuPrice(amount);
+    }
 }
