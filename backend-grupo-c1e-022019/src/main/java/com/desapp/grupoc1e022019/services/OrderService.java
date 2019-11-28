@@ -3,6 +3,7 @@ package com.desapp.grupoc1e022019.services;
 import com.desapp.grupoc1e022019.model.Credit;
 import com.desapp.grupoc1e022019.model.Menu;
 import com.desapp.grupoc1e022019.model.Order;
+import com.desapp.grupoc1e022019.model.Provider;
 import com.desapp.grupoc1e022019.persistence.ClientDAO;
 import com.desapp.grupoc1e022019.persistence.OrderDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Scope(value = "session")
@@ -39,5 +41,9 @@ public class OrderService {
 
     public Long sizeOrdersLimit(Menu menuRecovered, LocalDateTime deliverDate) {
         return orderDAO.sizeOfOrdersPerDayOfMenu(menuRecovered,deliverDate);
+    }
+
+    public List<Order> getHistoricProviderOrdersTaken(Provider provider) {
+        return orderDAO.getHistoricProviderOrdersTaken(provider);
     }
 }
