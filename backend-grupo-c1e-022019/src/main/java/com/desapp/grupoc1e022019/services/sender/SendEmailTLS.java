@@ -1,4 +1,4 @@
-package com.desapp.grupoc1e022019.services;
+package com.desapp.grupoc1e022019.services.sender;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;

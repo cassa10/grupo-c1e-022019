@@ -174,4 +174,8 @@ public class Order extends EntityId {
     public void setMenuInfo(MenuInfo menuInfo) {
         this.menuInfo = menuInfo;
     }
+
+    public Double getMenuInfoPrice(){
+        return menuInfo.getMenuPriceWithAmount(this.menusAmount);
+    }
 }
