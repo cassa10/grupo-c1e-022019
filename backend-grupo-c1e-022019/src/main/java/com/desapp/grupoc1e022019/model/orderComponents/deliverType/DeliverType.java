@@ -30,4 +30,7 @@ public abstract class DeliverType extends EntityId {
     public void setDeliverDate(LocalDateTime deliverDate) {
         this.deliverDate = deliverDate;
     }
+
+    @Override
+    public abstract String toString();
 }

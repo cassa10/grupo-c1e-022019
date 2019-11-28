@@ -192,7 +192,7 @@ public class MenuTest {
     public void testGivenAMenuByDefaultIsNormalWhenRecievesIsNormalReturnsTrueAndGetMenuStateNameReturnsNORMAL(){
         Menu menu1 = aMenu().build();
 
-        Assert.assertEquals(menu1.getMenuStateName(),"NORMAL");
+        Assert.assertEquals(menu1.getMenuStateName(),"NormalMenu");
         Assert.assertTrue(menu1.isNormalState());
         Assert.assertFalse(menu1.isCancelledState());
     }
@@ -201,7 +201,7 @@ public class MenuTest {
     public void testGivenAMenuWithStateCancelledWhenRecievesIsCancelledReturnsTrueAndGetMenuStateNameReturnsCANCELLED(){
         Menu menu1 = aMenu().withMenuState(new CancelledMenu()).build();
 
-        Assert.assertEquals(menu1.getMenuStateName(),"CANCELLED");
+        Assert.assertEquals(menu1.getMenuStateName(),"CancelledMenu");
         Assert.assertTrue(menu1.isCancelledState());
         Assert.assertFalse(menu1.isNormalState());
     }

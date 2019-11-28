@@ -10,6 +10,6 @@ public class CancelledOrder extends OrderState {
 
     @Override
     public String toString(){
-        return "CANCELLED";
+        return "CancelledOrder";
     }
 }

@@ -22,4 +22,9 @@ public class CannotBuyClient extends StateClient {
     public void buyOrder(Order order){
         throw new ClientCannotBuyOrderException("You can´t buy until you rank your delivered orders");
     }
+
+    @Override
+    public String toString(){
+        return "CannotBuyClient";
+    }
 }

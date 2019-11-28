@@ -14,7 +14,7 @@ public class NormalProvider extends ProviderState {
 
     @Override
     public String toString(){
-        return "NORMAL";
+        return "NormalProvider";
     }
 
     @Override

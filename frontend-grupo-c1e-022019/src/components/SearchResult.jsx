@@ -49,7 +49,7 @@ class SearchResult extends React.Component {
         pathname: '/home',
         state: {
           googleId: this.props.location.state.googleId,
-          accessToken: this.props.location.state.accessToken,
+          tokenAccess: this.props.location.state.tokenAccess,
           client: this.props.location.state.client,
         },
       });
@@ -103,7 +103,7 @@ class SearchResult extends React.Component {
     const locState = this.props.location.state;
     const body = {
       googleId: this.props.location.state.googleId,
-      accessToken: this.props.location.state.accessToken,
+      tokenAccess: this.props.location.state.tokenAccess,
       name: this.props.location.state.searchInputName,
       city: this.props.location.state.searchInputCity,
       category: this.props.location.state.searchInputCategory,

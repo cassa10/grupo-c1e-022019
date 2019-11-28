@@ -449,7 +449,7 @@ public class ProviderTest {
         Assert.assertTrue(provider.isNormalProvider());
         Assert.assertFalse(provider.isPenalized());
 
-        Assert.assertEquals(provider.getProviderStateName(),"NORMAL");
+        Assert.assertEquals(provider.getProviderStateName(),"NormalProvider");
     }
 
     @Test
@@ -459,7 +459,7 @@ public class ProviderTest {
         Assert.assertFalse(provider.isNormalProvider());
         Assert.assertTrue(provider.isPenalized());
 
-        Assert.assertEquals(provider.getProviderStateName(),"PENALIZED");
+        Assert.assertEquals(provider.getProviderStateName(),"PenalizedProvider");
     }
 
     @Test

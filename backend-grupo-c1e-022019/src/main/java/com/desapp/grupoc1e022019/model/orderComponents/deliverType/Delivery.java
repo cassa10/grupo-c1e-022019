@@ -44,4 +44,9 @@ public class Delivery extends DeliverType {
     public int getDeliverTimeAverageInMinutes(int averageDeliveryTimeInMinutes,Double deliveryMaxDistanceInKM){
         return averageDeliveryTimeInMinutes + deliveryMaxDistanceInKM.intValue() * 8 ;
     }
+
+    @Override
+    public String toString(){
+        return "Delivery";
+    }
 }

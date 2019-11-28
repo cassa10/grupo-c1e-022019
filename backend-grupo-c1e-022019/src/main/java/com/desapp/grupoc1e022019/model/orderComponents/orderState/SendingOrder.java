@@ -22,6 +22,6 @@ public class SendingOrder extends OrderState {
 
     @Override
     public String toString(){
-        return "SENDING";
+        return "SendingOrder";
     }
 }

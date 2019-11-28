@@ -23,7 +23,7 @@ public class DeliveredOrder extends OrderState {
 
     @Override
     public String toString(){
-        return "DELIVERED";
+        return "DeliveredOrder";
     }
 
 }

@@ -21,7 +21,7 @@ public class OrderTest {
         Order newOrder = OrderBuilder.anOrder().build();
 
         Assert.assertTrue(newOrder.isStatePending());
-        Assert.assertEquals(newOrder.getStateName(),"PENDING");
+        Assert.assertEquals(newOrder.getStateName(),"PendingOrder");
 
         Assert.assertFalse(newOrder.isStateRanked());
         Assert.assertFalse(newOrder.isStateCancelled());
@@ -36,7 +36,7 @@ public class OrderTest {
         newOrder.confirmed();
 
         Assert.assertTrue(newOrder.isStateConfirmed());
-        Assert.assertEquals(newOrder.getStateName(),"CONFIRMED");
+        Assert.assertEquals(newOrder.getStateName(),"ConfirmedOrder");
 
         Assert.assertFalse(newOrder.isStatePending());
         Assert.assertFalse(newOrder.isStateRanked());
@@ -52,7 +52,7 @@ public class OrderTest {
         newOrder.sending();
 
         Assert.assertTrue(newOrder.isStateSending());
-        Assert.assertEquals(newOrder.getStateName(),"SENDING");
+        Assert.assertEquals(newOrder.getStateName(),"SendingOrder");
 
         Assert.assertFalse(newOrder.isStatePending());
         Assert.assertFalse(newOrder.isStateRanked());
@@ -69,7 +69,7 @@ public class OrderTest {
         newOrder.delivered();
 
         Assert.assertTrue(newOrder.isStateDelivered());
-        Assert.assertEquals(newOrder.getStateName(),"DELIVERED");
+        Assert.assertEquals(newOrder.getStateName(),"DeliveredOrder");
 
         Assert.assertFalse(newOrder.isStatePending());
         Assert.assertFalse(newOrder.isStateRanked());
@@ -86,7 +86,7 @@ public class OrderTest {
         newOrder.cancelled();
 
         Assert.assertTrue(newOrder.isStateCancelled());
-        Assert.assertEquals(newOrder.getStateName(),"CANCELLED");
+        Assert.assertEquals(newOrder.getStateName(),"CancelledOrder");
 
         Assert.assertFalse(newOrder.isStatePending());
         Assert.assertFalse(newOrder.isStateRanked());
@@ -195,7 +195,7 @@ public class OrderTest {
         newOrder.rate(4);
 
         Assert.assertTrue(newOrder.isStateRanked());
-        Assert.assertEquals(newOrder.getStateName(),"RANKED");
+        Assert.assertEquals(newOrder.getStateName(),"RankedOrder");
 
         Assert.assertFalse(newOrder.isStateCancelled());
         Assert.assertFalse(newOrder.isStateConfirmed());

@@ -48,4 +48,8 @@ public class GoogleAuthService {
     public boolean providerHasAccess(String googleId, String tokenAccess) {
         return providerDAO.existProviderByGoogleId(googleId) && googleTokenDAO.checkExistGoogleIdAndAuthToken(googleId,tokenAccess);
     }
+
+    public boolean userHasAccess(String googleId, String tokenAccess) {
+        return googleTokenDAO.checkExistGoogleIdAndAuthToken(googleId,tokenAccess);
+    }
 }

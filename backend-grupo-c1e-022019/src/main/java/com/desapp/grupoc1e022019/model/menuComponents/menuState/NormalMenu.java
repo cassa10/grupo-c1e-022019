@@ -26,6 +26,6 @@ public class NormalMenu extends MenuState {
 
     @Override
     public String toString(){
-        return "NORMAL";
+        return "NormalMenu";
     }
 }

@@ -18,6 +18,6 @@ public class RankedOrder extends OrderState {
 
     @Override
     public String toString(){
-        return "RANKED";
+        return "RankedOrder";
     }
 }

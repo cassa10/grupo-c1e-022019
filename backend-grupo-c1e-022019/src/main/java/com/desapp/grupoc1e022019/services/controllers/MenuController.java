@@ -99,9 +99,9 @@ public class MenuController {
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/name/")
     public ResponseEntity searchMenuByName(@RequestParam HashMap<String,String> body){
         String googleId = body.get("googleId");
-        String accessToken = body.get("accessToken");
+        String tokenAccess = body.get("tokenAccess");
 
-        if(! googleAuthService.clientHasAccess(googleId,accessToken)){
+        if(! googleAuthService.clientHasAccess(googleId,tokenAccess)){
             return new ResponseEntity<>("Please, log in",HttpStatus.UNAUTHORIZED);
         }
 
@@ -118,9 +118,9 @@ public class MenuController {
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/category/")
     public ResponseEntity searchMenuByCategory(@RequestParam HashMap<String,String> body){
         String googleId = body.get("googleId");
-        String accessToken = body.get("accessToken");
+        String tokenAccess = body.get("tokenAccess");
 
-        if(! googleAuthService.clientHasAccess(googleId,accessToken)){
+        if(! googleAuthService.clientHasAccess(googleId,tokenAccess)){
             return new ResponseEntity<>("Please, log in",HttpStatus.UNAUTHORIZED);
         }
 
@@ -136,9 +136,9 @@ public class MenuController {
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/city/")
     public ResponseEntity searchMenuByProviderCity(@RequestParam HashMap<String,String> body){
         String googleId = body.get("googleId");
-        String accessToken = body.get("accessToken");
+        String tokenAccess = body.get("tokenAccess");
 
-        if(! googleAuthService.clientHasAccess(googleId,accessToken)){
+        if(! googleAuthService.clientHasAccess(googleId,tokenAccess)){
             return new ResponseEntity<>("Please, log in",HttpStatus.UNAUTHORIZED);
         }
 
@@ -154,9 +154,9 @@ public class MenuController {
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/name_category/")
     public ResponseEntity searchMenuByNameAndCategory(@RequestParam HashMap<String,String> body){
         String googleId = body.get("googleId");
-        String accessToken = body.get("accessToken");
+        String tokenAccess = body.get("tokenAccess");
 
-        if(! googleAuthService.clientHasAccess(googleId,accessToken)){
+        if(! googleAuthService.clientHasAccess(googleId,tokenAccess)){
             return new ResponseEntity<>("Please, log in",HttpStatus.UNAUTHORIZED);
         }
 
@@ -172,9 +172,9 @@ public class MenuController {
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/name_city/")
     public ResponseEntity searchMenuByNameAndCity(@RequestParam HashMap<String,String> body){
         String googleId = body.get("googleId");
-        String accessToken = body.get("accessToken");
+        String tokenAccess = body.get("tokenAccess");
 
-        if(! googleAuthService.clientHasAccess(googleId,accessToken)){
+        if(! googleAuthService.clientHasAccess(googleId,tokenAccess)){
             return new ResponseEntity<>("Please, log in",HttpStatus.UNAUTHORIZED);
         }
 
@@ -190,9 +190,9 @@ public class MenuController {
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/category_city/")
     public ResponseEntity searchMenuByCategoryAndCity(@RequestParam HashMap<String,String> body){
         String googleId = body.get("googleId");
-        String accessToken = body.get("accessToken");
+        String tokenAccess = body.get("tokenAccess");
 
-        if(! googleAuthService.clientHasAccess(googleId,accessToken)){
+        if(! googleAuthService.clientHasAccess(googleId,tokenAccess)){
             return new ResponseEntity<>("Please, log in",HttpStatus.UNAUTHORIZED);
         }
 
@@ -208,9 +208,9 @@ public class MenuController {
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/name_category_city/")
     public ResponseEntity searchMenuByNameAndCategoryAndCity(@RequestParam HashMap<String,String> body){
         String googleId = body.get("googleId");
-        String accessToken = body.get("accessToken");
+        String tokenAccess = body.get("tokenAccess");
 
-        if(! googleAuthService.clientHasAccess(googleId,accessToken)){
+        if(! googleAuthService.clientHasAccess(googleId,tokenAccess)){
             return new ResponseEntity<>("Please, log in",HttpStatus.UNAUTHORIZED);
         }
 

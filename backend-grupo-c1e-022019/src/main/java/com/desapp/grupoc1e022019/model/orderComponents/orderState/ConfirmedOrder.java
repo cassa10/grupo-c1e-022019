@@ -20,7 +20,7 @@ public class ConfirmedOrder extends OrderState {
 
     @Override
     public String toString(){
-        return "CONFIRMED";
+        return "ConfirmedOrder";
     }
 
 }

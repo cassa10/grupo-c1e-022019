@@ -18,4 +18,9 @@ public class NormalClient extends StateClient {
         // UTILIZAR SERVICE
         order.getClient().debit(new Credit(order.getOrderPrice()));
     }
+
+    @Override
+    public String toString(){
+        return "NormalClient";
+    }
 }
