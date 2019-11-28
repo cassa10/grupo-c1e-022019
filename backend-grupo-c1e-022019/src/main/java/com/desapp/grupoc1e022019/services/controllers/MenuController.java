@@ -4,6 +4,7 @@ import com.desapp.grupoc1e022019.exception.MaximumMenusSizeException;
 import com.desapp.grupoc1e022019.model.Menu;
 import com.desapp.grupoc1e022019.model.Provider;
 import com.desapp.grupoc1e022019.model.menuComponents.CategoryMenu;
+import com.desapp.grupoc1e022019.persistence.repositories.MenuRepository;
 import com.desapp.grupoc1e022019.services.GoogleAuthService;
 import com.desapp.grupoc1e022019.services.MenuService;
 import com.desapp.grupoc1e022019.services.ProviderService;
@@ -25,6 +26,9 @@ import java.util.Optional;
 @Scope(value = "session")
 @Component(value = "menuController")
 public class MenuController {
+
+    @Autowired
+    MenuRepository menuRepository;
 
     @Autowired
     private GoogleAuthService googleAuthService = new GoogleAuthService();
@@ -226,4 +230,9 @@ public class MenuController {
 
         return new ResponseEntity<>(values,HttpStatus.OK);
     }
+
+   /* public void testMethod(){
+
+        menuRepository.findByName("algo");
+    }*/
 }

@@ -1,4 +1,4 @@
-package com.desapp.grupoc1e022019.persistence;
+package com.desapp.grupoc1e022019.persistence.repositories;
 
 import com.desapp.grupoc1e022019.model.Client;
 import org.springframework.data.jpa.repository.JpaRepository;

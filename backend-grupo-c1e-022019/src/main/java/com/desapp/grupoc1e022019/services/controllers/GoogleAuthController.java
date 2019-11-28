@@ -47,6 +47,12 @@ public class GoogleAuthController {
         return new ResponseEntity<>(maybeClient.get(), HttpStatus.OK);
     }
 
+
+    @RequestMapping(method = RequestMethod.POST, value = "/asdasdasd")
+    public String pruebaArchTest(@RequestBody ClientDTO clientDTO) {
+        return "Prueba";
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "/signup")
     public ResponseEntity signupAuth(@RequestBody ClientDTO clientDTO) {
         if(! clientDTO.getGoogleAuthDTO().getGoogleId().equals(clientDTO.getGoogleId())){

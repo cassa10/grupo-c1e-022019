@@ -1,4 +1,4 @@
-package com.desapp.grupoc1e022019;
+package com.desapp.grupoc1e022019.ModelTests;
 
 import com.desapp.grupoc1e022019.model.menuComponents.MenuPriceCalculator;
 import org.junit.Assert;
