@@ -14,7 +14,7 @@ public class PenalizedProvider extends ProviderState {
 
     @Override
     public String toString(){
-        return "PENALIZED";
+        return "PenalizedProvider";
     }
 
     @Override

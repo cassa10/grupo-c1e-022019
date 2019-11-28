@@ -4,7 +4,7 @@ public class GoogleAuthDTO {
 
     private String googleId;
     private String tokenId;
-    private String accessToken;
+    private String tokenAccess;
     private Integer expires_in;
 
     public GoogleAuthDTO() {
@@ -18,12 +18,12 @@ public class GoogleAuthDTO {
         this.tokenId = tokenId;
     }
 
-    public String getAccessToken() {
-        return accessToken;
+    public String getTokenAccess() {
+        return tokenAccess;
     }
 
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
+    public void setTokenAccess(String tokenAccess) {
+        this.tokenAccess = tokenAccess;
     }
 
     public Integer getExpires_in() {
@@ -44,6 +44,6 @@ public class GoogleAuthDTO {
 
     @Override
     public String toString() {
-        return "{ googleId: "+googleId+", tokenId: "+tokenId + ", accessToken :"+accessToken+ ", expires_in: "+ expires_in +" }";
+        return "{ googleId: "+googleId+", tokenId: "+tokenId + ", accessToken :"+ tokenAccess + ", expires_in: "+ expires_in +" }";
     }
 }

@@ -15,5 +15,6 @@ public abstract class MenuState extends EntityId {
 
     public boolean isNormal(){return false;}
 
+    @Override
     public abstract String toString();
 }

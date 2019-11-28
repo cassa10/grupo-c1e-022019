@@ -37,8 +37,8 @@ public class ProviderController {
     @RequestMapping(method = RequestMethod.GET, value = "/exist_provider")
     public ResponseEntity isAProvider(@RequestParam HashMap<String,String> body) {
         String googleId = body.get("googleId");
-        String accessToken = body.get("accessToken");
-        if(! googleAuthService.clientHasAccess(googleId,accessToken)){
+        String tokenAccess = body.get("tokenAccess");
+        if(! googleAuthService.clientHasAccess(googleId,tokenAccess)){
             return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
         }
 
@@ -93,8 +93,8 @@ public class ProviderController {
     @RequestMapping(method = RequestMethod.GET, value ="/provider")
     public ResponseEntity getProvider(@RequestParam HashMap<String,String> body) {
         String googleId = body.get("googleId");
-        String accessToken = body.get("accessToken");
-        if(! googleAuthService.providerHasAccess(googleId,accessToken)){
+        String tokenAccess = body.get("tokenAccess");
+        if(! googleAuthService.providerHasAccess(googleId,tokenAccess)){
             return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
         }
 
@@ -216,9 +216,9 @@ public class ProviderController {
     @RequestMapping(method = RequestMethod.GET, value = "/provider/public")
     public ResponseEntity clientGetMenuProvider(@RequestParam HashMap<String,String> body){
         String googleId = body.get("googleId");
-        String accessToken = body.get("accessToken");
+        String tokenAccess = body.get("tokenAccess");
 
-        if(! googleAuthService.clientHasAccess(googleId,accessToken)){
+        if(! googleAuthService.clientHasAccess(googleId,tokenAccess)){
             return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
         }
 

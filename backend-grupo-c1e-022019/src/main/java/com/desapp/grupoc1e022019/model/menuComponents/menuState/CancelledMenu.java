@@ -10,6 +10,6 @@ public class CancelledMenu extends MenuState {
 
     @Override
     public String toString(){
-        return "CANCELLED";
+        return "CancelledMenu";
     }
 }

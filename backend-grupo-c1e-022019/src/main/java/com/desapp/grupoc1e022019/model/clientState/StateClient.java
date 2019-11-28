@@ -8,6 +8,9 @@ import javax.persistence.Entity;
 @Entity
 public abstract class StateClient extends EntityId {
 
+    @Override
+    public abstract String toString();
+
     public abstract void buyOrder(Order order);
 
     public boolean isNormal(){

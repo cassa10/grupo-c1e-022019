@@ -15,7 +15,7 @@ class NavBar extends React.Component {
     super(props);
     this.state = {
       googleId: '',
-      accessToken: '',
+      tokenAccess: '',
       client: {
         address: {},
         cannotBuyClient: false,
@@ -49,11 +49,11 @@ class NavBar extends React.Component {
   componentDidMount() {
     const bodyRequest = {
       googleId: this.props.location.state.googleId,
-      accessToken: this.props.location.state.accessToken,
+      tokenAccess: this.props.location.state.tokenAccess,
       idClient: this.props.location.state.client.id,
     };
 
-    this.setState({ googleId: bodyRequest.googleId, accessToken: bodyRequest.accessToken });
+    this.setState({ googleId: bodyRequest.googleId, tokenAccess: bodyRequest.tokenAccess });
 
     API.get('/client', bodyRequest)
       .then((response) => this.setState({ client: response }))
@@ -88,7 +88,7 @@ class NavBar extends React.Component {
     const body = {
       id: this.state.client.id,
       googleId: this.state.googleId,
-      accessToken: this.state.accessToken,
+      tokenAccess: this.state.tokenAccess,
       amount: this.state.creditInput,
     };
     API.post('/client/accredit', body)
@@ -130,7 +130,7 @@ class NavBar extends React.Component {
       pathname: '/home',
       state: {
         googleId: this.props.location.state.googleId,
-        accessToken: this.props.location.state.accessToken,
+        tokenAccess: this.props.location.state.tokenAccess,
         client: this.props.location.state.client,
       },
     });

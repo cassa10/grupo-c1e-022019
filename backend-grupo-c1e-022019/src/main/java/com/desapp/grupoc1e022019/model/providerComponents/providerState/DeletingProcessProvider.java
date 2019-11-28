@@ -14,7 +14,7 @@ public class DeletingProcessProvider extends ProviderState {
 
     @Override
     public String toString() {
-        return "DeletingProcess";
+        return "DeletingProcessProvider";
     }
 
     @Override

@@ -18,8 +18,6 @@ public abstract class ProviderState  extends EntityId{
 
     public boolean isDeletingProcessProvider() {return false;}
 
-    public abstract String toString();
-
     public abstract void addStrike(Provider provider);
 
     public void setDeletingProcessProviderState(Provider provider){
@@ -27,4 +25,7 @@ public abstract class ProviderState  extends EntityId{
             provider.setProviderState(new DeletingProcessProvider());
         }
     }
+
+    @Override
+    public abstract String toString();
 }

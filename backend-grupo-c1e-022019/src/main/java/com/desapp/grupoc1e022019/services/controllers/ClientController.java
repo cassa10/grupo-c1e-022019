@@ -31,9 +31,9 @@ public class ClientController {
     @RequestMapping(method = RequestMethod.GET, value = "/client")
     public ResponseEntity getClient(@RequestParam HashMap<String,String> body) {
         String idGoogle = body.get("googleId");
-        String accessToken = body.get("accessToken");
+        String tokenAccess = body.get("tokenAccess");
 
-        if(! googleAuthService.clientHasAccess(idGoogle,accessToken)){
+        if(! googleAuthService.clientHasAccess(idGoogle,tokenAccess)){
             return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
         }
 
@@ -48,7 +48,7 @@ public class ClientController {
     @RequestMapping(method = RequestMethod.POST, value = "/client/basicInfo")
     public ResponseEntity updateClientBasicInfo(@RequestBody ClientDTO clientDTO) {
         GoogleAuthDTO googleAuthDTO = clientDTO.getGoogleAuthDTO();
-        if(! googleAuthService.clientHasAccess(googleAuthDTO.getGoogleId(),googleAuthDTO.getAccessToken())){
+        if(! googleAuthService.clientHasAccess(googleAuthDTO.getGoogleId(),googleAuthDTO.getTokenAccess())){
             return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
         }
         Optional<Client> maybeClient = clientService.findClientById(clientDTO.getId());

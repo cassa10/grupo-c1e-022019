@@ -16,7 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Optional;
 
 
@@ -77,8 +79,9 @@ public class OrderController {
                                 .withState(new PendingOrder())
                                 .build();
 
-        //TODO
-        // FALTA CHEQUEO DE LIMIT ORDER MAKE IN PROVIDER
+        if(orderService.providerHasReachOrdersLimit(recoverMenu.get(), newOrder.getDeliverDate())){
+            return new ResponseEntity<>("Menu provider reach own limit of orders, try another deliver date",HttpStatus.NOT_ACCEPTABLE);
+        }
 
         if(notEnoughCredit(recoverClient.get().getCredit(),recoverMenu.get(),orderDTO.getMenusAmount())) {
             return new ResponseEntity<>("Client does not has enough credits",HttpStatus.NOT_ACCEPTABLE);
@@ -91,6 +94,29 @@ public class OrderController {
         emailSenderService.sendOrderPendingEmail(newOrder);
 
         return new ResponseEntity<>(newOrder, HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/order/menu/size")
+    public ResponseEntity getSizeMenuOrderLimitByDate(@RequestParam HashMap<String,String> body){
+        String googleId = body.get("googleId");
+        String tokenAccess = body.get("tokenAccess");
+
+        if(! googleAuthService.userHasAccess(googleId,tokenAccess)){
+            return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
+        }
+
+        LocalDateTime date = LocalDateTime.parse(body.get("deliverDate"));
+
+        long idMenu = Long.parseLong(body.get("idMenu"));
+
+        Optional<Menu> recoverMenu = menuService.getMenu(idMenu);
+
+        if(! recoverMenu.isPresent()){
+            return new ResponseEntity<>("Invalid data request", HttpStatus.BAD_REQUEST);
+        }
+
+        Long value = orderService.sizeOrdersLimit(recoverMenu.get(),date);
+        return new ResponseEntity<>(value,HttpStatus.OK);
     }
 
     private boolean notEnoughCredit(Credit credit, Menu menu, Integer menusAmount) {

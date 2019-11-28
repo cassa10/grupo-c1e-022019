@@ -17,7 +17,7 @@ public class GoogleAuthBuilder {
     }
 
     public GoogleToken build(GoogleAuthDTO googleAuthDTO) {
-        return new GoogleToken(googleAuthDTO.getGoogleId(), googleAuthDTO.getTokenId(), googleAuthDTO.getAccessToken(), googleAuthDTO.getExpires_in());
+        return new GoogleToken(googleAuthDTO.getGoogleId(), googleAuthDTO.getTokenId(), googleAuthDTO.getTokenAccess(), googleAuthDTO.getExpires_in());
     }
 
     public GoogleAuthBuilder withGoogleId(String googleId) {

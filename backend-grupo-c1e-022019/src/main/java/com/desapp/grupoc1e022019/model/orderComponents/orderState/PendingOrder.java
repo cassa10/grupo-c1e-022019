@@ -25,6 +25,6 @@ public class PendingOrder extends OrderState {
 
     @Override
     public String toString(){
-        return "PENDING";
+        return "PendingOrder";
     }
 }

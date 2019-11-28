@@ -27,7 +27,7 @@ class LogIn extends React.Component {
   goToHomePage(response, googleDataResponse) {
     const loginStateValues = {
       googleId: googleDataResponse.googleId,
-      accessToken: googleDataResponse.accessToken,
+      tokenAccess: googleDataResponse.tokenAccess,
       client: response,
     };
 
@@ -40,7 +40,7 @@ class LogIn extends React.Component {
   handleLoginResponseOk(response) {
     const googleDataResponse = {
       googleId: response.googleId,
-      accessToken: response.tokenObj.access_token,
+      tokenAccess: response.tokenObj.access_token,
       tokenId: response.tokenObj.id_token,
       expires_in: response.tokenObj.expires_in,
     };
@@ -53,7 +53,7 @@ class LogIn extends React.Component {
   handleSignUpResponseOk(response) {
     const googleDataResponse = {
       googleId: response.googleId,
-      accessToken: response.tokenObj.access_token,
+      tokenAccess: response.tokenObj.access_token,
       tokenId: response.tokenObj.id_token,
       expires_in: response.tokenObj.expires_in,
     };

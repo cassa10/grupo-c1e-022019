@@ -14,7 +14,7 @@ export default class PrivateRouteNavbar extends Component {
         render={(props) => (
           props.location.state !== undefined
           && props.location.state.googleId
-          && props.location.state.accessToken
+          && props.location.state.tokenAccess
             ? (
               <div>
                 <NavbarComponent {...props} />

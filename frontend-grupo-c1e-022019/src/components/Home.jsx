@@ -9,7 +9,7 @@ class Home extends React.Component {
     super(props);
     this.state = {
       googleId: '',
-      accessToken: '',
+      tokenAccess: '',
       client: {
         address: {},
         cannotBuyClient: false,
@@ -44,11 +44,11 @@ class Home extends React.Component {
   componentDidMount() {
     const bodyRequest = {
       googleId: this.props.location.state.googleId,
-      accessToken: this.props.location.state.accessToken,
+      tokenAccess: this.props.location.state.tokenAccess,
       idClient: this.props.location.state.client.id,
     };
 
-    this.setState({ googleId: bodyRequest.googleId, accessToken: bodyRequest.accessToken });
+    this.setState({ googleId: bodyRequest.googleId, tokenAccess: bodyRequest.tokenAccess });
 
     API.get('/client', bodyRequest)
       .then((response) => this.setState({ client: response }))
@@ -76,7 +76,7 @@ class Home extends React.Component {
       pathname: '/search',
       state: {
         googleId: this.state.googleId,
-        accessToken: this.state.accessToken,
+        tokenAccess: this.state.tokenAccess,
         client: this.state.client,
         searchFromHome: true,
         searchInputName: this.state.searchInputName.trim(),
