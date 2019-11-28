@@ -1,9 +1,6 @@
 package com.desapp.grupoc1e022019.services.controllers;
 
-import com.desapp.grupoc1e022019.model.Client;
-import com.desapp.grupoc1e022019.model.Credit;
-import com.desapp.grupoc1e022019.model.Menu;
-import com.desapp.grupoc1e022019.model.Order;
+import com.desapp.grupoc1e022019.model.*;
 import com.desapp.grupoc1e022019.model.orderComponents.deliverType.DeliverType;
 import com.desapp.grupoc1e022019.model.orderComponents.orderState.PendingOrder;
 import com.desapp.grupoc1e022019.services.*;
@@ -16,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Optional;
@@ -36,6 +32,9 @@ public class OrderController {
 
     @Autowired
     private ClientService clientService = new ClientService();
+
+    @Autowired
+    private ProviderService providerService = new ProviderService();
 
     @Autowired
     private GoogleAuthService googleAuthService = new GoogleAuthService();
@@ -100,14 +99,19 @@ public class OrderController {
     public ResponseEntity getSizeMenuOrderLimitByDate(@RequestParam HashMap<String,String> body){
         String googleId = body.get("googleId");
         String tokenAccess = body.get("tokenAccess");
+        LocalDateTime date;
+        long idMenu;
 
         if(! googleAuthService.userHasAccess(googleId,tokenAccess)){
             return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
         }
 
-        LocalDateTime date = LocalDateTime.parse(body.get("deliverDate"));
-
-        long idMenu = Long.parseLong(body.get("idMenu"));
+        try{
+            date = LocalDateTime.parse(body.get("deliverDate"));
+            idMenu = Long.parseLong(body.get("idMenu"));
+        }catch (Exception e){
+            return new ResponseEntity<>("Invalid data request", HttpStatus.BAD_REQUEST);
+        }
 
         Optional<Menu> recoverMenu = menuService.getMenu(idMenu);
 
@@ -117,6 +121,31 @@ public class OrderController {
 
         Long value = orderService.sizeOrdersLimit(recoverMenu.get(),date);
         return new ResponseEntity<>(value,HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/order/provider")
+    public ResponseEntity getProviderOrdersTaken(@RequestParam HashMap<String,String> body){
+        String googleId = body.get("googleId");
+        String tokenAccess = body.get("tokenAccess");
+        long idProvider;
+
+        if(! googleAuthService.providerHasAccess(googleId,tokenAccess)){
+            return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
+        }
+
+        try{
+            idProvider = Long.parseLong(body.get("idProvider"));
+        }catch (Exception e){
+            return new ResponseEntity<>("Invalid data request", HttpStatus.BAD_REQUEST);
+        }
+
+        Optional<Provider> maybeProvider = providerService.findProviderById(idProvider);
+
+        if(! maybeProvider.isPresent()){
+            return new ResponseEntity<>("Invalid data request", HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(orderService.getHistoricProviderOrdersTaken(maybeProvider.get()),HttpStatus.OK);
     }
 
     private boolean notEnoughCredit(Credit credit, Menu menu, Integer menusAmount) {
