@@ -39,6 +39,6 @@ public class Address extends EntityId {
     }
 
     public boolean isValid() {
-        return ! location.trim().equals("") && coord.isValid();
+        return coord != null && location != null && ! location.trim().equals("") && coord.isValid();
     }
 }

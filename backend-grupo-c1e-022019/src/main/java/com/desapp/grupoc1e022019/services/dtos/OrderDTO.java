@@ -115,24 +115,12 @@ public class OrderDTO {
         this.destination = destination;
     }
 
-    public boolean isDeliveryType(){
-        return this.deliverType.equals("delivery");
-    }
-
-    public boolean isPickUpType(){
-        return this.deliverType.equals("pickup");
-    }
-
-    public boolean hasValidDeliverType() {
-        return isPickUpType() || isDeliveryType();
-    }
-
     public DeliverType parseDeliveryType() {
         DeliverType value;
         if(isPickUpType()){
-            value = new PickUp(this.deliverDate);
+            value = new PickUp(deliverDate);
         }else{
-            value = new Delivery(this.deliverDate,this.destination);
+            value = new Delivery(deliverDate,destination);
         }
         return value;
     }
@@ -152,4 +140,37 @@ public class OrderDTO {
     public void setMenuInfo(MenuInfo menuInfo) {
         this.menuInfo = menuInfo;
     }
+
+    public boolean formIsValid() {
+
+        return hasValidMenusAmount() && hasValidDeliverType() &&
+                hasValidDestination() && hasValidDeliverDate();
+    }
+
+    private boolean hasValidDeliverDate() {
+        return deliverDate != null && deliverDate.isAfter(LocalDateTime.now().plusHours(48)) &&
+                    deliverDate.isBefore(LocalDateTime.now().plusDays(15));
+    }
+
+    private boolean hasValidDestination() {
+        return destination != null && destination.isValid();
+    }
+
+    private boolean hasValidMenusAmount() {
+        return menusAmount != null && menusAmount > 0;
+    }
+
+    private boolean isDeliveryType(){
+        return this.deliverType.trim().equals("delivery");
+    }
+
+    private boolean isPickUpType(){
+        return deliverType.trim().equals("pickup");
+    }
+
+    private boolean hasValidDeliverType() {
+
+        return deliverType != null && (isPickUpType() || isDeliveryType());
+    }
+
 }
