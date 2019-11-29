@@ -36,7 +36,7 @@ public class OrderService {
         return orderDAO.sizeOfOrdersPerDayOfMenu(menuRecovered,deliverDate) >= menuRecovered.getMaxSalesPerDay();
     }
 
-    public Long sizeOrdersLimit(Menu menuRecovered, LocalDateTime deliverDate) {
+    public Long sizeOrdersPerDay(Menu menuRecovered, LocalDateTime deliverDate) {
         return orderDAO.sizeOfOrdersPerDayOfMenu(menuRecovered,deliverDate);
     }
 

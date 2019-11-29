@@ -43,7 +43,7 @@ public class OrderController {
     private EmailSenderService emailSenderService = new EmailSenderService();
 
     @RequestMapping(method = RequestMethod.POST, value = "/order")
-    public ResponseEntity getClient(@RequestBody OrderDTO orderDTO) {
+    public ResponseEntity createOrder(@RequestBody OrderDTO orderDTO) {
 
         if(! googleAuthService.clientHasAccess(orderDTO.getGoogleId(),orderDTO.getTokenAccess())) {
             return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
@@ -119,7 +119,7 @@ public class OrderController {
             return new ResponseEntity<>("Invalid data request", HttpStatus.BAD_REQUEST);
         }
 
-        Long value = orderService.sizeOrdersLimit(recoverMenu.get(),date);
+        Long value = orderService.sizeOrdersPerDay(recoverMenu.get(),date);
         return new ResponseEntity<>(value,HttpStatus.OK);
     }
 
