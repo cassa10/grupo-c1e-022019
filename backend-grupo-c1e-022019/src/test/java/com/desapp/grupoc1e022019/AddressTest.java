@@ -1,4 +1,4 @@
-package com.desapp.grupoc1e022019.ModelTests;
+package com.desapp.grupoc1e022019;
 
 import com.desapp.grupoc1e022019.model.providerComponents.location.Address;
 import com.desapp.grupoc1e022019.model.providerComponents.location.Coord;

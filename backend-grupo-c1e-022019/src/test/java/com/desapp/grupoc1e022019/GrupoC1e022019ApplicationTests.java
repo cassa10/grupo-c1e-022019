@@ -1,4 +1,4 @@
-package com.desapp.grupoc1e022019.ModelTests;
+package com.desapp.grupoc1e022019;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

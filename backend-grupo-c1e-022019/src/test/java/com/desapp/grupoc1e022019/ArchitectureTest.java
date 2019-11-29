@@ -1,4 +1,4 @@
-package com.desapp.grupoc1e022019.ArchitectureTests;
+package com.desapp.grupoc1e022019;
 
 
 import com.tngtech.archunit.junit.AnalyzeClasses;
