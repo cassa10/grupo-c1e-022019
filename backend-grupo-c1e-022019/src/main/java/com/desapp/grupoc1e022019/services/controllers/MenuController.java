@@ -104,14 +104,20 @@ public class MenuController {
     public ResponseEntity searchMenuByName(@RequestParam HashMap<String,String> body){
         String googleId = body.get("googleId");
         String tokenAccess = body.get("tokenAccess");
+        int fromPage;
+        int sizePage;
 
         if(! googleAuthService.clientHasAccess(googleId,tokenAccess)){
             return new ResponseEntity<>("Please, log in",HttpStatus.UNAUTHORIZED);
         }
 
         List<Menu> values ;
-        int fromPage = Integer.parseInt(body.get("fromPage"));
-        int sizePage = Integer.parseInt(body.get("sizePage"));
+        try{
+            fromPage = Integer.parseInt(body.get("fromPage"));
+            sizePage = Integer.parseInt(body.get("sizePage"));
+        }catch (Exception e){
+            return new ResponseEntity<>("Bad data request",HttpStatus.BAD_REQUEST);
+        }
 
         values = menuService.searchByName(body.get("name"),body.get("priceOrder"),
                 body.get("rankOrder"),fromPage,sizePage).getContent();
@@ -123,14 +129,20 @@ public class MenuController {
     public ResponseEntity searchMenuByCategory(@RequestParam HashMap<String,String> body){
         String googleId = body.get("googleId");
         String tokenAccess = body.get("tokenAccess");
+        int fromPage;
+        int sizePage;
 
         if(! googleAuthService.clientHasAccess(googleId,tokenAccess)){
             return new ResponseEntity<>("Please, log in",HttpStatus.UNAUTHORIZED);
         }
 
         List<Menu> values ;
-        int fromPage = Integer.parseInt(body.get("fromPage"));
-        int sizePage = Integer.parseInt(body.get("sizePage"));
+        try{
+            fromPage = Integer.parseInt(body.get("fromPage"));
+            sizePage = Integer.parseInt(body.get("sizePage"));
+        }catch (Exception e){
+            return new ResponseEntity<>("Bad data request",HttpStatus.BAD_REQUEST);
+        }
 
         values = menuService.searchByCategory(CategoryMenu.valueOf(body.get("category")),body.get("priceOrder"),body.get("rankOrder"),fromPage,sizePage).getContent();
 
@@ -141,14 +153,20 @@ public class MenuController {
     public ResponseEntity searchMenuByProviderCity(@RequestParam HashMap<String,String> body){
         String googleId = body.get("googleId");
         String tokenAccess = body.get("tokenAccess");
+        int fromPage;
+        int sizePage;
 
         if(! googleAuthService.clientHasAccess(googleId,tokenAccess)){
             return new ResponseEntity<>("Please, log in",HttpStatus.UNAUTHORIZED);
         }
 
         List<Menu> values ;
-        int fromPage = Integer.parseInt(body.get("fromPage"));
-        int sizePage = Integer.parseInt(body.get("sizePage"));
+        try{
+            fromPage = Integer.parseInt(body.get("fromPage"));
+            sizePage = Integer.parseInt(body.get("sizePage"));
+        }catch (Exception e){
+            return new ResponseEntity<>("Bad data request",HttpStatus.BAD_REQUEST);
+        }
 
         values = menuService.searchByProviderCity(body.get("city"),body.get("priceOrder"),body.get("rankOrder"),fromPage,sizePage).getContent();
 
@@ -159,14 +177,20 @@ public class MenuController {
     public ResponseEntity searchMenuByNameAndCategory(@RequestParam HashMap<String,String> body){
         String googleId = body.get("googleId");
         String tokenAccess = body.get("tokenAccess");
+        int fromPage;
+        int sizePage;
 
         if(! googleAuthService.clientHasAccess(googleId,tokenAccess)){
             return new ResponseEntity<>("Please, log in",HttpStatus.UNAUTHORIZED);
         }
 
         List<Menu> values;
-        int fromPage = Integer.parseInt(body.get("fromPage"));
-        int sizePage = Integer.parseInt(body.get("sizePage"));
+        try{
+            fromPage = Integer.parseInt(body.get("fromPage"));
+            sizePage = Integer.parseInt(body.get("sizePage"));
+        }catch (Exception e){
+            return new ResponseEntity<>("Bad data request",HttpStatus.BAD_REQUEST);
+        }
 
         values = menuService.searchByNameAndCategory(body.get("name"),CategoryMenu.valueOf(body.get("category")),body.get("priceOrder"),body.get("rankOrder"),fromPage,sizePage).getContent();
 
@@ -177,14 +201,20 @@ public class MenuController {
     public ResponseEntity searchMenuByNameAndCity(@RequestParam HashMap<String,String> body){
         String googleId = body.get("googleId");
         String tokenAccess = body.get("tokenAccess");
+        int fromPage;
+        int sizePage;
 
         if(! googleAuthService.clientHasAccess(googleId,tokenAccess)){
             return new ResponseEntity<>("Please, log in",HttpStatus.UNAUTHORIZED);
         }
 
         List<Menu> values;
-        int fromPage = Integer.parseInt(body.get("fromPage"));
-        int sizePage = Integer.parseInt(body.get("sizePage"));
+        try{
+            fromPage = Integer.parseInt(body.get("fromPage"));
+            sizePage = Integer.parseInt(body.get("sizePage"));
+        }catch (Exception e){
+            return new ResponseEntity<>("Bad data request",HttpStatus.BAD_REQUEST);
+        }
 
         values = menuService.searchByNameAndCity(body.get("name"),body.get("city"),body.get("priceOrder"),body.get("rankOrder"),fromPage,sizePage).getContent();
 
@@ -195,14 +225,20 @@ public class MenuController {
     public ResponseEntity searchMenuByCategoryAndCity(@RequestParam HashMap<String,String> body){
         String googleId = body.get("googleId");
         String tokenAccess = body.get("tokenAccess");
+        int fromPage;
+        int sizePage;
 
         if(! googleAuthService.clientHasAccess(googleId,tokenAccess)){
             return new ResponseEntity<>("Please, log in",HttpStatus.UNAUTHORIZED);
         }
 
         List<Menu> values;
-        int fromPage = Integer.parseInt(body.get("fromPage"));
-        int sizePage = Integer.parseInt(body.get("sizePage"));
+        try{
+            fromPage = Integer.parseInt(body.get("fromPage"));
+            sizePage = Integer.parseInt(body.get("sizePage"));
+        }catch (Exception e){
+            return new ResponseEntity<>("Bad data request",HttpStatus.BAD_REQUEST);
+        }
 
         values = menuService.searchByCategoryAndCity(CategoryMenu.valueOf(body.get("category")),body.get("city"),body.get("priceOrder"),body.get("rankOrder"),fromPage,sizePage).getContent();
 
@@ -213,14 +249,21 @@ public class MenuController {
     public ResponseEntity searchMenuByNameAndCategoryAndCity(@RequestParam HashMap<String,String> body){
         String googleId = body.get("googleId");
         String tokenAccess = body.get("tokenAccess");
+        int fromPage;
+        int sizePage;
 
         if(! googleAuthService.clientHasAccess(googleId,tokenAccess)){
             return new ResponseEntity<>("Please, log in",HttpStatus.UNAUTHORIZED);
         }
 
         List<Menu> values;
-        int fromPage = Integer.parseInt(body.get("fromPage"));
-        int sizePage = Integer.parseInt(body.get("sizePage"));
+
+        try{
+            fromPage = Integer.parseInt(body.get("fromPage"));
+            sizePage = Integer.parseInt(body.get("sizePage"));
+        }catch (Exception e){
+            return new ResponseEntity<>("Bad data request",HttpStatus.BAD_REQUEST);
+        }
 
         values = menuService.searchByNameAndCategoryAndCity(body.get("name"),
                         CategoryMenu.valueOf(body.get("category")),
@@ -230,9 +273,4 @@ public class MenuController {
 
         return new ResponseEntity<>(values,HttpStatus.OK);
     }
-
-   /* public void testMethod(){
-
-        menuRepository.findByName("algo");
-    }*/
 }

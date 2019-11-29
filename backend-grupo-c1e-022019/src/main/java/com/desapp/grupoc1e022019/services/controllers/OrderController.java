@@ -43,7 +43,7 @@ public class OrderController {
     private EmailSenderService emailSenderService = new EmailSenderService();
 
     @RequestMapping(method = RequestMethod.POST, value = "/order")
-    public ResponseEntity getClient(@RequestBody OrderDTO orderDTO) {
+    public ResponseEntity createOrder(@RequestBody OrderDTO orderDTO) {
 
         if(! googleAuthService.clientHasAccess(orderDTO.getGoogleId(),orderDTO.getTokenAccess())) {
             return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
@@ -119,7 +119,7 @@ public class OrderController {
             return new ResponseEntity<>("Invalid data request", HttpStatus.BAD_REQUEST);
         }
 
-        Long value = orderService.sizeOrdersLimit(recoverMenu.get(),date);
+        Long value = orderService.sizeOrdersPerDay(recoverMenu.get(),date);
         return new ResponseEntity<>(value,HttpStatus.OK);
     }
 
@@ -146,6 +146,68 @@ public class OrderController {
         }
 
         return new ResponseEntity<>(orderService.getHistoricProviderOrdersTaken(maybeProvider.get()),HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/order/client")
+    public ResponseEntity getClientOrders(@RequestParam HashMap<String,String> body){
+        String googleId = body.get("googleId");
+        String tokenAccess = body.get("tokenAccess");
+        long idClient;
+
+        if(! googleAuthService.clientHasAccess(googleId,tokenAccess)){
+            return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
+        }
+
+        try{
+            idClient = Long.parseLong(body.get("idClient"));
+        }catch (Exception e){
+            return new ResponseEntity<>("Invalid data request", HttpStatus.BAD_REQUEST);
+        }
+
+        Optional<Client> maybeClient = clientService.findClientById(idClient);
+
+        if(! maybeClient.isPresent()){
+            return new ResponseEntity<>("Invalid data request", HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(orderService.getHistoricClientOrders(maybeClient.get()),HttpStatus.OK);
+    }
+
+
+    @RequestMapping(method = RequestMethod.POST, value = "/order/cancel")
+    public ResponseEntity cancelOrder(@RequestBody HashMap<String,String> body) {
+
+        String googleId = body.get("googleId");
+        String tokenAccess = body.get("tokenAccess");
+        long idOrder;
+        long idClient;
+
+        if(! googleAuthService.clientHasAccess(googleId,tokenAccess)){
+            return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
+        }
+
+        try{
+            idClient = Long.parseLong(body.get("idClient"));
+            idOrder = Long.parseLong(body.get("idOrder"));
+        }catch (Exception e){
+            return new ResponseEntity<>("Invalid data request", HttpStatus.BAD_REQUEST);
+        }
+
+        Optional<Order> maybeOrder = orderService.findOrderById(idOrder);
+
+        if(! maybeOrder.isPresent()){
+            return new ResponseEntity<>("Invalid data request", HttpStatus.NOT_FOUND);
+        }
+
+        if(maybeOrder.get().getIdClient() != idClient){
+            return new ResponseEntity<>("This order does not belong to you", HttpStatus.UNAUTHORIZED);
+        }
+
+        if(! maybeOrder.get().isStatePending()){
+            return new ResponseEntity<>("Menu cannot be cancelled", HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(orderService.cancelOrder(maybeOrder.get()),HttpStatus.OK);
     }
 
     private boolean notEnoughCredit(Credit credit, Menu menu, Integer menusAmount) {

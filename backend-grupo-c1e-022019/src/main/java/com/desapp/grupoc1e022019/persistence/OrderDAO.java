@@ -1,5 +1,6 @@
 package com.desapp.grupoc1e022019.persistence;
 
+import com.desapp.grupoc1e022019.model.Client;
 import com.desapp.grupoc1e022019.model.Menu;
 import com.desapp.grupoc1e022019.model.Order;
 import com.desapp.grupoc1e022019.model.Provider;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class OrderDAO {
@@ -35,5 +37,13 @@ public class OrderDAO {
 
     public List<Order> getHistoricProviderOrdersTaken(Provider providerRecovered) {
         return orderRepository.findAllByProvider(providerRecovered);
+    }
+
+    public List<Order> getHistoricClientOrders(Client clientRecovered) {
+        return orderRepository.findAllByClient(clientRecovered);
+    }
+
+    public Optional<Order> findOrderById(long idOrder) {
+        return orderRepository.findById(idOrder);
     }
 }

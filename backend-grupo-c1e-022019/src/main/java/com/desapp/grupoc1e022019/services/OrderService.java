@@ -1,9 +1,6 @@
 package com.desapp.grupoc1e022019.services;
 
-import com.desapp.grupoc1e022019.model.Credit;
-import com.desapp.grupoc1e022019.model.Menu;
-import com.desapp.grupoc1e022019.model.Order;
-import com.desapp.grupoc1e022019.model.Provider;
+import com.desapp.grupoc1e022019.model.*;
 import com.desapp.grupoc1e022019.persistence.ClientDAO;
 import com.desapp.grupoc1e022019.persistence.OrderDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 
 @Scope(value = "session")
@@ -39,11 +37,30 @@ public class OrderService {
         return orderDAO.sizeOfOrdersPerDayOfMenu(menuRecovered,deliverDate) >= menuRecovered.getMaxSalesPerDay();
     }
 
-    public Long sizeOrdersLimit(Menu menuRecovered, LocalDateTime deliverDate) {
+    public Long sizeOrdersPerDay(Menu menuRecovered, LocalDateTime deliverDate) {
         return orderDAO.sizeOfOrdersPerDayOfMenu(menuRecovered,deliverDate);
     }
 
-    public List<Order> getHistoricProviderOrdersTaken(Provider provider) {
-        return orderDAO.getHistoricProviderOrdersTaken(provider);
+    public List<Order> getHistoricProviderOrdersTaken(Provider providerRecovered) {
+        return orderDAO.getHistoricProviderOrdersTaken(providerRecovered);
+    }
+
+    public List<Order> getHistoricClientOrders(Client clientRecovered) {
+        return orderDAO.getHistoricClientOrders(clientRecovered);
+    }
+
+    @Transactional
+    public Order cancelOrder(Order orderRecovered) {
+        //Cancelled deposit client credit
+        orderRecovered.cancelled();
+
+        //Save client current balance
+        clientDAO.save(orderRecovered.getClient());
+
+        return orderDAO.save(orderRecovered);
+    }
+
+    public Optional<Order> findOrderById(long idOrder) {
+        return orderDAO.findOrderById(idOrder);
     }
 }

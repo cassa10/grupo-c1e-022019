@@ -217,12 +217,18 @@ public class ProviderController {
     public ResponseEntity clientGetMenuProvider(@RequestParam HashMap<String,String> body){
         String googleId = body.get("googleId");
         String tokenAccess = body.get("tokenAccess");
+        long providerId;
 
         if(! googleAuthService.clientHasAccess(googleId,tokenAccess)){
             return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
         }
 
-        long providerId = Long.parseLong(body.get("providerId"));
+        try{
+            providerId = Long.parseLong(body.get("providerId"));
+        }catch (Exception e){
+            return new ResponseEntity<>("Bad data request",HttpStatus.BAD_REQUEST);
+        }
+
         Optional<Provider> maybeProvider = providerService.findProviderById(providerId);
 
         if(! maybeProvider.isPresent()){

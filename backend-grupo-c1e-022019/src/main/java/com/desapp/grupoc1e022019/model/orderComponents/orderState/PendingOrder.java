@@ -14,8 +14,6 @@ public class PendingOrder extends OrderState {
     public void cancelled(Order order){
         order.setOrderState(new CancelledOrder());
         order.getClient().deposit(order.customerPayment());
-        //TODO
-        // LLAMAR AL SERVICE EN LA PROX ENTREGA
     }
 
     @Override
