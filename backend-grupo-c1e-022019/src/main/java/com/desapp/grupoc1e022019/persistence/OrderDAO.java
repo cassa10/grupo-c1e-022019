@@ -4,6 +4,7 @@ import com.desapp.grupoc1e022019.model.Menu;
 import com.desapp.grupoc1e022019.model.Order;
 import com.desapp.grupoc1e022019.model.Provider;
 import com.desapp.grupoc1e022019.model.orderComponents.orderState.PendingOrder;
+import com.desapp.grupoc1e022019.persistence.repositories.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

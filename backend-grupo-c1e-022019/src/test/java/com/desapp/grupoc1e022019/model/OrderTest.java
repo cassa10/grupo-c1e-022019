@@ -1,4 +1,4 @@
-package com.desapp.grupoc1e022019;
+package com.desapp.grupoc1e022019.model;
 
 import com.desapp.grupoc1e022019.exception.RatingForbiddenException;
 import com.desapp.grupoc1e022019.model.*;

@@ -1,6 +1,7 @@
 package com.desapp.grupoc1e022019.services.controllers;
 
 import com.desapp.grupoc1e022019.model.Client;
+import com.desapp.grupoc1e022019.persistence.ClientDAO;
 import com.desapp.grupoc1e022019.services.ClientService;
 import com.desapp.grupoc1e022019.services.GoogleAuthService;
 import com.desapp.grupoc1e022019.services.dtos.AccreditDTO;
@@ -61,21 +62,12 @@ public class ClientController {
         return new ResponseEntity<>(updatedClient, HttpStatus.OK);
     }
 
-    //*TODO
-    //   ESTO ES TEMPORAL PARA LA ENTREGA 2 */
-    @RequestMapping(method = RequestMethod.POST, value = "/client/buy")
-    public ResponseEntity buy(@RequestBody HashMap<String,String> body) {
-
-        if(! clientService.clientExist(Long.parseLong(body.get("id")))){
-            return new ResponseEntity<>("Client does not exist", HttpStatus.NOT_FOUND);
-        }
-        Client updatedClient = clientService.buy(Long.parseLong(body.get("id")),Double.parseDouble(body.get("price")));
-
-        return new ResponseEntity<>(updatedClient, HttpStatus.OK);
-    }
 
     @RequestMapping(method = RequestMethod.POST, value = "/client/accredit")
     public ResponseEntity accredit(@RequestBody AccreditDTO accreditDTO) {
+
+        ClientDAO dao = new ClientDAO();
+        dao.getClient(0);
 
         if(accreditDTO.getAmount() == null || accreditDTO.getAmount() <= 0){
             return new ResponseEntity<>("Request with bad data", HttpStatus.BAD_REQUEST);

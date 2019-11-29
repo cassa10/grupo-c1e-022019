@@ -4,6 +4,7 @@ import com.desapp.grupoc1e022019.model.Menu;
 import com.desapp.grupoc1e022019.model.Provider;
 import com.desapp.grupoc1e022019.model.menuComponents.CategoryMenu;
 import com.desapp.grupoc1e022019.model.menuComponents.menuState.CancelledMenu;
+import com.desapp.grupoc1e022019.persistence.repositories.MenuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
