@@ -1,9 +1,6 @@
 package com.desapp.grupoc1e022019.services;
 
-import com.desapp.grupoc1e022019.model.Credit;
-import com.desapp.grupoc1e022019.model.Menu;
-import com.desapp.grupoc1e022019.model.Order;
-import com.desapp.grupoc1e022019.model.Provider;
+import com.desapp.grupoc1e022019.model.*;
 import com.desapp.grupoc1e022019.persistence.ClientDAO;
 import com.desapp.grupoc1e022019.persistence.OrderDAO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +40,11 @@ public class OrderService {
         return orderDAO.sizeOfOrdersPerDayOfMenu(menuRecovered,deliverDate);
     }
 
-    public List<Order> getHistoricProviderOrdersTaken(Provider provider) {
-        return orderDAO.getHistoricProviderOrdersTaken(provider);
+    public List<Order> getHistoricProviderOrdersTaken(Provider providerRecovered) {
+        return orderDAO.getHistoricProviderOrdersTaken(providerRecovered);
+    }
+
+    public List<Order> getHistoricClientOrders(Client clientRecovered) {
+        return orderDAO.getHistoricClientOrders(clientRecovered);
     }
 }

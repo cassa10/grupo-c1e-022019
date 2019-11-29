@@ -66,7 +66,7 @@ public class GrupoC1e022019Application {
 					.withFirstName("Nico")
 					.withPhoneNumber("1243143")
 					.withLocation("Varela city")
-					.withEmail("nicolas.alv3@gmail.com")
+					.withEmail("nicolas.alv390909909@gmail.com")
 					.withAddress("Av siempreviva 3029")
 					.withLastName("Alvarez")
 					.withCredit(new Credit(100.0))

@@ -148,6 +148,31 @@ public class OrderController {
         return new ResponseEntity<>(orderService.getHistoricProviderOrdersTaken(maybeProvider.get()),HttpStatus.OK);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/order/client")
+    public ResponseEntity getClientOrders(@RequestParam HashMap<String,String> body){
+        String googleId = body.get("googleId");
+        String tokenAccess = body.get("tokenAccess");
+        long idClient;
+
+        if(! googleAuthService.clientHasAccess(googleId,tokenAccess)){
+            return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
+        }
+
+        try{
+            idClient = Long.parseLong(body.get("idClient"));
+        }catch (Exception e){
+            return new ResponseEntity<>("Invalid data request", HttpStatus.BAD_REQUEST);
+        }
+
+        Optional<Client> maybeClient = clientService.findClientById(idClient);
+
+        if(! maybeClient.isPresent()){
+            return new ResponseEntity<>("Invalid data request", HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<>(orderService.getHistoricClientOrders(maybeClient.get()),HttpStatus.OK);
+    }
+
     private boolean notEnoughCredit(Credit credit, Menu menu, Integer menusAmount) {
         return ! credit.isGreaterOrEqual(new Credit(menu.priceWithAmount(menusAmount)));
     }

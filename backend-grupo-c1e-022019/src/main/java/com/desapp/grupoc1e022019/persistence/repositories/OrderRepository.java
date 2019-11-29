@@ -1,5 +1,6 @@
 package com.desapp.grupoc1e022019.persistence.repositories;
 
+import com.desapp.grupoc1e022019.model.Client;
 import com.desapp.grupoc1e022019.model.Menu;
 import com.desapp.grupoc1e022019.model.Order;
 import com.desapp.grupoc1e022019.model.Provider;
@@ -16,4 +17,6 @@ public interface OrderRepository extends JpaRepository<Order,Long> {
 
     @Query("SELECT o from Order o inner join o.menu m WHERE o.orderState.class != CancelledOrder AND m.provider = ?1")
     List<Order> findAllByProvider(Provider providerRecovered);
+
+    List<Order> findAllByClient(Client clientRecovered);
 }

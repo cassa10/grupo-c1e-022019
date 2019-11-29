@@ -1,5 +1,6 @@
 package com.desapp.grupoc1e022019.persistence;
 
+import com.desapp.grupoc1e022019.model.Client;
 import com.desapp.grupoc1e022019.model.Menu;
 import com.desapp.grupoc1e022019.model.Order;
 import com.desapp.grupoc1e022019.model.Provider;
@@ -35,5 +36,9 @@ public class OrderDAO {
 
     public List<Order> getHistoricProviderOrdersTaken(Provider providerRecovered) {
         return orderRepository.findAllByProvider(providerRecovered);
+    }
+
+    public List<Order> getHistoricClientOrders(Client clientRecovered) {
+        return orderRepository.findAllByClient(clientRecovered);
     }
 }
