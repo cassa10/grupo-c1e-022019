@@ -1,8 +1,5 @@
 package com.desapp.grupoc1e022019.model;
 
-import com.desapp.grupoc1e022019.exception.RatingForbiddenException;
-import com.desapp.grupoc1e022019.model.*;
-import com.desapp.grupoc1e022019.model.Order;
 import com.desapp.grupoc1e022019.model.menuComponents.MenuPriceCalculator;
 import com.desapp.grupoc1e022019.model.orderComponents.deliverType.Delivery;
 import com.desapp.grupoc1e022019.model.orderComponents.deliverType.PickUp;
@@ -23,7 +20,7 @@ public class OrderTest {
         Assert.assertTrue(newOrder.isStatePending());
         Assert.assertEquals(newOrder.getStateName(),"PendingOrder");
 
-        Assert.assertFalse(newOrder.isStateRanked());
+        Assert.assertFalse(newOrder.isRanked());
         Assert.assertFalse(newOrder.isStateCancelled());
         Assert.assertFalse(newOrder.isStateConfirmed());
         Assert.assertFalse(newOrder.isStateDelivered());
@@ -39,7 +36,7 @@ public class OrderTest {
         Assert.assertEquals(newOrder.getStateName(),"ConfirmedOrder");
 
         Assert.assertFalse(newOrder.isStatePending());
-        Assert.assertFalse(newOrder.isStateRanked());
+        Assert.assertFalse(newOrder.isRanked());
         Assert.assertFalse(newOrder.isStateCancelled());
         Assert.assertFalse(newOrder.isStateDelivered());
         Assert.assertFalse(newOrder.isStateSending());
@@ -55,7 +52,7 @@ public class OrderTest {
         Assert.assertEquals(newOrder.getStateName(),"SendingOrder");
 
         Assert.assertFalse(newOrder.isStatePending());
-        Assert.assertFalse(newOrder.isStateRanked());
+        Assert.assertFalse(newOrder.isRanked());
         Assert.assertFalse(newOrder.isStateCancelled());
         Assert.assertFalse(newOrder.isStateDelivered());
         Assert.assertFalse(newOrder.isStateConfirmed());
@@ -72,7 +69,7 @@ public class OrderTest {
         Assert.assertEquals(newOrder.getStateName(),"DeliveredOrder");
 
         Assert.assertFalse(newOrder.isStatePending());
-        Assert.assertFalse(newOrder.isStateRanked());
+        Assert.assertFalse(newOrder.isRanked());
         Assert.assertFalse(newOrder.isStateCancelled());
         Assert.assertFalse(newOrder.isStateSending());
         Assert.assertFalse(newOrder.isStateConfirmed());
@@ -89,7 +86,7 @@ public class OrderTest {
         Assert.assertEquals(newOrder.getStateName(),"CancelledOrder");
 
         Assert.assertFalse(newOrder.isStatePending());
-        Assert.assertFalse(newOrder.isStateRanked());
+        Assert.assertFalse(newOrder.isRanked());
         Assert.assertFalse(newOrder.isStateSending());
         Assert.assertFalse(newOrder.isStateDelivered());
         Assert.assertFalse(newOrder.isStateConfirmed());
@@ -102,7 +99,6 @@ public class OrderTest {
         Order newOrder = OrderBuilder.anOrder().withState(new ConfirmedOrder()).build();
         Order newOrder2 = OrderBuilder.anOrder().withState(new SendingOrder()).build();
         Order newOrder3 = OrderBuilder.anOrder().withState(new DeliveredOrder()).build();
-        Order newOrder4 = OrderBuilder.anOrder().withState(new RankedOrder()).build();
 
         newOrder.cancelled();
 
@@ -118,12 +114,6 @@ public class OrderTest {
 
         Assert.assertTrue(newOrder3.isStateDelivered());
         Assert.assertFalse(newOrder3.isStateCancelled());
-
-        newOrder4.cancelled();
-
-        Assert.assertTrue(newOrder4.isStateRanked());
-        Assert.assertFalse(newOrder4.isStateCancelled());
-
     }
 
     @Test
@@ -144,49 +134,8 @@ public class OrderTest {
         Assert.assertEquals(newOrder.getStars(), new Integer(5));
     }
 
-    @Test(expected = RatingForbiddenException.class)
-    public void testWhenIRateANewOrderDeliveredWithFiveStarsAndITryToRateAgainThenItRaiseRatingForbiddenException(){
-        Order newOrder = OrderBuilder.anOrder().build();
-        newOrder.confirmed();
-        newOrder.sending();
-        newOrder.delivered();
-
-        newOrder.rate(5);
-        newOrder.rate(4);
-    }
-
-    @Test(expected = RatingForbiddenException.class)
-    public void testWhenITryToRateAPendingOrderItRaiseRatingForbiddenException(){
-        Order newOrder = OrderBuilder.anOrder().build();
-        //It's state is Pending by default
-
-        newOrder.rate(5);
-    }
-    @Test(expected = RatingForbiddenException.class)
-    public void testWhenITryToRateASendingOrderItRaiseRatingForbiddenException(){
-        Order newOrder = OrderBuilder.anOrder().build();
-        newOrder.sending();
-
-        newOrder.rate(5);
-    }
-    @Test(expected = RatingForbiddenException.class)
-    public void testWhenITryToRateACancelledOrderItRaiseRatingForbiddenException(){
-        Order newOrder = OrderBuilder.anOrder().withMenusAmount(1).withMenu(anyMenuWithPrice5With1Amount()).build();
-        newOrder.cancelled();
-
-        newOrder.rate(5);
-    }
-
-    @Test(expected = RatingForbiddenException.class)
-    public void testWhenITryToRateAConfirmedOrderItRaiseRatingForbiddenException(){
-        Order newOrder = OrderBuilder.anOrder().build();
-        newOrder.confirmed();
-
-        newOrder.rate(5);
-    }
-
     @Test
-    public void testWhenICreateANewOrderAndWasConfirmedAndSentAndDeliveredAndRankedThenTheOrderStateIsRanked(){
+    public void testWhenICreateANewOrderAndWasConfirmedAndSentAndDeliveredAndRankedThenTheOrderStateIsDeliveredAndIsRanked(){
         Order newOrder = OrderBuilder.anOrder().build();
         newOrder.confirmed();
         newOrder.sending();
@@ -194,23 +143,13 @@ public class OrderTest {
 
         newOrder.rate(4);
 
-        Assert.assertTrue(newOrder.isStateRanked());
-        Assert.assertEquals(newOrder.getStateName(),"RankedOrder");
+        Assert.assertTrue(newOrder.isRanked());
+        Assert.assertTrue(newOrder.isStateDelivered());
 
         Assert.assertFalse(newOrder.isStateCancelled());
         Assert.assertFalse(newOrder.isStateConfirmed());
-        Assert.assertFalse(newOrder.isStateDelivered());
         Assert.assertFalse(newOrder.isStatePending());
         Assert.assertFalse(newOrder.isStateSending());
-    }
-
-    @Test
-    public void testGivenOrderWithStateRankedWhenRecievesDeliveredNothingHappens(){
-        Order newOrder = OrderBuilder.anOrder().withState(new RankedOrder()).build();
-        newOrder.delivered();
-
-        Assert.assertTrue(newOrder.isStateRanked());
-        Assert.assertFalse(newOrder.isStateDelivered());
     }
 
     @Test

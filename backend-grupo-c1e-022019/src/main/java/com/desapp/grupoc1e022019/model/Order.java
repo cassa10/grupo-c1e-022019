@@ -93,7 +93,7 @@ public class Order extends EntityId {
 
     public boolean isStateSending(){return this.orderState.isStateSending();}
 
-    public boolean isStateRanked(){return this.orderState.isStateRanked();}
+    public boolean isRanked(){return this.orderState.isRanked(stars);}
 
     public String getStateName(){
         return orderState.toString();

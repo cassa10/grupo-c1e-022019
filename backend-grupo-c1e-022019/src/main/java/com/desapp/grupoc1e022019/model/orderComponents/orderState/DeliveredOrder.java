@@ -15,10 +15,6 @@ public class DeliveredOrder extends OrderState {
         order.setStars(score);
         order.getClient().orderRanked(order);
         order.getMenu().addRate(score);
-        order.setOrderState(new RankedOrder());
-
-        //TODO
-        // USAR EL SERVICE EN LA PROXIMA ENTREGA
     }
 
     @Override
