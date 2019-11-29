@@ -92,7 +92,7 @@ public class GrupoC1e022019Application {
 					.withFirstName("Josesin")
 					.withPhoneNumber("1243143")
 					.withLocation("Quilmes city")
-					.withEmail("cassanojoseluis97@gmail.com")
+					.withEmail("cualquieracuenta03@gmail.com")
 					.withAddress("Av siempreviva 3029")
 					.withLastName("Cassanin")
 					.withCredit(new Credit(100.0))

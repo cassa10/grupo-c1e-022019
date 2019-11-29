@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class OrderDAO {
@@ -40,5 +41,9 @@ public class OrderDAO {
 
     public List<Order> getHistoricClientOrders(Client clientRecovered) {
         return orderRepository.findAllByClient(clientRecovered);
+    }
+
+    public Optional<Order> findOrderById(long idOrder) {
+        return orderRepository.findById(idOrder);
     }
 }
