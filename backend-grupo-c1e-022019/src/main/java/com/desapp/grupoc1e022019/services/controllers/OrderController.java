@@ -209,13 +209,14 @@ public class OrderController {
         return new ResponseEntity<>(orderService.cancelOrder(maybeOrder.get()),HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/order/rank")
-    public ResponseEntity rankOrder(@RequestBody HashMap<String,String> body) {
+    @RequestMapping(method = RequestMethod.POST, value = "/order/rate")
+    public ResponseEntity rateOrder(@RequestBody HashMap<String,String> body) {
 
         String googleId = body.get("googleId");
         String tokenAccess = body.get("tokenAccess");
         long idOrder;
         long idClient;
+        int rate;
 
         if(! googleAuthService.clientHasAccess(googleId,tokenAccess)){
             return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
@@ -224,8 +225,13 @@ public class OrderController {
         try{
             idClient = Long.parseLong(body.get("idClient"));
             idOrder = Long.parseLong(body.get("idOrder"));
+            rate = Integer.parseInt(body.get("rate"));
         }catch (Exception e){
             return new ResponseEntity<>("Invalid data request", HttpStatus.BAD_REQUEST);
+        }
+
+        if(rate > 5 || rate <= 0 ){
+            return new ResponseEntity<>("Rate must be positive and less or equals five stars", HttpStatus.BAD_REQUEST);
         }
 
         Optional<Order> maybeOrder = orderService.findOrderById(idOrder);
@@ -238,11 +244,29 @@ public class OrderController {
             return new ResponseEntity<>("This order does not belong to you", HttpStatus.UNAUTHORIZED);
         }
 
-        if(! maybeOrder.get().isStatePending()){
-            return new ResponseEntity<>("Menu cannot be cancelled", HttpStatus.BAD_REQUEST);
+        if(! maybeOrder.get().isCanBeRated()){
+            return new ResponseEntity<>("Menu cannot be ranked", HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<>(orderService.cancelOrder(maybeOrder.get()),HttpStatus.OK);
+        if(maybeOrder.get().isRated()){
+            return new ResponseEntity<>("Menu is ranked", HttpStatus.BAD_REQUEST);
+        }
+
+        Order orderSaved = orderService.rateOrder(maybeOrder.get(),rate);
+
+        //Send email to provider if menu is cancelled by bad average rank and he is penalized.
+        if(orderSaved.getMenu().isCancelledState() && orderSaved.getMenu().getProvider().isPenalized()){
+
+            emailSenderService.sendProviderMenuIsCancelledAndHeIsPenalized(orderSaved.getMenu());
+        }
+
+        //Send email to provider if menu is cancelled by bad average rank and he is penalized.
+        if(orderSaved.getMenu().isCancelledState() && ! orderSaved.getMenu().getProvider().isPenalized()){
+
+            emailSenderService.sendProviderMenuIsCancelledByBadAverageRankAndOwnAStrike(orderSaved.getMenu());
+        }
+
+        return new ResponseEntity<>(orderSaved,HttpStatus.OK);
     }
 
     private boolean notEnoughCredit(Credit credit, Menu menu, Integer menusAmount) {

@@ -20,7 +20,7 @@ public class OrderTest {
         Assert.assertTrue(newOrder.isStatePending());
         Assert.assertEquals(newOrder.getStateName(),"PendingOrder");
 
-        Assert.assertFalse(newOrder.isRanked());
+        Assert.assertFalse(newOrder.isRated());
         Assert.assertFalse(newOrder.isStateCancelled());
         Assert.assertFalse(newOrder.isStateConfirmed());
         Assert.assertFalse(newOrder.isStateDelivered());
@@ -36,7 +36,7 @@ public class OrderTest {
         Assert.assertEquals(newOrder.getStateName(),"ConfirmedOrder");
 
         Assert.assertFalse(newOrder.isStatePending());
-        Assert.assertFalse(newOrder.isRanked());
+        Assert.assertFalse(newOrder.isRated());
         Assert.assertFalse(newOrder.isStateCancelled());
         Assert.assertFalse(newOrder.isStateDelivered());
         Assert.assertFalse(newOrder.isStateSending());
@@ -52,7 +52,7 @@ public class OrderTest {
         Assert.assertEquals(newOrder.getStateName(),"SendingOrder");
 
         Assert.assertFalse(newOrder.isStatePending());
-        Assert.assertFalse(newOrder.isRanked());
+        Assert.assertFalse(newOrder.isRated());
         Assert.assertFalse(newOrder.isStateCancelled());
         Assert.assertFalse(newOrder.isStateDelivered());
         Assert.assertFalse(newOrder.isStateConfirmed());
@@ -69,7 +69,7 @@ public class OrderTest {
         Assert.assertEquals(newOrder.getStateName(),"DeliveredOrder");
 
         Assert.assertFalse(newOrder.isStatePending());
-        Assert.assertFalse(newOrder.isRanked());
+        Assert.assertFalse(newOrder.isRated());
         Assert.assertFalse(newOrder.isStateCancelled());
         Assert.assertFalse(newOrder.isStateSending());
         Assert.assertFalse(newOrder.isStateConfirmed());
@@ -86,7 +86,7 @@ public class OrderTest {
         Assert.assertEquals(newOrder.getStateName(),"CancelledOrder");
 
         Assert.assertFalse(newOrder.isStatePending());
-        Assert.assertFalse(newOrder.isRanked());
+        Assert.assertFalse(newOrder.isRated());
         Assert.assertFalse(newOrder.isStateSending());
         Assert.assertFalse(newOrder.isStateDelivered());
         Assert.assertFalse(newOrder.isStateConfirmed());
@@ -143,7 +143,7 @@ public class OrderTest {
 
         newOrder.rate(4);
 
-        Assert.assertTrue(newOrder.isRanked());
+        Assert.assertTrue(newOrder.isRated());
         Assert.assertTrue(newOrder.isStateDelivered());
 
         Assert.assertFalse(newOrder.isStateCancelled());

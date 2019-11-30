@@ -27,4 +27,9 @@ public class ConfirmedOrder extends OrderState {
         return "ConfirmedOrder";
     }
 
+    @Override
+    public boolean isCanBeRated(){
+        return true;
+    }
+
 }

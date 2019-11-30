@@ -27,4 +27,9 @@ public class SendingOrder extends OrderState {
     public String toString(){
         return "SendingOrder";
     }
+
+    @Override
+    public boolean isCanBeRated(){
+        return true;
+    }
 }

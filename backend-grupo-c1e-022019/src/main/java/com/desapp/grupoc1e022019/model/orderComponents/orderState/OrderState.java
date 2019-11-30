@@ -27,7 +27,7 @@ public abstract class OrderState extends EntityId {
 
     public boolean isStateSending(){return false;}
 
-    public boolean isRanked(Integer stars){
+    public boolean isRated(Integer stars){
         return stars != null && stars > 0;
     }
 
@@ -39,5 +39,10 @@ public abstract class OrderState extends EntityId {
     public void rate(Integer score, Order order){
         //Do nothing
         //Only Confirmed, Sending and Delivered States override this.
+    }
+
+    public boolean isCanBeRated(){
+        //ONLY Confirmed, Sending and Delivered States override this.
+        return false;
     }
 }

@@ -22,4 +22,8 @@ public class DeliveredOrder extends OrderState {
         return "DeliveredOrder";
     }
 
+    @Override
+    public boolean isCanBeRated(){
+        return true;
+    }
 }

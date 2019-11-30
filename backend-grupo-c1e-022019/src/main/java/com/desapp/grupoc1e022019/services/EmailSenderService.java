@@ -1,6 +1,8 @@
 package com.desapp.grupoc1e022019.services;
 
+import com.desapp.grupoc1e022019.model.Menu;
 import com.desapp.grupoc1e022019.model.Order;
+import com.desapp.grupoc1e022019.model.Provider;
 import com.desapp.grupoc1e022019.services.sender.SendEmailTLS;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -22,5 +24,23 @@ public class EmailSenderService {
         SendEmailTLS.send(orderSaved.getMenu().getProvider().getEmail(),"Your menu "+ orderSaved.getMenu().getName() + " was ordered",
                 "Hi, Congrats. Your menu has a new customer. If the order is confirmed, you will recieve in your balance account the following amount: " +
                         "'$"+df.format(orderSaved.getMenuInfoPrice())+"'. Thank you for being a good provider! ;D");
+    }
+
+    public void sendProviderMenuIsCancelledByBadAverageRankAndOwnAStrike(Menu menu) {
+        SendEmailTLS.send(menu.getProvider().getEmail(),"Your menu: '" + menu.getName() +"' is cancelled by bad reputation",
+                "Bad news, your menu is cancelled by bad raking (Rank average do not stay up to 2 stars). " +
+                        "Also, you add a strike in your provider account. If you reach up to 3 strikes, we will ban your provider account. So,"+
+                        " try to get well with your clients and upgrade your menus presentations." +
+                        " You own " + menu.getProvider().getStrikesMenu() +" strikes. Please, take care about this and good luck!"
+                );
+    }
+
+    public void sendProviderMenuIsCancelledAndHeIsPenalized(Menu menu) {
+        SendEmailTLS.send(menu.getProvider().getEmail(),"Your menu: '" + menu.getName() +"' is cancelled and you are penalized",
+                "Bad news, your menu is cancelled by bad raking (Rank average do not stay up to 2 stars). " +
+                        "Also, you get up to 3 strikes, which is the limit to own it. So, " +
+                        " we are afraid to tell you of your provider account is banned by undefined time. +" +
+                        "Sorry but you lost your 3 chances :("
+        );
     }
 }
