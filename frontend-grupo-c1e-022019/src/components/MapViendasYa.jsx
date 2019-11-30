@@ -38,12 +38,11 @@ class MapViendasYa extends React.Component {
 
   mapRef = createRef()
 
+    // $FlowFixMe: ref
+    refmarker = createRef()
 
-  handleClick = () => {
-    const map = this.mapRef.current
-    if (map != null) {
-      map.leafletElement.locate()
-    }
+  toggleDraggable = () => {
+    this.setState({ draggable: !this.state.draggable })
   }
 
   useMyLocation(){
@@ -56,6 +55,15 @@ class MapViendasYa extends React.Component {
       hasLocation: true,
       latlng: e.latlng,
     })
+  }
+
+  updatePosition = () => {
+    const marker = this.refmarker.current
+    if (marker != null) {
+      this.setState({
+        latlng: marker.leafletElement.getLatLng(),
+      })
+    }
   }
 
   render() {
@@ -78,6 +86,17 @@ class MapViendasYa extends React.Component {
             attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
           />
           {marker}
+          <Marker
+          draggable={this.state.draggable}
+          onDragend={this.updatePosition}
+          position={this.state.latlng}
+          ref={this.refmarker}>
+          <Popup minWidth={90}>
+            <span onClick={this.toggleDraggable}>
+              {this.state.draggable ? 'Draggable' : 'Fixed'}
+            </span>
+          </Popup>
+        </Marker>
           <MeasureControl {...this.state.measureOptions.position} />
         </Map>
         <button onClick={() => this.useMyLocation()}>Use my Location</button>
