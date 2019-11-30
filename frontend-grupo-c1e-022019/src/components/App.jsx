@@ -14,6 +14,7 @@ import CreateMenu from './CreateMenu';
 import LogIn from './LogIn';
 import SearchResult from './SearchResult';
 import ErrorPage from './ErrorPage';
+import MapViendasYa from './MapViendasYa';
 
 
 export default class App extends React.Component {
@@ -31,6 +32,7 @@ export default class App extends React.Component {
               // <PrivateRouteNavbar exact path="/create_menu" navbar={NavBarProvider} component={CreateMenu} />
             }
             <Route exact path="/create_menu" render={(props) => <CreateMenu {...props} />} />
+            <Route exact path="/map" render={(props) => <MapViendasYa {...props} />} />
             <PrivateRouteNavbar exact path="/search" navbar={NavBar} component={SearchResult} />
             <PrivateRouteNavbar exact path="/signup_provider" navbar={NavBar} component={SignUpProvider} />
             <Route path="/" render={(props) => <ErrorPage {...props} />} />
