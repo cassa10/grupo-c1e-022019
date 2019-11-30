@@ -245,11 +245,7 @@ public class OrderController {
         }
 
         if(! maybeOrder.get().isCanBeRated()){
-            return new ResponseEntity<>("Order cannot be rated", HttpStatus.BAD_REQUEST);
-        }
-
-        if(maybeOrder.get().isRated()){
-            return new ResponseEntity<>("Order is rated", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Order cannot be rated or is already rated", HttpStatus.BAD_REQUEST);
         }
 
         //transactional

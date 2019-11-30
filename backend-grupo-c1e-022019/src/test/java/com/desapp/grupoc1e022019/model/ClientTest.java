@@ -1,12 +1,8 @@
 package com.desapp.grupoc1e022019.model;
 
 import com.desapp.grupoc1e022019.exception.ClientCannotBuyOrderException;
-import com.desapp.grupoc1e022019.model.Client;
-import com.desapp.grupoc1e022019.model.Credit;
 import com.desapp.grupoc1e022019.exception.InsufficientCreditException;
-import com.desapp.grupoc1e022019.model.Menu;
-import com.desapp.grupoc1e022019.model.Order;
-import com.desapp.grupoc1e022019.model.clientState.CannotBuyClient;
+import com.desapp.grupoc1e022019.model.clientState.CannotBuyClientState;
 import com.desapp.grupoc1e022019.model.menuComponents.MenuPriceCalculator;
 import com.desapp.grupoc1e022019.services.builder.ClientBuilder;
 import com.desapp.grupoc1e022019.services.builder.MenuBuilder;
@@ -159,7 +155,7 @@ public class ClientTest {
     }
     @Test
     public void testGivenAClientWithCannotBuyClientStateWhenRecievesIsNormalClientReturnsFalseAndClientHaveToRankAndIsCannotBuyClientBothReturnTrue(){
-        Client client = ClientBuilder.aClient().withStateClient(new CannotBuyClient()).build();
+        Client client = ClientBuilder.aClient().withStateClient(new CannotBuyClientState()).build();
 
         Assert.assertFalse(client.isNormalClient());
         Assert.assertTrue(client.isClientHaveToRank());
@@ -187,7 +183,7 @@ public class ClientTest {
 
     @Test
     public void testGivenAClientCannotBuyStateAnd10CreditsWhenClientCancellAnOrderWithMenuPriceWithAmount2Is20ThenClientRecoversAllCreditsPaidWhichWas20SoClientHas30Credits(){
-        Client client = ClientBuilder.aClient().withStateClient(new CannotBuyClient()).withCredit(new Credit(10d)).build();
+        Client client = ClientBuilder.aClient().withStateClient(new CannotBuyClientState()).withCredit(new Credit(10d)).build();
 
         Menu anMenu = MenuBuilder.aMenu().withMenuPriceCalculator(menuPriceWithAmount2Is20()).build();
         Order anOrder = OrderBuilder.anOrder().withClient(client).withMenusAmount(2).withMenu(anMenu).build();
@@ -208,7 +204,7 @@ public class ClientTest {
 
     @Test(expected = ClientCannotBuyOrderException.class)
     public void testGivenAClientWithCannotBuyStateAnd1000CreditsWhenClientBuyAnOrderWithMenuPriceWithAmount2Is20ThenExceptionClientCannotBuyOrderArrays(){
-        Client client = ClientBuilder.aClient().withStateClient(new CannotBuyClient()).withCredit(new Credit(1000d)).build();
+        Client client = ClientBuilder.aClient().withStateClient(new CannotBuyClientState()).withCredit(new Credit(1000d)).build();
 
         Menu anMenu = MenuBuilder.aMenu().withMenuPriceCalculator(menuPriceWithAmount2Is20()).build();
         Order anOrder = OrderBuilder.anOrder().withClient(client).withMenusAmount(2).withMenu(anMenu).build();

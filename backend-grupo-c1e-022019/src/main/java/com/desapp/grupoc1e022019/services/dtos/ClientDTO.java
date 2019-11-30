@@ -1,7 +1,7 @@
 package com.desapp.grupoc1e022019.services.dtos;
 
 import com.desapp.grupoc1e022019.model.Credit;
-import com.desapp.grupoc1e022019.model.clientState.StateClient;
+import com.desapp.grupoc1e022019.model.clientState.ClientState;
 
 public class ClientDTO {
 
@@ -17,7 +17,7 @@ public class ClientDTO {
     private String location;
     private String address;
     private Credit credit;
-    private StateClient stateClient;
+    private ClientState clientState;
 
     public ClientDTO() {
     }
@@ -102,12 +102,12 @@ public class ClientDTO {
         this.credit = credit;
     }
 
-    public StateClient getStateClient() {
-        return stateClient;
+    public ClientState getClientState() {
+        return clientState;
     }
 
-    public void setStateClient(StateClient stateClient) {
-        this.stateClient = stateClient;
+    public void setClientState(ClientState clientState) {
+        this.clientState = clientState;
     }
 
     public long getId() {
@@ -132,6 +132,6 @@ public class ClientDTO {
                 + " ,lastName: "+this.lastName +" ,email: " +this.email  + " ,googleId: "+ this.googleId +
                 " ,tokenAccess: "+ tokenAccess + " ,imageUrl: " + this.imageUrl
                 + " ,phoneNumber: "+ this.phoneNumber + " ,location: " +this.location+ " ,address: "+ this.address +
-                " ,credit: "+ this.credit + " ,StateClient:"+ this.stateClient +" }";
+                " ,credit: "+ this.credit + " ,StateClient:"+ this.clientState +" }";
     }
 }

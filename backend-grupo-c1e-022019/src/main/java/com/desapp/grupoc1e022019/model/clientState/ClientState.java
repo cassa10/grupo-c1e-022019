@@ -6,7 +6,7 @@ import com.desapp.grupoc1e022019.model.Order;
 import javax.persistence.Entity;
 
 @Entity
-public abstract class StateClient extends EntityId {
+public abstract class ClientState extends EntityId {
 
     @Override
     public abstract String toString();

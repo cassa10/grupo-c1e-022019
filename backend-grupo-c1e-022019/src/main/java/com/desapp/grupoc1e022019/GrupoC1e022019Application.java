@@ -4,18 +4,21 @@ import com.desapp.grupoc1e022019.model.*;
 import com.desapp.grupoc1e022019.model.Menu;
 import com.desapp.grupoc1e022019.model.menuComponents.CategoryMenu;
 import com.desapp.grupoc1e022019.model.menuComponents.MenuPriceCalculator;
+import com.desapp.grupoc1e022019.model.menuComponents.RankAverageMenu;
+import com.desapp.grupoc1e022019.model.orderComponents.deliverType.PickUp;
+import com.desapp.grupoc1e022019.model.orderComponents.orderState.ConfirmedOrder;
+import com.desapp.grupoc1e022019.model.orderComponents.orderState.DeliveredOrder;
+import com.desapp.grupoc1e022019.model.orderComponents.orderState.SendingOrder;
 import com.desapp.grupoc1e022019.model.providerComponents.location.Address;
 import com.desapp.grupoc1e022019.model.providerComponents.location.Coord;
 import com.desapp.grupoc1e022019.model.providerComponents.providerState.NormalProvider;
 import com.desapp.grupoc1e022019.model.providerComponents.schedule.Schedule;
 import com.desapp.grupoc1e022019.model.providerComponents.schedule.SetOfBusinessTime;
-import com.desapp.grupoc1e022019.persistence.repositories.ClientRepository;
-import com.desapp.grupoc1e022019.persistence.repositories.GoogleTokenRepository;
-import com.desapp.grupoc1e022019.persistence.repositories.MenuRepository;
-import com.desapp.grupoc1e022019.persistence.repositories.ProviderRepository;
+import com.desapp.grupoc1e022019.persistence.repositories.*;
 import com.desapp.grupoc1e022019.services.builder.ClientBuilder;
 import com.desapp.grupoc1e022019.services.builder.GoogleAuthBuilder;
 import com.desapp.grupoc1e022019.services.builder.MenuBuilder;
+import com.desapp.grupoc1e022019.services.builder.OrderBuilder;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,6 +28,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.Executor;
@@ -49,17 +54,15 @@ public class GrupoC1e022019Application {
 	}
 
 	@Bean
-	public CommandLineRunner demo(ProviderRepository providerRepository, MenuRepository menuRepository, ClientRepository clientRepository, GoogleTokenRepository googleTokenRepository) {
+	public CommandLineRunner demo(ProviderRepository providerRepository, MenuRepository menuRepository, OrderRepository orderRepository, ClientRepository clientRepository, GoogleTokenRepository googleTokenRepository) {
 		return (args) -> {
 
 			Schedule schedule =new Schedule(new HashMap<DayOfWeek, SetOfBusinessTime>());
 			Provider jose = new Provider("FAKEID1","Jose","log","Quilmes",
 					new Address(new Coord("0","0"),"West Quilmes"),"Josee",
 					"jose.com.ar","cualquieracuenta03@gmail.com","13281349",schedule,
-					new Credit(),40.0,new ArrayList<>(),new NormalProvider(),0);
+					new Credit(),40.0,new ArrayList<>(),new NormalProvider(),8);
 			providerRepository.save(jose);
-
-			this.createMenus(menuRepository,jose);
 
 			Client nico = ClientBuilder.aClient()
 					.withGoogleId("FAKEID2")
@@ -71,6 +74,7 @@ public class GrupoC1e022019Application {
 					.withLastName("Alvarez")
 					.withCredit(new Credit(100.0))
 					.build();
+
 			clientRepository.save(nico);
 
 			GoogleToken joseGoogleAuth = new GoogleAuthBuilder().withGoogleId("FAKEID1")
@@ -95,13 +99,16 @@ public class GrupoC1e022019Application {
 					.withEmail("cualquieracuenta03@gmail.com")
 					.withAddress("Av siempreviva 3029")
 					.withLastName("Cassanin")
-					.withCredit(new Credit(100.0))
+					.withCredit(new Credit(300.0))
 					.build();
 			clientRepository.save(joseClient);
+
+			this.createMenusAndOrders(clientRepository, menuRepository,orderRepository,jose,nico,joseClient);
+
 		};
 	}
 
-	private void createMenus(MenuRepository menuRepository,Provider jose) {
+	private void createMenusAndOrders(ClientRepository clientRepository,MenuRepository menuRepository,OrderRepository orderRepository,Provider joseProvider,Client nicoClient,Client joseClient) {
 		//** Mila napo *//*
 		ArrayList<CategoryMenu> cMiladeNico = new ArrayList<>();
 		cMiladeNico.add(CategoryMenu.valueOf("PIZZA"));
@@ -110,7 +117,7 @@ public class GrupoC1e022019Application {
 				.withName("Mila Napo")
 				.withCategories(cMiladeNico)
 				.withDescription("Milanesa estilo pizza")
-				.withProvider(jose)
+				.withProvider(joseProvider)
 				.withMaxSalesPerDay(5)
 				.withMenuPriceCalculator(new MenuPriceCalculator(50.0,10,40.0,20,30.0))
 				.build();
@@ -127,7 +134,7 @@ public class GrupoC1e022019Application {
 				.withDescription("Tiene de todo señora")
 				.withMaxSalesPerDay(5)
 				.withMenuPriceCalculator(new MenuPriceCalculator(50.0,10,40.0,20,30.0))
-				.withProvider(jose)
+				.withProvider(joseProvider)
 				.build();
 
 		menuRepository.save(burger);
@@ -142,7 +149,7 @@ public class GrupoC1e022019Application {
 				.withMaxSalesPerDay(5)
 				.withMenuPriceCalculator(new MenuPriceCalculator(300.0,10,40.0,20,30.0))
 				.withDescription("Tiene solo 2 palmitos")
-				.withProvider(jose)
+				.withProvider(joseProvider)
 				.build();
 		pizza.addRate(3);
 		menuRepository.save(pizza);
@@ -154,7 +161,7 @@ public class GrupoC1e022019Application {
 				.withMaxSalesPerDay(5)
 				.withMenuPriceCalculator(new MenuPriceCalculator(300.0,10,40.0,20,30.0))
 				.withDescription("Tiene napoli y tana")
-				.withProvider(jose)
+				.withProvider(joseProvider)
 				.build();
 		pizzaNapo.addRate(5);
 
@@ -167,7 +174,7 @@ public class GrupoC1e022019Application {
 				.withMaxSalesPerDay(5)
 				.withMenuPriceCalculator(new MenuPriceCalculator(400.0,10,40.0,20,30.0))
 				.withDescription("Tiene salchi y pizza")
-				.withProvider(jose)
+				.withProvider(joseProvider)
 				.build();
 		pizzaSalchi.addRate(4);
 
@@ -180,7 +187,7 @@ public class GrupoC1e022019Application {
 				.withMaxSalesPerDay(5)
 				.withMenuPriceCalculator(new MenuPriceCalculator(400.0,10,40.0,20,30.0))
 				.withDescription("Tiene ana y ná")
-				.withProvider(jose)
+				.withProvider(joseProvider)
 				.build();
 		pizzaAnana.addRate(1);
 
@@ -193,7 +200,7 @@ public class GrupoC1e022019Application {
 				.withMaxSalesPerDay(5)
 				.withMenuPriceCalculator(new MenuPriceCalculator(400.0,10,40.0,20,30.0))
 				.withDescription("Tiene cala y bresa")
-				.withProvider(jose)
+				.withProvider(joseProvider)
 				.build();
 		pizzaCalabresa.addRate(5);
 
@@ -209,7 +216,7 @@ public class GrupoC1e022019Application {
 				.withMaxSalesPerDay(5)
 				.withMenuPriceCalculator(new MenuPriceCalculator(50.0,10,40.0,20,30.0))
 				.withDescription("Basicamente aló con palito")
-				.withProvider(jose)
+				.withProvider(joseProvider)
 				.build();
 
 		menuRepository.save(sushi);
@@ -224,7 +231,7 @@ public class GrupoC1e022019Application {
 				.withMaxSalesPerDay(5)
 				.withDescription("Bajo en calorias...")
 				.withMenuPriceCalculator(new MenuPriceCalculator(50.0,10,40.0,20,30.0))
-				.withProvider(jose)
+				.withProvider(joseProvider)
 				.build();
 
 		menuRepository.save(platoVegano);
@@ -239,7 +246,7 @@ public class GrupoC1e022019Application {
 				.withMaxSalesPerDay(5)
 				.withDescription("Pocas alcachofas, mucho vapor...")
 				.withMenuPriceCalculator(new MenuPriceCalculator(50.0,10,40.0,20,30.0))
-				.withProvider(jose)
+				.withProvider(joseProvider)
 				.build();
 
 		menuRepository.save(platoGreen);
@@ -254,7 +261,8 @@ public class GrupoC1e022019Application {
 				.withMaxSalesPerDay(5)
 				.withMenuPriceCalculator(new MenuPriceCalculator(50.0,10,40.0,20,30.0))
 				.withDescription("Tomar poquito xq es fuerte")
-				.withProvider(jose)
+				.withProvider(joseProvider)
+				.withRankAverageMenu(new RankAverageMenu(19,38))
 				.build();
 
 		menuRepository.save(cerveza);
@@ -269,11 +277,46 @@ public class GrupoC1e022019Application {
 				.withMaxSalesPerDay(5)
 				.withMenuPriceCalculator(new MenuPriceCalculator(50.0,10,40.0,20,30.0))
 				.withDescription("Una de carne,dos de pollo, una de jyq, una de pollo, dos de carne...")
-				.withProvider(jose)
-				.build();
+				.withProvider(joseProvider)
+				.withRankAverageMenu(new RankAverageMenu(19,38))
+					.build();
 
 		menuRepository.save(empanadas);
 
-	}
+		Order order1 = OrderBuilder.anOrder()
+				.withClient(nicoClient)
+				.withMenusAmount(1)
+				.withState(new ConfirmedOrder())
+				.withMenu(empanadas)
+				.withDeliverType(new PickUp(LocalDateTime.now().plusDays(10)))
+				.build();
 
+		orderRepository.save(order1);
+
+		Order order2 = OrderBuilder.anOrder()
+				.withClient(nicoClient)
+				.withMenusAmount(3)
+				.withState(new SendingOrder())
+				.withMenu(empanadas)
+				.withDeliverType(new PickUp(LocalDateTime.now().plusDays(9)))
+				.build();
+
+		orderRepository.save(order2);
+
+
+		Order order3 = OrderBuilder.anOrder()
+				.withClient(nicoClient)
+				.withMenusAmount(3)
+				.withState(new DeliveredOrder())
+				.withMenu(cerveza)
+				.withDeliverType(new PickUp(LocalDateTime.now().plusDays(9)))
+				.build();
+
+		orderRepository.save(order3);
+
+		nicoClient.haveToRankOrder();
+		nicoClient.haveToRankOrder();
+		nicoClient.haveToRankOrder();
+		clientRepository.save(nicoClient);
+	}
 }

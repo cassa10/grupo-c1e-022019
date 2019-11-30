@@ -1,13 +1,11 @@
 package com.desapp.grupoc1e022019.model;
 
 import com.desapp.grupoc1e022019.exception.InsufficientCreditException;
-import com.desapp.grupoc1e022019.model.clientState.CannotBuyClient;
-import com.desapp.grupoc1e022019.model.clientState.NormalClient;
-import com.desapp.grupoc1e022019.model.clientState.StateClient;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.desapp.grupoc1e022019.model.clientState.CannotBuyClientState;
+import com.desapp.grupoc1e022019.model.clientState.NormalClientState;
+import com.desapp.grupoc1e022019.model.clientState.ClientState;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 public class Client extends EntityId{
@@ -23,24 +21,17 @@ public class Client extends EntityId{
     private String location;
     private String address;
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "ID_CREDIT")
+    @JoinColumn(name = "id_credit")
     private Credit credit;
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "ID_CLIENT_STATE")
-    private StateClient stateClient;
-    @JsonManagedReference
-    @OneToMany(
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            mappedBy = "client"
-    )
-    private List<Order> ordersHaveToRank;
+    @JoinColumn(name = "id_client_state")
+    private ClientState clientState;
+    private Integer sizeOrdersHaveToRank;
 
     public Client(){}
 
-    public Client(String firstName, String lastName, String email,String googleId, String imageUrl, String phoneNumber,
-                  String location, String address, Credit credit,StateClient stateClient,List<Order> ordersHaveToRank){
+    public Client(String firstName, String lastName, String email, String googleId, String imageUrl, String phoneNumber,
+                  String location, String address, Credit credit, ClientState clientState, Integer sizeOrdersHaveToRank){
         this.setFirstName(firstName);
         this.setLastName(lastName);
         this.setEmail(email);
@@ -48,8 +39,8 @@ public class Client extends EntityId{
         this.setLocation(location);
         this.setAddress(address);
         this.setCredit(credit);
-        this.setStateClient(stateClient);
-        this.ordersHaveToRank = ordersHaveToRank;
+        this.setClientState(clientState);
+        setSizeOrdersHaveToRank(sizeOrdersHaveToRank);
         this.setGoogleId(googleId);
         setImageUrl(imageUrl);
     }
@@ -79,21 +70,22 @@ public class Client extends EntityId{
         return firstName;
     }
 
-    public StateClient getStateClient() {
-        return stateClient;
+    public ClientState getClientState() {
+        return clientState;
     }
 
-    public List<Order> getOrdersHaveToRank() {
-        return ordersHaveToRank;
+    public Integer getSizeOrdersHaveToRank() {
+        return sizeOrdersHaveToRank;
     }
 
-    public void setOrdersHaveToRank(List<Order> ordersHaveToRank) {
-        this.ordersHaveToRank = ordersHaveToRank;
+    public void setSizeOrdersHaveToRank(Integer sizeOrdersHaveToRank) {
+        this.sizeOrdersHaveToRank = sizeOrdersHaveToRank;
     }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
+
     public String getLastName() {
         return lastName;
     }
@@ -142,8 +134,8 @@ public class Client extends EntityId{
         this.credit = credit;
     }
 
-    public void setStateClient(StateClient stateClient) {
-        this.stateClient = stateClient;
+    public void setClientState(ClientState clientState) {
+        this.clientState = clientState;
     }
     //---------------------------
     //Getters And Setters --END--
@@ -162,37 +154,33 @@ public class Client extends EntityId{
         }
     }
 
-    public void haveToRankOrder(Order order){
-        this.ordersHaveToRank.add(order);
-        this.stateClient = new CannotBuyClient();
+    public void haveToRankOrder(){
+        sizeOrdersHaveToRank = sizeOrdersHaveToRank + 1;
+        this.clientState = new CannotBuyClientState();
     }
 
-    public void orderRanked(Order order) {
-        //TODO
-        // USAR EL SERVICE
-        this.ordersHaveToRank.remove(order);
-        if(this.ordersHaveToRank.isEmpty()){
-            this.setStateClient(new NormalClient());
+    public void orderRanked() {
+        sizeOrdersHaveToRank = sizeOrdersHaveToRank - 1;
+        if(this.sizeOrdersHaveToRank == 0){
+            this.setClientState(new NormalClientState());
         }
     }
 
     public void buyAnOrder(Order order){
-        this.stateClient.buyOrder(order);
+        this.clientState.buyOrder(order);
     }
 
     public void cancellOrder(Order order){ order.cancelled();}
 
     public boolean isNormalClient(){
-        return stateClient.isNormal();
+        return clientState.isNormal();
     }
 
     public boolean isClientHaveToRank(){
-        return stateClient.clientHaveToRank();
+        return clientState.clientHaveToRank();
     }
 
     public boolean isCannotBuyClient(){
-        return stateClient.isCannotBuyClient();
+        return clientState.isCannotBuyClient();
     }
-
-    public int getSizeOrderHaveToRank(){ return ordersHaveToRank.size();}
 }

@@ -3,7 +3,7 @@ package com.desapp.grupoc1e022019.services.controllers;
 import com.desapp.grupoc1e022019.model.Client;
 import com.desapp.grupoc1e022019.model.Credit;
 import com.desapp.grupoc1e022019.model.GoogleToken;
-import com.desapp.grupoc1e022019.model.clientState.NormalClient;
+import com.desapp.grupoc1e022019.model.clientState.NormalClientState;
 import com.desapp.grupoc1e022019.services.ClientService;
 import com.desapp.grupoc1e022019.services.GoogleAuthService;
 import com.desapp.grupoc1e022019.services.builder.ClientBuilder;
@@ -70,7 +70,7 @@ public class GoogleAuthController {
                 .withImageUrl(clientDTO.getImageUrl())
                 .withFirstName(clientDTO.getFirstName())
                 .withLastName(clientDTO.getLastName())
-                .withStateClient(new NormalClient())
+                .withStateClient(new NormalClientState())
                 .withEmail(clientDTO.getEmail())
                 .withCredit(new Credit())
                 .build();

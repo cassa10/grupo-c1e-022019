@@ -41,7 +41,7 @@ public abstract class OrderState extends EntityId {
         //Only Confirmed, Sending and Delivered States override this.
     }
 
-    public boolean isCanBeRated(){
+    public boolean isCanBeRated(Order order){
         //ONLY Confirmed, Sending and Delivered States override this.
         return false;
     }
