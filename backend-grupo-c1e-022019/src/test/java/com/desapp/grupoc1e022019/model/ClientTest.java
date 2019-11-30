@@ -21,7 +21,7 @@ public class ClientTest {
                             .withFirstName("Pepe").build();
 
         Assert.assertEquals(jose.getFirstName(),"Jose");
-        Assert.assertEquals(pepe.getFirstName(),"Pepe"); /** No entiendo por que testeas dos veces lo mismo o.O */
+        Assert.assertEquals(pepe.getFirstName(),"Pepe");
     }
 
     @Test

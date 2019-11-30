@@ -83,15 +83,11 @@ public class GoogleAuthController {
     @RequestMapping(method = RequestMethod.POST, value = "/logout")
     public ResponseEntity logoutAuth(@RequestBody GoogleAuthDTO googleAuthDTO) {
 
-        // TODO
-        //  ASPECT AUTHENTICATION
         GoogleToken googleToken = new GoogleAuthBuilder().build(googleAuthDTO);
 
         if(! googleAuthService.checkExistAuthToken(googleToken)) {
-            return new ResponseEntity<>("Please, log in or sign up if you do not have an account", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
         }
-        //TODO
-        //  AUTHENTICATION END HERE
 
         //DELETE TOKEN FROM TABLE GOOGLE TOKEN
         googleAuthService.logoutGoogleToken(googleToken);

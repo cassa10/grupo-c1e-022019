@@ -86,11 +86,8 @@ public class OrderController {
             return new ResponseEntity<>("Client does not has enough credits",HttpStatus.NOT_ACCEPTABLE);
         }
 
-        //TRANSACTIONAL
+        //TRANSACTIONAL (+ send email)
         newOrder = orderService.createOrder(newOrder);
-
-        //ASYNC METHOD
-        emailSenderService.sendOrderPendingEmail(newOrder);
 
         return new ResponseEntity<>(newOrder, HttpStatus.OK);
     }

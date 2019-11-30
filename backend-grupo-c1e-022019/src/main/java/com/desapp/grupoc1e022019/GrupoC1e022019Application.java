@@ -8,6 +8,7 @@ import com.desapp.grupoc1e022019.model.menuComponents.RankAverageMenu;
 import com.desapp.grupoc1e022019.model.orderComponents.deliverType.PickUp;
 import com.desapp.grupoc1e022019.model.orderComponents.orderState.ConfirmedOrder;
 import com.desapp.grupoc1e022019.model.orderComponents.orderState.DeliveredOrder;
+import com.desapp.grupoc1e022019.model.orderComponents.orderState.PendingOrder;
 import com.desapp.grupoc1e022019.model.orderComponents.orderState.SendingOrder;
 import com.desapp.grupoc1e022019.model.providerComponents.location.Address;
 import com.desapp.grupoc1e022019.model.providerComponents.location.Coord;
@@ -25,10 +26,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,6 +38,7 @@ import java.util.concurrent.Executor;
 @SpringBootApplication
 @Configuration
 @EnableAsync
+@EnableScheduling
 public class GrupoC1e022019Application {
 
 	public static void main(String[] args) {
@@ -69,7 +71,7 @@ public class GrupoC1e022019Application {
 					.withFirstName("Nico")
 					.withPhoneNumber("1243143")
 					.withLocation("Varela city")
-					.withEmail("nicolas.alv390909909@gmail.com")
+					.withEmail("cassanojoseluis232312321321@gmail.com")
 					.withAddress("Av siempreviva 3029")
 					.withLastName("Alvarez")
 					.withCredit(new Credit(100.0))
@@ -80,13 +82,13 @@ public class GrupoC1e022019Application {
 			GoogleToken joseGoogleAuth = new GoogleAuthBuilder().withGoogleId("FAKEID1")
 					.withTokenId("FAKETOKENID1")
 					.withAccessToken("FAKEACCESSTOKEN1")
-					.withExpiresIn(0)
+					.withExpiresIn(LocalDateTime.now().plusYears(1000))
 					.build();
 
 			GoogleToken nicoGoogleAuth = new GoogleAuthBuilder().withGoogleId("FAKEID2")
 					.withTokenId("FAKETOKENID2")
 					.withAccessToken("FAKEACCESSTOKEN2")
-					.withExpiresIn(0)
+					.withExpiresIn(LocalDateTime.now().plusYears(1000))
 					.build();
 
 			googleTokenRepository.save(joseGoogleAuth);
@@ -99,7 +101,7 @@ public class GrupoC1e022019Application {
 					.withEmail("cualquieracuenta03@gmail.com")
 					.withAddress("Av siempreviva 3029")
 					.withLastName("Cassanin")
-					.withCredit(new Credit(300.0))
+					.withCredit(new Credit(800.0))
 					.build();
 			clientRepository.save(joseClient);
 
@@ -258,7 +260,7 @@ public class GrupoC1e022019Application {
 		Menu cerveza = MenuBuilder.aMenu()
 				.withName("Cerveza artesanal")
 				.withCategories(cCerveza)
-				.withMaxSalesPerDay(5)
+				.withMaxSalesPerDay(30)
 				.withMenuPriceCalculator(new MenuPriceCalculator(50.0,10,40.0,20,30.0))
 				.withDescription("Tomar poquito xq es fuerte")
 				.withProvider(joseProvider)
@@ -274,7 +276,7 @@ public class GrupoC1e022019Application {
 		Menu empanadas = MenuBuilder.aMenu()
 				.withName("Empanadas")
 				.withCategories(cEmpanadas)
-				.withMaxSalesPerDay(5)
+				.withMaxSalesPerDay(10)
 				.withMenuPriceCalculator(new MenuPriceCalculator(50.0,10,40.0,20,30.0))
 				.withDescription("Una de carne,dos de pollo, una de jyq, una de pollo, dos de carne...")
 				.withProvider(joseProvider)
@@ -282,6 +284,8 @@ public class GrupoC1e022019Application {
 					.build();
 
 		menuRepository.save(empanadas);
+
+		// Orders for test rate:
 
 		Order order1 = OrderBuilder.anOrder()
 				.withClient(nicoClient)
@@ -291,6 +295,7 @@ public class GrupoC1e022019Application {
 				.withDeliverType(new PickUp(LocalDateTime.now().plusDays(10)))
 				.build();
 
+		nicoClient.haveToRankOrder();
 		orderRepository.save(order1);
 
 		Order order2 = OrderBuilder.anOrder()
@@ -301,6 +306,7 @@ public class GrupoC1e022019Application {
 				.withDeliverType(new PickUp(LocalDateTime.now().plusDays(9)))
 				.build();
 
+		nicoClient.haveToRankOrder();
 		orderRepository.save(order2);
 
 
@@ -309,14 +315,103 @@ public class GrupoC1e022019Application {
 				.withMenusAmount(3)
 				.withState(new DeliveredOrder())
 				.withMenu(cerveza)
-				.withDeliverType(new PickUp(LocalDateTime.now().plusDays(9)))
+				.withDeliverType(new PickUp(LocalDateTime.now().minusDays(4)))
 				.build();
 
+		nicoClient.haveToRankOrder();
 		orderRepository.save(order3);
 
+		//Orders for test schedule 00hs:
+
+		Order order4 = OrderBuilder.anOrder()
+				.withClient(nicoClient)
+				.withMenusAmount(2)
+				.withState(new PendingOrder())
+				.withMenu(cerveza)
+				.withDeliverType(new PickUp(LocalDateTime.now().plusDays(1)))
+				.build();
+
 		nicoClient.haveToRankOrder();
+		orderRepository.save(order4);
+
+		Order order5 = OrderBuilder.anOrder()
+				.withClient(nicoClient)
+				.withMenusAmount(10)
+				.withState(new PendingOrder())
+				.withMenu(cerveza)
+				.withDeliverType(new PickUp(LocalDateTime.now().plusDays(7)))
+				.build();
+
 		nicoClient.haveToRankOrder();
+		orderRepository.save(order5);
+
+		Order order6 = OrderBuilder.anOrder()
+				.withClient(nicoClient)
+				.withMenusAmount(4)
+				.withState(new PendingOrder())
+				.withMenu(cerveza)
+				.withDeliverType(new PickUp(LocalDateTime.now().plusHours(4)))
+				.build();
+
 		nicoClient.haveToRankOrder();
+		orderRepository.save(order6);
+
+		Order order7 = OrderBuilder.anOrder()
+				.withClient(nicoClient)
+				.withMenusAmount(10)
+				.withState(new PendingOrder())
+				.withMenu(empanadas)
+				.withDeliverType(new PickUp(LocalDateTime.now().plusHours(4)))
+				.build();
+
+		nicoClient.haveToRankOrder();
+		orderRepository.save(order7);
+
+		Order order8 = OrderBuilder.anOrder()
+				.withClient(nicoClient)
+				.withMenusAmount(2)
+				.withState(new PendingOrder())
+				.withMenu(platoVegano)
+				.withDeliverType(new PickUp(LocalDateTime.now().plusHours(4)))
+				.build();
+
+		nicoClient.haveToRankOrder();
+		orderRepository.save(order8);
+
+		Order order9 = OrderBuilder.anOrder()
+				.withClient(nicoClient)
+				.withMenusAmount(7)
+				.withState(new PendingOrder())
+				.withMenu(empanadas)
+				.withDeliverType(new PickUp(LocalDateTime.now().plusHours(4)))
+				.build();
+
+		nicoClient.haveToRankOrder();
+		orderRepository.save(order9);
+
+		Order order10 = OrderBuilder.anOrder()
+				.withClient(nicoClient)
+				.withMenusAmount(3)
+				.withState(new PendingOrder())
+				.withMenu(empanadas)
+				.withDeliverType(new PickUp(LocalDateTime.now().plusHours(4)))
+				.build();
+
+		nicoClient.haveToRankOrder();
+		orderRepository.save(order10);
+
+		Order order11 = OrderBuilder.anOrder()
+				.withClient(nicoClient)
+				.withMenusAmount(5)
+				.withState(new PendingOrder())
+				.withMenu(cerveza)
+				.withDeliverType(new PickUp(LocalDateTime.now().plusHours(4)))
+				.build();
+
+		nicoClient.haveToRankOrder();
+		orderRepository.save(order11);
+
+		//save all client have to rank order value
 		clientRepository.save(nicoClient);
 	}
 }

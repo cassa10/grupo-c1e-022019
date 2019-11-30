@@ -3,8 +3,6 @@ package com.desapp.grupoc1e022019.model;
 
 import com.desapp.grupoc1e022019.exception.InsufficientCreditException;
 import com.desapp.grupoc1e022019.exception.MaximumMenusSizeException;
-import com.desapp.grupoc1e022019.model.Credit;
-import com.desapp.grupoc1e022019.model.Menu;
 import com.desapp.grupoc1e022019.model.providerComponents.location.Address;
 import com.desapp.grupoc1e022019.model.providerComponents.location.Coord;
 import com.desapp.grupoc1e022019.model.providerComponents.providerState.PenalizedProvider;
@@ -12,7 +10,6 @@ import com.desapp.grupoc1e022019.model.providerComponents.schedule.BusinessTime;
 import com.desapp.grupoc1e022019.model.providerComponents.schedule.Schedule;
 import com.desapp.grupoc1e022019.model.providerComponents.schedule.SetOfBusinessTime;
 import com.desapp.grupoc1e022019.services.builder.MenuBuilder;
-import com.desapp.grupoc1e022019.model.Provider;
 import com.desapp.grupoc1e022019.services.builder.ProviderBuilder;
 import org.junit.Assert;
 import org.junit.Test;
@@ -395,7 +392,7 @@ public class ProviderTest {
     @Test
     public void testGivenAProviderWithZeroCreditAmountWhenProviderRecievesCredit10AmountThenItHas10CreditAmount(){
         Provider provider = ProviderBuilder.aProvider().build();
-        provider.recievesCredit(new Credit(10d));
+        provider.depositCredit(new Credit(10d));
 
         Assert.assertEquals(provider.getCredit(),new Credit(10d));
     }
@@ -403,7 +400,7 @@ public class ProviderTest {
     @Test
     public void testGivenAProviderWith10CreditAmountWhenProviderRecievesCredit10AmountThenItHas20CreditAmount(){
         Provider provider = ProviderBuilder.aProvider().withCredit(new Credit(10d)).build();
-        provider.recievesCredit(new Credit(10d));
+        provider.depositCredit(new Credit(10d));
 
         Assert.assertEquals(provider.getCredit(),new Credit(20d));
     }
@@ -411,7 +408,7 @@ public class ProviderTest {
     @Test
     public void testGivenAProviderWith10Point4CreditAmountWhenProviderRecievesCredit10Point44AmountThenItHas20Point84CreditAmount(){
         Provider provider = ProviderBuilder.aProvider().withCredit(new Credit(10.4d)).build();
-        provider.recievesCredit(new Credit(10.44d));
+        provider.depositCredit(new Credit(10.44d));
 
         Assert.assertEquals(provider.getCredit(),new Credit(20.84d));
     }
