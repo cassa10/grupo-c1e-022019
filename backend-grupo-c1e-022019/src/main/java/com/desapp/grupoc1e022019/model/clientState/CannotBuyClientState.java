@@ -6,7 +6,7 @@ import com.desapp.grupoc1e022019.model.Order;
 import javax.persistence.Entity;
 
 @Entity
-public class CannotBuyClient extends StateClient {
+public class CannotBuyClientState extends ClientState {
 
     @Override
     public boolean clientHaveToRank(){

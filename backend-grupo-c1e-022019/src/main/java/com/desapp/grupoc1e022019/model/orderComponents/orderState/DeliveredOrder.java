@@ -13,7 +13,7 @@ public class DeliveredOrder extends OrderState {
     @Override
     public void rate(Integer score, Order order) {
         order.setStars(score);
-        order.getClient().orderRanked(order);
+        order.getClient().orderRanked();
         order.getMenu().addRate(score);
     }
 
@@ -23,7 +23,8 @@ public class DeliveredOrder extends OrderState {
     }
 
     @Override
-    public boolean isCanBeRated(){
-        return true;
+    public boolean isCanBeRated(Order order){
+
+        return ! super.isRated(order.getStars());
     }
 }
