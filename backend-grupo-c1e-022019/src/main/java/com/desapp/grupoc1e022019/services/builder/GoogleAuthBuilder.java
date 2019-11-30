@@ -3,12 +3,14 @@ package com.desapp.grupoc1e022019.services.builder;
 import com.desapp.grupoc1e022019.model.GoogleToken;
 import com.desapp.grupoc1e022019.services.dtos.GoogleAuthDTO;
 
+import java.time.LocalDateTime;
+
 public class GoogleAuthBuilder {
 
     private String googleId;
     private String tokenId;
     private String accessToken;
-    private Integer expires_in;
+    private LocalDateTime expires_in;
 
     public GoogleAuthBuilder() {}
 
@@ -17,7 +19,8 @@ public class GoogleAuthBuilder {
     }
 
     public GoogleToken build(GoogleAuthDTO googleAuthDTO) {
-        return new GoogleToken(googleAuthDTO.getGoogleId(), googleAuthDTO.getTokenId(), googleAuthDTO.getTokenAccess(), googleAuthDTO.getExpires_in());
+        LocalDateTime expires_date_time = LocalDateTime.now().plusSeconds(googleAuthDTO.getExpires_in());
+        return new GoogleToken(googleAuthDTO.getGoogleId(), googleAuthDTO.getTokenId(), googleAuthDTO.getTokenAccess(), expires_date_time);
     }
 
     public GoogleAuthBuilder withGoogleId(String googleId) {
@@ -35,7 +38,7 @@ public class GoogleAuthBuilder {
         return this;
     }
 
-    public GoogleAuthBuilder withExpiresIn(Integer expires_in) {
+    public GoogleAuthBuilder withExpiresIn(LocalDateTime expires_in) {
         this.expires_in = expires_in;
         return this;
     }

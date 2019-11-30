@@ -4,6 +4,7 @@ package com.desapp.grupoc1e022019.services;
 import com.desapp.grupoc1e022019.model.Credit;
 import com.desapp.grupoc1e022019.model.Order;
 import com.desapp.grupoc1e022019.persistence.ClientDAO;
+import com.desapp.grupoc1e022019.persistence.GoogleTokenDAO;
 import com.desapp.grupoc1e022019.persistence.OrderDAO;
 import com.desapp.grupoc1e022019.persistence.ProviderDAO;
 import com.desapp.grupoc1e022019.services.logger.ServiceLogger;
@@ -31,6 +32,9 @@ public class ScheduleService {
     private ProviderDAO providerDAO = new ProviderDAO();
     @Autowired
     private EmailSenderService emailSenderService = new EmailSenderService();
+
+    @Autowired
+    private GoogleTokenDAO googleTokenDAO = new GoogleTokenDAO();
 
     @Scheduled(cron = "0 0 0 * * *")
     @Transactional
@@ -99,5 +103,20 @@ public class ScheduleService {
         orderDAO.save(order);
 
         emailSenderService.sendOrderIsConfirmed(order, newOrderPricePerAmount);
+    }
+
+    @Scheduled(cron = "0 30 * * * *")
+    @Async("threadPoolTaskExecutor")
+    @Transactional
+    public void expireOldTokens(){
+        //Every hour in minute 30.
+
+        logger.info("Schedule task 'Expire old tokens' has started. ");
+
+        Integer tokensExpired = googleTokenDAO.deleteAllAuthTokenExpired();
+        logger.info("Number of tokens are expired: " + tokensExpired);
+
+        logger.info("Schedule task 'Expire old tokens' has finished. ");
+
     }
 }

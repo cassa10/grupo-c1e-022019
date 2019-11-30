@@ -82,13 +82,13 @@ public class GrupoC1e022019Application {
 			GoogleToken joseGoogleAuth = new GoogleAuthBuilder().withGoogleId("FAKEID1")
 					.withTokenId("FAKETOKENID1")
 					.withAccessToken("FAKEACCESSTOKEN1")
-					.withExpiresIn(0)
+					.withExpiresIn(LocalDateTime.now().plusYears(1000))
 					.build();
 
 			GoogleToken nicoGoogleAuth = new GoogleAuthBuilder().withGoogleId("FAKEID2")
 					.withTokenId("FAKETOKENID2")
 					.withAccessToken("FAKEACCESSTOKEN2")
-					.withExpiresIn(0)
+					.withExpiresIn(LocalDateTime.now().plusYears(1000))
 					.build();
 
 			googleTokenRepository.save(joseGoogleAuth);
