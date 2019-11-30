@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component()
+@Component
 public class ScheduleService {
 
     private static Logger logger = Logger.getLogger(ServiceLogger.class);
@@ -109,7 +109,7 @@ public class ScheduleService {
     @Async("threadPoolTaskExecutor")
     @Transactional
     public void expireOldTokens(){
-        //Every hour in minute 30.
+        //"0 30 * * * *" - cron: Every hour in minute 30.
 
         logger.info("Schedule task 'Expire old tokens' has started. ");
 
