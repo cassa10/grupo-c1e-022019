@@ -2,9 +2,7 @@ package com.desapp.grupoc1e022019.services;
 
 import com.desapp.grupoc1e022019.model.Menu;
 import com.desapp.grupoc1e022019.model.Order;
-import com.desapp.grupoc1e022019.model.Provider;
 import com.desapp.grupoc1e022019.services.sender.SendEmailTLS;
-import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
