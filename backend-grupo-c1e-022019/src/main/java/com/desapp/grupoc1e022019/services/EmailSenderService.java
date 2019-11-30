@@ -4,6 +4,7 @@ import com.desapp.grupoc1e022019.model.Menu;
 import com.desapp.grupoc1e022019.model.Order;
 import com.desapp.grupoc1e022019.model.Provider;
 import com.desapp.grupoc1e022019.services.sender.SendEmailTLS;
+import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -45,5 +46,42 @@ public class EmailSenderService {
                         " we are afraid to tell you of your provider account is banned by undefined time. " +
                         "Sorry but you wasted your 10 chances :("
         );
+    }
+
+    @Async("threadPoolTaskExecutor")
+    public void sendOrderFinalPriceHasChanged(Order order, Double prevOrderPricePerAmount, Double newOrderPricePerAmount, Double differenceCreditAccredited) {
+        DecimalFormat df = new DecimalFormat("#.00");
+
+        SendEmailTLS.send(order.getClient().getEmail(),
+                "Your menu order: '" + order.getMenu().getName() +"'- Amount: '"+ order.getMenusAmount()+"' has achieve a menu discount",
+                "Hi, your menu order '"+ order.getMenu().getName() + "' with amount '" +order.getMenusAmount() +"' has achieve a menu discount. "+
+                        "Your order payment was $"+df.format(prevOrderPricePerAmount * order.getMenusAmount())+". " +
+                        "Now, order final price is $"+ df.format(newOrderPricePerAmount * order.getMenusAmount()) +". "+
+                        "And your balance account was accredited +$"+ df.format(differenceCreditAccredited) + ". "+
+                        "Thanks for using our app! :D"
+        );
+    }
+
+    @Async("threadPoolTaskExecutor")
+    public void sendOrderIsConfirmed(Order order, Double newOrderPricePerAmount) {
+        DecimalFormat df = new DecimalFormat("#.00");
+        String finalPriceOrder = df.format(newOrderPricePerAmount * order.getMenusAmount());
+
+        SendEmailTLS.send(order.getClient().getEmail(),
+                "Your menu order: '" + order.getMenu().getName() +"'- Amount: '"+ order.getMenusAmount()+"' - State: Confirmed",
+                "Hi, your menu order '"+ order.getMenu().getName() + "' with amount '" +order.getMenusAmount() +"' is confirmed. "+
+                        "Order final price is $"+ finalPriceOrder +". "+
+                "All order info is in your history order wall. " +
+                "Thanks for using our app and enjoy your order! :D"
+        );
+
+        SendEmailTLS.send(order.getMenu().getProvider().getEmail(),
+                "Your menu: '" + order.getMenu().getName() +"' has a confirmed order!",
+                "Hi, your balance account accredited '$"+ finalPriceOrder + " by an confirmed order. "+
+                        "This order request '"+ order.getMenu().getName() + "' x" + order.getMenusAmount() + " (amount). " +
+                        "In your order history wall, you will have all info to make this order! "+
+                        "Thank you for make our app great and keep going!"
+        );
+
     }
 }

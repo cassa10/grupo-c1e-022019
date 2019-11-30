@@ -7,6 +7,7 @@ import com.desapp.grupoc1e022019.model.Provider;
 import com.desapp.grupoc1e022019.model.orderComponents.orderState.PendingOrder;
 import com.desapp.grupoc1e022019.persistence.repositories.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -45,5 +46,16 @@ public class OrderDAO {
 
     public Optional<Order> findOrderById(long idOrder) {
         return orderRepository.findById(idOrder);
+    }
+
+    public List<Order> findAllByPendingStateAndDeliverDateBetweenAndSortedByIdMenu(LocalDateTime minDateTime, LocalDateTime maxDateTime) {
+        return orderRepository.
+                findAllByStateAndDeliverDateAfterMinDateTimeAndBeforeMaxDateTimeAndSortedBy(
+                        new PendingOrder().toString(), minDateTime, maxDateTime, new Sort(Sort.Direction.DESC,"menu.id"));
+    }
+
+    public Long countTotalAmountMenusByPendingStateAndIdMenuAndDeliverDateBetween(long idMenu, LocalDateTime minDateTime, LocalDateTime maxDateTime) {
+        return orderRepository.countMenuTotalAmountsByStateAndIdMenuAndDeliverDateAfterMinDateTimeAndBeforeMaxDateTime(
+                new PendingOrder().toString(), idMenu, minDateTime, maxDateTime);
     }
 }

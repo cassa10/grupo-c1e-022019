@@ -27,6 +27,8 @@ public class OrderService {
     private ProviderDAO providerDAO = new ProviderDAO();
     @Autowired
     private MenuDAO menuDAO = new MenuDAO();
+    @Autowired
+    private EmailSenderService emailSenderService = new EmailSenderService();
 
     @Transactional
     public Order createOrder(Order newOrder) {
@@ -35,6 +37,9 @@ public class OrderService {
         newOrder.getClient().debit(orderPrice);
 
         clientDAO.save(newOrder.getClient());
+
+        //ASYNC METHOD (DO NOT AFFECT TRANSACTIONALLY)
+        emailSenderService.sendOrderPendingEmail(newOrder);
 
         return orderDAO.save(newOrder);
     }

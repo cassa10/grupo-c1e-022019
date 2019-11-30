@@ -168,7 +168,7 @@ public class Provider extends EntityId{
         this.providerState = providerState;
     }
 
-    public void recievesCredit(Credit receiveCredit){
+    public void depositCredit(Credit receiveCredit){
         this.credit = this.credit.sum(receiveCredit);
     }
 

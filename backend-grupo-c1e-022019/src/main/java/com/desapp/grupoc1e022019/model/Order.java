@@ -32,6 +32,7 @@ public class Order extends EntityId {
     @OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(name = "id_menu_info")
     private MenuInfo menuInfo;
+    private Double finalOrderPrice;
 
     public Order(){}
 
@@ -43,6 +44,7 @@ public class Order extends EntityId {
         this.menusAmount = menusAmount;
         this.deliverType = deliverType;
         this.menuInfo = new MenuInfo(menu);
+        finalOrderPrice = 0d;
     }
 
     public Integer getStars() {
@@ -107,7 +109,7 @@ public class Order extends EntityId {
         return deliverType.haveToPickUp();
     }
 
-    public Credit customerPayment(){ return new Credit(menu.priceWithAmount(menusAmount));}
+    public Credit customerPayment(){ return new Credit(finalOrderPrice);}
 
     public Double getOrderPrice(){
         return menu.priceWithAmount(this.menusAmount);
@@ -181,5 +183,17 @@ public class Order extends EntityId {
 
     public boolean isCanBeRated() {
         return orderState.isCanBeRated(this);
+    }
+
+    public Double getFinalOrderPrice() {
+        return this.finalOrderPrice * this.getMenusAmount();
+    }
+
+    public void setFinalOrderPrice(Double finalOrderPrice) {
+        this.finalOrderPrice = finalOrderPrice;
+    }
+
+    public void payToProvider() {
+        menu.getProvider().depositCredit(new Credit(this.getFinalOrderPrice()));
     }
 }
