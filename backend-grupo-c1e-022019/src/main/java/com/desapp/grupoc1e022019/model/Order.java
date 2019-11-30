@@ -64,7 +64,7 @@ public class Order extends EntityId {
     }
 
     public void cancelled() {
-        orderState.cancelled(this) ;
+        orderState.cancelled(this);
     }
 
     public void delivered() {
