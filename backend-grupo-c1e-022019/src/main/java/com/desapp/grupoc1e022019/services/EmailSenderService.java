@@ -29,18 +29,18 @@ public class EmailSenderService {
     public void sendProviderMenuIsCancelledByBadAverageRankAndOwnAStrike(Menu menu) {
         SendEmailTLS.send(menu.getProvider().getEmail(),"Your menu: '" + menu.getName() +"' is cancelled by bad reputation",
                 "Bad news, your menu is cancelled by bad raking (Rank average do not stay up to 2 stars). " +
-                        "Also, you add a strike in your provider account. If you reach up to 3 strikes, we will ban your provider account. So,"+
+                        "Also, you add a strike in your provider account. If you reach up to 10 strikes, we will ban your provider account. So,"+
                         " try to get well with your clients and upgrade your menus presentations." +
-                        " You own " + menu.getProvider().getStrikesMenu() +" strikes. Please, take care about this and good luck!"
+                        " You own '" + menu.getProvider().getStrikesMenu() +"' strikes. Please, take care about this and good luck!"
                 );
     }
 
     public void sendProviderMenuIsCancelledAndHeIsPenalized(Menu menu) {
         SendEmailTLS.send(menu.getProvider().getEmail(),"Your menu: '" + menu.getName() +"' is cancelled and you are penalized",
                 "Bad news, your menu is cancelled by bad raking (Rank average do not stay up to 2 stars). " +
-                        "Also, you get up to 3 strikes, which is the limit to own it. So, " +
+                        "Also, you get up to 10 strikes, which is the limit to own. So, " +
                         " we are afraid to tell you of your provider account is banned by undefined time. +" +
-                        "Sorry but you lost your 3 chances :("
+                        "Sorry but you wasted your 10 chances :("
         );
     }
 }
