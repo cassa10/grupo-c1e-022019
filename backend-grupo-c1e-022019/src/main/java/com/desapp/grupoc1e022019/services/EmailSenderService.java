@@ -26,6 +26,7 @@ public class EmailSenderService {
                         "'$"+df.format(orderSaved.getMenuInfoPrice())+"'. Thank you for being a good provider! ;D");
     }
 
+    @Async("threadPoolTaskExecutor")
     public void sendProviderMenuIsCancelledByBadAverageRankAndOwnAStrike(Menu menu) {
         SendEmailTLS.send(menu.getProvider().getEmail(),"Your menu: '" + menu.getName() +"' is cancelled by bad reputation",
                 "Bad news, your menu is cancelled by bad raking (Rank average do not stay up to 2 stars). " +
@@ -35,6 +36,7 @@ public class EmailSenderService {
                 );
     }
 
+    @Async("threadPoolTaskExecutor")
     public void sendProviderMenuIsCancelledAndHeIsPenalized(Menu menu) {
         SendEmailTLS.send(menu.getProvider().getEmail(),"Your menu: '" + menu.getName() +"' is cancelled and you are penalized",
                 "Bad news, your menu is cancelled by bad raking (Rank average do not stay up to 2 stars). " +
