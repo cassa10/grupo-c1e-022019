@@ -245,13 +245,14 @@ public class OrderController {
         }
 
         if(! maybeOrder.get().isCanBeRated()){
-            return new ResponseEntity<>("Menu cannot be ranked", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Order cannot be rated", HttpStatus.BAD_REQUEST);
         }
 
         if(maybeOrder.get().isRated()){
-            return new ResponseEntity<>("Menu is ranked", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Order is rated", HttpStatus.BAD_REQUEST);
         }
 
+        //transactional
         Order orderSaved = orderService.rateOrder(maybeOrder.get(),rate);
 
         //Send email to provider if menu is cancelled by bad average rank and he is penalized.

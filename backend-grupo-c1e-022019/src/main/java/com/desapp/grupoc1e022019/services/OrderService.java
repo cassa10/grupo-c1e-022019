@@ -75,6 +75,7 @@ public class OrderService {
 
         //This method also remove order in client orders have to rank
         //And add rate in menu rank
+        //And apply logic model (Cancel menu, add strike or penalized in provider)
         orderRecovered.rate(rate);
 
         //Save updated client
@@ -83,7 +84,7 @@ public class OrderService {
         //Save updated menu
         menuDAO.save(orderRecovered.getMenu());
 
-        //Save provider only if menu was cancelled by rate and his strikes was updated
+        //Save provider only if menu was cancelled by rate and his strikes was updated or his state
         if(orderRecovered.getMenu().isCancelledState()){
             providerDAO.save(orderRecovered.getMenu().getProvider());
         }
