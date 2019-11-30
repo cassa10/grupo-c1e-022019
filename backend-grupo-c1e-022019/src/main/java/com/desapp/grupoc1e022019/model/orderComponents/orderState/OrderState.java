@@ -1,6 +1,5 @@
 package com.desapp.grupoc1e022019.model.orderComponents.orderState;
 
-import com.desapp.grupoc1e022019.exception.RatingForbiddenException;
 import com.desapp.grupoc1e022019.model.EntityId;
 import com.desapp.grupoc1e022019.model.Order;
 
@@ -28,7 +27,9 @@ public abstract class OrderState extends EntityId {
 
     public boolean isStateSending(){return false;}
 
-    public boolean isStateRanked(){return false;}
+    public boolean isRated(Integer stars){
+        return stars != null && stars > 0;
+    }
 
     public void confirm(Order order){
         //Confirm the order
@@ -36,6 +37,12 @@ public abstract class OrderState extends EntityId {
     }
 
     public void rate(Integer score, Order order){
-        throw new RatingForbiddenException("Rating a non-delivered order is forbidden");
+        //Do nothing
+        //Only Confirmed, Sending and Delivered States override this.
+    }
+
+    public boolean isCanBeRated(){
+        //ONLY Confirmed, Sending and Delivered States override this.
+        return false;
     }
 }

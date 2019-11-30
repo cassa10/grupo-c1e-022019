@@ -123,7 +123,7 @@ public class OrderController {
         return new ResponseEntity<>(value,HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/order/provider")
+    @RequestMapping(method = RequestMethod.GET, value = "/order/provider/all")
     public ResponseEntity getProviderOrdersTaken(@RequestParam HashMap<String,String> body){
         String googleId = body.get("googleId");
         String tokenAccess = body.get("tokenAccess");
@@ -148,7 +148,7 @@ public class OrderController {
         return new ResponseEntity<>(orderService.getHistoricProviderOrdersTaken(maybeProvider.get()),HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/order/client")
+    @RequestMapping(method = RequestMethod.GET, value = "/order/client/all")
     public ResponseEntity getClientOrders(@RequestParam HashMap<String,String> body){
         String googleId = body.get("googleId");
         String tokenAccess = body.get("tokenAccess");
@@ -172,7 +172,6 @@ public class OrderController {
 
         return new ResponseEntity<>(orderService.getHistoricClientOrders(maybeClient.get()),HttpStatus.OK);
     }
-
 
     @RequestMapping(method = RequestMethod.POST, value = "/order/cancel")
     public ResponseEntity cancelOrder(@RequestBody HashMap<String,String> body) {
@@ -208,6 +207,67 @@ public class OrderController {
         }
 
         return new ResponseEntity<>(orderService.cancelOrder(maybeOrder.get()),HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/order/rate")
+    public ResponseEntity rateOrder(@RequestBody HashMap<String,String> body) {
+
+        String googleId = body.get("googleId");
+        String tokenAccess = body.get("tokenAccess");
+        long idOrder;
+        long idClient;
+        int rate;
+
+        if(! googleAuthService.clientHasAccess(googleId,tokenAccess)){
+            return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
+        }
+
+        try{
+            idClient = Long.parseLong(body.get("idClient"));
+            idOrder = Long.parseLong(body.get("idOrder"));
+            rate = Integer.parseInt(body.get("rate"));
+        }catch (Exception e){
+            return new ResponseEntity<>("Invalid data request", HttpStatus.BAD_REQUEST);
+        }
+
+        if(rate > 5 || rate <= 0 ){
+            return new ResponseEntity<>("Rate must be positive and less or equals five stars", HttpStatus.BAD_REQUEST);
+        }
+
+        Optional<Order> maybeOrder = orderService.findOrderById(idOrder);
+
+        if(! maybeOrder.isPresent()){
+            return new ResponseEntity<>("Invalid data request", HttpStatus.NOT_FOUND);
+        }
+
+        if(maybeOrder.get().getIdClient() != idClient){
+            return new ResponseEntity<>("This order does not belong to you", HttpStatus.UNAUTHORIZED);
+        }
+
+        if(! maybeOrder.get().isCanBeRated()){
+            return new ResponseEntity<>("Order cannot be rated", HttpStatus.BAD_REQUEST);
+        }
+
+        if(maybeOrder.get().isRated()){
+            return new ResponseEntity<>("Order is rated", HttpStatus.BAD_REQUEST);
+        }
+
+        //transactional
+        Order orderSaved = orderService.rateOrder(maybeOrder.get(),rate);
+
+        //Send email to provider if menu is cancelled by bad average rank and he is penalized.
+        if(orderSaved.getMenu().isCancelledState() && orderSaved.getMenu().getProvider().isPenalized()){
+
+            emailSenderService.sendProviderMenuIsCancelledAndHeIsPenalized(orderSaved.getMenu());
+        }
+
+        //Send email to provider if menu is cancelled by bad average rank and he is penalized.
+        if(orderSaved.getMenu().isCancelledState() && ! orderSaved.getMenu().getProvider().isPenalized()){
+
+            emailSenderService.sendProviderMenuIsCancelledByBadAverageRankAndOwnAStrike(orderSaved.getMenu());
+        }
+
+        return new ResponseEntity<>(orderSaved,HttpStatus.OK);
     }
 
     private boolean notEnoughCredit(Credit credit, Menu menu, Integer menusAmount) {

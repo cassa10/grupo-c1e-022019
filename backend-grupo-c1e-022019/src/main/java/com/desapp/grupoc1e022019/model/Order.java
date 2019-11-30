@@ -93,7 +93,7 @@ public class Order extends EntityId {
 
     public boolean isStateSending(){return this.orderState.isStateSending();}
 
-    public boolean isStateRanked(){return this.orderState.isStateRanked();}
+    public boolean isRated(){return this.orderState.isRated(stars);}
 
     public String getStateName(){
         return orderState.toString();
@@ -177,5 +177,9 @@ public class Order extends EntityId {
 
     public Double getMenuInfoPrice(){
         return menuInfo.getMenuPriceWithAmount(this.menusAmount);
+    }
+
+    public boolean isCanBeRated() {
+        return orderState.isCanBeRated();
     }
 }

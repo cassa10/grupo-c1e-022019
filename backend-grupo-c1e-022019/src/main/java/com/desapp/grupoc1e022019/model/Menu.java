@@ -173,18 +173,7 @@ public class Menu extends EntityId {
 
     public void penalizeProvider(){
         provider.addAStrike();
-        notifyToProviderMenuCancelled();
     }
-
-    public void notifyToProviderMenuCancelled() {
-        //TODO
-        // PONER MAIL SENDER ACA AL PROVIDER QUE EL MENU FUE CANCELADO
-    }
-
-    //TODO
-    //    UTILIZAR SERVICE Y UNA QUERY DE BASE DE DATOS (COUNT) CON LA FECHA DE HOY Y EL ID DEL MENU
-    //    public boolean reachMaxSalesToday(){return null;}
-
 
     public boolean todayIsBeingAnEffectiveDate(){
         return effectiveDate.todayIsBeingAnEffectiveDate();

@@ -23,8 +23,6 @@ public class DeletingProcessProvider extends ProviderState {
         provider.setStrikesMenu(provider.getStrikesMenu() + 1);
         if(provider.getStrikesMenu() >= 10){
             provider.setProviderState(new PenalizedProvider());
-            //TODO
-            // SendEmailTLS.send(provider.getEmail(),"Penalization","You are penalized xd");
         }
     }
 }

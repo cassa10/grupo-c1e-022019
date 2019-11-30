@@ -11,16 +11,25 @@ public class ConfirmedOrder extends OrderState {
     public boolean isStateConfirmed(){return true;}
 
     @Override
-    public void sending(Order order){
-        //TODO
-        // USAR EL SERVICE
+    public void rate(Integer score, Order order) {
+        order.setStars(score);
+        order.getClient().orderRanked(order);
+        order.getMenu().addRate(score);
+    }
 
+    @Override
+    public void sending(Order order){
         order.setOrderState(new SendingOrder());
     }
 
     @Override
     public String toString(){
         return "ConfirmedOrder";
+    }
+
+    @Override
+    public boolean isCanBeRated(){
+        return true;
     }
 
 }

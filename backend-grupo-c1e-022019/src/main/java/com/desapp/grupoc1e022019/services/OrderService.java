@@ -2,7 +2,9 @@ package com.desapp.grupoc1e022019.services;
 
 import com.desapp.grupoc1e022019.model.*;
 import com.desapp.grupoc1e022019.persistence.ClientDAO;
+import com.desapp.grupoc1e022019.persistence.MenuDAO;
 import com.desapp.grupoc1e022019.persistence.OrderDAO;
+import com.desapp.grupoc1e022019.persistence.ProviderDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -21,6 +23,10 @@ public class OrderService {
     private OrderDAO orderDAO = new OrderDAO();
     @Autowired
     private ClientDAO clientDAO = new ClientDAO();
+    @Autowired
+    private ProviderDAO providerDAO = new ProviderDAO();
+    @Autowired
+    private MenuDAO menuDAO = new MenuDAO();
 
     @Transactional
     public Order createOrder(Order newOrder) {
@@ -62,5 +68,27 @@ public class OrderService {
 
     public Optional<Order> findOrderById(long idOrder) {
         return orderDAO.findOrderById(idOrder);
+    }
+
+    @Transactional
+    public Order rateOrder(Order orderRecovered, int rate) {
+
+        //This method also remove order in client orders have to rank
+        //And add rate in menu rank
+        //And apply logic model (Cancel menu, add strike or penalized in provider)
+        orderRecovered.rate(rate);
+
+        //Save updated client
+        clientDAO.save(orderRecovered.getClient());
+
+        //Save updated menu
+        menuDAO.save(orderRecovered.getMenu());
+
+        //Save provider only if menu was cancelled by rate and his strikes was updated or his state
+        if(orderRecovered.getMenu().isCancelledState()){
+            providerDAO.save(orderRecovered.getMenu().getProvider());
+        }
+
+        return orderDAO.save(orderRecovered);
     }
 }
