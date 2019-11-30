@@ -6,7 +6,7 @@ import com.desapp.grupoc1e022019.model.Order;
 import javax.persistence.Entity;
 
 @Entity
-public class NormalClient extends StateClient {
+public class NormalClientState extends ClientState {
 
     @Override
     public boolean isNormal(){

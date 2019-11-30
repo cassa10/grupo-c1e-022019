@@ -180,6 +180,6 @@ public class Order extends EntityId {
     }
 
     public boolean isCanBeRated() {
-        return orderState.isCanBeRated();
+        return orderState.isCanBeRated(this);
     }
 }

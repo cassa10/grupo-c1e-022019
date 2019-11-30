@@ -19,7 +19,7 @@ public class PendingOrder extends OrderState {
     @Override
     public void confirm(Order order) {
         order.setOrderState(new ConfirmedOrder());
-        order.getClient().haveToRankOrder(order);
+        order.getClient().haveToRankOrder();
     }
 
     @Override

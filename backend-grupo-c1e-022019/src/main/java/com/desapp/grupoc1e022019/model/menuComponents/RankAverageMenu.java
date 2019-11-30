@@ -15,6 +15,11 @@ public class RankAverageMenu extends EntityId {
         ratingSum = 0;
     }
 
+    public RankAverageMenu(int ratingsAmount, int ratingSum){
+        setRatingsAmount(ratingsAmount);
+        setRatingSum(ratingSum);
+    }
+
     public Integer getRatingsAmount(){
         return ratingsAmount;
     }

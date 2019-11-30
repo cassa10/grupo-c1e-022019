@@ -78,6 +78,11 @@ public class MenuBuilder {
         return this;
     }
 
+    public MenuBuilder withRankAverageMenu(RankAverageMenu rankAverageMenu){
+        this.menuRank = rankAverageMenu;
+        return this;
+    }
+
     public MenuBuilder withMaxSalesPerDay(Integer maxSalesPerDay){
         this.maxSalesPerDay = maxSalesPerDay;
         return this;
