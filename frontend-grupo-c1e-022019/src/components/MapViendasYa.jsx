@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
+import React, { createRef } from 'react'
 import {
   Map, Marker, Popup, TileLayer, withLeaflet,
 } from 'react-leaflet';
@@ -20,7 +20,11 @@ class MapViendasYa extends React.Component {
         activeColor: '#db4a29',
         completedColor: '#9b2d14',
       },
-      centerCoordinates: [-34.706667, -58.2775],
+      latlng: {
+        lat: -34.706667,
+        lng: -58.2775,
+      },
+      draggable: true,
     };
   }
 
@@ -32,17 +36,70 @@ class MapViendasYa extends React.Component {
     );
   }
 
+  mapRef = createRef()
+
+    // $FlowFixMe: ref
+    refmarker = createRef()
+
+  toggleDraggable = () => {
+    this.setState({ draggable: !this.state.draggable })
+  }
+
+  useMyLocation(){
+    const map = this.mapRef.current
+    map.leafletElement.locate()
+  }  
+
+  handleLocationFound = (e) => {
+    this.setState({
+      hasLocation: true,
+      latlng: e.latlng,
+    })
+  }
+
+  updatePosition = () => {
+    const marker = this.refmarker.current
+    if (marker != null) {
+      this.setState({
+        latlng: marker.leafletElement.getLatLng(),
+      })
+    }
+  }
+
   render() {
+    const marker = this.state.hasLocation ? (
+      <Marker position={this.state.latlng}>
+        <Popup>You are here</Popup>
+      </Marker>
+    ) : null
     return (
       <div>
-        <Map center={this.state.centerCoordinates} zoom={15}>
+        <Map 
+        center={this.state.latlng} 
+        zoom={15}
+        onClick={this.handleClick}
+        onLocationfound={this.handleLocationFound}
+        ref={this.mapRef}
+        >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
           />
-          {this.createAMarker([-34.706667, -58.2775], 'UNQ', 'Universidad Nacional de Quilmes')}
+          {marker}
+          <Marker
+          draggable={this.state.draggable}
+          onDragend={this.updatePosition}
+          position={this.state.latlng}
+          ref={this.refmarker}>
+          <Popup minWidth={90}>
+            <span onClick={this.toggleDraggable}>
+              {this.state.draggable ? 'Draggable' : 'Fixed'}
+            </span>
+          </Popup>
+        </Marker>
           <MeasureControl {...this.state.measureOptions.position} />
         </Map>
+        <button onClick={() => this.useMyLocation()}>Use my Location</button>
       </div>
     );
   }
