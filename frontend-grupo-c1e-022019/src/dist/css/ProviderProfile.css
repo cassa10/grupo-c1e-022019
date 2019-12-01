@@ -1,0 +1,16 @@
+.provider-title{
+    text-align-last: center;
+    color : white
+}
+
+hr {
+    border: none;
+    height: 2px;
+    /* Set the hr color */
+    color:white; /* old IE */
+    background-color: White; /* Modern Browsers */
+}
+
+.add-button{
+   margin-left: 1100px
+}
