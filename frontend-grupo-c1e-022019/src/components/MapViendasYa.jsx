@@ -36,7 +36,7 @@ class MapViendasYa extends React.Component {
     );
   }
 
-  mapRef = createRef()
+    mapRef = createRef()
 
     // $FlowFixMe: ref
     refmarker = createRef()
