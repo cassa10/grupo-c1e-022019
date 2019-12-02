@@ -1,0 +1,9 @@
+.sidebar {
+    position: fixed;
+    min-width: 60px;
+    top: 4em;
+}
+
+.sidenavtext {
+    margin-left: 7px;
+}

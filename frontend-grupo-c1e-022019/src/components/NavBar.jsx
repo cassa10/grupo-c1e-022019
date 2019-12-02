@@ -145,7 +145,7 @@ class NavBar extends React.Component {
             <Row className="row-navbar">
               <Col className="logo-col">
                 <Navbar.Brand className="homelogoimg">
-                  <img src="https://fontmeme.com/permalink/191102/03a545ac680d1396fcfae624d4ee0c3a.png" width="250" onClick={() => this.goBackHome()} alt="netflix-font" border="0" className="pointerImg" role="presentation" />
+                  <img src="https://fontmeme.com/permalink/191102/03a545ac680d1396fcfae624d4ee0c3a.png" width="250" onClick={() => this.goBackHome()} alt="viendas-font" border="0" className="pointerImg" role="presentation" />
                 </Navbar.Brand>
               </Col>
               <Col>

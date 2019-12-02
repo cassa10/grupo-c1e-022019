@@ -1,6 +1,7 @@
 .provider-title{
     text-align-last: center;
-    color : white
+    color : white;
+    padding-top: 100px;
 }
 
 hr {
