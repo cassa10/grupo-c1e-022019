@@ -82,7 +82,11 @@
     "Price" : "Precio",
     "your menus" : "Tus menues:",
     "add menu" : "Agregar menu",
+<<<<<<< Updated upstream
     "Profile": "Perfil",
     "Client": "Cliente",
     "Switch Client": "Cambiar a cliente"
+=======
+    "edit" : "Editar"
+>>>>>>> Stashed changes
 }

@@ -15,6 +15,7 @@ import LogIn from './LogIn';
 import SearchResult from './SearchResult';
 import ErrorPage from './ErrorPage';
 // import MapViendasYa from './MapViendasYa';
+import EditMenu from './EditMenu';
 import ProviderProfile from './ProviderProfile';
 import SideBar from './SideBar';
 
@@ -34,6 +35,7 @@ export default class App extends React.Component {
               // <PrivateRouteNavbar exact path="/create_menu" navbar={NavBarProvider} component={CreateMenu} />
             }
             <Route exact path="/create_menu" render={(props) => <CreateMenu {...props} />} />
+            <Route exact path="/edit_menu" render={(props) => <EditMenu {...props} />} />
             <Route exact path="/provider_profile" render={(props) => <div> <SideBar {...props} /> <ProviderProfile {...props} /> </div>} />
             <PrivateRouteNavbar exact path="/search" navbar={NavBar} component={SearchResult} />
             <PrivateRouteNavbar exact path="/signup_provider" navbar={NavBar} component={SignUpProvider} />

@@ -41,6 +41,19 @@ class ProviderProfile extends React.Component {
     this.setState({ showModalSee: b });
   }
 
+  pushToCreateMenu() {
+    this.props.history.push('/create_menu');
+  }
+
+  pushToEditMenu(menux) {
+    this.props.history.push({
+      pathname: 'edit_menu',
+      state: {
+        menu: menux,
+      },
+    });
+  }
+
   showStars(menu) {
     return (
       <StarRatingComponent
@@ -91,12 +104,20 @@ class ProviderProfile extends React.Component {
     );
   }
 
+
+  editButton(menu, t) {
+    return (
+      <Button className="buy-button" variant="warning" onClick={() => this.pushToEditMenu(menu)}>
+        {t('Editar')}
+      </Button>
+    );
+  }
+
   renderMenues(t) {
     return (
       this.state.provider.menus.map((menu) => this.renderMenu(menu, t))
     );
   }
-
 
   renderMenu(menu, t) {
     return (
@@ -121,6 +142,7 @@ class ProviderProfile extends React.Component {
               </Col>
               <Col lg={2}>
                 {this.seeButton(menu, t)}
+                {this.editButton(menu,t)}
               </Col>
             </Row>
           </Card.Body>
@@ -128,11 +150,6 @@ class ProviderProfile extends React.Component {
       </div>
     );
   }
-
-  pushToCreateMenu() {
-    this.props.history.push('/create_menu');
-  }
-
 
   render() {
     const { t } = this.props;
