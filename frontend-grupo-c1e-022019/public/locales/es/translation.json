@@ -89,5 +89,8 @@
     "Switch Provider": "Cambiar a Provider",
     "Log out": "Cerrar Sesión",
     "Home": "Inicio",
-    "Make me Provider": "Hacerme Proveedor"
+    "Make me Provider": "Hacerme Proveedor",
+    "edit" : "Editar",
+    "Edit your menu" : "Editar menu"
+
 }

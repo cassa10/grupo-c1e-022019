@@ -253,6 +253,11 @@ public class Provider extends EntityId{
         menus.add(menu);
     }
 
+    public void updateMenu(Menu menu){
+        this.menus.stream().filter(menu1 -> menu1.getId() != menu.getId());
+        this.menus.add(menu);
+    }
+
     public void deleteMenu(Menu menu) {
         menus.remove(menu);
     }

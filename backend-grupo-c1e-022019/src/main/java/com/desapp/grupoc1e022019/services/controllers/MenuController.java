@@ -82,6 +82,50 @@ public class MenuController {
         return new ResponseEntity<>(newMenu, HttpStatus.OK);
     }
 
+    @RequestMapping(method = RequestMethod.PUT, value = "/menu")
+    public ResponseEntity updateMenu(@RequestBody MenuDTO menuDTO){
+
+        if(! googleAuthService.providerHasAccess(menuDTO.getGoogleId(),menuDTO.getTokenAccess())){
+            return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
+        }
+
+        Optional<Provider> maybeProvider = providerService.findProviderByGoogleId(menuDTO.getGoogleId());
+
+        if(! maybeProvider.isPresent()){
+            return new ResponseEntity<>("Provider does not exist", HttpStatus.NOT_FOUND);
+        }
+
+        if(! menuDTO.formMenuIsValid()){
+            return new ResponseEntity<>("Request bad data", HttpStatus.BAD_REQUEST);
+        }
+
+        if(menuDTO.existMenuWithSameName(maybeProvider.get().getMenus())){
+            return new ResponseEntity<>("You own a menu with that name", HttpStatus.BAD_REQUEST);
+        }
+
+        if(!menuService.existMenu(menuDTO.getId())){
+            return new ResponseEntity<>("Invalid menu id", HttpStatus.BAD_REQUEST);
+        }
+
+        menuDTO.trimAllStringValues();
+
+        Menu oldMenu = menuService.getMenu(menuDTO.getId()).get();
+                oldMenu.setId((int) menuDTO.getId());
+                oldMenu.setProvider(maybeProvider.get());
+                oldMenu.setName(menuDTO.getName());
+                oldMenu.setDescription(menuDTO.getDescription());
+                oldMenu.setCategories(menuDTO.getCategories());
+                oldMenu.setDeliveryValue(menuDTO.getDeliveryValue());
+                oldMenu.setEffectiveDate(menuDTO.getEffectiveDate());
+                oldMenu.setAverageDeliveryTimeInMinutes(menuDTO.getAverageDeliveryTimeInMinutes());
+                oldMenu.setMaxSalesPerDay(menuDTO.getMaxSalesPerDay());
+                oldMenu.setMenuPriceCalculator(menuDTO.getMenuPriceCalculator());
+
+                menuService.updateMenu(maybeProvider.get(), oldMenu);
+
+        return new ResponseEntity<>(oldMenu, HttpStatus.OK);
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "/menu/delete")
     public ResponseEntity cancelMenu(@RequestBody MenuDTO menuDTO){
 

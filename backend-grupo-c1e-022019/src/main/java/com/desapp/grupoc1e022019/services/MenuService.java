@@ -81,4 +81,9 @@ public class MenuService {
 
         return menuDAO.save(menu);
     }
+
+    public Menu updateMenu(Provider provider, Menu newMenu) {
+        provider.updateMenu(newMenu);
+        return menuDAO.save(newMenu);
+    }
 }
