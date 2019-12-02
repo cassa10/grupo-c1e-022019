@@ -1,4 +1,5 @@
 {
+    "location": "es-AR",
     "Search text" : "Buscar",
     "Inicio": "Inicio",
     "Go to map" : "Ir al mapa",
@@ -84,5 +85,9 @@
     "add menu" : "Agregar menu",
     "Profile": "Perfil",
     "Client": "Cliente",
-    "Switch Client": "Cambiar a cliente"
+    "Switch Client": "Cambiar a Cliente",
+    "Switch Provider": "Cambiar a Provider",
+    "Log out": "Cerrar Sesión",
+    "Home": "Inicio",
+    "Make me Provider": "Hacerme Proveedor"
 }

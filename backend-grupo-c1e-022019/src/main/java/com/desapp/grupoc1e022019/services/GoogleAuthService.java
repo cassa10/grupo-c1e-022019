@@ -33,7 +33,7 @@ public class GoogleAuthService {
     }
 
     public boolean checkExistAuthToken(GoogleToken googleToken) {
-        return googleTokenDAO.checkExistGoogleIdAndAuthToken(googleToken.getGoogleId(),googleToken.getAccessToken());
+        return googleTokenDAO.checkExistGoogleIdAndAuthToken(googleToken.getGoogleId(),googleToken.getTokenAccess());
     }
 
     @Transactional

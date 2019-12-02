@@ -10,7 +10,7 @@ import java.util.List;
 public interface GoogleTokenRepository extends JpaRepository<GoogleToken,Long> {
     List<GoogleToken> findByGoogleId(String googleId);
 
-    List<GoogleToken> findByGoogleIdAndAccessToken(String googleId, String accessToken);
+    List<GoogleToken> findByGoogleIdAndTokenAccess(String googleId, String accessToken);
 
     Long deleteByGoogleId(String googleId);
 

@@ -5,22 +5,224 @@ import SideNav, {
 } from '@trendmicro/react-sidenav';
 import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 import '../dist/css/Sidebar.css';
+// Delete this when integrate component and navbar in render
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ChangeLanguage from './ChangeLanguage';
 import '../dist/css/Navbar.css';
+// ------------------------------------
+import homeIcon from '../dist/icons/home-icon-sidebar.png';
+import walletIcon from '../dist/icons/wallet-icon-sidebar.png';
+import switchUserIcon from '../dist/icons/switching-user-sidebar.png';
+import logoutIcon from '../dist/icons/logout-icon-sidebar.png';
+import formatCredit from './formatter/formatCredit.js';
 
 class SideBar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      existAsProvider: true,
       googleId: '',
       tokenAccess: '',
-      prevSelected: 'profile',
-      img: 'https://lh3.googleusercontent.com/-nT1rvOtwKPY/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdE4aM8n_lDyHypOFK4JzNctllhow.CMID/s48-c/photo.jpg',
+      user: {
+        id: 0,
+        credit: {
+          amount: 0,
+        },
+        typeClient: false,
+        typeProvider: true,
+      },
+      prevSelected: 'home',
+      imgProfile: 'https://icon-library.net/images/user-icon-image/user-icon-image-20.jpg',
     };
+  }
+
+  componentDidMount() {
+    /*
+      const bodyRequest = {
+        googleId: this.props.location.state.googleId,
+        tokenAccess: this.props.location.state.tokenAccess,
+      };
+
+      this.setState({ googleId: bodyRequest.googleId, tokenAccess: bodyRequest.tokenAccess });
+
+    if (this.props.location.state.user.typeClient) {
+
+      API.get('/client', bodyRequest)
+        .then((response) => this.handleGetClient(response))
+        .catch((error) => console.log(error));
+
+      // Lo necesito para saber si tiene que ir al form o al home provider:
+      API.get('/exist_provider', bodyRequest)
+        .then((response) => this.setState({ existAsProvider: response }))
+        .catch((error) => console.log(error));
+    }
+
+    if (this.props.location.state.user.typeProvider) {
+
+      API.get('/provider', bodyRequest)
+        .then((response) => this.handleGetProvider(response))
+        .catch((error) => console.log(error));
+
+    }
+    */
+  }
+
+  handleGetClient(response) {
+    this.setState({ user: response });
+
+    if (response.imageUrl) {
+      this.setState({ imgProfile: response.imageUrl });
+    }
+  }
+
+  handleGetProvider(response) {
+    this.setState({ user: response });
+
+    if (response.logo) {
+      this.setState({ imgProfile: response.logo });
+    }
+  }
+
+  showAppropiateCredit(t) {
+    return (formatCredit(t, this.state.user.credit.amount));
+  }
+
+  showAppropiateSwitchText(t) {
+    if (this.state.user.typeClient) {
+      if (this.state.existAsProvider) {
+        return (t('Switch Provider'));
+      }
+      return (t('Make me Provider'));
+    }
+
+    return (t('Switch Client'));
+  }
+
+  handleSelectedOption(selected) {
+    // selected = 'home' | 'profile' | 'balance' | 'switch' | 'logout'
+    if (selected === 'home') {
+      this.handleHomeSelected();
+    }
+
+    if (selected === 'profile' || selected === 'balance') {
+      this.handleProfileOrBalanceSelected();
+    }
+
+    if (selected === 'switch') {
+      this.handleSwitchSelected();
+    }
+
+    if (selected === 'logout') {
+      this.handleLogoutSelected();
+    }
+  }
+
+  handleHomeSelected() {
+    if (this.state.user.typeClient) {
+      /* (HOME client)
+        this.props.history.push({
+          pathname: '/home',
+          state: {
+            googleId: this.props.location.state.googleId,
+            tokenAccess: this.props.location.state.tokenAccess,
+          },
+        });
+      */
+      console.log('Go to home client');
+    }
+    if (this.state.user.typeProvider) {
+      /* (HOME provider)
+        this.props.history.push({
+          pathname: '/provider',
+          state: {
+            googleId: this.state.googleId,
+            tokenAccess: this.state.tokenAccess,
+          },
+        });
+      */
+      console.log('Go to home provider');
+    }
+  }
+
+  handleProfileOrBalanceSelected() {
+    if (this.state.user.typeClient) {
+      /* (HOME client)
+        this.props.history.push({
+          pathname: '/client/profile',
+          state: {
+            googleId: this.state.googleId,
+            tokenAccess: this.state.tokenAccess,
+            clientId: this.state.user.id
+          },
+        });
+      */
+      console.log('Go to profile client');
+    }
+    if (this.state.user.typeProvider) {
+      /* (HOME provider)
+        this.props.history.push({
+          pathname: '/provider/profile',
+          state: {
+            googleId: this.state.googleId,
+            tokenAccess: this.state.tokenAccess,
+            providerId: this.state.user.id
+          },
+        });
+      */
+      console.log('Go to profile provider');
+    }
+  }
+
+  handleLogoutSelected() {
+    /*
+    API.post('/logout', {googleId: this.state.googleId, tokenAccess: this.state.tokenAccess})
+        .then(() => this.handleLogout())
+        .catch((error) => console.log(error));
+    */
+    console.log('Handle logout');
+  }
+
+  handleSwitchSelected() {
+    if (this.state.user.typeClient) {
+      if (this.state.existAsProvider) {
+        /* (HOME provider)
+        this.props.history.push({
+          pathname: '/provider',
+          state: {
+            googleId: this.state.googleId,
+            tokenAccess: this.state.tokenAccess,
+          },
+        });
+        */
+        console.log('Go to home provider');
+      } else {
+        /* (FORM create provider)
+        this.props.history.push({
+          pathname: '/provider/signup',
+          state: {
+            googleId: this.state.googleId,
+            tokenAccess: this.state.tokenAccess,
+          },
+        });
+        */
+        console.log('Go to form sign up provider');
+      }
+    }
+    if (this.state.user.typeProvider) {
+      /* (HOME client)
+        this.props.history.push({
+          pathname: '/home',
+          state: {
+            googleId: this.state.googleId,
+            tokenAccess: this.state.tokenAccess,
+          },
+        });
+      */
+      console.log('Go to home client');
+    }
   }
 
   render() {
@@ -30,14 +232,24 @@ class SideBar extends React.Component {
         <SideNav
           className="sidebar"
           onSelect={(selected) => {
-            console.log(selected);
+            this.handleSelectedOption(selected);
           }}
         >
           <SideNav.Toggle />
           <SideNav.Nav defaultSelected={this.state.prevSelected}>
+            <NavItem eventKey="home">
+              <NavIcon>
+                <img src={homeIcon} alt="home" width="30" height="30" />
+              </NavIcon>
+              <NavText>
+                <div className="sidenavtext">
+                  {t('Home')}
+                </div>
+              </NavText>
+            </NavItem>
             <NavItem eventKey="profile">
               <NavIcon>
-                <img src={this.state.img} alt="img-perfil" width="30" height="30" />
+                <img src={this.state.imgProfile} alt="profile" width="30" height="30" />
               </NavIcon>
               <NavText>
                 <div className="sidenavtext">
@@ -47,21 +259,31 @@ class SideBar extends React.Component {
             </NavItem>
             <NavItem eventKey="balance">
               <NavIcon>
-                {t('Balance')}
+                <img src={walletIcon} alt="wallet" width="30" height="30" />
               </NavIcon>
               <NavText>
                 <div className="sidenavtext">
-                  $300.00
+                  {this.showAppropiateCredit(t)}
                 </div>
               </NavText>
             </NavItem>
-            <NavItem eventKey="clientSection">
+            <NavItem eventKey="switch">
               <NavIcon>
-                {t('Client')}
+                <img src={switchUserIcon} alt="switch" width="30" height="30" />
               </NavIcon>
               <NavText>
                 <div className="sidenavtext">
-                  {t('Switch Client')}
+                  {this.showAppropiateSwitchText(t)}
+                </div>
+              </NavText>
+            </NavItem>
+            <NavItem eventKey="logout">
+              <NavIcon>
+                <img src={logoutIcon} alt="logout" width="30" height="30" />
+              </NavIcon>
+              <NavText>
+                <div className="sidenavtext">
+                  {t('Log out')}
                 </div>
               </NavText>
             </NavItem>
@@ -85,6 +307,9 @@ class SideBar extends React.Component {
             </Row>
           </Container>
         </Navbar>
+        {
+          // ---------------------------------------
+        }
       </div>
     );
   }

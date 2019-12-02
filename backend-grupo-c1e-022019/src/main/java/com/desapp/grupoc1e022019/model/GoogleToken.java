@@ -14,15 +14,15 @@ public class GoogleToken extends EntityId{
     @Column(nullable = false, length = 1300)
     private String tokenId;
     @Column(nullable = false)
-    private String accessToken;
+    private String tokenAccess;
     private LocalDateTime expires_in;
 
     public GoogleToken(){}
 
-    public GoogleToken(String googleId, String tokenId, String accessToken, LocalDateTime expires_in){
+    public GoogleToken(String googleId, String tokenId, String tokenAccess, LocalDateTime expires_in){
         setGoogleId(googleId);
         setTokenId(tokenId);
-        setAccessToken(accessToken);
+        setTokenAccess(tokenAccess);
         setExpires_in(expires_in);
     }
 
@@ -42,12 +42,12 @@ public class GoogleToken extends EntityId{
         this.tokenId = tokenId;
     }
 
-    public String getAccessToken() {
-        return accessToken;
+    public String getTokenAccess() {
+        return tokenAccess;
     }
 
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
+    public void setTokenAccess(String tokenAccess) {
+        this.tokenAccess = tokenAccess;
     }
 
     public LocalDateTime getExpires_in() {

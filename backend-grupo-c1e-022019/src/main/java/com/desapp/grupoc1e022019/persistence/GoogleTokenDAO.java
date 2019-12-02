@@ -5,7 +5,6 @@ import com.desapp.grupoc1e022019.persistence.repositories.GoogleTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -31,7 +30,7 @@ public class GoogleTokenDAO {
         GoogleToken recover = googleTokenRepository.findByGoogleId(googleAuth.getGoogleId()).get(0);
         recover.setTokenId(googleAuth.getTokenId());
         recover.setExpires_in(googleAuth.getExpires_in());
-        recover.setAccessToken(googleAuth.getAccessToken());
+        recover.setTokenAccess(googleAuth.getTokenAccess());
 
         return googleTokenRepository.save(recover);
     }
@@ -41,7 +40,7 @@ public class GoogleTokenDAO {
     }
 
     public boolean checkExistGoogleIdAndAuthToken(String googleId, String accessToken) {
-        return ! googleTokenRepository.findByGoogleIdAndAccessToken(googleId,accessToken).isEmpty();
+        return ! googleTokenRepository.findByGoogleIdAndTokenAccess(googleId,accessToken).isEmpty();
     }
 
     public Long deleteAuthTokenByGoogleId(String googleId) {
