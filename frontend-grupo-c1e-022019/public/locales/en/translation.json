@@ -81,6 +81,8 @@
     "puntuacion" :"Rating",
     "Price" : "Price",
     "your menus" : "Your menus:",
-    "add menu" : "Add menu"
-
+    "add menu" : "Add menu",
+    "Profile": "Profile",
+    "Client": "Client",
+    "Switch Client": "Switch as Client"
 }

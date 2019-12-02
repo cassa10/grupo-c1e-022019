@@ -81,5 +81,8 @@
     "puntuacion" :"Puntuacion",
     "Price" : "Precio",
     "your menus" : "Tus menues:",
-    "add menu" : "Agregar menu"
+    "add menu" : "Agregar menu",
+    "Profile": "Perfil",
+    "Client": "Cliente",
+    "Switch Client": "Cambiar a cliente"
 }
