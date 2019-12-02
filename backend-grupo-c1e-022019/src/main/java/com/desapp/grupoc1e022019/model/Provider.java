@@ -285,4 +285,8 @@ public class Provider extends EntityId{
     public List<Menu> getCancelledMenus() {
         return this.menus.stream().filter(Menu::isCancelledState).collect(Collectors.toList());
     }
+
+    public boolean isTypeClient() {return false;}
+
+    public boolean isTypeProvider() {return true;}
 }

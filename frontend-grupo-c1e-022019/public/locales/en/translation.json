@@ -1,4 +1,5 @@
 {
+    "location": "en-US",
     "Search text" : "Search",
     "Inicio": "Home",
     "Go to map" : "Go to map",
@@ -85,8 +86,11 @@
     "Profile": "Profile",
     "Client": "Client",
     "Switch Client": "Switch as Client",
-    "edit" : "Edit",
-    "Edit your menu" : "Edit menu",
-
+    "Switch Provider": "Switch as Provider",
+    "Log out": "Log out",
+    "Home": "Home",
+    "Make me Provider": "Make me Provider",
+    "edit": "Edit",
+    "Edit your menu" : "Edit menu"
 
 }

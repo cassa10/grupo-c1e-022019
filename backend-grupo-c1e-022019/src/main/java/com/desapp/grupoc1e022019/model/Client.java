@@ -183,4 +183,8 @@ public class Client extends EntityId{
     public boolean isCannotBuyClient(){
         return clientState.isCannotBuyClient();
     }
+
+    public boolean isTypeClient() {return true;}
+
+    public boolean isTypeProvider() {return false;}
 }
