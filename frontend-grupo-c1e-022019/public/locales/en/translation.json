@@ -84,5 +84,9 @@
     "add menu" : "Add menu",
     "Profile": "Profile",
     "Client": "Client",
-    "Switch Client": "Switch as Client"
+    "Switch Client": "Switch as Client",
+    "edit" : "Edit",
+    "Edit your menu" : "Edit menu",
+
+
 }
