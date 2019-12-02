@@ -16,21 +16,21 @@ class EditMenuForm extends React.Component {
       dateFrom: new Date(),
       dateThru: new Date(),
       name: props.menu.name,
-      description: props.menu,
-      pizza: false,
-      beer: false,
-      hamburger: false,
-      sushi: false,
-      empanadas: false,
-      green: false,
-      vegan: false,
-      maxSalesPerDay: 0,
-      averageDeliveryTime: 0,
-      initialPrice: 0,
-      fstQuantity: 0,
-      sndQuantity: 0,
-      fstPrice: 0,
-      sndPrice: 0,
+      description: props.menu.description,
+      pizza: this.props.menu.categories.includes('PIZZA'),
+      beer: this.props.menu.categories.includes('BEER'),
+      hamburger: this.props.menu.categories.includes('BURGER'),
+      sushi: this.props.menu.categories.includes('SUSHI'),
+      empanadas: this.props.menu.categories.includes('EMPANADAS'),
+      green: this.props.menu.categories.includes('GREEN'),
+      vegan: this.props.menu.categories.includes('VEGAN'),
+      maxSalesPerDay: props.menu.maxSalesPerDay,
+      averageDeliveryTime: props.menu.averageDeliveryTimeInMinutes,
+      initialPrice: props.menu.price,
+      fstQuantity: props.menu.firstMinAmount,
+      sndQuantity: props.menu.secondMinAmount,
+      fstPrice: props.menu.firstMinAmountPrice,
+      sndPrice: props.menu.secondMinAmountPrice,
 
     };
   }
@@ -55,7 +55,7 @@ class EditMenuForm extends React.Component {
     return (
       <Form.Group controlId="formBasicEmail">
         <Form.Label>{t('Menu name')}</Form.Label>
-        <Form.Control type="text" placeholder={t('Submit the name here')} onChange={(e) => this.changeName(e)} />
+        <Form.Control type="text" placeholder={t('Submit the name here')} defaultValue={this.props.menu.name} onChange={(e) => this.changeName(e)} />
         <Form.Text className="form-name-menu-alert">
           {t('This name will appear in your posts')}
         </Form.Text>
@@ -71,7 +71,7 @@ class EditMenuForm extends React.Component {
     return (
       <Form.Group controlId="formBasicPassword">
         <Form.Label>{t('Description')}</Form.Label>
-        <Form.Control type="text" placeholder={t('Submit the discription here')} onChange={(e) => this.changeDescription(e)} />
+        <Form.Control type="text" placeholder={t('Submit the discription here')} defaultValue={this.props.menu.description} onChange={(e) => this.changeDescription(e)} />
       </Form.Group>
     );
   }
@@ -104,19 +104,23 @@ class EditMenuForm extends React.Component {
     this.setState({ vegan: e.target.checked });
   }
 
+  contains(nameOfCategory) {
+    return this.props.menu.categories.includes(nameOfCategory);
+  }
+
   categoryField(t) {
     return (
 
       <Form.Group controlId="formBasicCheckbox">
         <Form.Label>{t('Choose yout product category')}</Form.Label>
         <Row className="line_of_checkboxs">
-          <Form.Check inline label="Pizza" type="checkbox" id="inline-checkbox-1" onClick={(e) => this.handlePizza(e)} />
-          <Form.Check inline label={t('Burger')} type="checkbox" id="inline-checkbox-1" onClick={(e) => this.handleHamburger(e)} />
-          <Form.Check inline label={t('Green')} type="checkbox" id="inline-checkbox-1" onClick={(e) => this.handleGreen(e)} />
-          <Form.Check inline label={t('Vegan')} type="checkbox" id="inline-checkbox-1" onClick={(e) => this.handleVegan(e)} />
-          <Form.Check inline label={t('Beer')} type="checkbox" id="inline-checkbox-1" onClick={(e) => this.handleBeer(e)} />
-          <Form.Check inline label="Empanadas" type="checkbox" id="inline-checkbox-1" onClick={(e) => this.handleEmpanadas(e)} />
-          <Form.Check inline label="Sushi" type="checkbox" id="inline-checkbox-1" onClick={(e) => this.handleSushi(e)} />
+          <Form.Check inline label="Pizza" type="checkbox" id="inline-checkbox-1" defaultChecked={this.contains('PIZZA')} onClick={(e) => this.handlePizza(e)} />
+          <Form.Check inline label={t('Burger')} type="checkbox" id="inline-checkbox-1" defaultChecked={this.contains('BURGER')} onClick={(e) => this.handleHamburger(e)} />
+          <Form.Check inline label={t('Green')} type="checkbox" id="inline-checkbox-1" defaultChecked={this.contains('GREEN')} onClick={(e) => this.handleGreen(e)} />
+          <Form.Check inline label={t('Vegan')} type="checkbox" id="inline-checkbox-1" defaultChecked={this.contains('VEGAN')} onClick={(e) => this.handleVegan(e)} />
+          <Form.Check inline label={t('Beer')} type="checkbox" id="inline-checkbox-1" defaultChecked={this.contains('BEER')} onClick={(e) => this.handleBeer(e)} />
+          <Form.Check inline label="Empanadas" type="checkbox" id="inline-checkbox-1" defaultChecked={this.contains('EMPANADAS')} onClick={(e) => this.handleEmpanadas(e)} />
+          <Form.Check inline label="Sushi" type="checkbox" id="inline-checkbox-1" defaultChecked={this.contains('SUSHI')} onClick={(e) => this.handleSushi(e)} />
         </Row>
       </Form.Group>
     );
@@ -136,11 +140,11 @@ class EditMenuForm extends React.Component {
         <Row>
           <Col>
             <Form.Label>{t('Max sales per day')}</Form.Label>
-            <Form.Control placeholder={t('insert max sales per day')} onChange={(e) => this.changeSalesPerDay(e)} />
+            <Form.Control placeholder={t('insert max sales per day')} defaultValue={this.props.menu.maxSalesPerDay} onChange={(e) => this.changeSalesPerDay(e)} />
           </Col>
           <Col>
             <Form.Label>{t('Average time')}</Form.Label>
-            <Form.Control placeholder={t('Insert average time')} onChange={(e) => this.changeAverageTime(e)} />
+            <Form.Control placeholder={t('Insert average time')} defaultValue={this.props.menu.averageDeliveryTimeInMinutes} onChange={(e) => this.changeAverageTime(e)} />
           </Col>
         </Row>
       </Form.Group>
@@ -273,26 +277,26 @@ class EditMenuForm extends React.Component {
         <Row>
           <Col>
             <Form.Label className="initialPrice">{t('Initial price')}</Form.Label>
-            <Form.Control type="number" placeholder={t('insert here the initial price')} onChange={(e) => this.changeInitialPrice(e)} />
+            <Form.Control type="number" placeholder={t('insert here the initial price')} defaultValue={this.props.menu.price} onChange={(e) => this.changeInitialPrice(e)} />
           </Col>
         </Row>
         <Row>
           <Col>
             <Form.Label className="initialPrice">{t('If you sell more than')}</Form.Label>
-            <Form.Control type="number" placeholder={t('insert here a quantity of menus')} onChange={(e) => this.changeFstQuantity(e)} />
+            <Form.Control type="number" placeholder={t('insert here a quantity of menus')} defaultValue={this.props.menu.firstMinAmount} onChange={(e) => this.changeFstQuantity(e)} />
           </Col>
           <Col>
             <Form.Label className="initialPrice">{t('the first wholesaler price will be')}</Form.Label>
-            <Form.Control type="number" placeholder={t('insert here the wholesaler price')} onChange={(e) => this.changeFstPrice(e)} />
+            <Form.Control type="number" placeholder={t('insert here the wholesaler price')} defaultValue={this.props.menu.firstMinAmountPrice} onChange={(e) => this.changeFstPrice(e)} />
             {this.renderFirstPriceFeedback(t)}
           </Col>
           <Col>
             <Form.Label className="initialPrice">{t('If you sell more than')}</Form.Label>
-            <Form.Control type="number" placeholder={t('insert here a quantity of menus')} onChange={(e) => this.changeSndQuantity(e)} />
+            <Form.Control type="number" placeholder={t('insert here a quantity of menus')} defaultValue={this.props.menu.secondMinAmount} onChange={(e) => this.changeSndQuantity(e)} />
           </Col>
           <Col>
             <Form.Label className="initialPrice">{t('the second wholesaler price will be')}</Form.Label>
-            <Form.Control type="number" placeholder={t('insert here the wholesaler price')} onChange={(e) => this.changeSndPrice(e)} />
+            <Form.Control type="number" placeholder={t('insert here the wholesaler price')} defaultValue={this.props.menu.secondMinAmountPrice} onChange={(e) => this.changeSndPrice(e)} />
             {this.renderSecondPriceFeedback(t)}
           </Col>
         </Row>
@@ -300,25 +304,28 @@ class EditMenuForm extends React.Component {
     );
   }
 
-  menuCreated(t) {
+  menuUpdated(t) {
     Swal.fire({
-      title: t('Done'),
+      title: t('Updated!'),
       icon: 'success',
     });
   }
 
   postInfo(t) {
     const body = {
+      googleId: 'FAKEID1',
+      tokenAccess: 'FAKEACCESSTOKEN1',
       idProvider: 1,
+      id: this.props.menu.id,
       name: this.state.name,
       description: this.state.description,
       categories: this.getCategories(),
       deliveryValue: this.state.averageDeliveryTime,
       effectiveDate: {
         validFrom: this.parseDate(this.state.dateFrom),
-        validThru: this.parseDate(this.state.dateThru),
+        goodThru: this.parseDate(this.state.dateThru),
       },
-      averageDeliveryTimeInMinutes: this.state.averageDeliveryTime,
+      averageDeliveryTimeInMinutes: 20,
       maxSalesPerDay: this.state.maxSalesPerDay,
       menuPriceCalculator: {
         price: this.state.initialPrice,
@@ -328,8 +335,9 @@ class EditMenuForm extends React.Component {
         secondMinAmountPrice: this.state.sndPrice,
       },
     };
-    API.post('/menu', body)
-      .then(() => this.menuCreated(t))
+    console.log(body);
+    API.put('/menu', body)
+      .then(() => this.menuUpdated(t))
       .catch((error) => console.log(error.response.data));
   }
 
@@ -386,7 +394,7 @@ class EditMenuForm extends React.Component {
           {this.price(t)}
         </Form>
         <Button className="register_button" variant="primary" size="lg" onClick={() => this.checkFieldsAndPost(t)}>
-          {t('register')}
+          {t('Done')}
         </Button>
       </div>
     );

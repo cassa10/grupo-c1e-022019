@@ -175,7 +175,8 @@ public class MenuDTO {
 
     private boolean isValidEffectiveDate() {
         return effectiveDate != null && effectiveDate.getValidFrom().isBefore(effectiveDate.getGoodThru())
-                && effectiveDate.getGoodThru().isAfter(LocalDate.now());
+
+                && (effectiveDate.getGoodThru().isAfter(LocalDate.now()));
     }
 
 

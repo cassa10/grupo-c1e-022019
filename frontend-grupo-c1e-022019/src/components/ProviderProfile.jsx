@@ -142,7 +142,7 @@ class ProviderProfile extends React.Component {
               </Col>
               <Col lg={2}>
                 {this.seeButton(menu, t)}
-                {this.editButton(menu,t)}
+                {this.editButton(menu, t)}
               </Col>
             </Row>
           </Card.Body>
