@@ -32,7 +32,7 @@
 }
 
 .stars{
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
 
 .buy-body{
@@ -40,10 +40,10 @@
 }
 
 .card_img{
-    margin-left:20px;
-    margin-right:20px;
-    width: 200px;
-    height: 200px;
+    margin-left:10px;
+    margin-right:7px;
+    width: 170px;
+    height: 170px;
 }
 
 .card_row{
@@ -57,12 +57,23 @@
 }
 
 .buy-button{
-    margin : 20px;
+    margin-left : 10px;
+    margin-bottom: 10px;
     height: 50px;
     width: 70px;
-    
 }
 
 .buy-modal-container{
     margin : 30px;
+}
+
+.page-link {
+    color: red;
+}
+
+.price-card_menu {
+    font-size: 20px;
+    background-color: rgba(179, 164, 29, 0.836);
+    margin-left: 10px;
+    margin-right: 7px;
 }

@@ -14,6 +14,12 @@ import { withTranslation } from 'react-i18next';
 import Swal from 'sweetalert2';
 import StarRatingComponent from 'react-star-rating-component';
 import API from '../service/api';
+import shoppingCartIcon from '../dist/icons/shopping-cart-buy-icon.png';
+import formatPrice from './formatter/formatCredit';
+import formatNumber from './formatter/formatNumber';
+import formatDate from './formatter/formatDate';
+import providerInfoIcon from '../dist/icons/provider-info-icon.png';
+import menuInfoIcon from '../dist/icons/info-icon.png'; 
 
 
 class SearchResult extends React.Component {
@@ -27,7 +33,7 @@ class SearchResult extends React.Component {
       rankOrder: '',
       priority: '', // price | rank
       fromPage: 0,
-      sizePage: 0,
+      sizePage: 4,
       results: [],
       showModal: false,
       quantityOfMenus: 0,
@@ -35,13 +41,10 @@ class SearchResult extends React.Component {
       showModalSee: false,
       pictures: [
         'https://www.seriouseats.com/recipes/images/2015/07/20150728-homemade-whopper-food-lab-35-1500x1125.jpg',
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSZdKVn9EaecGuHITxS6GZO8d7eGSLO66qHcA-sG9fI-dc3-PWZ',
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTjttrBPwqIuSqoO0Ms-VnJOVW_wDA2DKau1xUMDaUhMRCWiKJY',
-        'https://placeralplato.com/files/2016/01/Pizza-con-pepperoni.jpg',
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQYb3pgd8BIbJsxFNFCUEc5KBxkvFytZhyEZeKRk5ElefPWkCeW',
-        'https://argentina.gastronomia.com/media/cache/noticia_grande/uploads/noticias/lengua.S3hpbFR2NG5mOEY0SEZ5RS8vMTQ5NDQ2NjkzMy8.jpg',
-        'https://sifu.unileversolutions.com/image/es-AR/recipe-topvisual/2/1260-709/noquis-de-papas-50339442.jpg',
       ],
+      currentPage: 0,
+      totalPages: 0,
+      totalElements: 0,
     };
   }
 
@@ -57,7 +60,7 @@ class SearchResult extends React.Component {
       priceOrder: this.props.location.state.priceOrder,
       rankOrder: this.props.location.state.rankOrder,
       fromPage: this.props.location.state.fromPage,
-      sizePage: this.props.location.state.sizePage,
+      sizePage: 4,
       priority: this.props.location.state.priority,
     };
     this.setState(body);
@@ -107,10 +110,25 @@ class SearchResult extends React.Component {
     );
   }
 
+  getDecreasedFromPage() {
+    return (
+      this.state.fromPage - 1
+    );
+  }
+
   requestAPISearch(body) {
+    window.scrollTo(0, 0);
     API.get(`/menu/search/${this.detectPathSearch(body.locState)}/`, body)
-      .then((response) => this.setState({ results: response.content }))
+      .then((response) => this.handleAPISearch(response))
       .catch((error) => console.log(error));
+  }
+
+  handleAPISearch(response) {
+    // pageNumber starts at 0.
+    // totalPages starts at 1.
+    this.setState({ currentPage: response.pageable.pageNumber });
+    this.setState({ totalPages: response.totalPages });
+    this.setState({ results: response.content });
   }
 
   detectPathSearch(locState) {
@@ -227,22 +245,37 @@ class SearchResult extends React.Component {
     this.setState({ delivery: e.target.checked });
   }
 
-  changePriceSortSelected(e) {
-    console.log(e);
+  async changePriceSortSelected(e) {
     if (this.state.priceOrder !== e || this.state.priority !== 'price') {
-      this.setState({ priceOrder: e });
-      this.setState({ priority: 'price' });
+      await this.setState({ priceOrder: e });
+      await this.setState({ priority: 'price' });
+      this.requestAPISearch(this.createBodyWithPriceOrderAndPriority(e, 'price'));
+    }
+  }
+
+  async changeRankSortSelected(e) {
+    if (this.state.rankOrder !== e || this.state.priority !== 'rank') {
+      await this.setState({ rankOrder: e });
+      await this.setState({ priority: 'rank' });
       this.requestAPISearch(this.createBody());
     }
   }
 
-  changeRankSortSelected(e) {
-    console.log(e);
-    if (this.state.rankOrder !== e || this.state.priority !== 'rank') {
-      this.setState({ rankOrder: e });
-      this.setState({ priority: 'rank' });
-      this.requestAPISearch(this.createBody());
-    }
+  createBodyWithPriceOrderAndPriority(newRankOrder, newPriority) {
+    const body = {
+      locState: this.state.locState,
+      googleId: this.state.googleId,
+      tokenAccess: this.state.tokenAccess,
+      name: this.state.name,
+      city: this.state.city,
+      category: this.state.category,
+      priceOrder: this.state.priceOrder,
+      rankOrder: newRankOrder,
+      fromPage: this.state.fromPage,
+      sizePage: this.state.sizePage,
+      priority: newPriority,
+    };
+    return (body);
   }
 
   createBody() {
@@ -263,30 +296,46 @@ class SearchResult extends React.Component {
   }
 
   searchConfig(t) {
+    if (this.state.results.length === 0) {
+      return (
+        <div />
+      );
+    }
     return (
-      <div className="config-bar">
+      <Container>
         <Row>
-          <h3>{t('Ordenar por')}:</h3>
-          <DropdownButton
-            title={t('Price')}
-            variant="info"
-            className="dropdown-config"
-            onSelect={(e) => this.changePriceSortSelected(e)}
-          >
-            <Dropdown.Item eventKey="max">{t('Lowest Price')}</Dropdown.Item>
-            <Dropdown.Item eventKey="min">{t('Highest Price')}</Dropdown.Item>
-          </DropdownButton>
-          <DropdownButton
-            title={t('puntuacion')}
-            variant="info"
-            className="dropdown-config"
-            onSelect={(e) => this.changeRankSortSelected(e)}
-          >
-            <Dropdown.Item eventKey="max">{t('Lowest Rank')}</Dropdown.Item>
-            <Dropdown.Item eventKey="min">{t('Highest Rank')}</Dropdown.Item>
-          </DropdownButton>
+          <Col xs={1} sm={1} md={1} lg={1} xl={1} />
+          <Col xs={8} sm={8} md={8} lg={8} xl={8}>
+            <h3>{t('Ordenar por')}:</h3>
+          </Col>
         </Row>
-      </div>
+        <Row>
+          <Col xs={1} sm={1} md={1} lg={1} xl={1} />
+          <Col xs={4} sm={4} md={2} lg={2} xl={2}>
+            <DropdownButton
+              title={t('Price')}
+              variant="info"
+              className="dropdown-config"
+              onSelect={(e) => this.changePriceSortSelected(e)}
+            >
+              <Dropdown.Item eventKey="" disabled>{t('Select one')}</Dropdown.Item>
+              <Dropdown.Item eventKey="min">{t('Lowest Price')}</Dropdown.Item>
+              <Dropdown.Item eventKey="max">{t('Highest Price')}</Dropdown.Item>
+            </DropdownButton>
+          </Col>
+          <Col xs={2} sm={2} md={2} lg={2} xl={2}>
+            <DropdownButton
+              title={t('puntuacion')}
+              variant="info"
+              className="dropdown-config"
+              onSelect={(e) => this.changeRankSortSelected(e)}
+            >
+              <Dropdown.Item eventKey="min">{t('Lowest Rank')}</Dropdown.Item>
+              <Dropdown.Item eventKey="max">{t('Highest Rank')}</Dropdown.Item>
+            </DropdownButton>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 
@@ -294,9 +343,9 @@ class SearchResult extends React.Component {
     const handleClose = () => this.setShow(false);
     const handleShow = () => this.setShow(true);
     return (
-      <div className="">
-        <Button className="buy-button" variant="success" onClick={handleShow}>
-          {t('buy')}
+      <Row>
+        <Button className="buy-button" variant="danger" onClick={handleShow}>
+          <img src={shoppingCartIcon} alt="buy" />
         </Button>
 
         <Modal show={this.state.showModal} onHide={handleClose}>
@@ -318,18 +367,26 @@ class SearchResult extends React.Component {
             </Button>
           </Modal.Footer>
         </Modal>
-      </div>
+      </Row>
+    );
+  }
+
+  createFreeBadge(t) {
+    return (
+      <Badge pill variant="success">
+        {t('Free')}
+      </Badge>
     );
   }
 
   seeButton(menu, t) {
-    const randomNumber = Math.floor(Math.random() * (this.state.pictures.length));
+    console.log(menu);
     const handleClose = () => this.setShowSee(false);
     const handleShow = () => this.setShowSee(true);
     return (
-      <div>
+      <Row>
         <Button className="buy-button" variant="info" onClick={handleShow}>
-          {t('Ver')}
+          <img src={menuInfoIcon} alt="menu-info" />
         </Button>
         <Modal show={this.state.showModalSee} onHide={handleClose}>
           <Modal.Header closeButton>
@@ -337,31 +394,37 @@ class SearchResult extends React.Component {
           </Modal.Header>
           <Modal.Title>{menu.description}</Modal.Title>
           <Modal.Body>
-            <Card.Img className="card_img" variant="left" src={this.state.pictures[randomNumber]} /><br />
-            <h5>Delivery : {menu.deliveryValue} pesos<br />
+            <Card.Img className="card_img" variant="left" src={this.state.pictures[0]} /><br />
+            <h5>{t('Delivery')}: {menu.deliveryValue <= 0 ? this.createFreeBadge(t) : formatPrice(t, menu.deliveryValue)}<br />
               {t('Comprando mas de')}: {menu.firstMinAmount} unidades<br />
               {t('the price will be')} {menu.firstMinAmountPrice} pesos<br />
               {t('Comprando mas de')}: {menu.menuPriceCalculator.secondMinAmount} unidades<br />
-              {t('the price will be')} {menu.menuPriceCalculator.secondMinPrice} pesos<br />
+              {t('the price will be')} {menu.menuPriceCalculator.secondMinPrice} <br />
               {t('Distancia de delivery')} : {menu.deliveryMaxDistanceInKM} kms<br />
               {t('Estado del menu')} {menu.menuStateName}<br />
             </h5>
           </Modal.Body>
 
         </Modal>
-      </div>
+      </Row>
     );
   }
 
-  showProviderInfo() {
-    return <h5>Aca iria la info del provider</h5>;
+  providerInfoButton(menu, t) {
+    return (
+      <Row>
+        <Button className="buy-button" variant="success" onClick={console.log(menu)}>
+          <img src={providerInfoIcon} alt="provider" />
+        </Button>
+      </Row>
+    );
   }
 
-  showBadge(rankAverage) {
+  showBadge(t, rankAverage) {
     if (rankAverage === 5) {
       return (
         <Badge pill variant="warning">
-          Destacado
+          {t('Destacado')}
         </Badge>
       );
     }
@@ -380,25 +443,84 @@ class SearchResult extends React.Component {
     );
   }
 
+  createAppropiatePaginationButton(functionOnClick, isDisabled, text) {
+    if (isDisabled) {
+      return (
+        <li className="page-item disabled st_dis">
+          <span className="page-link">{text}</span>
+        </li>
+      );
+    }
+    return (
+      <li className="page-item st_en">
+        <button type="submit" className="page-link" onClick={functionOnClick}>{text}</button>
+      </li>
+    );
+  }
+
+  createBodyFromPage(page) {
+    const body = {
+      locState: this.state.locState,
+      googleId: this.state.googleId,
+      tokenAccess: this.state.tokenAccess,
+      name: this.state.name,
+      city: this.state.city,
+      category: this.state.category,
+      priceOrder: this.state.priceOrder,
+      rankOrder: this.state.rankOrder,
+      fromPage: page,
+      sizePage: this.state.sizePage,
+      priority: this.state.priority,
+    };
+    return (body);
+  }
+
+  goFirstPage() {
+    this.setState({ fromPage: 0 });
+    this.requestAPISearch(this.createBodyFromPage(0));
+  }
+
+  goPreviousPage() {
+    const page = this.state.currentPage - 1;
+    this.requestAPISearch(this.createBodyFromPage(page));
+  }
+
+  goNextPage() {
+    const page = this.state.currentPage + 1;
+    this.requestAPISearch(this.createBodyFromPage(page));
+  }
+
+  goLastPage() {
+    this.requestAPISearch(this.createBodyFromPage(this.state.totalPages - 1));
+  }
 
   paginationButtons(t) {
+    const firstPageClick = () => this.goFirstPage();
+    const previousPageClick = () => this.goPreviousPage();
+    const nextPageClick = () => this.goNextPage();
+    const lastPageClick = () => this.goLastPage();
+    if (this.state.results.length > 0) {
+      return (
+        <nav aria-label="Page navigation example">
+          <ul className="pagination justify-content-center">
+            {this.createAppropiatePaginationButton(firstPageClick, this.state.currentPage <= 0, t('First'))}
+            {this.createAppropiatePaginationButton(previousPageClick, this.state.currentPage <= 0, t('<<'))}
+            <li className="page-item disabled">
+              <span className="page-link">{this.state.currentPage + 1}</span>
+            </li>
+            {this.createAppropiatePaginationButton(nextPageClick, this.state.currentPage >= this.state.totalPages - 1, t('>>'))}
+            {this.createAppropiatePaginationButton(lastPageClick, this.state.currentPage >= this.state.totalPages - 1, `${t('Last')} (${this.state.totalPages})`)}
+          </ul>
+        </nav>
+      );
+    }
     return (
-      <nav aria-label="Page navigation example">
-        <ul className="pagination justify-content-center">
-          <li className="page-item disabled">
-            <span className="page-link">{t('Previous')}</span>
-          </li>
-          <li className="page-item"><span className="page-link">1</span></li>
-          <li className="page-item"><span className="page-link">2</span></li>
-          <li className="page-item">
-            <span className="page-link">{t('Next')}</span>
-          </li>
-        </ul>
-      </nav>
+      <div />
     );
   }
 
   renderMenu(menu, t) {
+    console.log(menu);
     const randomNumber = Math.floor(Math.random() * (this.state.pictures.length));
     return (
       <div className="container menu_card" key={menu.id}>
@@ -408,25 +530,25 @@ class SearchResult extends React.Component {
             <Row>
               <Col lg={4.5}>
                 <Card.Img className="card_img" variant="left" src={this.state.pictures[randomNumber]} />
+                <div className="text-center font-weight-bold price-card_menu">
+                  {`${formatPrice(t, menu.price)}`}
+                </div>
               </Col>
               <Col>
-                {this.showStars(menu)}
-                {this.showBadge(menu.rankAverage)}
+
+                {this.showStars(menu)} <br />
+                {this.showBadge(t, menu.rankAverage)}
                 <h5>
                   {t('Description')}: {menu.description}<br />
-                    Delivery: ${menu.deliveryValue}<br />
-                  {t('Valido hasta')} {menu.effectiveDateGoodThru}<br />
+                  {t('Delivery')}: {menu.deliveryValue === 0 ? this.createFreeBadge(t) : formatPrice(t, menu.deliveryValue)}<br />
+                  {t('Valido hasta')} {formatDate(t, new Date(menu.effectiveDateGoodThru))}<br />
                 </h5>
-                <h4>
-                  {`a solo $${menu.price}`}
-                </h4>
-              </Col>
-              <Col>
-                {this.showProviderInfo()}
+
               </Col>
               <Col lg={2}>
                 {this.buyButton(menu, t)}
                 {this.seeButton(menu, t)}
+                {this.providerInfoButton(menu, t)}
               </Col>
             </Row>
           </Card.Body>

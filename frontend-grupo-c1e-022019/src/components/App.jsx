@@ -18,6 +18,7 @@ import ErrorPage from './ErrorPage';
 import EditMenu from './EditMenu';
 import ProviderHome from './ProviderHome';
 import SideBar from './SideBar';
+import ScheduleTasks from './ScheduleTasks';
 
 
 export default class App extends React.Component {
@@ -39,6 +40,7 @@ export default class App extends React.Component {
             <Route exact path="/provider" render={(props) => <div> <SideBar {...props} /> <ProviderHome {...props} /> </div>} />
             <PrivateRouteNavbar exact path="/search" navbar={NavBar} component={SearchResult} />
             <PrivateRouteNavbar exact path="/provider/signup" navbar={NavBar} component={SignUpProvider} />
+            <Route exact path="/schedule/tasks" render={(props) => <ScheduleTasks {...props} />} />
             <Route path="/" render={(props) => <ErrorPage {...props} />} />
           </Switch>
         </BrowserRouter>

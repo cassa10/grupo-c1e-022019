@@ -95,6 +95,13 @@
     "Highest Price": "Careli",
     "Lowest Price": "Barato",
     "Highest Rank": "Popular",
-    "Lowest Rank": "Quien te conoce?"
+    "Lowest Rank": "Quien te conoce?",
+    "First": "Primero",
+    "Last": "Último",
+    ">>": ">>",
+    "<<": "<<",
+    "Free": "Gratis",
+    "Delivery": "Delivery",
+    "Destacado": "Destacado"
 
 }

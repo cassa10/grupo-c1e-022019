@@ -95,6 +95,13 @@
     "Highest Price": "Expensive",
     "Lowest Price": "Cheaper",
     "Highest Rank": "Popular",
-    "Lowest Rank": "Who know u?"
+    "Lowest Rank": "Who know u?",
+    "First": "First",
+    "Last": "Last",
+    ">>": ">>",
+    "<<": "<<",
+    "Free": "Free",
+    "Delivery": "Delivery",
+    "Destacado": "Highlighted"
 
 }
