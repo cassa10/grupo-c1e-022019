@@ -35,32 +35,32 @@ public class MenuService {
         return menuDAO.existsMenu(idMenu);
     }
 
-    public Page<Menu> searchByName(String value, String priceOrder, String rankOrder, int fromPage, int sizePage) {
-        return menuDAO.findAllLikeNameSort(value,priceOrder,rankOrder,fromPage,sizePage);
+    public Page<Menu> searchByName(String value, String priceOrder, String rankOrder,String priority, int fromPage, int sizePage) {
+        return menuDAO.findAllLikeNameSort(value,priceOrder,rankOrder,priority,fromPage,sizePage);
     }
 
-    public Page<Menu> searchByCategory(CategoryMenu value, String priceOrder, String rankOrder, int fromPage, int sizePage) {
-        return menuDAO.findAllContainCategory(value,priceOrder,rankOrder,fromPage,sizePage);
+    public Page<Menu> searchByCategory(CategoryMenu value, String priceOrder, String rankOrder,String priority, int fromPage, int sizePage) {
+        return menuDAO.findAllContainCategory(value,priceOrder,rankOrder,priority,fromPage,sizePage);
     }
 
-    public Page<Menu> searchByProviderCity(String value, String priceOrder, String rankOrder, int fromPage, int sizePage) {
-        return menuDAO.findAllByProviderCity(value,priceOrder,rankOrder,fromPage,sizePage);
+    public Page<Menu> searchByProviderCity(String value, String priceOrder, String rankOrder,String priority, int fromPage, int sizePage) {
+        return menuDAO.findAllByProviderCity(value,priceOrder,rankOrder,priority,fromPage,sizePage);
     }
 
-    public Page<Menu> searchByNameAndCategory(String name, CategoryMenu category, String priceOrder, String rankOrder, int fromPage, int sizePage) {
-        return menuDAO.findAllByNameAndCategory(name,category,priceOrder,rankOrder,fromPage,sizePage);
+    public Page<Menu> searchByNameAndCategory(String name, CategoryMenu category, String priceOrder, String rankOrder,String priority, int fromPage, int sizePage) {
+        return menuDAO.findAllByNameAndCategory(name,category,priceOrder,rankOrder,priority,fromPage,sizePage);
     }
 
-    public Page<Menu> searchByNameAndCity(String name, String city, String priceOrder, String rankOrder, int fromPage, int sizePage) {
-        return menuDAO.findAllByNameAndCity(name,city,priceOrder,rankOrder,fromPage,sizePage);
+    public Page<Menu> searchByNameAndCity(String name, String city, String priceOrder, String rankOrder, String priority,int fromPage, int sizePage) {
+        return menuDAO.findAllByNameAndCity(name,city,priceOrder,rankOrder,priority,fromPage,sizePage);
     }
 
-    public Page<Menu> searchByCategoryAndCity(CategoryMenu category, String city, String priceOrder, String rankOrder, int fromPage, int sizePage) {
-        return menuDAO.findAllByCategoryAndCity(category,city,priceOrder,rankOrder,fromPage,sizePage);
+    public Page<Menu> searchByCategoryAndCity(CategoryMenu category, String city, String priceOrder, String rankOrder,String priority, int fromPage, int sizePage) {
+        return menuDAO.findAllByCategoryAndCity(category,city,priceOrder,rankOrder,priority,fromPage,sizePage);
     }
 
-    public Page<Menu> searchByNameAndCategoryAndCity(String name, CategoryMenu category, String city, String priceOrder, String rankOrder, int fromPage, int sizePage) {
-        return menuDAO.findAllLikeNameAndCategoryAndCity(name,category,city,priceOrder,rankOrder,fromPage,sizePage);
+    public Page<Menu> searchByNameAndCategoryAndCity(String name, CategoryMenu category, String city, String priceOrder, String rankOrder,String priority, int fromPage, int sizePage) {
+        return menuDAO.findAllLikeNameAndCategoryAndCity(name,category,city,priceOrder,rankOrder,priority,fromPage,sizePage);
     }
 
     public List<Menu> getMenusSortedByMaxRank() {

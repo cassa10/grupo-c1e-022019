@@ -20,10 +20,14 @@ class SearchResult extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      priceOrder: 'max',
-      rankOrder: 'max',
+      googleId: '',
+      tokenAccess: '',
+      client: {},
+      priceOrder: '',
+      rankOrder: '',
+      priority: '', // price | rank
       fromPage: 0,
-      sizePage: 4,
+      sizePage: 0,
       results: [],
       showModal: false,
       quantityOfMenus: 0,
@@ -42,18 +46,22 @@ class SearchResult extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.location.state !== undefined && this.props.location.state.searchFromHome) {
-      this.requestAPISearch();
-    } else {
-      this.props.history.push({
-        pathname: '/home',
-        state: {
-          googleId: this.props.location.state.googleId,
-          tokenAccess: this.props.location.state.tokenAccess,
-          client: this.props.location.state.client,
-        },
-      });
-    }
+    const body = {
+      locState: this.props.location.state,
+      googleId: this.props.location.state.googleId,
+      tokenAccess: this.props.location.state.tokenAccess,
+      client: this.props.location.state.client,
+      name: this.props.location.state.searchInputName,
+      city: this.props.location.state.searchInputCity,
+      category: this.props.location.state.searchInputCategory,
+      priceOrder: this.props.location.state.priceOrder,
+      rankOrder: this.props.location.state.rankOrder,
+      fromPage: this.props.location.state.fromPage,
+      sizePage: this.props.location.state.sizePage,
+      priority: this.props.location.state.priority,
+    };
+    this.setState(body);
+    this.requestAPISearch(body);
   }
 
   setShow(b) {
@@ -99,21 +107,9 @@ class SearchResult extends React.Component {
     );
   }
 
-  requestAPISearch() {
-    const locState = this.props.location.state;
-    const body = {
-      googleId: this.props.location.state.googleId,
-      tokenAccess: this.props.location.state.tokenAccess,
-      name: this.props.location.state.searchInputName,
-      city: this.props.location.state.searchInputCity,
-      category: this.props.location.state.searchInputCategory,
-      priceOrder: this.state.priceOrder,
-      rankOrder: this.state.rankOrder,
-      fromPage: this.state.fromPage,
-      sizePage: this.state.sizePage,
-    };
-    API.get(`/menu/search/${this.detectPathSearch(locState)}/`, body)
-      .then((response) => this.setState({ results: response }))
+  requestAPISearch(body) {
+    API.get(`/menu/search/${this.detectPathSearch(body.locState)}/`, body)
+      .then((response) => this.setState({ results: response.content }))
       .catch((error) => console.log(error));
   }
 
@@ -147,26 +143,26 @@ class SearchResult extends React.Component {
   }
 
   mapResults(t) {
-    if (this.state.results && this.state.results.length <= 0) {
+    if (this.state.results.length > 0) {
       return (
-        <Container className="card container">
-          <Row>
-            <Col className="text-center">
-              <div className="no_results">
-                {t('No results found')}
-              </div>
-            </Col>
-          </Row>
+        <Container className="card_container">
+          {this.state.results.map(
+            (menu) => (
+              this.renderMenu(menu, t)
+            ),
+          )}
         </Container>
       );
     }
     return (
-      <Container className="card_container">
-        {this.state.results.map(
-          (menu) => (
-            this.renderMenu(menu, t)
-          ),
-        )}
+      <Container className="card container">
+        <Row>
+          <Col className="text-center">
+            <div className="no_results">
+              {t('No results found')}
+            </div>
+          </Col>
+        </Row>
       </Container>
     );
   }
@@ -231,45 +227,63 @@ class SearchResult extends React.Component {
     this.setState({ delivery: e.target.checked });
   }
 
-  handleRankMaxSelected() {
-    this.setState({ rankOrder: 'min' });
-    this.requestAPISearch();
+  changePriceSortSelected(e) {
+    console.log(e);
+    if (this.state.priceOrder !== e || this.state.priority !== 'price') {
+      this.setState({ priceOrder: e });
+      this.setState({ priority: 'price' });
+      this.requestAPISearch(this.createBody());
+    }
   }
 
-  handleRankMinSelected() {
-    this.setState({ rankOrder: 'max' });
-    this.requestAPISearch();
+  changeRankSortSelected(e) {
+    console.log(e);
+    if (this.state.rankOrder !== e || this.state.priority !== 'rank') {
+      this.setState({ rankOrder: e });
+      this.setState({ priority: 'rank' });
+      this.requestAPISearch(this.createBody());
+    }
   }
 
-  handlePriceMaxSelected() {
-    this.setState({ priceOrder: 'min' });
-    this.requestAPISearch();
-  }
-
-  handlePriceMinSelected() {
-    this.setState({ priceOrder: 'max' });
-    this.requestAPISearch();
+  createBody() {
+    const body = {
+      locState: this.state.locState,
+      googleId: this.state.googleId,
+      tokenAccess: this.state.tokenAccess,
+      name: this.state.name,
+      city: this.state.city,
+      category: this.state.category,
+      priceOrder: this.state.priceOrder,
+      rankOrder: this.state.rankOrder,
+      fromPage: this.state.fromPage,
+      sizePage: this.state.sizePage,
+      priority: this.state.priority,
+    };
+    return (body);
   }
 
   searchConfig(t) {
     return (
       <div className="config-bar">
         <Row>
-          <h3>{t('Filtrar por')} : </h3>
+          <h3>{t('Ordenar por')}:</h3>
           <DropdownButton
             title={t('Price')}
             variant="info"
+            className="dropdown-config"
+            onSelect={(e) => this.changePriceSortSelected(e)}
           >
-            <Dropdown.Item eventKey="1" onSelect={() => this.handlePriceMinSelected()}>Min</Dropdown.Item>
-            <Dropdown.Item eventKey="2" onSelect={() => this.handlePriceMaxSelected()}>Max</Dropdown.Item>
+            <Dropdown.Item eventKey="max">{t('Lowest Price')}</Dropdown.Item>
+            <Dropdown.Item eventKey="min">{t('Highest Price')}</Dropdown.Item>
           </DropdownButton>
           <DropdownButton
             title={t('puntuacion')}
             variant="info"
             className="dropdown-config"
+            onSelect={(e) => this.changeRankSortSelected(e)}
           >
-            <Dropdown.Item eventKey="1" onSelect={() => this.handleRankMinSelected()}>Min</Dropdown.Item>
-            <Dropdown.Item eventKey="2" onSelect={() => this.handleRankMaxSelected()}>Max</Dropdown.Item>
+            <Dropdown.Item eventKey="max">{t('Lowest Rank')}</Dropdown.Item>
+            <Dropdown.Item eventKey="min">{t('Highest Rank')}</Dropdown.Item>
           </DropdownButton>
         </Row>
       </div>
@@ -313,7 +327,7 @@ class SearchResult extends React.Component {
     const handleClose = () => this.setShowSee(false);
     const handleShow = () => this.setShowSee(true);
     return (
-      <div className="">
+      <div>
         <Button className="buy-button" variant="info" onClick={handleShow}>
           {t('Ver')}
         </Button>
@@ -367,10 +381,27 @@ class SearchResult extends React.Component {
   }
 
 
+  paginationButtons(t) {
+    return (
+      <nav aria-label="Page navigation example">
+        <ul className="pagination justify-content-center">
+          <li className="page-item disabled">
+            <span className="page-link">{t('Previous')}</span>
+          </li>
+          <li className="page-item"><span className="page-link">1</span></li>
+          <li className="page-item"><span className="page-link">2</span></li>
+          <li className="page-item">
+            <span className="page-link">{t('Next')}</span>
+          </li>
+        </ul>
+      </nav>
+    );
+  }
+
   renderMenu(menu, t) {
     const randomNumber = Math.floor(Math.random() * (this.state.pictures.length));
     return (
-      <div className="menu_card" key={menu.id}>
+      <div className="container menu_card" key={menu.id}>
         <Card>
           <Card.Header as="h4">{menu.name}</Card.Header>
           <Card.Body>
@@ -404,7 +435,6 @@ class SearchResult extends React.Component {
     );
   }
 
-
   render() {
     const { t } = this.props;
     return (
@@ -412,8 +442,11 @@ class SearchResult extends React.Component {
         <h1 className="title">
           {`${t('Search results')}`}
         </h1>
-        {this.searchConfig(t)}
-        {this.mapResults(t)}
+        <div className="page_buttons">
+          {this.searchConfig(t)}
+          {this.mapResults(t)}
+          {this.paginationButtons(t)}
+        </div>
       </div>
     );
   }

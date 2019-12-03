@@ -180,7 +180,7 @@ public class Menu extends EntityId {
     }
 
     public Double getRankAverage(){
-        return menuRank.average();
+        return menuRank.getRankAverage();
     }
 
     public boolean isNormalState(){

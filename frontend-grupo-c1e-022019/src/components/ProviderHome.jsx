@@ -1,5 +1,5 @@
 import React from 'react';
-import '../dist/css/ProviderProfile.css';
+import '../dist/css/ProviderHome.css';
 import '../dist/css/SearchResult.css';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
@@ -11,7 +11,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import API from '../service/api';
 
-class ProviderProfile extends React.Component {
+class ProviderHome extends React.Component {
   // eslint-disable-next-line no-useless-constructor
   constructor(props) {
     super(props);
@@ -167,4 +167,4 @@ class ProviderProfile extends React.Component {
   }
 }
 
-export default withTranslation()(ProviderProfile);
+export default withTranslation()(ProviderHome);

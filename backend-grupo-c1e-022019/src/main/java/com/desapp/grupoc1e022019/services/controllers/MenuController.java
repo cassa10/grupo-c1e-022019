@@ -155,7 +155,6 @@ public class MenuController {
             return new ResponseEntity<>("Please, log in",HttpStatus.UNAUTHORIZED);
         }
 
-        List<Menu> values ;
         try{
             fromPage = Integer.parseInt(body.get("fromPage"));
             sizePage = Integer.parseInt(body.get("sizePage"));
@@ -163,10 +162,8 @@ public class MenuController {
             return new ResponseEntity<>("Bad data request",HttpStatus.BAD_REQUEST);
         }
 
-        values = menuService.searchByName(body.get("name"),body.get("priceOrder"),
-                body.get("rankOrder"),fromPage,sizePage).getContent();
-
-        return new ResponseEntity<>(values,HttpStatus.OK);
+        return new ResponseEntity<>(menuService.searchByName(body.get("name"),body.get("priceOrder"),
+                body.get("rankOrder"),body.get("priority"),fromPage,sizePage),HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/category/")
@@ -180,7 +177,6 @@ public class MenuController {
             return new ResponseEntity<>("Please, log in",HttpStatus.UNAUTHORIZED);
         }
 
-        List<Menu> values ;
         try{
             fromPage = Integer.parseInt(body.get("fromPage"));
             sizePage = Integer.parseInt(body.get("sizePage"));
@@ -188,9 +184,8 @@ public class MenuController {
             return new ResponseEntity<>("Bad data request",HttpStatus.BAD_REQUEST);
         }
 
-        values = menuService.searchByCategory(CategoryMenu.valueOf(body.get("category")),body.get("priceOrder"),body.get("rankOrder"),fromPage,sizePage).getContent();
-
-        return new ResponseEntity<>(values,HttpStatus.OK);
+        return new ResponseEntity<>(menuService.searchByCategory(CategoryMenu.valueOf(body.get("category")),body.get("priceOrder"),body.get("rankOrder"),
+                body.get("priority"),fromPage,sizePage),HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/city/")
@@ -204,7 +199,6 @@ public class MenuController {
             return new ResponseEntity<>("Please, log in",HttpStatus.UNAUTHORIZED);
         }
 
-        List<Menu> values ;
         try{
             fromPage = Integer.parseInt(body.get("fromPage"));
             sizePage = Integer.parseInt(body.get("sizePage"));
@@ -212,9 +206,8 @@ public class MenuController {
             return new ResponseEntity<>("Bad data request",HttpStatus.BAD_REQUEST);
         }
 
-        values = menuService.searchByProviderCity(body.get("city"),body.get("priceOrder"),body.get("rankOrder"),fromPage,sizePage).getContent();
-
-        return new ResponseEntity<>(values,HttpStatus.OK);
+        return new ResponseEntity<>(menuService.searchByProviderCity(body.get("city"),body.get("priceOrder"),
+                body.get("rankOrder"),body.get("priority"),fromPage,sizePage),HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/name_category/")
@@ -228,7 +221,6 @@ public class MenuController {
             return new ResponseEntity<>("Please, log in",HttpStatus.UNAUTHORIZED);
         }
 
-        List<Menu> values;
         try{
             fromPage = Integer.parseInt(body.get("fromPage"));
             sizePage = Integer.parseInt(body.get("sizePage"));
@@ -236,9 +228,8 @@ public class MenuController {
             return new ResponseEntity<>("Bad data request",HttpStatus.BAD_REQUEST);
         }
 
-        values = menuService.searchByNameAndCategory(body.get("name"),CategoryMenu.valueOf(body.get("category")),body.get("priceOrder"),body.get("rankOrder"),fromPage,sizePage).getContent();
-
-        return new ResponseEntity<>(values,HttpStatus.OK);
+        return new ResponseEntity<>(menuService.searchByNameAndCategory(body.get("name"),CategoryMenu.valueOf(body.get("category")),
+                body.get("priceOrder"),body.get("rankOrder"),body.get("priority"),fromPage,sizePage),HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/name_city/")
@@ -252,7 +243,6 @@ public class MenuController {
             return new ResponseEntity<>("Please, log in",HttpStatus.UNAUTHORIZED);
         }
 
-        List<Menu> values;
         try{
             fromPage = Integer.parseInt(body.get("fromPage"));
             sizePage = Integer.parseInt(body.get("sizePage"));
@@ -260,9 +250,10 @@ public class MenuController {
             return new ResponseEntity<>("Bad data request",HttpStatus.BAD_REQUEST);
         }
 
-        values = menuService.searchByNameAndCity(body.get("name"),body.get("city"),body.get("priceOrder"),body.get("rankOrder"),fromPage,sizePage).getContent();
 
-        return new ResponseEntity<>(values,HttpStatus.OK);
+
+        return new ResponseEntity<>(menuService.searchByNameAndCity(body.get("name"),body.get("city"),
+                body.get("priceOrder"),body.get("rankOrder"),body.get("priority"),fromPage,sizePage),HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/category_city/")
@@ -276,7 +267,6 @@ public class MenuController {
             return new ResponseEntity<>("Please, log in",HttpStatus.UNAUTHORIZED);
         }
 
-        List<Menu> values;
         try{
             fromPage = Integer.parseInt(body.get("fromPage"));
             sizePage = Integer.parseInt(body.get("sizePage"));
@@ -284,9 +274,8 @@ public class MenuController {
             return new ResponseEntity<>("Bad data request",HttpStatus.BAD_REQUEST);
         }
 
-        values = menuService.searchByCategoryAndCity(CategoryMenu.valueOf(body.get("category")),body.get("city"),body.get("priceOrder"),body.get("rankOrder"),fromPage,sizePage).getContent();
-
-        return new ResponseEntity<>(values,HttpStatus.OK);
+        return new ResponseEntity<>(menuService.searchByCategoryAndCity(CategoryMenu.valueOf(body.get("category")),body.get("city"),
+                body.get("priceOrder"),body.get("rankOrder"),body.get("priority"),fromPage,sizePage),HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/menu/search/name_category_city/")
@@ -300,8 +289,6 @@ public class MenuController {
             return new ResponseEntity<>("Please, log in",HttpStatus.UNAUTHORIZED);
         }
 
-        List<Menu> values;
-
         try{
             fromPage = Integer.parseInt(body.get("fromPage"));
             sizePage = Integer.parseInt(body.get("sizePage"));
@@ -309,12 +296,10 @@ public class MenuController {
             return new ResponseEntity<>("Bad data request",HttpStatus.BAD_REQUEST);
         }
 
-        values = menuService.searchByNameAndCategoryAndCity(body.get("name"),
-                        CategoryMenu.valueOf(body.get("category")),
-                        body.get("city"),
-                        body.get("priceOrder"),
-                        body.get("rankOrder"),fromPage,sizePage).getContent();
-
-        return new ResponseEntity<>(values,HttpStatus.OK);
+        return new ResponseEntity<>(menuService.searchByNameAndCategoryAndCity(body.get("name"),
+                CategoryMenu.valueOf(body.get("category")),
+                body.get("city"),
+                body.get("priceOrder"),
+                body.get("rankOrder"),body.get("priority"),fromPage,sizePage),HttpStatus.OK);
     }
 }

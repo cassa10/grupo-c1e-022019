@@ -78,7 +78,7 @@
     "Comprando mas de" : "Buying more than",
     "Distancia de delivery" : "Max delivery distance",
     "Estado del menu" : "Menu state",
-    "Filtrar por" :"Filter by",
+    "Ordenar por" :"Order by",
     "puntuacion" :"Rating",
     "Price" : "Price",
     "your menus" : "Your menus:",
@@ -91,6 +91,10 @@
     "Home": "Home",
     "Make me Provider": "Make me Provider",
     "edit": "Edit",
-    "Edit your menu" : "Edit menu"
+    "Edit your menu" : "Edit menu",
+    "Highest Price": "Expensive",
+    "Lowest Price": "Cheaper",
+    "Highest Rank": "Popular",
+    "Lowest Rank": "Who know u?"
 
 }

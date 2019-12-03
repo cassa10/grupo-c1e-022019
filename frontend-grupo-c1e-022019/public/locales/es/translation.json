@@ -78,7 +78,7 @@
     "Comprando mas de" : "Comprando mas de ",
     "Distancia de delivery" : "Distancia de delivery",
     "Estado del menu" :"Estado del menu",
-    "Filtrar por" :"Filtrar por",
+    "Ordenar por" :"Ordenar por",
     "puntuacion" :"Puntuacion",
     "Price" : "Precio",
     "your menus" : "Tus menues:",
@@ -91,6 +91,10 @@
     "Home": "Inicio",
     "Make me Provider": "Hacerme Proveedor",
     "edit" : "Editar",
-    "Edit your menu" : "Editar menu"
+    "Edit your menu" : "Editar menu",
+    "Highest Price": "Careli",
+    "Lowest Price": "Barato",
+    "Highest Rank": "Popular",
+    "Lowest Rank": "Quien te conoce?"
 
 }
