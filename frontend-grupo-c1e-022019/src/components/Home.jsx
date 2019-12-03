@@ -82,6 +82,11 @@ class Home extends React.Component {
         searchInputName: this.state.searchInputName.trim(),
         searchInputCity: this.state.searchInputCity.trim(),
         searchInputCategory: this.state.searchInputCategory,
+        priceOrder: '',
+        rankOrder: 'max',
+        fromPage: 0,
+        sizePage: 8,
+        priority: 'rank',
       },
     });
   }

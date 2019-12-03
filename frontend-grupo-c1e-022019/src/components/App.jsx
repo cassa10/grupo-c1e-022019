@@ -16,7 +16,7 @@ import SearchResult from './SearchResult';
 import ErrorPage from './ErrorPage';
 // import MapViendasYa from './MapViendasYa';
 import EditMenu from './EditMenu';
-import ProviderProfile from './ProviderProfile';
+import ProviderHome from './ProviderHome';
 import SideBar from './SideBar';
 
 
@@ -36,9 +36,9 @@ export default class App extends React.Component {
             }
             <Route exact path="/create_menu" render={(props) => <CreateMenu {...props} />} />
             <Route exact path="/edit_menu" render={(props) => <EditMenu {...props} />} />
-            <Route exact path="/provider_profile" render={(props) => <div> <SideBar {...props} /> <ProviderProfile {...props} /> </div>} />
+            <Route exact path="/provider" render={(props) => <div> <SideBar {...props} /> <ProviderHome {...props} /> </div>} />
             <PrivateRouteNavbar exact path="/search" navbar={NavBar} component={SearchResult} />
-            <PrivateRouteNavbar exact path="/signup_provider" navbar={NavBar} component={SignUpProvider} />
+            <PrivateRouteNavbar exact path="/provider/signup" navbar={NavBar} component={SignUpProvider} />
             <Route path="/" render={(props) => <ErrorPage {...props} />} />
           </Switch>
         </BrowserRouter>

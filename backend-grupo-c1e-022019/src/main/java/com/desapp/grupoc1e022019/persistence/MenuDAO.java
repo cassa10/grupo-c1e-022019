@@ -32,52 +32,55 @@ public class MenuDAO {
         return menuRepository.findById(idMenu).isPresent();
     }
 
-    public Page<Menu> findAllLikeNameSort(String value, String orderPrice, String orderRank, int fromPage, int sizePage){
-       return menuRepository.findAllLikeName(value, PageRequest.of(fromPage,sizePage,getApropiateSort(orderPrice,orderRank)));
+    public Page<Menu> findAllLikeNameSort(String value, String orderPrice, String orderRank,String priority, int fromPage, int sizePage){
+       return menuRepository.findAllLikeName(value, PageRequest.of(fromPage,sizePage,getApropiateSort(orderPrice,orderRank,priority)));
     }
 
-    public Page<Menu> findAllContainCategory(CategoryMenu value, String orderPrice, String orderRank, int fromPage, int sizePage){
-        return menuRepository.findAllContainCategory(value, PageRequest.of(fromPage,sizePage,getApropiateSort(orderPrice,orderRank)));
+    public Page<Menu> findAllContainCategory(CategoryMenu value, String orderPrice, String orderRank,String priority, int fromPage, int sizePage){
+        return menuRepository.findAllContainCategory(value, PageRequest.of(fromPage,sizePage,getApropiateSort(orderPrice,orderRank,priority)));
     }
 
-    public Page<Menu> findAllByProviderCity(String value,String orderPrice,String orderRank, int fromPage, int sizePage){
-        return menuRepository.findAllByProviderCity(value,PageRequest.of(fromPage,sizePage,getApropiateSort(orderPrice,orderRank)));
+    public Page<Menu> findAllByProviderCity(String value,String orderPrice,String orderRank, String priority, int fromPage, int sizePage){
+        return menuRepository.findAllByProviderCity(value,PageRequest.of(fromPage,sizePage,getApropiateSort(orderPrice,orderRank,priority)));
     }
 
-    public Page<Menu> findAllByNameAndCategory(String name, CategoryMenu category, String orderPrice, String orderRank, int fromPage, int sizePage) {
-        return menuRepository.findAllLikeNameAndCategory(name,category,PageRequest.of(fromPage,sizePage,getApropiateSort(orderPrice,orderRank)));
+    public Page<Menu> findAllByNameAndCategory(String name, CategoryMenu category, String orderPrice, String orderRank,String priority, int fromPage, int sizePage) {
+        return menuRepository.findAllLikeNameAndCategory(name,category,PageRequest.of(fromPage,sizePage,getApropiateSort(orderPrice,orderRank,priority)));
     }
 
-    public Page<Menu> findAllByNameAndCity(String name, String city, String orderPrice, String orderRank, int fromPage, int sizePage) {
-        return menuRepository.findAllLikeNameAndCity(name,city,PageRequest.of(fromPage,sizePage,getApropiateSort(orderPrice,orderRank)));
+    public Page<Menu> findAllByNameAndCity(String name, String city, String orderPrice, String orderRank,String priority, int fromPage, int sizePage) {
+        return menuRepository.findAllLikeNameAndCity(name,city,PageRequest.of(fromPage,sizePage,getApropiateSort(orderPrice,orderRank,priority)));
     }
 
-    public Page<Menu> findAllByCategoryAndCity(CategoryMenu category, String city, String orderPrice, String orderRank, int fromPage, int sizePage) {
-        return menuRepository.findAllByCategoryAndCity(category,city,PageRequest.of(fromPage,sizePage,getApropiateSort(orderPrice,orderRank)));
+    public Page<Menu> findAllByCategoryAndCity(CategoryMenu category, String city, String orderPrice, String orderRank,String priority, int fromPage, int sizePage) {
+        return menuRepository.findAllByCategoryAndCity(category,city,PageRequest.of(fromPage,sizePage,getApropiateSort(orderPrice,orderRank,priority)));
     }
 
-    public Page<Menu> findAllLikeNameAndCategoryAndCity(String name, CategoryMenu category, String city, String orderPrice, String orderRank, int fromPage, int sizePage) {
-        return menuRepository.findAllLikeNameAndCategoryAndCity(name,category,city,PageRequest.of(fromPage,sizePage,getApropiateSort(orderPrice,orderRank)));
+    public Page<Menu> findAllLikeNameAndCategoryAndCity(String name, CategoryMenu category, String city, String orderPrice, String orderRank,String priority, int fromPage, int sizePage) {
+        return menuRepository.findAllLikeNameAndCategoryAndCity(name,category,city,PageRequest.of(fromPage,sizePage,getApropiateSort(orderPrice,orderRank,priority)));
     }
 
     public List<Menu> getMenusSortedByMaxRank(){
         return menuRepository.findAll(new Sort(Sort.Direction.DESC,"menuRank.ratingSum"));
     }
 
-    private Sort getApropiateSort(String priceOrder,String rankOrder){
+    private Sort getApropiateSort(String priceOrder,String rankOrder,String priority){
         //DEFAULT MIN TO MAX PRICE
         Sort sortPrice = new Sort(Sort.Direction.ASC,"menuPriceCalculator.price");
 
         //DEFAULT MIN TO MAX RANK
-        Sort sortRank = new Sort(Sort.Direction.ASC,"menuRank.ratingSum");;
+        Sort sortRank = new Sort(Sort.Direction.ASC,"menuRank.rankAverage");
 
         if(priceOrder.equals("max")){
             sortPrice = new Sort(Sort.Direction.DESC,"menuPriceCalculator.price");
         }
         if(rankOrder.equals("max")){
-            sortRank = new Sort(Sort.Direction.DESC,"menuRank.ratingSum");;
+            sortRank = new Sort(Sort.Direction.DESC,"menuRank.rankAverage");
         }
-        return sortPrice.and(sortRank);
+        if(priority.equals("rank")){
+            return sortRank;
+        }
+        return sortPrice;
     }
 
     public Optional<Menu> getMenu(long idMenu) {

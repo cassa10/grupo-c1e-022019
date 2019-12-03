@@ -10,7 +10,7 @@ public class RankAverageMenuTest {
     public void testARankAverageMenuWhenItGetsRatingsAmountReturnsZeroAsIntegerAndAverageReturnsZeroAsDouble(){
         RankAverageMenu rankAverageMenu = aRankAverageMenu();
         Assert.assertEquals(rankAverageMenu.getRatingsAmount(),new Integer(0));
-        Assert.assertEquals(rankAverageMenu.average(),new Double(0));
+        Assert.assertEquals(new Double(rankAverageMenu.getRankAverage()),new Double(0));
     }
 
     @Test
@@ -19,7 +19,7 @@ public class RankAverageMenuTest {
         rankAverageMenu.addRating(5);
 
         Assert.assertEquals(rankAverageMenu.getRatingsAmount(),new Integer(1));
-        Assert.assertEquals(rankAverageMenu.average(),new Double(5));
+        Assert.assertEquals(new Double(rankAverageMenu.getRankAverage()),new Double(5));
     }
 
     @Test
@@ -29,7 +29,7 @@ public class RankAverageMenuTest {
         rankAverageMenu.addRating(3);
 
         Assert.assertEquals(rankAverageMenu.getRatingsAmount(),new Integer(2));
-        Assert.assertEquals(rankAverageMenu.average(),new Double(3.5));
+        Assert.assertEquals(new Double(rankAverageMenu.getRankAverage()),new Double(3.5));
     }
 
     @Test
@@ -37,7 +37,7 @@ public class RankAverageMenuTest {
         RankAverageMenu rankAverageMenu = aRankAverageMenu();
         addNRatingsWithScore(rankAverageMenu,19,4);
 
-        Assert.assertEquals(rankAverageMenu.average(),new Double(4));
+        Assert.assertEquals(new Double(rankAverageMenu.getRankAverage()),new Double(4));
         Assert.assertEquals(rankAverageMenu.getRatingsAmount(),new Integer(19));
         Assert.assertFalse(rankAverageMenu.hasMoreTwentyRatesAmountAndAverageIsLessThanTwo());
     }
@@ -48,7 +48,7 @@ public class RankAverageMenuTest {
         addNRatingsWithScore(rankAverageMenu,19,2);
         rankAverageMenu.addRating(3);
 
-        Assert.assertEquals(rankAverageMenu.average(),new Double(2.05));
+        Assert.assertEquals(new Double(rankAverageMenu.getRankAverage()),new Double(2.05));
         Assert.assertEquals(rankAverageMenu.getRatingsAmount(),new Integer(20));
         Assert.assertFalse(rankAverageMenu.hasMoreTwentyRatesAmountAndAverageIsLessThanTwo());
     }
@@ -59,7 +59,7 @@ public class RankAverageMenuTest {
         addNRatingsWithScore(rankAverageMenu,19,2);
         rankAverageMenu.addRating(1);
 
-        Assert.assertEquals(rankAverageMenu.average(),new Double(1.95));
+        Assert.assertEquals(new Double(rankAverageMenu.getRankAverage()),new Double(1.95));
         Assert.assertEquals(rankAverageMenu.getRatingsAmount(),new Integer(20));
         Assert.assertTrue(rankAverageMenu.hasMoreTwentyRatesAmountAndAverageIsLessThanTwo());
     }
@@ -69,7 +69,7 @@ public class RankAverageMenuTest {
         RankAverageMenu rankAverageMenu = aRankAverageMenu();
         addNRatingsWithScore(rankAverageMenu,20,2);
 
-        Assert.assertEquals(rankAverageMenu.average(),new Double(2));
+        Assert.assertEquals(new Double(rankAverageMenu.getRankAverage()),new Double(2));
         Assert.assertEquals(rankAverageMenu.getRatingsAmount(),new Integer(20));
         Assert.assertFalse(rankAverageMenu.hasMoreTwentyRatesAmountAndAverageIsLessThanTwo());
     }
