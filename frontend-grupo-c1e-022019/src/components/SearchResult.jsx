@@ -312,7 +312,6 @@ class SearchResult extends React.Component {
               className="dropdown-config"
               onSelect={(e) => this.changePriceSortSelected(e)}
             >
-              <Dropdown.Item eventKey="" disabled>{t('Select one')}</Dropdown.Item>
               <Dropdown.Item eventKey="min">{t('Lowest Price')}</Dropdown.Item>
               <Dropdown.Item eventKey="max">{t('Highest Price')}</Dropdown.Item>
             </DropdownButton>
