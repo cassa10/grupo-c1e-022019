@@ -1,15 +1,9 @@
 import React from 'react';
 import '../dist/css/SearchResult.css';
-import Card from 'react-bootstrap/Card';
-import Container from 'react-bootstrap/Container';
-import Col from 'react-bootstrap/Col';
-import Modal from 'react-bootstrap/Modal';
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import Dropdown from 'react-bootstrap/Dropdown';
-import Row from 'react-bootstrap/Row';
-import Form from 'react-bootstrap/Form';
-import Badge from 'react-bootstrap/Badge';
-import Button from 'react-bootstrap/Button';
+import {
+  Card, Container, Col, Modal, DropdownButton, Dropdown,
+  Row, Form, Badge, Button,
+} from 'react-bootstrap';
 import { withTranslation } from 'react-i18next';
 import Swal from 'sweetalert2';
 import StarRatingComponent from 'react-star-rating-component';
@@ -396,12 +390,11 @@ class SearchResult extends React.Component {
           <Modal.Body>
             <Card.Img className="card_img" variant="left" src={this.state.pictures[0]} /><br />
             <h5>{t('Delivery')}: {menu.deliveryValue <= 0 ? this.createFreeBadge(t) : formatPrice(t, menu.deliveryValue)}<br />
-              {t('Comprando mas de')}: {menu.firstMinAmount} unidades<br />
-              {t('the price will be')} {menu.firstMinAmountPrice} pesos<br />
-              {t('Comprando mas de')}: {menu.menuPriceCalculator.secondMinAmount} unidades<br />
-              {t('the price will be')} {menu.menuPriceCalculator.secondMinPrice} <br />
-              {t('Distancia de delivery')} : {menu.deliveryMaxDistanceInKM} kms<br />
-              {t('Estado del menu')} {menu.menuStateName}<br />
+              {t('Comprando mas de')}: {formatNumber(t, menu.firstMinAmount)} unidades<br />
+              {t('the price will be')} {formatPrice(t, menu.firstMinAmountPrice)} pesos<br />
+              {t('Comprando mas de')}: {formatNumber(t, menu.menuPriceCalculator.secondMinAmount)} unidades<br />
+              {t('the price will be')} {formatPrice(t, menu.menuPriceCalculator.secondMinAmountPrice)} <br />
+              {t('Distancia de delivery')} : {formatNumber(t, menu.deliveryMaxDistanceInKM)} kms<br />
             </h5>
           </Modal.Body>
 

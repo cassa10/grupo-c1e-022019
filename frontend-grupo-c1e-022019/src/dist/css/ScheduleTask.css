@@ -1,0 +1,15 @@
+.schedule-task {
+    background-color: whitesmoke;
+    margin-top: 200px;
+    padding-bottom: 20px;
+    color: black;
+    background-size: 10px;
+    min-width:200px!important;
+    min-height:210px!important;
+    max-width:350px!important;
+    max-height:280px!important;
+}
+
+.schedule_form {
+    margin-top: 10px;
+}

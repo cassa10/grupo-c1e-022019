@@ -69,6 +69,7 @@
     "Intro logging error message": "Ops, something went wrong... ",
     "Account already exists, please log in": "Account already exists, please log in",
     "Ups something went wrong, please try again": "Ups something went wrong, please try again",
+    "Ups something went wrong with google, please try again": "Ups something went wrong with google, please try again",
     "Your account does not exist": "Your account does not exist. Sign up and try again",
     "Request with bad data": "Something went wrong",
     "Server is not responding, please try again later": "Server is not responding, please try again later.",

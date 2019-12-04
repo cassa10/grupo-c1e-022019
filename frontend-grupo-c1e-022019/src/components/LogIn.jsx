@@ -83,7 +83,7 @@ class LogIn extends React.Component {
 
   handleGoogleResponseError() {
     const { t } = this.props;
-    alert(t('Ups something went wrong, please try again'));
+    alert(t('Ups something went wrong with google, please try again'));
   }
 
   createLoginForm(t) {
