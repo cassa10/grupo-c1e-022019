@@ -13,7 +13,7 @@ import formatPrice from './formatter/formatCredit';
 import formatNumber from './formatter/formatNumber';
 import formatDate from './formatter/formatDate';
 import providerInfoIcon from '../dist/icons/provider-info-icon.png';
-import menuInfoIcon from '../dist/icons/info-icon.png'; 
+import menuInfoIcon from '../dist/icons/info-icon.png';
 
 
 class SearchResult extends React.Component {
@@ -296,39 +296,33 @@ class SearchResult extends React.Component {
       );
     }
     return (
-      <Container>
-        <Row>
-          <Col xs={1} sm={1} md={1} lg={1} xl={1} />
-          <Col xs={8} sm={8} md={8} lg={8} xl={8}>
-            <h3>{t('Ordenar por')}:</h3>
-          </Col>
-        </Row>
-        <Row>
-          <Col xs={1} sm={1} md={1} lg={1} xl={1} />
-          <Col xs={4} sm={4} md={2} lg={2} xl={2}>
-            <DropdownButton
-              title={t('Price')}
-              variant="info"
-              className="dropdown-config"
-              onSelect={(e) => this.changePriceSortSelected(e)}
-            >
-              <Dropdown.Item eventKey="min">{t('Lowest Price')}</Dropdown.Item>
-              <Dropdown.Item eventKey="max">{t('Highest Price')}</Dropdown.Item>
-            </DropdownButton>
-          </Col>
-          <Col xs={2} sm={2} md={2} lg={2} xl={2}>
-            <DropdownButton
-              title={t('puntuacion')}
-              variant="info"
-              className="dropdown-config"
-              onSelect={(e) => this.changeRankSortSelected(e)}
-            >
-              <Dropdown.Item eventKey="min">{t('Lowest Rank')}</Dropdown.Item>
-              <Dropdown.Item eventKey="max">{t('Highest Rank')}</Dropdown.Item>
-            </DropdownButton>
-          </Col>
-        </Row>
-      </Container>
+      <Row className="ordenar_por_row">
+        <Col xs={8} sm={8} md={12} lg={8} xl={8}>
+          <h4>{t('Ordenar por')}</h4>
+        </Col>
+        <Col xs={8} sm={8} md={2} lg={2} xl={2}>
+          <DropdownButton
+            title={t('Price')}
+            variant="info"
+            className="dropdown-config"
+            onSelect={(e) => this.changePriceSortSelected(e)}
+          >
+            <Dropdown.Item eventKey="min">{t('Lowest Price')}</Dropdown.Item>
+            <Dropdown.Item eventKey="max">{t('Highest Price')}</Dropdown.Item>
+          </DropdownButton>
+        </Col>
+        <Col xs={8} sm={8} md={4} lg={2} xl={2}>
+          <DropdownButton
+            title={t('puntuacion')}
+            variant="info"
+            className="dropdown-config"
+            onSelect={(e) => this.changeRankSortSelected(e)}
+          >
+            <Dropdown.Item eventKey="min">{t('Lowest Rank')}</Dropdown.Item>
+            <Dropdown.Item eventKey="max">{t('Highest Rank')}</Dropdown.Item>
+          </DropdownButton>
+        </Col>
+      </Row>
     );
   }
 
@@ -337,29 +331,30 @@ class SearchResult extends React.Component {
     const handleShow = () => this.setShow(true);
     return (
       <Row>
-        <Button className="buy-button" variant="danger" onClick={handleShow}>
-          <img src={shoppingCartIcon} alt="buy" />
-        </Button>
-
-        <Modal show={this.state.showModal} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>{t('buy')}</Modal.Title>
-          </Modal.Header>
-          <Modal.Body className="buy-body">{t('How many?')}
-            <br />
-            <input type="number" onChange={(e) => this.handleQuantityOfMenus(e)} />
-            <p className="buy-body">{t('Do you want delivery?')}</p>
-            <Form.Check inline label="Delivery" type="checkbox" id="inline-checkbox-1" onChange={(e) => this.handleDelivery(e)} />
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              {t('cancel')}
-            </Button>
-            <Button variant="primary" onClick={() => this.handleBuyFromModal(menu, t)}>
-              {t('buy')}
-            </Button>
-          </Modal.Footer>
-        </Modal>
+        <Col>
+          <Button className="buy-button" variant="danger" onClick={handleShow}>
+            <img src={shoppingCartIcon} alt="buy" />
+          </Button>
+          <Modal show={this.state.showModal} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>{t('buy')}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="buy-body">{t('How many?')}
+              <br />
+              <input type="number" onChange={(e) => this.handleQuantityOfMenus(e)} />
+              <p className="buy-body">{t('Do you want delivery?')}</p>
+              <Form.Check inline label="Delivery" type="checkbox" id="inline-checkbox-1" onChange={(e) => this.handleDelivery(e)} />
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                {t('cancel')}
+              </Button>
+              <Button variant="primary" onClick={() => this.handleBuyFromModal(menu, t)}>
+                {t('buy')}
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </Col>
       </Row>
     );
   }
@@ -378,26 +373,27 @@ class SearchResult extends React.Component {
     const handleShow = () => this.setShowSee(true);
     return (
       <Row>
-        <Button className="buy-button" variant="info" onClick={handleShow}>
-          <img src={menuInfoIcon} alt="menu-info" />
-        </Button>
-        <Modal show={this.state.showModalSee} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <h1>{menu.name}</h1>
-          </Modal.Header>
-          <Modal.Title>{menu.description}</Modal.Title>
-          <Modal.Body>
-            <Card.Img className="card_img" variant="left" src={this.state.pictures[0]} /><br />
-            <h5>{t('Delivery')}: {menu.deliveryValue <= 0 ? this.createFreeBadge(t) : formatPrice(t, menu.deliveryValue)}<br />
-              {t('Comprando mas de')}: {formatNumber(t, menu.firstMinAmount)} unidades<br />
-              {t('the price will be')} {formatPrice(t, menu.firstMinAmountPrice)} pesos<br />
-              {t('Comprando mas de')}: {formatNumber(t, menu.menuPriceCalculator.secondMinAmount)} unidades<br />
-              {t('the price will be')} {formatPrice(t, menu.menuPriceCalculator.secondMinAmountPrice)} <br />
-              {t('Distancia de delivery')} : {formatNumber(t, menu.deliveryMaxDistanceInKM)} kms<br />
-            </h5>
-          </Modal.Body>
-
-        </Modal>
+        <Col>
+          <Button className="buy-button" variant="info" onClick={handleShow}>
+            <img src={menuInfoIcon} alt="menu-info" />
+          </Button>
+          <Modal show={this.state.showModalSee} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <h1>{menu.name}</h1>
+            </Modal.Header>
+            <Modal.Title>{menu.description}</Modal.Title>
+            <Modal.Body>
+              <Card.Img className="card_img" variant="left" src={this.state.pictures[0]} /><br />
+              <h5>{t('Delivery')}: {menu.deliveryValue <= 0 ? this.createFreeBadge(t) : formatPrice(t, menu.deliveryValue)}<br />
+                {t('Comprando mas de')}: {formatNumber(t, menu.firstMinAmount)} {t('unidades')}<br />
+                {t('the price will be')} {formatPrice(t, menu.firstMinAmountPrice)} <br />
+                {t('Comprando mas de')}: {formatNumber(t, menu.menuPriceCalculator.secondMinAmount)} {t('unidades')}<br />
+                {t('the price will be')} {formatPrice(t, menu.menuPriceCalculator.secondMinAmountPrice)} <br />
+                {t('Distancia de delivery')} : {formatNumber(t, menu.deliveryMaxDistanceInKM)} kms<br />
+              </h5>
+            </Modal.Body>
+          </Modal>
+        </Col>
       </Row>
     );
   }
@@ -405,9 +401,11 @@ class SearchResult extends React.Component {
   providerInfoButton(menu, t) {
     return (
       <Row>
-        <Button className="buy-button" variant="success" onClick={console.log(menu)}>
-          <img src={providerInfoIcon} alt="provider" />
-        </Button>
+        <Col>
+          <Button className="buy-button" variant="success" onClick={console.log(menu)}>
+            <img src={providerInfoIcon} alt={t('Provider')} />
+          </Button>
+        </Col>
       </Row>
     );
   }
@@ -486,6 +484,22 @@ class SearchResult extends React.Component {
     this.requestAPISearch(this.createBodyFromPage(this.state.totalPages - 1));
   }
 
+  searchResultTitle(t) {
+    if (this.state.results.length > 0) {
+      return (
+        <Container className="search_results_container_1">
+          <h1 className="title">
+            {`${t('Search results')}`}
+          </h1>
+          {this.searchConfig(t)}
+        </Container>
+      );
+    }
+    return (
+      <div />
+    );
+  }
+
   paginationButtons(t) {
     const firstPageClick = () => this.goFirstPage();
     const previousPageClick = () => this.goPreviousPage();
@@ -512,8 +526,6 @@ class SearchResult extends React.Component {
   }
 
   renderMenu(menu, t) {
-    console.log(menu);
-    const randomNumber = Math.floor(Math.random() * (this.state.pictures.length));
     return (
       <div className="container menu_card" key={menu.id}>
         <Card>
@@ -521,7 +533,7 @@ class SearchResult extends React.Component {
           <Card.Body>
             <Row>
               <Col lg={4.5}>
-                <Card.Img className="card_img" variant="left" src={this.state.pictures[randomNumber]} />
+                <Card.Img className="card_img" variant="left" src={this.state.pictures[0]} />
                 <div className="text-center font-weight-bold price-card_menu">
                   {`${formatPrice(t, menu.price)}`}
                 </div>
@@ -552,12 +564,9 @@ class SearchResult extends React.Component {
   render() {
     const { t } = this.props;
     return (
-      <div className="search_results">
-        <h1 className="title">
-          {`${t('Search results')}`}
-        </h1>
+      <div className="search_results_div_all">
+        {this.searchResultTitle(t)}
         <div className="page_buttons">
-          {this.searchConfig(t)}
           {this.mapResults(t)}
           {this.paginationButtons(t)}
         </div>

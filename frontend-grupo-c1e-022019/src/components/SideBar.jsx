@@ -297,7 +297,7 @@ class SideBar extends React.Component {
             <Row className="row-navbar">
               <Col className="logo-col">
                 <Navbar.Brand className="homelogoimg">
-                  <img src="https://fontmeme.com/permalink/191102/03a545ac680d1396fcfae624d4ee0c3a.png" width="250" onClick={() => console.log('GO HOME')} alt="netflix-font" border="0" className="pointerImg" role="presentation" />
+                  <img src="https://fontmeme.com/temporary/ae6df82115063423c0205aaf7499bff2.png" width="250" onClick={() => console.log('GO HOME')} alt="netflix-font" border="0" className="pointerImg" role="presentation" />
                 </Navbar.Brand>
               </Col>
               <Col xs={1} sm={1} md={4} lg={5} xl={8} />
