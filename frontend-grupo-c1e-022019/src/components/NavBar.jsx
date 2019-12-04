@@ -1,11 +1,8 @@
 import React from 'react';
 import { withTranslation } from 'react-i18next';
-import Navbar from 'react-bootstrap/Navbar';
-import Container from 'react-bootstrap/Container';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import {
+  Navbar, Nav, Container, Button, Modal, Row, Col,
+} from 'react-bootstrap';
 import ChangeLanguage from './ChangeLanguage';
 import '../dist/css/Navbar.css';
 import API from '../service/api';
@@ -137,28 +134,26 @@ class NavBar extends React.Component {
   }
 
   render() {
-    const { t } = this.props;
     return (
-      <div>
-        <Navbar className="all-navbar" fixed="top">
-          <Container className="container-navbar">
-            <Row className="row-navbar">
-              <Col className="logo-col">
-                <Navbar.Brand className="homelogoimg">
-                  <img src="https://fontmeme.com/permalink/191102/03a545ac680d1396fcfae624d4ee0c3a.png" width="250" onClick={() => this.goBackHome()} alt="viendas-font" border="0" className="pointerImg" role="presentation" />
-                </Navbar.Brand>
-              </Col>
-              <Col>
-                {this.accrditButton(t)}
-                <div className="balance container-balance">
-                  {t('Balance')}: ${this.getClientBalance()}
-                </div>
-                <ChangeLanguage />
-              </Col>
-            </Row>
-          </Container>
-        </Navbar>
-      </div>
+      <Navbar className="all-navbar" fixed="top">
+        <Navbar.Brand className="homelogoimg">
+          <img src="https://fontmeme.com/temporary/ae6df82115063423c0205aaf7499bff2.png" width="250" onClick={() => this.goBackHome()} alt="viendas-font" border="0" className="pointerImg" role="presentation" />
+        </Navbar.Brand>
+        <Navbar.Toggle />
+        <Nav className="mr-auto">
+          {/*
+            DELETE THIS WHEN PROFILES ARE DONE
+          {this.accrditButton(t)}
+          <div className="balance container-balance">
+            {t('Balance')}: ${this.getClientBalance()}
+          </div>
+          */}
+          <div className="navbar_changelanguague">
+            <ChangeLanguage />
+          </div>
+        </Nav>
+      </Navbar>
+
     );
   }
 }

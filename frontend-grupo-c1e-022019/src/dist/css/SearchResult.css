@@ -1,9 +1,29 @@
-.search_results{
-    background-color: transparent;
-    color: white;
+.search_results_div_all {
+    margin-top: 70px;
 }
+
+.search_results_container_1{
+    background: whitesmoke;
+    padding-bottom: 10px;
+    padding-top: 2px;
+    border-left: solid;
+    border-right: solid;
+    border-color: #db3d44;
+    border-width: 10px;
+}
+
+.ordenar_por_row {
+    border-top: solid;
+    border-color: #db3d44;
+    border-width: 1.5px;
+    margin-left: 2px;
+    margin-right: 2px;
+    padding-top: 7px;
+    padding-bottom: 4px;
+}
+
 .title{
-    padding-top: 100px;
+    padding-top: 10px;
     text-align: center;
     padding-bottom : 30px;
 }
@@ -21,8 +41,8 @@
 }
 
 .dropdown-config{
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .card_container{
@@ -76,4 +96,5 @@
     background-color: rgba(179, 164, 29, 0.836);
     margin-left: 10px;
     margin-right: 7px;
+    margin-bottom: 4px;
 }

@@ -125,7 +125,7 @@ class LogIn extends React.Component {
         <header>
           <div className="row">
             <div className="col">
-              <img className="logginlogo" src="https://fontmeme.com/permalink/191102/03a545ac680d1396fcfae624d4ee0c3a.png" alt="viendasYa-logo" border="0" />
+              <img className="logginlogo" src="https://fontmeme.com/temporary/ae6df82115063423c0205aaf7499bff2.png" alt="viendasYa-logo" border="0" />
             </div>
             <ChangeLanguage />
           </div>
