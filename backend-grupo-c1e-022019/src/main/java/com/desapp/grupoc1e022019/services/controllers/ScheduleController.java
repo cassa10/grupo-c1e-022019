@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+
 @CrossOrigin
 @RestController
 @Scope(value = "session")
@@ -18,9 +20,10 @@ public class ScheduleController {
     @Autowired
     private ScheduleService scheduleService = new ScheduleService();
 
-    @RequestMapping(method = RequestMethod.GET, value = "/schedule/tokens/expire/{password}")
-    public ResponseEntity expiresAllExpiredTokens(@PathVariable String password) {
+    @RequestMapping(method = RequestMethod.GET, value = "/schedule/tokens/expire")
+    public ResponseEntity expiresAllExpiredTokens(@RequestParam HashMap<String,String> body) {
 
+        String password = body.get("password");
 
         if(password == null || ! password.equals("***password***")){
             return new ResponseEntity<>("You do not have access", HttpStatus.UNAUTHORIZED);
@@ -28,11 +31,13 @@ public class ScheduleController {
 
         scheduleService.expireOldTokens();
 
-        return new ResponseEntity<>("Method activated", HttpStatus.OK);
+        return new ResponseEntity<>("All old tokens has been expired successfully!", HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/schedule/order/confirm/{password}")
-    public ResponseEntity confirmPendingOrdersAndCheckoutPayments(@PathVariable String password) {
+    @RequestMapping(method = RequestMethod.GET, value = "/schedule/order/confirm")
+    public ResponseEntity confirmPendingOrdersAndCheckoutPayments(@RequestParam HashMap<String,String> body) {
+
+        String password = body.get("password");
 
         if(password == null || ! password.equals("***password***")){
             return new ResponseEntity<>("You do not have access", HttpStatus.UNAUTHORIZED);
@@ -40,7 +45,7 @@ public class ScheduleController {
 
         scheduleService.scheduleConfirmPendingOrdersAndCheckoutPayments();
 
-        return new ResponseEntity<>("Method activated", HttpStatus.OK);
+        return new ResponseEntity<>("All orders [now, now + 48hs] has been confirmed! ", HttpStatus.OK);
     }
 
 }

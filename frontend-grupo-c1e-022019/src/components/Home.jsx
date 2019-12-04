@@ -85,7 +85,6 @@ class Home extends React.Component {
         priceOrder: '',
         rankOrder: 'max',
         fromPage: 0,
-        sizePage: 8,
         priority: 'rank',
       },
     });

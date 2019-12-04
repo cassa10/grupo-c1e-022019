@@ -69,6 +69,7 @@
     "Intro logging error message": "Ups, algo salio mal...",
     "Account already exists, please log in": "La cuenta ya existe, por favor inicia sesion",
     "Ups something went wrong, please try again": "Algo salio mal, intente devuelta",
+    "Ups something went wrong with google, please try again": "Algo salio mal con google, intente devuelta",
     "Your account does not exist": "Tu cuenta no existe. Registrate, y intentalo de nuevo.",
     "Request with bad data": "Algo malio sal",
     "Server is not responding, please try again later": "El servidor no esta respondiendo, por favor intente mas tarde.",
@@ -95,6 +96,13 @@
     "Highest Price": "Careli",
     "Lowest Price": "Barato",
     "Highest Rank": "Popular",
-    "Lowest Rank": "Quien te conoce?"
+    "Lowest Rank": "Quien te conoce?",
+    "First": "Primero",
+    "Last": "Último",
+    ">>": ">>",
+    "<<": "<<",
+    "Free": "Gratis",
+    "Delivery": "Delivery",
+    "Destacado": "Destacado"
 
 }
