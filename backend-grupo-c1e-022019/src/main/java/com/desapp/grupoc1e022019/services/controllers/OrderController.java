@@ -263,6 +263,96 @@ public class OrderController {
         return new ResponseEntity<>(orderSaved,HttpStatus.OK);
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/order/sending")
+    public ResponseEntity sendOrder(@RequestBody HashMap<String,String> body) {
+
+        String googleId = body.get("googleId");
+        String tokenAccess = body.get("tokenAccess");
+        long idOrder;
+        long idClient;
+        long idProvider;
+
+        if(! googleAuthService.providerHasAccess(googleId,tokenAccess)){
+            return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
+        }
+
+        try{
+            idClient = Long.parseLong(body.get("idClient"));
+            idOrder = Long.parseLong(body.get("idOrder"));
+            idProvider = Long.parseLong(body.get("idProvider"));
+        }catch (Exception e){
+            return new ResponseEntity<>("Invalid data request", HttpStatus.BAD_REQUEST);
+        }
+
+        Optional<Order> maybeOrder = orderService.findOrderById(idOrder);
+
+        if(! maybeOrder.isPresent()){
+            return new ResponseEntity<>("Invalid data request", HttpStatus.NOT_FOUND);
+        }
+
+        if(maybeOrder.get().getIdClient() != idClient || maybeOrder.get().getIdProviderOfMenu() != idProvider){
+            return new ResponseEntity<>("Invalid data request", HttpStatus.BAD_REQUEST);
+        }
+
+
+        if(! maybeOrder.get().isStateConfirmed()){
+            return new ResponseEntity<>("Order cannot be sending, only confirmed orders!", HttpStatus.BAD_REQUEST);
+        }
+
+        //transactional
+        Order orderSaved = orderService.setOrderInSendingState(maybeOrder.get());
+
+        //Send email which contains deliver time and date and is pick up or delivery.
+        emailSenderService.sendClientOrderIsSending(orderSaved);
+
+        return new ResponseEntity<>(orderSaved,HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/order/delivered")
+    public ResponseEntity deliveredOrder(@RequestBody HashMap<String,String> body) {
+
+        String googleId = body.get("googleId");
+        String tokenAccess = body.get("tokenAccess");
+        long idOrder;
+        long idClient;
+        long idProvider;
+
+        if(! googleAuthService.providerHasAccess(googleId,tokenAccess)){
+            return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
+        }
+
+        try{
+            idClient = Long.parseLong(body.get("idClient"));
+            idOrder = Long.parseLong(body.get("idOrder"));
+            idProvider = Long.parseLong(body.get("idProvider"));
+        }catch (Exception e){
+            return new ResponseEntity<>("Invalid data request", HttpStatus.BAD_REQUEST);
+        }
+
+        Optional<Order> maybeOrder = orderService.findOrderById(idOrder);
+
+        if(! maybeOrder.isPresent()){
+            return new ResponseEntity<>("Invalid data request", HttpStatus.NOT_FOUND);
+        }
+
+        if(maybeOrder.get().getIdClient() != idClient || maybeOrder.get().getIdProviderOfMenu() != idProvider){
+            return new ResponseEntity<>("Invalid data request", HttpStatus.BAD_REQUEST);
+        }
+
+
+        if(! maybeOrder.get().isStateSending()){
+            return new ResponseEntity<>("Order cannot be delivered, only sending orders!", HttpStatus.BAD_REQUEST);
+        }
+
+        //transactional
+        Order orderSaved = orderService.setOrderInDeliveredState(maybeOrder.get());
+
+        //Send email async
+        emailSenderService.sendClientOrderWasDelivered(orderSaved);
+
+        return new ResponseEntity<>(orderSaved,HttpStatus.OK);
+    }
+
     private boolean notEnoughCredit(Credit credit, Menu menu, Integer menusAmount) {
         return ! credit.isGreaterOrEqual(new Credit(menu.priceWithAmount(menusAmount)));
     }

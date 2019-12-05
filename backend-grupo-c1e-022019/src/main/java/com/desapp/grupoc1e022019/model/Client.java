@@ -187,4 +187,8 @@ public class Client extends EntityId{
     public boolean isTypeClient() {return true;}
 
     public boolean isTypeProvider() {return false;}
+
+    public String getFullName() {
+        return this.getLastName() + ", " + this.getFirstName();
+    }
 }

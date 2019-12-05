@@ -26,7 +26,7 @@ public class Delivery extends DeliverType {
     }
 
     @Override
-    public  Address getDestinationOrder(Order order){
+    public Address getDestinationOrder(Order order){
         return destination;
     }
 
@@ -48,5 +48,11 @@ public class Delivery extends DeliverType {
     @Override
     public String toString(){
         return "Delivery";
+    }
+
+    @Override
+    public String customDeliverMessage(Order order){
+        return "Your Order is delivery to your provided address ('"+ order.getOrderDestinationAddress().getLocation() +"'). "
+                + "Average time of your delivery arrives at '" + order.getDeliverDate().plusMinutes(order.getDeliverTimeAverageInMinutes()).toString() + "'. ";
     }
 }

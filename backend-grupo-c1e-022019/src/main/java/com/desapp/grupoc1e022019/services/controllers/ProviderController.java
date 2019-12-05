@@ -235,7 +235,8 @@ public class ProviderController {
             return new ResponseEntity<>("Provider not found",HttpStatus.NOT_FOUND);
         }
 
-        ProviderPublicDataDTO providerPublicDataDTO = new ProviderPublicDataDTO(maybeProvider.get());
+        double providerRank = providerService.getProviderRankReputation(maybeProvider.get());
+        ProviderPublicDataDTO providerPublicDataDTO = new ProviderPublicDataDTO(maybeProvider.get(),providerRank);
 
         return new ResponseEntity<>(providerPublicDataDTO,HttpStatus.OK);
     }

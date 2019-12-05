@@ -33,4 +33,6 @@ public abstract class DeliverType extends EntityId {
 
     @Override
     public abstract String toString();
+
+    public abstract String customDeliverMessage(Order order);
 }

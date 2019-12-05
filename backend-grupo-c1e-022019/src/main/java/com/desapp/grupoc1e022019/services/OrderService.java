@@ -96,4 +96,14 @@ public class OrderService {
 
         return orderDAO.save(orderRecovered);
     }
+
+    @Transactional
+    public Order setOrderInSendingState(Order orderRecovered) {
+        return orderDAO.setOrderInSendingState(orderRecovered);
+    }
+
+    @Transactional
+    public Order setOrderInDeliveredState(Order orderRecovered) {
+        return orderDAO.setOrderInDeliveredState(orderRecovered);
+    }
 }

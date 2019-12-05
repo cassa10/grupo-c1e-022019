@@ -104,4 +104,8 @@ public class ProviderService {
     public Optional<Provider> findProviderById(long providerId) {
         return providerDAO.findProviderById(providerId);
     }
+
+    public double getProviderRankReputation(Provider provider) {
+        return menuDAO.getProviderRankReputation(provider);
+    }
 }
