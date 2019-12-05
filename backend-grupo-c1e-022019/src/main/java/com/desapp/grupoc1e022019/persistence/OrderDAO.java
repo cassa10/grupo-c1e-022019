@@ -58,4 +58,14 @@ public class OrderDAO {
         return orderRepository.countMenuTotalAmountsByStateAndIdMenuAndDeliverDateAfterMinDateTimeAndBeforeMaxDateTime(
                 new PendingOrder().toString(), idMenu, minDateTime, maxDateTime);
     }
+
+    public Order setOrderInSendingState(Order orderRecovered) {
+        orderRecovered.sending();
+        return orderRepository.save(orderRecovered);
+    }
+
+    public Order setOrderInDeliveredState(Order orderRecovered) {
+        orderRecovered.delivered();
+        return orderRepository.save(orderRecovered);
+    }
 }

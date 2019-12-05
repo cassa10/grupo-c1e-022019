@@ -20,10 +20,11 @@ public class ProviderPublicDataDTO {
     private Schedule schedule;
     private Double deliveryMaxDistanceInKM;
     private List<Menu> menus;
+    private double providerRank;
 
     public ProviderPublicDataDTO(){}
 
-    public ProviderPublicDataDTO(Provider provider){
+    public ProviderPublicDataDTO(Provider provider, double providerRank){
         setName(provider.getName());
         setLogo(provider.getLogo());
         setCity(provider.getCity());
@@ -35,6 +36,7 @@ public class ProviderPublicDataDTO {
         setSchedule(provider.getSchedule());
         setDeliveryMaxDistanceInKM(provider.getDeliveryMaxDistanceInKM());
         setMenus(provider.getNormalMenus());
+        setProviderRank(providerRank);
     }
 
     public List<Menu> getMenus() {
@@ -125,4 +127,11 @@ public class ProviderPublicDataDTO {
         this.deliveryMaxDistanceInKM = deliveryMaxDistanceInKM;
     }
 
+    public double getProviderRank() {
+        return providerRank;
+    }
+
+    public void setProviderRank(double providerRank) {
+        this.providerRank = providerRank;
+    }
 }

@@ -39,4 +39,10 @@ public class PickUp extends DeliverType  {
     public String toString(){
         return "PickUp";
     }
+
+    @Override
+    public String customDeliverMessage(Order order){
+        return "Your Order deliver is pick up. So, your order will be ready to pick up at '"
+                + order.getDeliverDate().plusMinutes(order.getDeliverTimeAverageInMinutes()).toString() + "'. ";
+    }
 }

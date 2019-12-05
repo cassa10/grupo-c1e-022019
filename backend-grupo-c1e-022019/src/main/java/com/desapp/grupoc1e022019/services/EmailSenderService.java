@@ -12,17 +12,19 @@ import java.text.DecimalFormat;
 public class EmailSenderService {
 
     @Async("threadPoolTaskExecutor")
-    public void sendOrderPendingEmail(Order orderSaved) {
+    public void sendOrderPendingEmail(Order order) {
 
         DecimalFormat df = new DecimalFormat("#.00");
+        String clientName = order.getClient().getFirstName();
+        String clientFullName = order.getClient().getFullName();
 
-        SendEmailTLS.send(orderSaved.getClient().getEmail(),"Order is pending",
-                "Hi, Your order is pending. Yours '$"+df.format(orderSaved.getMenuInfoPrice())+"' credits was debited, please wait " +
+        SendEmailTLS.send(order.getClient().getEmail(),"Order is pending",
+                "Hi "+ clientName +", Your order is pending. Yours '$"+df.format(order.getMenuInfoPrice())+"' credits was debited, please wait " +
                         "until today midnight when your order will be confirmed. If your order is cancelled, you will be accredit as soon as possible.");
 
-        SendEmailTLS.send(orderSaved.getMenu().getProvider().getEmail(),"Your menu "+ orderSaved.getMenu().getName() + " was ordered",
+        SendEmailTLS.send(order.getMenu().getProvider().getEmail(),"with Client: '"+ clientFullName+"' - Your menu "+ order.getMenu().getName() + " was ordered",
                 "Hi, Congrats. Your menu has a new customer. If the order is confirmed, you will recieve in your balance account the following amount: " +
-                        "'$"+df.format(orderSaved.getMenuInfoPrice())+"'. Thank you for being a good provider! ;D");
+                        "'$"+df.format(order.getMenuInfoPrice())+"'. Thank you for being a good provider! ;D");
     }
 
     @Async("threadPoolTaskExecutor")
@@ -64,22 +66,58 @@ public class EmailSenderService {
     public void sendOrderIsConfirmed(Order order, Double newOrderPricePerAmount) {
         DecimalFormat df = new DecimalFormat("#.00");
         String finalPriceOrder = df.format(newOrderPricePerAmount * order.getMenusAmount());
+        String clientName = order.getClient().getFirstName();
+        String clientFullName = order.getClient().getFullName();
 
         SendEmailTLS.send(order.getClient().getEmail(),
                 "Your menu order: '" + order.getMenu().getName() +"'- Amount: '"+ order.getMenusAmount()+"' - State: Confirmed",
-                "Hi, your menu order '"+ order.getMenu().getName() + "' with amount '" +order.getMenusAmount() +"' is confirmed. "+
+                "Hi "+ clientName +", your menu order '"+ order.getMenu().getName() + "' with amount '" +order.getMenusAmount() +"' is confirmed. "+
                         "Order final price is $"+ finalPriceOrder +". "+
-                "All order info is in your history order wall. " +
+                "All order info is in your history order wall." + " Also, you can rank this order now, but wait to receive the" +
+                        "order before! " +
                 "Thanks for using our app and enjoy your order! :D"
         );
 
         SendEmailTLS.send(order.getMenu().getProvider().getEmail(),
-                "Your menu: '" + order.getMenu().getName() +"' has a confirmed order!",
+                "Your menu: '" + order.getMenu().getName() +"' with Client: '" + clientFullName +"' has a confirmed order!",
                 "Hi, your balance account accredited '$"+ finalPriceOrder + " by an confirmed order. "+
                         "This order request '"+ order.getMenu().getName() + "' x" + order.getMenusAmount() + " (amount). " +
                         "In your order history wall, you will have all info to make this order! "+
                         "Thank you for make our app great and keep going!"
         );
 
+    }
+
+    @Async("threadPoolTaskExecutor")
+    public void sendClientOrderIsSending(Order order) {
+        String customDeliverMessage = order.getDeliverType().customDeliverMessage(order);
+        String clientName = order.getClient().getFirstName();
+
+        SendEmailTLS.send(order.getClient().getEmail(),
+                "Your menu order: '" + order.getMenu().getName() +"'- Amount: '"+ order.getMenusAmount()+"' - State: Sending",
+                "Hi "+clientName+", your menu order '"+ order.getMenu().getName() + "' with amount '" +order.getMenusAmount() +"' is being sending. "+
+                         customDeliverMessage + "All order info is in your history order wall. " +
+                        "Thanks for using our app and enjoy your order! :D"
+        );
+    }
+
+    @Async("threadPoolTaskExecutor")
+    public void sendClientOrderWasDelivered(Order order) {
+        String clientName = order.getClient().getFirstName();
+        String clientFullName = order.getClient().getFullName();
+
+        SendEmailTLS.send(order.getClient().getEmail(),
+                "Your menu order: '" + order.getMenu().getName() +"'- Amount: '"+ order.getMenusAmount()+"' - State: Delivered",
+                "Hi "+clientName+", your menu order '"+ order.getMenu().getName() + "' with amount '" +order.getMenusAmount() +"' was delivered. "+
+                        "Please, rank this order if you do not! " +
+                        "Thanks for using our app and enjoy your order! :D"
+        );
+
+        SendEmailTLS.send(order.getMenu().getProvider().getEmail(),
+                "Your menu order: '" + order.getMenu().getName() +"'- Amount: '"+ order.getMenusAmount() +"' with Client: '" + clientFullName +"' - State: Delivered",
+                "Hi, your menu order '"+ order.getMenu().getName() + "' with amount '" +order.getMenusAmount() +"' was delivered to client "+
+                        "All order info is in your history order wall. " +
+                        "Thank you for make our app great and keep going! ;)"
+        );
     }
 }
