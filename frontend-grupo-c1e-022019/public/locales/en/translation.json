@@ -1,5 +1,7 @@
 {
     "location": "en-US",
+    "Ubicacion": "Location",
+    "Use my location": "Use my location",
     "Search text" : "Search",
     "Inicio": "Home",
     "Go to map" : "Go to map",
@@ -105,6 +107,10 @@
     "Delivery": "Delivery",
     "Destacado": "Highlighted",
     "unidades": "units",
-    "kms": "kms"
+    "kms": "kms",
+    "Estas seguro?": "Are you sure?",
+    "Mire que su sesion se va a cerrar": "Your sesion will be expire!",
+    "Ok": "Ok",
+    "Cancel": "Cancel"
 
 }

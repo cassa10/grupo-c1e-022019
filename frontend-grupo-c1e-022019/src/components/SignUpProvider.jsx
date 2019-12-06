@@ -13,6 +13,10 @@ class SignUpProvider extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      googleId: '',
+      tokenAccess: '',
+      user: {},
+      sideBarSelected: 'switch',
       name: '',
       logo: '',
       city: '',
@@ -48,15 +52,31 @@ class SignUpProvider extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.setState({
+      googleId: this.props.location.state.googleId,
+      tokenAccess: this.props.location.state.tokenAccess,
+      user: this.props.location.state.user,
+      sideBarSelected: this.props.location.state.sideBarSelected,
+      email: this.props.location.state.user.email,
+    });
+  }
+
   cancelToSignUpProvider() {
-    this.setState({});
+    window.scrollTo(0, 0);
     this.props.history.push({
-      pathname: '/',
+      pathname: '/home',
+      state: {
+        googleId: this.state.googleId,
+        tokenAccess: this.state.tokenAccess,
+        user: this.state.user,
+        sideBarSelected: 'home',
+      },
     });
   }
 
   signUpProvider() {
-    console.log('ERROR');
+    console.log('DO NOT IMPLEMENTED');
   }
 
   handlerProviderName(e) {
@@ -184,7 +204,7 @@ class SignUpProvider extends React.Component {
     ) : null
     return (
       <div className="col-12 map">
-      <h3>Location</h3>
+      <h3>{t('Ubicacion')}</h3>
         <Map 
         center={this.state.latlng} 
         zoom={15}
@@ -210,7 +230,7 @@ class SignUpProvider extends React.Component {
         </Marker>
           <MeasureControl {...this.state.measureOptions.position} />
         </Map>
-        <Button onClick={() => this.useMyLocation()}>Use my Location</Button>
+        <Button onClick={() => this.useMyLocation()}>{t('Use my location')}</Button>
       </div>
     );
     
@@ -221,12 +241,12 @@ class SignUpProvider extends React.Component {
     return (
       <div className="container">
         <div className="row">
-          <div className="col-12 sign-up-provider">
+          <div className="col-12 sign-up-provider form-signup-provider">
             <h2 className="text-provider-sign-up">
               {t('Fill out this form for sign up as provider')}
             </h2>
           </div>
-          <form className="form-inline">
+          <form className="form-inline form-signup-provider">
             {this.createInputOfName({ t })}
             {this.createInputOfAddress({ t })}
             {this.createInputOfCity({ t })}

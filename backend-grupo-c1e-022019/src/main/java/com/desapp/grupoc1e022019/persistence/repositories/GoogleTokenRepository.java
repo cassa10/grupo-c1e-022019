@@ -6,11 +6,12 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface GoogleTokenRepository extends JpaRepository<GoogleToken,Long> {
     List<GoogleToken> findByGoogleId(String googleId);
 
-    List<GoogleToken> findByGoogleIdAndTokenAccess(String googleId, String accessToken);
+    Optional<GoogleToken> findByGoogleIdAndTokenAccess(String googleId, String accessToken);
 
     Long deleteByGoogleId(String googleId);
 

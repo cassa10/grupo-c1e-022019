@@ -21,7 +21,7 @@ class SearchResult extends React.Component {
     this.state = {
       googleId: '',
       tokenAccess: '',
-      client: {},
+      user: {},
       priceOrder: '',
       rankOrder: '',
       priority: '', // price | rank
@@ -38,22 +38,31 @@ class SearchResult extends React.Component {
       currentPage: 0,
       totalPages: 0,
       totalElements: 0,
+      // ESTO ESTA HARDCODEADO (PONER INPUT DEL MAP)
+      destination: {
+        coord: {
+          latitude: '-34.707191',
+          longitude: '-58.276366',
+        },
+        location: 'Dean Funes 630, Bernal, Buenos Aires, Argentina',
+      },
     };
   }
 
   componentDidMount() {
+    console.log(this.props.location);
     const body = {
       locState: this.props.location.state,
       googleId: this.props.location.state.googleId,
       tokenAccess: this.props.location.state.tokenAccess,
-      client: this.props.location.state.client,
+      user: this.props.location.state.user,
       name: this.props.location.state.searchInputName,
       city: this.props.location.state.searchInputCity,
       category: this.props.location.state.searchInputCategory,
       priceOrder: this.props.location.state.priceOrder,
       rankOrder: this.props.location.state.rankOrder,
       fromPage: this.props.location.state.fromPage,
-      sizePage: 4,
+      sizePage: this.state.sizePage,
       priority: this.props.location.state.priority,
     };
     this.setState(body);
@@ -72,29 +81,23 @@ class SearchResult extends React.Component {
     if (this.state.delivery) {
       return (
         {
-          tokenAccess: 'FAKEACCESSTOKEN1',
-          googleId: 'FAKEID1',
-          idClient: 52,
+          tokenAccess: this.state.tokenAccess,
+          googleId: this.state.googleId,
+          idClient: this.state.user.id,
           idMenu: menu.id,
           menusAmount: this.state.quantityOfMenus,
           deliverType: 'delivery',
           deliverDate: new Date().toJSON(),
-          destination: {
-            coord: {
-              latitude: '-34.707191',
-              longitude: '-58.276366',
-            },
-            location: 'Dean Funes 630, Bernal, Buenos Aires, Argentina',
-          },
+          destination: this.state.destination,
         }
       );
     }
 
     return (
       {
-        tokenAccess: 'FAKEACCESSTOKEN1',
-        googleId: 'FAKEID1',
-        idClient: 52,
+        tokenAccess: this.state.tokenAccess,
+        googleId: this.state.googleId,
+        idClient: this.state.user.id,
         idMenu: menu.id,
         menusAmount: this.state.quantityOfMenus,
         deliverType: 'pickup',

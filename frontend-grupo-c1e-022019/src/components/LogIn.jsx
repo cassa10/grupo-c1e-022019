@@ -28,7 +28,8 @@ class LogIn extends React.Component {
     const loginStateValues = {
       googleId: googleDataResponse.googleId,
       tokenAccess: googleDataResponse.tokenAccess,
-      client: response,
+      user: response,
+      sideBarSelected: 'home',
     };
 
     this.props.history.push({
@@ -46,7 +47,7 @@ class LogIn extends React.Component {
     };
 
     API.post('/login', googleDataResponse)
-      .then((client) => this.goToHomePage(client, googleDataResponse))
+      .then((user) => this.goToHomePage(user, googleDataResponse))
       .catch((error) => this.handleAuthAPIError(error));
   }
 
@@ -125,7 +126,7 @@ class LogIn extends React.Component {
         <header>
           <div className="row">
             <div className="col">
-              <img className="logginlogo" src="https://fontmeme.com/temporary/ae6df82115063423c0205aaf7499bff2.png" alt="viendasYa-logo" border="0" />
+              <img className="logginlogo" src="https://fontmeme.com/permalink/191206/ae6df82115063423c0205aaf7499bff2.png" alt="viendasYa-logo" border="0" />
             </div>
             <ChangeLanguage />
           </div>

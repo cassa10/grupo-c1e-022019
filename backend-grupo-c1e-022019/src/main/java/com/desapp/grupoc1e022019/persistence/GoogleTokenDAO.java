@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Component
@@ -40,7 +41,7 @@ public class GoogleTokenDAO {
     }
 
     public boolean checkExistGoogleIdAndAuthToken(String googleId, String accessToken) {
-        return ! googleTokenRepository.findByGoogleIdAndTokenAccess(googleId,accessToken).isEmpty();
+        return googleTokenRepository.findByGoogleIdAndTokenAccess(googleId,accessToken).isPresent();
     }
 
     public Long deleteAuthTokenByGoogleId(String googleId) {
@@ -49,5 +50,9 @@ public class GoogleTokenDAO {
 
     public Integer deleteAllAuthTokenExpired() {
         return googleTokenRepository.deleteAllIfExpired();
+    }
+
+    public Optional<GoogleToken> findByGoogleIdAndTokenAccess(String googleId, String tokenAccess) {
+        return googleTokenRepository.findByGoogleIdAndTokenAccess(googleId,tokenAccess);
     }
 }

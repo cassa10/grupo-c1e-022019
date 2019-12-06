@@ -1,12 +1,14 @@
 {
     "location": "es-AR",
+    "Ubicacion": "Ubicación",
+    "Use my location": "Usar mi ubicación",
     "Search text" : "Buscar",
     "Inicio": "Inicio",
     "Go to map" : "Ir al mapa",
     "Sign up as provider" : "Hacerme proveedor",
     "provider" : "proveedor",
     "Provider" : "Proveedor",
-    "Fill out this form for sign up as provider": "Completa este formulario para darte de alta como un proveedor",
+    "Fill out this form for sign up as provider": "Completa este formulario para darte de alta como proveedor",
     "Go back" : "Volver",
     "Sign up" : "Darme de alta",
     "sign up" : "darme de alta",
@@ -105,6 +107,10 @@
     "Delivery": "Delivery",
     "Destacado": "Destacado",
     "unidades": "unidades",
-    "kms": "kms"
+    "kms": "kms",
+    "Estas seguro?": "¿Estas seguro?",
+    "Mire que su sesion se va a cerrar": "Mire que su sesion se va a cerrar",
+    "Ok": "Esta bien",
+    "Cancel": "Cancelar"
 
 }

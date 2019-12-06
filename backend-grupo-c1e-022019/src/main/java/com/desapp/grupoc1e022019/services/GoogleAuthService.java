@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Scope(value = "session")
 @Component(value = "googleAuthService")
@@ -32,8 +33,8 @@ public class GoogleAuthService {
         return googleTokenDAO.existsGoogleId(googleId);
     }
 
-    public boolean checkExistAuthToken(GoogleToken googleToken) {
-        return googleTokenDAO.checkExistGoogleIdAndAuthToken(googleToken.getGoogleId(),googleToken.getTokenAccess());
+    public boolean checkExistAuthToken(String googleId, String tokenAccess) {
+        return googleTokenDAO.checkExistGoogleIdAndAuthToken(googleId,tokenAccess);
     }
 
     @Transactional
@@ -51,5 +52,9 @@ public class GoogleAuthService {
 
     public boolean userHasAccess(String googleId, String tokenAccess) {
         return googleTokenDAO.checkExistGoogleIdAndAuthToken(googleId,tokenAccess);
+    }
+
+    public Optional<GoogleToken> findGoogleToken(String googleId, String tokenAccess) {
+        return googleTokenDAO.findByGoogleIdAndTokenAccess(googleId,tokenAccess);
     }
 }

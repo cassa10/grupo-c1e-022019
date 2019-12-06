@@ -10,12 +10,11 @@ class Home extends React.Component {
     this.state = {
       googleId: '',
       tokenAccess: '',
-      client: {
+      user: {
         address: {},
         cannotBuyClient: false,
         clientHaveToRank: false,
         credit: {
-          id: 0,
           amount: 0,
         },
         email: '',
@@ -43,15 +42,15 @@ class Home extends React.Component {
 
   componentDidMount() {
     const bodyRequest = {
-      googleId: 'FAKEID1',
-      tokenAccess: 'FAKEACCESSTOKEN1',
-      idClient: 47,
+      googleId: this.props.location.state.googleId,
+      tokenAccess: this.props.location.state.tokenAccess,
+      idClient: this.props.location.state.user.id,
     };
 
     this.setState({ googleId: bodyRequest.googleId, tokenAccess: bodyRequest.tokenAccess });
 
     API.get('/client', bodyRequest)
-      .then((response) => this.setState({ client: response }))
+      .then((response) => this.setState({ user: response }))
       .catch((error) => console.log(error));
   }
 
@@ -77,7 +76,7 @@ class Home extends React.Component {
       state: {
         googleId: this.state.googleId,
         tokenAccess: this.state.tokenAccess,
-        client: this.state.client,
+        user: this.state.user,
         searchFromHome: true,
         searchInputName: this.state.searchInputName.trim(),
         searchInputCity: this.state.searchInputCity.trim(),
