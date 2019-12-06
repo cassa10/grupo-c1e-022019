@@ -1,6 +1,13 @@
-import React from 'react';
+import React,{ createRef }  from 'react';
 import { withTranslation } from 'react-i18next';
 import '../dist/css/Sign-up-provider.css';
+import {
+  Map, Marker, Popup, TileLayer, withLeaflet,
+} from 'react-leaflet';
+import MeasureControlDefault from 'react-leaflet-measure';
+import { Button } from 'react-bootstrap';
+
+const MeasureControl = withLeaflet(MeasureControlDefault);
 
 class SignUpProvider extends React.Component {
   constructor(props) {
@@ -24,6 +31,20 @@ class SignUpProvider extends React.Component {
       schedule: {
         daysAndHours: {},
       },
+      measureOptions: {
+        position: 'topright',
+        primaryLengthUnit: 'meters',
+        secondaryLengthUnit: 'kilometers',
+        primaryAreaUnit: 'sqmeters',
+        secondaryAreaUnit: 'acres',
+        activeColor: '#db4a29',
+        completedColor: '#9b2d14',
+      },
+      latlng: {
+        lat: -34.706667,
+        lng: -58.2775,
+      },
+      draggable: true,
     };
   }
 
@@ -117,6 +138,84 @@ class SignUpProvider extends React.Component {
     );
   }
 
+  createAMarker(position, title, description) {
+    return (
+      <Marker position={position}>
+        <Popup>{title}<br />{description}</Popup>
+      </Marker>
+    );
+  }
+
+    mapRef = createRef()
+
+    // $FlowFixMe: ref
+    refmarker = createRef()
+
+  toggleDraggable = () => {
+    this.setState({ draggable: !this.state.draggable })
+  }
+
+  useMyLocation(){
+    const map = this.mapRef.current
+    map.leafletElement.locate()
+  }  
+
+  handleLocationFound = (e) => {
+    this.setState({
+      hasLocation: true,
+      latlng: e.latlng,
+    })
+  }
+
+  updatePosition = () => {
+    const marker = this.refmarker.current
+    if (marker != null) {
+      this.setState({
+        latlng: marker.leafletElement.getLatLng(),
+      })
+    }
+  }
+
+  createInputFromMap({ t }){
+    const marker = this.state.hasLocation ? (
+      <Marker position={this.state.latlng}>
+        <Popup>You are here</Popup>
+      </Marker>
+    ) : null
+    return (
+      <div className="col-12 map">
+      <h3>Location</h3>
+        <Map 
+        center={this.state.latlng} 
+        zoom={15}
+        onClick={this.handleClick}
+        onLocationfound={this.handleLocationFound}
+        ref={this.mapRef}
+        >
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+          />
+          {marker}
+          <Marker
+          draggable={this.state.draggable}
+          onDragend={this.updatePosition}
+          position={this.state.latlng}
+          ref={this.refmarker}>
+          <Popup minWidth={90}>
+            <span onClick={this.toggleDraggable}>
+              {this.state.draggable ? 'Draggable' : 'Fixed'}
+            </span>
+          </Popup>
+        </Marker>
+          <MeasureControl {...this.state.measureOptions.position} />
+        </Map>
+        <Button onClick={() => this.useMyLocation()}>Use my Location</Button>
+      </div>
+    );
+    
+  }
+
   render() {
     const { t } = this.props;
     return (
@@ -133,6 +232,7 @@ class SignUpProvider extends React.Component {
             {this.createInputOfCity({ t })}
             {this.createInputOfTelephoneNumber({ t })}
             {this.createInputOfDescription({ t })}
+            {this.createInputFromMap({ t })}
             {this.createButtonsOfForm({ t })}
           </form>
         </div>

@@ -1,6 +1,9 @@
 import React from 'react';
 import '../dist/css/SearchResult.css';
 import {
+  Map, Marker, Popup, TileLayer, withLeaflet,
+} from 'react-leaflet';
+import {
   Card, Modal, Button,
 } from 'react-bootstrap';
 import { withTranslation } from 'react-i18next';
@@ -22,6 +25,10 @@ class ModalProvider extends React.Component {
         webURL: '',
         deliveryMaxDistanceInKM: 0,
         rank: 0,
+      },
+      latlng: {
+        lat: -34.706667,
+        lng: -58.2775,
       },
     };
   }
@@ -57,8 +64,22 @@ class ModalProvider extends React.Component {
           <Modal.Title>{this.state.provider.description}</Modal.Title>
           <Modal.Body>
             <Card.Img className="card_img" variant="left" src={this.state.pictures[0]} /><br />
-            <h5>Abierto de 9 a 11
-            </h5>
+            <Map
+              center={this.state.latlng}
+              zoom={15}
+            >
+              <TileLayer
+                attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+
+              <Marker position={this.state.latlng}>
+                <Popup>{this.state.provider.name}
+                  <br />
+                  {this.state.provider.description}
+                </Popup>
+              </Marker>
+            </Map>
           </Modal.Body>
         </Modal>
       </div>
