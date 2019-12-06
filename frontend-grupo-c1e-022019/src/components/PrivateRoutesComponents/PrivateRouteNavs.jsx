@@ -3,11 +3,15 @@
 import React, { Component } from 'react';
 import { Redirect, Route } from 'react-router';
 
-export default class PrivateRouteNavbar extends Component {
-  componentDidMount() {}
+export default class PrivateRouteNavs extends Component {
+  componentDidMount() {
+  }
 
   render() {
-    const { navbar: NavbarComponent, component: Component, ...props } = this.props;
+    const {
+      navbar: NavbarComponent,
+      sidebar: SidebarComponent, component: Component, ...props
+    } = this.props;
     return (
       <Route
         {...props}
@@ -15,9 +19,11 @@ export default class PrivateRouteNavbar extends Component {
           props.location.state !== undefined
           && props.location.state.googleId
           && props.location.state.tokenAccess
+          && props.location.state.user
             ? (
               <div>
                 <NavbarComponent {...props} />
+                <SidebarComponent {...props} />
                 <Component {...props} />
               </div>
             )

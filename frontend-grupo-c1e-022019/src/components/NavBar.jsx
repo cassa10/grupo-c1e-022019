@@ -13,30 +13,13 @@ class NavBar extends React.Component {
     this.state = {
       googleId: '',
       tokenAccess: '',
-      client: {
-        address: {},
-        cannotBuyClient: false,
-        clientHaveToRank: false,
-        credit: {
-          id: 0,
-          amount: 0,
-        },
-        email: '',
-        firstName: '',
+      user: {
         googleId: '',
         id: 0,
         imageUrl: '',
         lastName: '',
-        location: null,
-        normalClient: true,
-        ordersHaveToRank: [],
-        phoneNumber: null,
-        sizeOrderHaveToRank: 0,
-        stateClient: {
-          cannotBuyClient: false,
-          id: 0,
-          normal: true,
-        },
+        typeClient: false,
+        typeProvider: false,
       },
       showModal: false,
       creditInput: 0,
@@ -47,7 +30,7 @@ class NavBar extends React.Component {
     const bodyRequest = {
       googleId: this.props.location.state.googleId,
       tokenAccess: this.props.location.state.tokenAccess,
-      idClient: this.props.location.state.client.id,
+      idUser: this.props.location.state.user.id,
     };
 
     this.setState({ googleId: bodyRequest.googleId, tokenAccess: bodyRequest.tokenAccess });
@@ -57,6 +40,8 @@ class NavBar extends React.Component {
       .catch((error) => console.log(error));
   }
 
+  /*
+    BORRAR ACREDITAR SALDO CUANDO ESTE EN EL PROFILE
   getClientBalance() {
     return this.state.client.credit.amount;
   }
@@ -121,14 +106,15 @@ class NavBar extends React.Component {
       </div>
     );
   }
-
+  FIN DE ACREDITAR SALDO
+  */
   goBackHome() {
     this.props.history.push({
       pathname: '/home',
       state: {
         googleId: this.props.location.state.googleId,
         tokenAccess: this.props.location.state.tokenAccess,
-        client: this.props.location.state.client,
+        user: this.props.location.state.user,
       },
     });
   }
@@ -137,23 +123,15 @@ class NavBar extends React.Component {
     return (
       <Navbar className="all-navbar" fixed="top">
         <Navbar.Brand className="homelogoimg">
-          <img src="https://fontmeme.com/permalink/191102/03a545ac680d1396fcfae624d4ee0c3a.png" width="250" onClick={() => this.goBackHome()} alt="viendas-font" border="0" className="pointerImg" role="presentation" />
+          <img src="https://fontmeme.com/permalink/191206/ae6df82115063423c0205aaf7499bff2.png" width="250" onClick={() => this.goBackHome()} alt="viendas-font" border="0" className="pointerImg" role="presentation" />
         </Navbar.Brand>
         <Navbar.Toggle />
         <Nav className="mr-auto">
-          {/*
-            DELETE THIS WHEN PROFILES ARE DONE
-          {this.accrditButton(t)}
-          <div className="balance container-balance">
-            {t('Balance')}: ${this.getClientBalance()}
-          </div>
-          */}
           <div className="navbar_changelanguague">
             <ChangeLanguage />
           </div>
         </Nav>
       </Navbar>
-
     );
   }
 }

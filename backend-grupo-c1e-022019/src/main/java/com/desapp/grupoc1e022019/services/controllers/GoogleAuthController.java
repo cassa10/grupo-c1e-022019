@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Optional;
 
 @CrossOrigin
@@ -81,16 +82,18 @@ public class GoogleAuthController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/logout")
-    public ResponseEntity logoutAuth(@RequestBody GoogleAuthDTO googleAuthDTO) {
+    public ResponseEntity logoutAuth(@RequestBody HashMap<String,String> body) {
 
-        GoogleToken googleToken = new GoogleAuthBuilder().build(googleAuthDTO);
+        String googleId = body.get("googleId");
+        String tokenAccess = body.get("tokenAccess");
 
-        if(! googleAuthService.checkExistAuthToken(googleToken)) {
+        Optional<GoogleToken> maybeGoogleToken = googleAuthService.findGoogleToken(googleId,tokenAccess);
+        if(!maybeGoogleToken.isPresent()) {
             return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
         }
 
         //DELETE TOKEN FROM TABLE GOOGLE TOKEN
-        googleAuthService.logoutGoogleToken(googleToken);
+        googleAuthService.logoutGoogleToken(maybeGoogleToken.get());
 
         return new ResponseEntity<>("Log out successful",HttpStatus.OK);
     }

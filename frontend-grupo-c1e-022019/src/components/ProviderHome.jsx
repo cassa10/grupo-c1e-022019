@@ -25,7 +25,7 @@ class ProviderHome extends React.Component {
       // 'https://i.ibb.co/8DPBPZw/menu-Image.png', (el que estaba antes)
       googleId: '',
       tokenAccess: '',
-      provider: {
+      user: {
         id: 0,
         googleId: '',
         name: '',
@@ -39,11 +39,17 @@ class ProviderHome extends React.Component {
 
   componentDidMount() {
     const body = {
-      googleId: 'FAKEID1',
-      tokenAccess: 'FAKEACCESSTOKEN1',
+      googleId: this.props.location.state.googleId,
+      tokenAccess: this.props.location.state.tokenAccess,
     };
+    this.setState({
+      googleId: body.googleId,
+      tokenAccess: body.tokenAccess, 
+    });
+
     API.get('/provider', body)
-      .then((response) => this.setState({ provider: response }));
+      .then((response) => this.setState({ user: response }))
+      .catch((error) => console.log(error));
   }
 
   setShowSee(b) {
@@ -137,7 +143,7 @@ class ProviderHome extends React.Component {
 
   renderMenues(t) {
     return (
-      this.state.provider.menus.map((menu) => this.renderMenu(menu, t))
+      this.state.user.menus.map((menu) => this.renderMenu(menu, t))
     );
   }
 
@@ -175,12 +181,13 @@ class ProviderHome extends React.Component {
 
   render() {
     const { t } = this.props;
+    console.log(this.state.user);
     return (
       <div className="home_provider_all">
         <Container>
           <Row>
             <Col className="around_provider_title">
-              <h1 className="provider-title">{this.state.provider.name}</h1>
+              <h1 className="provider-title">{this.state.user.name}</h1>
             </Col>
           </Row>
           <Row>

@@ -1,15 +1,19 @@
 .sign-up-provider{
     background: transparent;
     color: black;
-    padding-top: 70px;
+    margin-top: 80px;
+    padding-top: 10px;
+    border-bottom: solid;
+    border-bottom-color: #db3d44;
+    border-width: 7px;
 }
 
-.form-inline{
+.form-signup-provider{
     background: whitesmoke;
 }
 
 .text-provider-sign-up{
-    color:white;
+    color:black;
 }
 
 .signup-buttons{
