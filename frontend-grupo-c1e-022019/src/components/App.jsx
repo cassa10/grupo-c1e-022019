@@ -28,7 +28,7 @@ export default class App extends React.Component {
         <BrowserRouter>
           <Switch>
             <Route exact path="/" render={(props) => <LogIn {...props} />} />
-            <PrivateRouteNavbar exact path="/home" navbar={NavBar} component={Home} />
+            <Route exact path="/home" navbar={NavBar} component={Home} />
             {
               // (Cambiar este Route cuando tengamos el Navbar del provider y
               // una forma de llegar al create menu desde la ui.)
@@ -38,8 +38,8 @@ export default class App extends React.Component {
             <Route exact path="/create_menu" render={(props) => <CreateMenu {...props} />} />
             <Route exact path="/edit_menu" render={(props) => <EditMenu {...props} />} />
             <Route exact path="/provider" render={(props) => <div> <SideBar {...props} /> <ProviderHome {...props} /> </div>} />
-            <PrivateRouteNavbar exact path="/search" navbar={NavBar} component={SearchResult} />
-            <PrivateRouteNavbar exact path="/provider/signup" navbar={NavBar} component={SignUpProvider} />
+            <Route exact path="/search" navbar={NavBar} component={SearchResult} />
+            <Route exact path="/provider/signup" navbar={NavBar} component={SignUpProvider} />
             <Route exact path="/schedule/tasks" render={(props) => <ScheduleTasks {...props} />} />
             <Route path="/" render={(props) => <ErrorPage {...props} />} />
           </Switch>

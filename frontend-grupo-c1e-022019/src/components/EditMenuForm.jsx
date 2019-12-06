@@ -194,7 +194,7 @@ class EditMenuForm extends React.Component {
 
   parseDate(date) {
     return (
-      `${date.getFullYear()}-${this.pad(date.getMonth())}-${this.pad(date.getDate())}`
+      `${date.getFullYear()}-${this.pad(date.getMonth() + 1)}-${this.pad(date.getDate())}`
     );
   }
 
@@ -335,10 +335,9 @@ class EditMenuForm extends React.Component {
         secondMinAmountPrice: this.state.sndPrice,
       },
     };
-    console.log(body);
     API.put('/menu', body)
       .then(() => this.menuUpdated(t))
-      .catch((error) => console.log(error.response.data));
+      .catch((error) => console.log(error));
   }
 
   checkFieldsAndPost(t) {

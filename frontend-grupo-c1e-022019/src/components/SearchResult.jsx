@@ -10,10 +10,9 @@ import StarRatingComponent from 'react-star-rating-component';
 import API from '../service/api';
 import shoppingCartIcon from '../dist/icons/shopping-cart-buy-icon.png';
 import formatPrice from './formatter/formatCredit';
-import formatNumber from './formatter/formatNumber';
+import ModalSee from './ModalSee';
+import ModalProvider from './ModalProvider';
 import formatDate from './formatter/formatDate';
-import providerInfoIcon from '../dist/icons/provider-info-icon.png';
-import menuInfoIcon from '../dist/icons/info-icon.png';
 
 
 class SearchResult extends React.Component {
@@ -367,32 +366,11 @@ class SearchResult extends React.Component {
     );
   }
 
-  seeButton(menu, t) {
-    console.log(menu);
-    const handleClose = () => this.setShowSee(false);
-    const handleShow = () => this.setShowSee(true);
+  seeButton(menu) {
     return (
       <Row>
         <Col>
-          <Button className="buy-button" variant="info" onClick={handleShow}>
-            <img src={menuInfoIcon} alt="menu-info" />
-          </Button>
-          <Modal show={this.state.showModalSee} onHide={handleClose}>
-            <Modal.Header closeButton>
-              <h1>{menu.name}</h1>
-            </Modal.Header>
-            <Modal.Title>{menu.description}</Modal.Title>
-            <Modal.Body>
-              <Card.Img className="card_img" variant="left" src={this.state.pictures[0]} /><br />
-              <h5>{t('Delivery')}: {menu.deliveryValue <= 0 ? this.createFreeBadge(t) : formatPrice(t, menu.deliveryValue)}<br />
-                {t('Comprando mas de')}: {formatNumber(t, menu.firstMinAmount)} {t('unidades')}<br />
-                {t('the price will be')} {formatPrice(t, menu.firstMinAmountPrice)} <br />
-                {t('Comprando mas de')}: {formatNumber(t, menu.menuPriceCalculator.secondMinAmount)} {t('unidades')}<br />
-                {t('the price will be')} {formatPrice(t, menu.menuPriceCalculator.secondMinAmountPrice)} <br />
-                {t('Distancia de delivery')} : {formatNumber(t, menu.deliveryMaxDistanceInKM)} kms<br />
-              </h5>
-            </Modal.Body>
-          </Modal>
+          <ModalSee menu={menu} />
         </Col>
       </Row>
     );
@@ -402,9 +380,7 @@ class SearchResult extends React.Component {
     return (
       <Row>
         <Col>
-          <Button className="buy-button" variant="success" onClick={console.log(menu)}>
-            <img src={providerInfoIcon} alt={t('Provider')} />
-          </Button>
+          <ModalProvider idProvider={menu.idProvider}/>
         </Col>
       </Row>
     );

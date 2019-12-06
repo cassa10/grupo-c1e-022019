@@ -43,9 +43,9 @@ class Home extends React.Component {
 
   componentDidMount() {
     const bodyRequest = {
-      googleId: this.props.location.state.googleId,
-      tokenAccess: this.props.location.state.tokenAccess,
-      idClient: this.props.location.state.client.id,
+      googleId: 'FAKEID1',
+      tokenAccess: 'FAKEACCESSTOKEN1',
+      idClient: 47,
     };
 
     this.setState({ googleId: bodyRequest.googleId, tokenAccess: bodyRequest.tokenAccess });

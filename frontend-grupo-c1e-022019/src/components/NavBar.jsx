@@ -1,7 +1,7 @@
 import React from 'react';
 import { withTranslation } from 'react-i18next';
 import {
-  Navbar, Nav, Container, Button, Modal, Row, Col,
+  Navbar, Nav, Button, Modal,
 } from 'react-bootstrap';
 import ChangeLanguage from './ChangeLanguage';
 import '../dist/css/Navbar.css';
@@ -137,7 +137,7 @@ class NavBar extends React.Component {
     return (
       <Navbar className="all-navbar" fixed="top">
         <Navbar.Brand className="homelogoimg">
-          <img src="https://fontmeme.com/temporary/ae6df82115063423c0205aaf7499bff2.png" width="250" onClick={() => this.goBackHome()} alt="viendas-font" border="0" className="pointerImg" role="presentation" />
+          <img src="https://fontmeme.com/permalink/191102/03a545ac680d1396fcfae624d4ee0c3a.png" width="250" onClick={() => this.goBackHome()} alt="viendas-font" border="0" className="pointerImg" role="presentation" />
         </Navbar.Brand>
         <Navbar.Toggle />
         <Nav className="mr-auto">
