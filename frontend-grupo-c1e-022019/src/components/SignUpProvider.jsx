@@ -5,7 +5,7 @@ import {
   Map, Marker, Popup, TileLayer, withLeaflet,
 } from 'react-leaflet';
 import MeasureControlDefault from 'react-leaflet-measure';
-import { 
+import {
   Button, Container, Row, Col, 
 } from 'react-bootstrap';
 import Swal from 'sweetalert2';
@@ -22,9 +22,9 @@ class SignUpProvider extends React.Component {
       tokenAccess: '',
       user: {},
       sideBarSelected: 'switch',
-      name: ' ',
-      logo: ' ',
-      city: ' ',
+      name: '',
+      logo: '',
+      city: '',
       address: {
         coord: {
           latitude: 0.0,
@@ -32,12 +32,12 @@ class SignUpProvider extends React.Component {
         },
         location: '',
       },
-      description: ' ',
-      webURL: ' ',
-      email: ' ',
+      description: '',
+      webURL: '',
+      email: '',
       telInternational: '+549',
-      telNumber: ' ',
-      deliveryMaxDistanceInKM: 0.1,
+      telNumber: '',
+      deliveryMaxDistanceInKM: 0.0,
       schedule: {
         daysAndHours: {},
       },
@@ -56,6 +56,7 @@ class SignUpProvider extends React.Component {
       },
       draggable: true,
       haveToRenderise: false,
+      shake: false,
     };
   }
 
@@ -74,7 +75,6 @@ class SignUpProvider extends React.Component {
     });
   }
   isValidForm() {
-    console.log(this.state);
     return(
       this.state.name.trim().length > 0 &&
       this.state.address.location.trim().length > 0 &&
@@ -82,8 +82,6 @@ class SignUpProvider extends React.Component {
       this.state.telNumber.trim().length > 0 &&
       this.state.description.trim().length >= 20 &&
       this.state.description.trim().length <= 200 &&
-      this.state.address.coord.latitude &&
-      this.state.address.coord.longitude &&
       this.state.deliveryMaxDistanceInKM > 0
     );
   }
@@ -122,8 +120,18 @@ class SignUpProvider extends React.Component {
     });
   }
 
-  handleSignUpProvider(isConfirmed) {
+  shakeAndFeedBack(t){
+    this.setState({shake: true})
+    window.scrollTo(0, 0);
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: t("Please, complete all fields"),
+    })
+    
+  }
 
+  handleSignUpProvider(isConfirmed) {
     if (isConfirmed) {
       const body = {
         googleId: this.state.googleId,
@@ -131,12 +139,20 @@ class SignUpProvider extends React.Component {
         name: this.state.name,
         logo: this.getAppropiateLogo(),
         city: this.state.city,
-        address: this.state.address,
+        address: {
+          coord: {
+            latitude: this.state.latlng.lat,
+            longitude: this.state.latlng.lng,
+          },
+          location: this.state.address.location,
+        },
         description: this.state.description,
         webURL: this.state.webURL,
+        email : this.state.email,
         telNumber: `${this.state.telInternational} ${this.state.telNumber}`,
         deliveryMaxDistanceInKM: this.state.deliveryMaxDistanceInKM,
       };
+      console.log(body)
       API.post('/provider', body)
         .then((response) => this.goToProviderHome(body, response))
         .catch((error) => console.log(error));
@@ -156,7 +172,7 @@ class SignUpProvider extends React.Component {
         .then((result) => this.handleSignUpProvider(result.value))
         .catch((error) => console.log(error.response));
     } else {
-      alert(t('Please, complete all fields'));
+      this.shakeAndFeedBack(t);
     }
   }
 
@@ -192,6 +208,10 @@ class SignUpProvider extends React.Component {
     this.setState({ deliveryMaxDistanceInKM: e.target.value });
   }
 
+  handlerProviderEmail(e){
+    this.setState({ email: e.target.value });
+  }
+
   createButtonsOfForm(t) {
     return (
       <Row className="text-center signup-buttons">
@@ -216,58 +236,71 @@ class SignUpProvider extends React.Component {
   }
 
   cssInvalidString(text){
-    if(text === ''){
+    if(text === '' && this.state.shake ){
       return "invalid"
     }
     return ""
   }
 
   cssInvalidNumber(n){
-    if(n <= 0){
+    if(n <= 0  && this.state.shake){
       return "invalid"
+    }
+    return ""
+  }
+
+  shake(field){
+    if((this.cssInvalidNumber(field) || this.cssInvalidString(field) )&& this.state.shake ){
+      return "shakeBaby"
     }
     return ""
   }
 
   createInputOfName(t) {
     return (
-      <input type="text" className={`${this.cssInvalidString(this.state.name)} form-control input-weburl-provider`} id="inputNameProvider" placeholder={t('Name provider')} onChange={(e) => this.handlerProviderName(e)} />
+      <input type="text" className={`${this.shake(this.state.name)} ${this.cssInvalidString(this.state.name)} form-control input-weburl-provider`} id="inputNameProvider" placeholder={t('Name provider')} onChange={(e) => this.handlerProviderName(e)} />
     );
   }
 
   createInputOfAddress(t) {
     return (
-      <input type="text" className={`${this.cssInvalidString(this.state.address)} form-control input-weburl-provider`} id="inputAddressLocationProvider" placeholder={t('Address')} onChange={(e) => this.handlerProviderAddressLocation(e)} />
+      <input type="text" className={`${this.shake(this.state.address.location)} ${this.cssInvalidString(this.state.address.location)} form-control input-weburl-provider`} id="inputAddressLocationProvider" placeholder={t('Address')} onChange={(e) => this.handlerProviderAddressLocation(e)} />
+    );
+  }
+
+  createInputOfEmail(t) {
+    return (
+      <input type="text" className={`${this.shake(this.state.email)} ${this.cssInvalidString(this.state.email)} form-control input-weburl-provider`} id="inputAddressLocationProvider" placeholder="E-mail" onChange={(e) => this.handlerProviderEmail(e)} />
     );
   }
 
   createInputOfCity(t) {
     return (
-      <input type="text" className={`${this.cssInvalidString(this.state.city)} form-control input-weburl-provider`} id="inputCityProvider" placeholder={t('City')} onChange={(e) => this.handlerProviderCity(e)} />
+      <input type="text" className={`${this.shake(this.state.city)} ${this.cssInvalidString(this.state.city)} form-control input-weburl-provider`} id="inputCityProvider" placeholder={t('City')} onChange={(e) => this.handlerProviderCity(e)} />
     );
   }
 
   createInputOfDescription(t) {
     return (
-      <textarea type="text" className={`${this.cssInvalidString(this.state.description)} form-control input-weburl-provider`} id="inputDescriptionProvider" placeholder={`${t('Description')} (min: 20, max: 200) `} onChange={(e) => this.handlerProviderDescription(e)} />
+      <textarea type="text" className={`${this.shake(this.state.description)} ${this.cssInvalidString(this.state.description)} form-control input-weburl-provider`} id="inputDescriptionProvider" placeholder={`${t('Description')} (min: 20, max: 200) `} onChange={(e) => this.handlerProviderDescription(e)} />
     );
   }
 
   createInputOfTelephoneNumber(t) {
     return (
-      <input type="text" className={`${this.cssInvalidString(this.state.webURL)} form-control input-weburl-provider`} id="inputTelephoneProvider" placeholder={t('Telephone')} onChange={(e) => this.handlerProviderTelephoneNumber(e)} />
+      <input type="text" className={`${this.shake(this.state.telNumber)} ${this.cssInvalidString(this.state.telNumber)} form-control input-weburl-provider`} id="inputTelephoneProvider" placeholder={t('Telephone')} onChange={(e) => this.handlerProviderTelephoneNumber(e)} />
     );
   }
 
   createInputOfWebURL(t) {
     return (
-      <input type="text" className={`${this.cssInvalidString(this.state.webURL)} form-control input-weburl-provider`} id="inputWebURLProvider" placeholder={t('Weburl')} onChange={(e) => this.handlerProviderWebURL(e)} />
+      <input type="text" className={`${this.shake(this.state.webURL)} ${this.cssInvalidString(this.state.webURL)} form-control input-weburl-provider`} id="inputWebURLProvider" placeholder={t('Weburl')} onChange={(e) => this.handlerProviderWebURL(e)} />
     );
   }
 
   createInputLogo(t) {
     return (
-      <input type="text" className={`${this.cssInvalidString(this.state.logo)} form-control input-weburl-provider`} id="inputWebURLProvider" placeholder={t('Logo')} onChange={(e) => this.handlerProviderLogo(e)} />
+      <input type="text" className={` form-control input-weburl-provider`} id="inputWebURLProvider" placeholder={t('Logo')} onChange={(e) => this.handlerProviderLogo(e)} />
     );
   }
 
@@ -397,6 +430,14 @@ class SignUpProvider extends React.Component {
             </Row>
             <Row className="rowline_form">
               <Col>
+                {this.createInputOfDescription(t)}
+              </Col>
+              <Col>
+                {this.createInputOfEmail(t)}
+              </Col>
+            </Row>
+            <Row className="rowline_form">
+              <Col>
                 {this.createInputOfDeliveryMaxDistanceInKM(t)}
               </Col>
               <Col>
@@ -404,12 +445,6 @@ class SignUpProvider extends React.Component {
               </Col>
               <Col> 
                 {this.createInputOfTelephoneNumber(t)}
-              </Col>
-            </Row>
-
-            <Row className="rowline_form">
-              <Col>
-                {this.createInputOfDescription(t)}
               </Col>
             </Row>
             <Row className="text-center rowline_form">

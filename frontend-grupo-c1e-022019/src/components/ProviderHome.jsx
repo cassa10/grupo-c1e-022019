@@ -57,7 +57,14 @@ class ProviderHome extends React.Component {
   }
 
   pushToCreateMenu() {
-    this.props.history.push('/create_menu');
+    this.props.history.push({
+      pathname: '/create_menu',
+      state: {
+        googleId: this.props.location.state.googleId,
+        tokenAccess: this.props.location.state.tokenAccess,
+        user: this.props.location.state.user,
+      },
+    });
   }
 
   pushToEditMenu(menux) {
