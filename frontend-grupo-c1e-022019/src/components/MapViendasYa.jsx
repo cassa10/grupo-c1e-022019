@@ -52,7 +52,6 @@ class MapViendasYa extends React.Component {
 
   handleLocationFound = (e) => {
     this.setState({
-      hasLocation: true,
       latlng: e.latlng,
     })
   }

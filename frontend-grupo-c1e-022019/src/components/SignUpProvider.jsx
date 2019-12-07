@@ -22,9 +22,9 @@ class SignUpProvider extends React.Component {
       tokenAccess: '',
       user: {},
       sideBarSelected: 'switch',
-      name: '',
-      logo: '',
-      city: '',
+      name: ' ',
+      logo: ' ',
+      city: ' ',
       address: {
         coord: {
           latitude: 0.0,
@@ -32,12 +32,12 @@ class SignUpProvider extends React.Component {
         },
         location: '',
       },
-      description: '',
-      webURL: '',
-      email: '',
+      description: ' ',
+      webURL: ' ',
+      email: ' ',
       telInternational: '+549',
-      telNumber: '',
-      deliveryMaxDistanceInKM: 0.0,
+      telNumber: ' ',
+      deliveryMaxDistanceInKM: 0.1,
       schedule: {
         daysAndHours: {},
       },
@@ -58,6 +58,11 @@ class SignUpProvider extends React.Component {
       haveToRenderise: false,
     };
   }
+
+  mapRef = createRef()
+
+  // $FlowFixMe: ref
+  refmarker = createRef()
 
   componentDidMount() {
     this.setState({
@@ -210,51 +215,65 @@ class SignUpProvider extends React.Component {
     );
   }
 
+  cssInvalidString(text){
+    if(text === ''){
+      return "invalid"
+    }
+    return ""
+  }
+
+  cssInvalidNumber(n){
+    if(n <= 0){
+      return "invalid"
+    }
+    return ""
+  }
+
   createInputOfName(t) {
     return (
-      <input type="text" className="form-control input-name-provider" id="inputNameProvider" placeholder={t('Name provider')} onChange={(e) => this.handlerProviderName(e)} />
+      <input type="text" className={`${this.cssInvalidString(this.state.name)} form-control input-weburl-provider`} id="inputNameProvider" placeholder={t('Name provider')} onChange={(e) => this.handlerProviderName(e)} />
     );
   }
 
   createInputOfAddress(t) {
     return (
-      <input type="text" className="form-control input-address-location-provider" id="inputAddressLocationProvider" placeholder={t('Address')} onChange={(e) => this.handlerProviderAddressLocation(e)} />
+      <input type="text" className={`${this.cssInvalidString(this.state.address)} form-control input-weburl-provider`} id="inputAddressLocationProvider" placeholder={t('Address')} onChange={(e) => this.handlerProviderAddressLocation(e)} />
     );
   }
 
   createInputOfCity(t) {
     return (
-      <input type="text" className="form-control input-city-provider" id="inputCityProvider" placeholder={t('City')} onChange={(e) => this.handlerProviderCity(e)} />
+      <input type="text" className={`${this.cssInvalidString(this.state.city)} form-control input-weburl-provider`} id="inputCityProvider" placeholder={t('City')} onChange={(e) => this.handlerProviderCity(e)} />
     );
   }
 
   createInputOfDescription(t) {
     return (
-      <textarea type="text" className="form-control input-description-provider" id="inputDescriptionProvider" placeholder={`${t('Description')} (min: 20, max: 200) `} onChange={(e) => this.handlerProviderDescription(e)} />
+      <textarea type="text" className={`${this.cssInvalidString(this.state.description)} form-control input-weburl-provider`} id="inputDescriptionProvider" placeholder={`${t('Description')} (min: 20, max: 200) `} onChange={(e) => this.handlerProviderDescription(e)} />
     );
   }
 
   createInputOfTelephoneNumber(t) {
     return (
-      <input type="text" className="form-control input-tel-number-provider" id="inputTelephoneProvider" placeholder={t('Telephone')} onChange={(e) => this.handlerProviderTelephoneNumber(e)} />
+      <input type="text" className={`${this.cssInvalidString(this.state.webURL)} form-control input-weburl-provider`} id="inputTelephoneProvider" placeholder={t('Telephone')} onChange={(e) => this.handlerProviderTelephoneNumber(e)} />
     );
   }
 
   createInputOfWebURL(t) {
     return (
-      <input type="text" className="form-control input-weburl-provider" id="inputWebURLProvider" placeholder={t('Weburl')} onChange={(e) => this.handlerProviderWebURL(e)} />
+      <input type="text" className={`${this.cssInvalidString(this.state.webURL)} form-control input-weburl-provider`} id="inputWebURLProvider" placeholder={t('Weburl')} onChange={(e) => this.handlerProviderWebURL(e)} />
     );
   }
 
   createInputLogo(t) {
     return (
-      <input type="text" className="form-control input-logo-provider" id="inputWebURLProvider" placeholder={t('Logo')} onChange={(e) => this.handlerProviderLogo(e)} />
+      <input type="text" className={`${this.cssInvalidString(this.state.logo)} form-control input-weburl-provider`} id="inputWebURLProvider" placeholder={t('Logo')} onChange={(e) => this.handlerProviderLogo(e)} />
     );
   }
 
   createInputOfDeliveryMaxDistanceInKM(t) {
     return (
-      <input type="number" className="form-control input-logo-provider" id="inputWebURLProvider" placeholder={t('Max distance of delivery in km')} onChange={(e) => this.handlerDeliveryMaxDistanceInKM(e)} />
+      <input type="number" className={`${this.cssInvalidNumber(this.state.deliveryMaxDistanceInKM)} form-control input-weburl-provider`} id="inputWebURLProvider" placeholder={t('Max distance of delivery in km')} onChange={(e) => this.handlerDeliveryMaxDistanceInKM(e)} />
     );
   }
 
@@ -265,11 +284,6 @@ class SignUpProvider extends React.Component {
       </Marker>
     );
   }
-
-    mapRef = createRef()
-
-    // $FlowFixMe: ref
-    refmarker = createRef()
 
   toggleDraggable = () => {
     this.setState({ draggable: !this.state.draggable })
@@ -282,7 +296,6 @@ class SignUpProvider extends React.Component {
 
   handleLocationFound = (e) => {
     this.setState({
-      hasLocation: true,
       latlng: e.latlng,
     })
   }
@@ -304,31 +317,31 @@ class SignUpProvider extends React.Component {
     ) : null
     return (
       <Col className="map">
-        <Map 
-        center={this.state.latlng} 
-        zoom={15}
-        onClick={this.handleClick}
-        onLocationfound={this.handleLocationFound}
-        ref={this.mapRef}
-        >
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-          />
-          {marker}
-          <Marker
-          draggable={this.state.draggable}
-          onDragend={this.updatePosition}
-          position={this.state.latlng}
-          ref={this.refmarker}>
-          <Popup minWidth={90}>
-            <span onClick={this.toggleDraggable}>
-              {this.state.draggable ? 'Draggable' : 'Fixed'}
-            </span>
-          </Popup>
-        </Marker>
-          <MeasureControl {...this.state.measureOptions.position} />
-        </Map>
+      <Map 
+      center={this.state.latlng} 
+      zoom={15}
+      onClick={this.handleClick}
+      onLocationfound={this.handleLocationFound}
+      ref={this.mapRef}
+      >
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+        />
+        {marker}
+        <Marker
+        draggable={this.state.draggable}
+        onDragend={this.updatePosition}
+        position={this.state.latlng}
+        ref={this.refmarker}>
+        <Popup minWidth={90}>
+          <span onClick={this.toggleDraggable}>
+            {this.state.draggable ? 'Draggable' : 'Fixed'}
+          </span>
+        </Popup>
+      </Marker>
+        <MeasureControl {...this.state.measureOptions.position} />
+      </Map>
       </Col>
     );
     
