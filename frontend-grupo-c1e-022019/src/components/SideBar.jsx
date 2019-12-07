@@ -28,7 +28,6 @@ class SideBar extends React.Component {
         typeClient: false,
         typeProvider: true,
       },
-      sideBarSelected: 'home',
       imgProfile: 'https://icon-library.net/images/user-icon-image/user-icon-image-20.jpg',
     };
   }
@@ -37,13 +36,11 @@ class SideBar extends React.Component {
     const bodyRequest = {
       googleId: this.props.location.state.googleId,
       tokenAccess: this.props.location.state.tokenAccess,
-      sideBarSelected: this.props.location.state.sideBarSelected,
     };
 
     this.setState({
       googleId: bodyRequest.googleId,
       tokenAccess: bodyRequest.tokenAccess,
-      sideBarSelected: bodyRequest.sideBarSelected,
     });
 
     if (this.props.location.state.user.typeClient) {
@@ -149,7 +146,7 @@ class SideBar extends React.Component {
           googleId: this.state.googleId,
           tokenAccess: this.state.tokenAccess,
           user: this.state.user,
-          sideBarSelected: 'balance',
+          sideBarSelected: 'profile',
         },
       });
     }
@@ -160,7 +157,7 @@ class SideBar extends React.Component {
           googleId: this.state.googleId,
           tokenAccess: this.state.tokenAccess,
           user: this.state.user,
-          sideBarSelected: 'balance',
+          sideBarSelected: 'profile',
         },
       });
     }
@@ -199,7 +196,6 @@ class SideBar extends React.Component {
   }
 
   handleLogoutSelected(t) {
-    this.setState({ sideBarSelected: 'logout' });
     this.confirmLogoutAlert(t);
   }
 
@@ -252,7 +248,7 @@ class SideBar extends React.Component {
         }}
       >
         <SideNav.Toggle />
-        <SideNav.Nav defaultSelected={this.state.sideBarSelected}>
+        <SideNav.Nav defaultSelected={this.props.location.state.sideBarSelected}>
           <NavItem eventKey="home">
             <NavIcon>
               <img src={homeIcon} alt="home" width="30" height="30" />

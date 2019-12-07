@@ -107,7 +107,7 @@ class SignUpProvider extends React.Component {
     this.setState({ webURL: e.target.value });
   }
 
-  createButtonsOfForm({ t }) {
+  createButtonsOfForm(t) {
     return (
       <div className="col-12 signup-buttons">
         <button
@@ -128,31 +128,31 @@ class SignUpProvider extends React.Component {
     );
   }
 
-  createInputOfName({ t }) {
+  createInputOfName(t) {
     return (
       <input type="text" className="form-control input-name-provider" id="inputNameProvider" placeholder={t('Name provider')} onChange={(e) => this.handlerProviderName(e)} />
     );
   }
 
-  createInputOfAddress({ t }) {
+  createInputOfAddress(t) {
     return (
       <input type="text" className="form-control input-address-location-provider" id="inputAddressLocationProvider" placeholder={t('Address')} onChange={(e) => this.handlerProviderAddressLocation(e)} />
     );
   }
 
-  createInputOfCity({ t }) {
+  createInputOfCity(t) {
     return (
       <input type="text" className="form-control input-city-provider" id="inputCityProvider" placeholder={t('City')} onChange={(e) => this.handlerProviderCity(e)} />
     );
   }
 
-  createInputOfDescription({ t }) {
+  createInputOfDescription(t) {
     return (
       <input type="text" className="form-control input-description-provider" id="inputDescriptionProvider" placeholder={t('Description')} onChange={(e) => this.handlerProviderDescription(e)} />
     );
   }
 
-  createInputOfTelephoneNumber({ t }) {
+  createInputOfTelephoneNumber(t) {
     return (
       <input type="text" className="form-control input-tel-number-provider" id="inputTelephoneProvider" placeholder={t('Telephone')} onChange={(e) => this.handlerProviderTelephoneNumber(e)} />
     );
@@ -196,10 +196,10 @@ class SignUpProvider extends React.Component {
     }
   }
 
-  createInputFromMap({ t }){
+  createInputFromMap(t) {
     const marker = this.state.hasLocation ? (
       <Marker position={this.state.latlng}>
-        <Popup>You are here</Popup>
+        <Popup>{t('You are here')}</Popup>
       </Marker>
     ) : null
     return (
@@ -247,13 +247,13 @@ class SignUpProvider extends React.Component {
             </h2>
           </div>
           <form className="form-inline form-signup-provider">
-            {this.createInputOfName({ t })}
-            {this.createInputOfAddress({ t })}
-            {this.createInputOfCity({ t })}
-            {this.createInputOfTelephoneNumber({ t })}
-            {this.createInputOfDescription({ t })}
-            {this.createInputFromMap({ t })}
-            {this.createButtonsOfForm({ t })}
+            {this.createInputOfName(t)}
+            {this.createInputOfAddress(t)}
+            {this.createInputOfCity(t)}
+            {this.createInputOfTelephoneNumber(t)}
+            {this.createInputOfDescription(t)}
+            {this.createInputFromMap(t)}
+            {this.createButtonsOfForm(t)}
           </form>
         </div>
       </div>

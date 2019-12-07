@@ -85,6 +85,7 @@ class Home extends React.Component {
         rankOrder: 'max',
         fromPage: 0,
         priority: 'rank',
+        sideBarSelected: 'noselected',
       },
     });
   }

@@ -31,12 +31,6 @@ export default class App extends React.Component {
           <Switch>
             <Route exact path="/" render={(props) => <LogIn {...props} />} />
             <PrivateRouteNavs exact path="/home" navbar={NavBar} sidebar={SideBar} component={Home} />
-            {
-              // (Cambiar este Route cuando tengamos el Navbar del provider y
-              // una forma de llegar al create menu desde la ui.)
-              // eslint-disable-next-line max-len
-              // <PrivateRouteNavbar exact path="/create_menu" navbar={NavBarProvider} component={CreateMenu} />
-            }
             <PrivateRouteNavs exact path="/search" navbar={NavBar} sidebar={SideBar} component={SearchResult} />
             <PrivateRouteNavs exact path="/profile" navbar={NavBar} sidebar={SideBar} component={Profile} />
             <PrivateRouteNavs exact path="/provider/signup" navbar={NavBar} sidebar={SideBar} component={SignUpProvider} />
