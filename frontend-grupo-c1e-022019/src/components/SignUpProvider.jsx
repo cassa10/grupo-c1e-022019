@@ -5,7 +5,11 @@ import {
   Map, Marker, Popup, TileLayer, withLeaflet,
 } from 'react-leaflet';
 import MeasureControlDefault from 'react-leaflet-measure';
-import { Button } from 'react-bootstrap';
+import { 
+  Button, Container, Row, Col, 
+} from 'react-bootstrap';
+import Swal from 'sweetalert2';
+import API from '../service/api';
 
 const MeasureControl = withLeaflet(MeasureControlDefault);
 
@@ -13,6 +17,7 @@ class SignUpProvider extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      defaultProviderLogo: 'https://static1.eyellowpages.ph/uploads/yp_business/photo/15145/thumb_images.png',
       googleId: '',
       tokenAccess: '',
       user: {},
@@ -30,6 +35,7 @@ class SignUpProvider extends React.Component {
       description: '',
       webURL: '',
       email: '',
+      telInternational: '+549',
       telNumber: '',
       deliveryMaxDistanceInKM: 0.0,
       schedule: {
@@ -49,6 +55,7 @@ class SignUpProvider extends React.Component {
         lng: -58.2775,
       },
       draggable: true,
+      haveToRenderise: false,
     };
   }
 
@@ -60,6 +67,20 @@ class SignUpProvider extends React.Component {
       sideBarSelected: this.props.location.state.sideBarSelected,
       email: this.props.location.state.user.email,
     });
+  }
+  isValidForm() {
+    console.log(this.state);
+    return(
+      this.state.name.trim().length > 0 &&
+      this.state.address.location.trim().length > 0 &&
+      this.state.city.trim().length > 0 &&
+      this.state.telNumber.trim().length > 0 &&
+      this.state.description.trim().length >= 20 &&
+      this.state.description.trim().length <= 200 &&
+      this.state.address.coord.latitude &&
+      this.state.address.coord.longitude &&
+      this.state.deliveryMaxDistanceInKM > 0
+    );
   }
 
   cancelToSignUpProvider() {
@@ -75,8 +96,63 @@ class SignUpProvider extends React.Component {
     });
   }
 
-  signUpProvider() {
-    console.log('DO NOT IMPLEMENTED');
+  getAppropiateLogo() {
+    if (this.state.logo.trim().length > 0) {
+      return (this.state.logo);
+    } else {
+      // Return a default logo
+      return (this.state.defaultProviderLogo);
+    }
+  }
+
+  goToProviderHome(body, response) {
+    this.props.history.push({
+      pathname: '/provider',
+      state: {
+        googleId: body.googleId,
+        tokenAccess: body.tokenAccess,
+        user: response,
+        sideBarSelected: 'home',
+      },
+    });
+  }
+
+  handleSignUpProvider(isConfirmed) {
+
+    if (isConfirmed) {
+      const body = {
+        googleId: this.state.googleId,
+        tokenAccess: this.state.tokenAccess,
+        name: this.state.name,
+        logo: this.getAppropiateLogo(),
+        city: this.state.city,
+        address: this.state.address,
+        description: this.state.description,
+        webURL: this.state.webURL,
+        telNumber: `${this.state.telInternational} ${this.state.telNumber}`,
+        deliveryMaxDistanceInKM: this.state.deliveryMaxDistanceInKM,
+      };
+      API.post('/provider', body)
+        .then((response) => this.goToProviderHome(body, response))
+        .catch((error) => console.log(error));
+    }
+  }
+
+  confirmSignUpProviderAlert(t) {
+    if (this.isValidForm()) {
+      Swal.fire({
+        title: t('Estas seguro?'),
+        showCancelButton: true,
+        confirmButtonColor: 'Green',
+        cancelButtonColor: 'Red',
+        confirmButtonText: t('Ok'),
+        cancelButtonText: t('Cancel'),
+      })
+        .then((result) => this.handleSignUpProvider(result.value))
+        .catch((error) => console.log(error.response));
+    } else {
+      alert(t('Please, complete all fields'));
+    }
   }
 
   handlerProviderName(e) {
@@ -107,24 +183,30 @@ class SignUpProvider extends React.Component {
     this.setState({ webURL: e.target.value });
   }
 
+  handlerDeliveryMaxDistanceInKM(e) {
+    this.setState({ deliveryMaxDistanceInKM: e.target.value });
+  }
+
   createButtonsOfForm(t) {
     return (
-      <div className="col-12 signup-buttons">
-        <button
-          type="button"
-          className="btn btn-danger sign-up-button"
-          onClick={() => this.signUpProvider()}
-        >
-          {t('Sign up')}
-        </button>
-        <button
-          type="button"
-          className="btn btn-primary"
-          onClick={() => this.cancelToSignUpProvider()}
-        >
-          {t('Go back')}
-        </button>
-      </div>
+      <Row className="text-center signup-buttons">
+        <Col>
+          <Button
+            type="button"
+            className="btn btn-danger sign-up-button"
+            onClick={() => this.confirmSignUpProviderAlert(t)}
+          >
+            {t('Sign up')}
+          </Button>
+          <Button
+            type="button"
+            className="btn btn-primary"
+            onClick={() => this.cancelToSignUpProvider()}
+          >
+            {t('Go back')}
+          </Button>
+        </Col>
+      </Row>
     );
   }
 
@@ -148,13 +230,31 @@ class SignUpProvider extends React.Component {
 
   createInputOfDescription(t) {
     return (
-      <input type="text" className="form-control input-description-provider" id="inputDescriptionProvider" placeholder={t('Description')} onChange={(e) => this.handlerProviderDescription(e)} />
+      <textarea type="text" className="form-control input-description-provider" id="inputDescriptionProvider" placeholder={`${t('Description')} (min: 20, max: 200) `} onChange={(e) => this.handlerProviderDescription(e)} />
     );
   }
 
   createInputOfTelephoneNumber(t) {
     return (
       <input type="text" className="form-control input-tel-number-provider" id="inputTelephoneProvider" placeholder={t('Telephone')} onChange={(e) => this.handlerProviderTelephoneNumber(e)} />
+    );
+  }
+
+  createInputOfWebURL(t) {
+    return (
+      <input type="text" className="form-control input-weburl-provider" id="inputWebURLProvider" placeholder={t('Weburl')} onChange={(e) => this.handlerProviderWebURL(e)} />
+    );
+  }
+
+  createInputLogo(t) {
+    return (
+      <input type="text" className="form-control input-logo-provider" id="inputWebURLProvider" placeholder={t('Logo')} onChange={(e) => this.handlerProviderLogo(e)} />
+    );
+  }
+
+  createInputOfDeliveryMaxDistanceInKM(t) {
+    return (
+      <input type="number" className="form-control input-logo-provider" id="inputWebURLProvider" placeholder={t('Max distance of delivery in km')} onChange={(e) => this.handlerDeliveryMaxDistanceInKM(e)} />
     );
   }
 
@@ -203,8 +303,7 @@ class SignUpProvider extends React.Component {
       </Marker>
     ) : null
     return (
-      <div className="col-12 map">
-      <h3>{t('Ubicacion')}</h3>
+      <Col className="map">
         <Map 
         center={this.state.latlng} 
         zoom={15}
@@ -230,33 +329,105 @@ class SignUpProvider extends React.Component {
         </Marker>
           <MeasureControl {...this.state.measureOptions.position} />
         </Map>
-        <Button onClick={() => this.useMyLocation()}>{t('Use my location')}</Button>
-      </div>
+      </Col>
     );
+    
+  }
+
+  createImageVisualizator() {
+    if (this.state.logo.trim().length > 0 && this.state.haveToRenderise) {
+      return (
+        <img className="logo_img" src={this.state.logo} alt="logo" />
+      );
+    } else {
+      return (
+        <img className="logo_img" src={this.state.defaultProviderLogo} alt="logo" />
+      );
+    }
+  }
+
+  verLogo() {
+    if (this.state.logo) {
+      this.setState({ haveToRenderise: true });
+    }
     
   }
 
   render() {
     const { t } = this.props;
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-12 sign-up-provider form-signup-provider">
-            <h2 className="text-provider-sign-up">
-              {t('Fill out this form for sign up as provider')}
-            </h2>
-          </div>
-          <form className="form-inline form-signup-provider">
-            {this.createInputOfName(t)}
-            {this.createInputOfAddress(t)}
-            {this.createInputOfCity(t)}
-            {this.createInputOfTelephoneNumber(t)}
-            {this.createInputOfDescription(t)}
-            {this.createInputFromMap(t)}
+      <Container>
+        <Row className="sign-up-provider form-signup-provider">
+          <Col>
+              <h2 className="text-provider-sign-up">
+                {t('Fill out this form for sign up as provider')}
+              </h2>
+          </Col>
+        </Row>
+        <Row className="form-signup-provider">
+          <Container>
+            <Row className="rowline_form">
+              <Col>
+                {this.createInputOfName(t)}
+              </Col>
+              <Col>
+                {this.createInputOfWebURL(t)}
+              </Col>
+            </Row>
+            <Row className="rowline_form">
+              <Col>
+                {this.createInputOfAddress(t)}
+              </Col>
+              <Col>
+                {this.createInputOfCity(t)}
+              </Col>
+            </Row>
+            <Row className="rowline_form">
+              <Col>
+                {this.createInputOfDeliveryMaxDistanceInKM(t)}
+              </Col>
+              <Col>
+                <input class="form-control" type="text" placeholder="International (+54 9)" disabled />
+              </Col>
+              <Col> 
+                {this.createInputOfTelephoneNumber(t)}
+              </Col>
+            </Row>
+
+            <Row className="rowline_form">
+              <Col>
+                {this.createInputOfDescription(t)}
+              </Col>
+            </Row>
+            <Row className="text-center rowline_form">
+              <Col xs={2} sm={3} md={3} lg={2} xl={2}>
+                <Button onClick={() => this.verLogo()}>{t('Ver logo')}</Button>
+              </Col>
+
+              {this.createImageVisualizator(t)}
+
+              <Col>
+                {this.createInputLogo(t)}
+              </Col>
+
+            </Row>
+            <Row>
+              <Col className="text-center ubicacion_title">
+                <h3>{t('Ubicacion')}</h3>
+              </Col>
+            </Row>
+            <Row>
+              {this.createInputFromMap(t)}
+            </Row>
+            <Row>
+              <Col className="text-center">
+                <Button onClick={() => this.useMyLocation()}>{t('Use my location')}</Button>
+              </Col>
+            </Row>
             {this.createButtonsOfForm(t)}
-          </form>
-        </div>
-      </div>
+            </Container>
+        </Row>
+    </Container>
     );
   }
 }

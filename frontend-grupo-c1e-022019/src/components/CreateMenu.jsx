@@ -14,9 +14,6 @@ class CreateMenu extends Component {
     const { t } = this.props;
     return (
       <div>
-        {
-          // <NavBar /> CREAR UN NAVBAR DEL PROVIDER
-        }
         <h1 className="register_menu_title"> {t('register your menu')}
         </h1>
         <RegisterMenuForm />

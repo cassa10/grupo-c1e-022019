@@ -239,7 +239,6 @@ class SideBar extends React.Component {
 
   render() {
     const { t } = this.props;
-    console.log(this.state);
     return (
       <SideNav
         className="sidebar"
