@@ -21,6 +21,7 @@ import SideBar from './SideBar';
 import ScheduleTasks from './ScheduleTasks';
 import SignUpProvider from './SignUpProvider';
 import Profile from './Profile';
+import MapViendasYa from './MapViendasYa';
 
 
 export default class App extends React.Component {
@@ -39,6 +40,7 @@ export default class App extends React.Component {
 
             <Route exact path="/create_menu" render={(props) => <CreateMenu {...props} />} />
             <Route exact path="/edit_menu" render={(props) => <EditMenu {...props} />} />
+            <Route exact path="/map" render={(props) => <MapViendasYa {...props} />} />
             <Route exact path="/schedule/tasks" render={(props) => <ScheduleTasks {...props} />} />
             <Route path="/" render={(props) => <ErrorPage {...props} />} />
           </Switch>
