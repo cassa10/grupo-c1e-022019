@@ -122,6 +122,10 @@
     "SUSHI": "Sushi",
     "EMPANADAS": "Empanadas",
     "GREEN": "Green",
-    "VEGAN": "Vegan"
+    "VEGAN": "Vegan",
+    "Please, complete all fields": "Complete all fields, please!",
+    "Ver logo": "Look up brand",
+    "Logo": "Brand",
+    "Max distance of delivery in km": "Max distance of delivery in kms"
 
 }

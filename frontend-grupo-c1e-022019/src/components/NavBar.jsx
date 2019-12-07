@@ -1,7 +1,7 @@
 import React from 'react';
 import { withTranslation } from 'react-i18next';
 import {
-  Navbar, Nav, Button, Modal,
+  Navbar, Nav,
 } from 'react-bootstrap';
 import ChangeLanguage from './ChangeLanguage';
 import '../dist/css/Navbar.css';

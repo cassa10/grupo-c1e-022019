@@ -44,7 +44,7 @@ class ProviderHome extends React.Component {
     };
     this.setState({
       googleId: body.googleId,
-      tokenAccess: body.tokenAccess, 
+      tokenAccess: body.tokenAccess,
     });
 
     API.get('/provider', body)

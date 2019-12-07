@@ -10,6 +10,7 @@
 
 .form-signup-provider{
     background: whitesmoke;
+    margin-left:35px;
 }
 
 .text-provider-sign-up{
@@ -27,36 +28,20 @@
     margin-right: 10px;
 }
 
-.input-name-provider{
-    padding: 10px;
-    margin-top: 100px;
-    margin-left: 100px;
+.rowline_form {
+    margin-top: 50px;
+
 }
 
-.input-address-location-provider{
-    padding: 10px;
-    margin-top: 100px;
-    margin-left: 100px;
-}
-
-.input-city-provider{
-    padding: 10px;
-    margin-top: 100px;
-    margin-left: 100px;
-}
-
-.input-tel-number-provider{
-    padding: 10px;
-    margin-top: 100px;
-    margin-left: 100px;
-}
-
-.input-description-provider{
-    padding: 10px;
-    margin-top: 100px;
-    margin-left: 100px;
+.ubicacion_title {
+    margin-top: 15px;
 }
 
 .map{
     padding:50px;
+}
+
+.logo_img {
+    margin-left: 40px;
+    width: 60px;
 }
