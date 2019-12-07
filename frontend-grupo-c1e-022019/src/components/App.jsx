@@ -34,7 +34,7 @@ export default class App extends React.Component {
             <PrivateRouteNavs exact path="/home" navbar={NavBar} sidebar={SideBar} component={Home} />
             <PrivateRouteNavs exact path="/search" navbar={NavBar} sidebar={SideBar} component={SearchResult} />
             <PrivateRouteNavs exact path="/profile" navbar={NavBar} sidebar={SideBar} component={Profile} />
-            <PrivateRouteNavs exact path="/provider/signup" navbar={NavBar} sidebar={SideBar} component={SignUpProvider} />
+            <Route exact path="/provider/signup" navbar={NavBar} sidebar={SideBar} component={SignUpProvider} />
 
             <PrivateRouteNavs exact path="/provider" navbar={NavBar} sidebar={SideBar} component={ProviderHome} />
 

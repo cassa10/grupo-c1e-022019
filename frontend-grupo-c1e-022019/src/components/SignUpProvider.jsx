@@ -80,7 +80,7 @@ class SignUpProvider extends React.Component {
       this.state.address.location.trim().length > 0 &&
       this.state.city.trim().length > 0 &&
       this.state.telNumber.trim().length > 0 &&
-      this.state.description.trim().length >= 20 &&
+      this.state.description.trim().length >= 30 &&
       this.state.description.trim().length <= 200 &&
       this.state.deliveryMaxDistanceInKM > 0
     );
@@ -282,7 +282,7 @@ class SignUpProvider extends React.Component {
 
   createInputOfDescription(t) {
     return (
-      <textarea type="text" className={`${this.shake(this.state.description)} ${this.cssInvalidString(this.state.description)} form-control input-weburl-provider`} id="inputDescriptionProvider" placeholder={`${t('Description')} (min: 20, max: 200) `} onChange={(e) => this.handlerProviderDescription(e)} />
+      <textarea type="text" className={`${this.shake(this.state.description)} ${this.cssInvalidString(this.state.description)} form-control input-weburl-provider`} id="inputDescriptionProvider" placeholder={`${t('Description')} (min:30, max: 200) `} onChange={(e) => this.handlerProviderDescription(e)} />
     );
   }
 
@@ -441,7 +441,7 @@ class SignUpProvider extends React.Component {
                 {this.createInputOfDeliveryMaxDistanceInKM(t)}
               </Col>
               <Col>
-                <input class="form-control" type="text" placeholder="International (+54 9)" disabled />
+                <input className="form-control" type="text" placeholder="International (+54 9)" disabled />
               </Col>
               <Col> 
                 {this.createInputOfTelephoneNumber(t)}
