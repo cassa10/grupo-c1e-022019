@@ -17,10 +17,12 @@ import SearchResult from './SearchResult';
 import ErrorPage from './ErrorPage';
 import EditMenu from './EditMenu';
 import ProviderHome from './ProviderHome';
-import SideBar from './SideBar';
+import SideBarClient from './SideBarClient';
+import SideBarProvider from './SideBarProvider';
 import ScheduleTasks from './ScheduleTasks';
 import SignUpProvider from './SignUpProvider';
 import Profile from './Profile';
+import ProviderProfile from './ProviderProfile';
 import MapViendasYa from './MapViendasYa';
 
 
@@ -31,12 +33,12 @@ export default class App extends React.Component {
         <BrowserRouter>
           <Switch>
             <Route exact path="/" render={(props) => <LogIn {...props} />} />
-            <PrivateRouteNavs exact path="/home" navbar={NavBar} sidebar={SideBar} component={Home} />
-            <PrivateRouteNavs exact path="/search" navbar={NavBar} sidebar={SideBar} component={SearchResult} />
-            <PrivateRouteNavs exact path="/profile" navbar={NavBar} sidebar={SideBar} component={Profile} />
-            <PrivateRouteNavs exact path="/provider/signup" navbar={NavBar} sidebar={SideBar} component={SignUpProvider} />
-
-            <PrivateRouteNavs exact path="/provider" navbar={NavBar} sidebar={SideBar} component={ProviderHome} />
+            <PrivateRouteNavs exact path="/home" navbar={NavBar} sidebar={SideBarClient} component={Home} />
+            <PrivateRouteNavs exact path="/search" navbar={NavBar} sidebar={SideBarClient} component={SearchResult} />
+            <PrivateRouteNavs exact path="/profile" navbar={NavBar} sidebar={SideBarClient} component={Profile} />
+            <PrivateRouteNavs exact path="/provider/signup" navbar={NavBar} sidebar={SideBarClient} component={SignUpProvider} />
+            <PrivateRouteNavs exact path="/provider" navbar={NavBar} sidebar={SideBarProvider} component={ProviderHome} />
+            <PrivateRouteNavs exact path="/provider/profile" navbar={NavBar} sidebar={SideBarProvider} component={ProviderProfile} />
 
             <Route exact path="/create_menu" render={(props) => <CreateMenu {...props} />} />
             <Route exact path="/edit_menu" render={(props) => <EditMenu {...props} />} />

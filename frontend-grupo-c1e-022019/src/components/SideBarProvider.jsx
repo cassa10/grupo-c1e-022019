@@ -13,11 +13,11 @@ import logoutIcon from '../dist/icons/logout-icon-sidebar.png';
 import formatCredit from './formatter/formatCredit.js';
 import API from '../service/api';
 
-class SideBar extends React.Component {
+class SideBarProvider extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      existAsProvider: true,
+      existAsProvider: false,
       googleId: '',
       tokenAccess: '',
       user: {
@@ -26,7 +26,7 @@ class SideBar extends React.Component {
           amount: 0,
         },
         typeClient: false,
-        typeProvider: true,
+        typeProvider: false,
       },
       imgProfile: 'https://icon-library.net/images/user-icon-image/user-icon-image-20.jpg',
     };
@@ -43,30 +43,9 @@ class SideBar extends React.Component {
       tokenAccess: bodyRequest.tokenAccess,
     });
 
-    if (this.props.location.state.user.typeClient) {
-      API.get('/client', bodyRequest)
-        .then((response) => this.handleGetClient(response))
-        .catch((error) => console.log(error));
-
-      // Lo necesito para saber si tiene que ir al form o al home provider:
-      API.get('/exist_provider', bodyRequest)
-        .then((response) => this.setState({ existAsProvider: response }))
-        .catch((error) => console.log(error));
-    }
-
-    if (this.props.location.state.user.typeProvider) {
-      API.get('/provider', bodyRequest)
-        .then((response) => this.handleGetProvider(response))
-        .catch((error) => console.log(error));
-    }
-  }
-
-  handleGetClient(response) {
-    this.setState({ user: response });
-
-    if (response.imageUrl) {
-      this.setState({ imgProfile: response.imageUrl });
-    }
+    API.get('/provider', bodyRequest)
+      .then((response) => this.handleGetProvider(response))
+      .catch((error) => console.log(error));
   }
 
   handleGetProvider(response) {
@@ -82,13 +61,6 @@ class SideBar extends React.Component {
   }
 
   showAppropiateSwitchText(t) {
-    if (this.state.user.typeClient) {
-      if (this.state.existAsProvider) {
-        return (t('Switch Provider'));
-      }
-      return (t('Make me Provider'));
-    }
-
     return (t('Switch Client'));
   }
 
@@ -113,54 +85,29 @@ class SideBar extends React.Component {
 
   handleHomeSelected() {
     window.scrollTo(0, 0);
-    if (this.state.user.typeClient) {
-      this.props.history.push({
-        pathname: '/home',
-        state: {
-          googleId: this.props.location.state.googleId,
-          tokenAccess: this.props.location.state.tokenAccess,
-          user: this.props.location.state.user,
-          sideBarSelected: 'home',
-        },
-      });
-    }
-    if (this.state.user.typeProvider) {
-      this.props.history.push({
-        pathname: '/provider',
-        state: {
-          googleId: this.state.googleId,
-          tokenAccess: this.state.tokenAccess,
-          user: this.props.location.state.user,
-          sideBarSelected: 'home',
-        },
-      });
-    }
+    this.props.history.push({
+      pathname: '/provider',
+      state: {
+        googleId: this.state.googleId,
+        tokenAccess: this.state.tokenAccess,
+        user: this.state.user,
+        sideBarSelected: 'home',
+      },
+    });
   }
 
   handleProfileOrBalanceSelected() {
     window.scrollTo(0, 0);
-    if (this.state.user.typeClient) {
-      this.props.history.push({
-        pathname: '/profile',
-        state: {
-          googleId: this.state.googleId,
-          tokenAccess: this.state.tokenAccess,
-          user: this.state.user,
-          sideBarSelected: 'profile',
-        },
-      });
-    }
-    if (this.state.user.typeProvider) {
-      this.props.history.push({
-        pathname: '/profile',
-        state: {
-          googleId: this.state.googleId,
-          tokenAccess: this.state.tokenAccess,
-          user: this.state.user,
-          sideBarSelected: 'profile',
-        },
-      });
-    }
+    this.props.history.push({
+      pathname: '/provider/profile',
+      state: {
+        googleId: this.state.googleId,
+        tokenAccess: this.state.tokenAccess,
+        user: this.state.user,
+        sideBarSelected: 'profile',
+        isClient: false,
+      },
+    });
   }
 
   goLogin() {
@@ -201,40 +148,15 @@ class SideBar extends React.Component {
 
   handleSwitchSelected() {
     window.scrollTo(0, 0);
-    if (this.state.user.typeClient) {
-      if (this.state.existAsProvider) {
-        this.props.history.push({
-          pathname: '/provider',
-          state: {
-            googleId: this.state.googleId,
-            tokenAccess: this.state.tokenAccess,
-            user: this.state.user,
-            sideBarSelected: 'home',
-          },
-        });
-      } else {
-        this.props.history.push({
-          pathname: '/provider/signup',
-          state: {
-            googleId: this.state.googleId,
-            tokenAccess: this.state.tokenAccess,
-            user: this.state.user,
-            sideBarSelected: 'switch',
-          },
-        });
-      }
-    }
-    if (this.state.user.typeProvider) {
-      this.props.history.push({
-        pathname: '/home',
-        state: {
-          googleId: this.state.googleId,
-          tokenAccess: this.state.tokenAccess,
-          user: this.state.user,
-          sideBarSelected: 'home',
-        },
-      });
-    }
+    this.props.history.push({
+      pathname: '/home',
+      state: {
+        googleId: this.state.googleId,
+        tokenAccess: this.state.tokenAccess,
+        user: this.state.user,
+        sideBarSelected: 'home',
+      },
+    });
   }
 
   render() {
@@ -304,4 +226,4 @@ class SideBar extends React.Component {
   }
 }
 
-export default withTranslation()(SideBar);
+export default withTranslation()(SideBarProvider);

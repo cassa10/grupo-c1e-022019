@@ -396,7 +396,6 @@ class SearchResult extends React.Component {
         {this.showHighlightedBadge(t, rankAverage)}
         {categories.map((cat) => this.showCategoryBadge(t, cat))}
       </Row>
-
     );
   }
 
@@ -404,7 +403,7 @@ class SearchResult extends React.Component {
     // Categories: PIZZA | BEER | HAMBURGER | SUSHI | EMPANADAS | GREEN | VEGAN
     this.detecVariantForCategoryBadge(category);
     return (
-      <Badge variant={this.detecVariantForCategoryBadge(category)} className="space-category-badge">
+      <Badge key={category} variant={this.detecVariantForCategoryBadge(category)} className="space-category-badge">
         {t(category)}
       </Badge>
     );

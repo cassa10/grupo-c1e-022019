@@ -34,6 +34,7 @@ class ProviderHome extends React.Component {
         menus: [],
       },
       showModalSee: false,
+      sideBarSelected: 'home',
     };
   }
 
@@ -45,6 +46,7 @@ class ProviderHome extends React.Component {
     this.setState({
       googleId: body.googleId,
       tokenAccess: body.tokenAccess,
+      sideBarSelected: this.props.location.state.sideBarSelected,
     });
 
     API.get('/provider', body)
@@ -62,7 +64,7 @@ class ProviderHome extends React.Component {
       state: {
         googleId: this.props.location.state.googleId,
         tokenAccess: this.props.location.state.tokenAccess,
-        user: this.props.location.state.user,
+        user: this.state.user,
       },
     });
   }
@@ -71,6 +73,9 @@ class ProviderHome extends React.Component {
     this.props.history.push({
       pathname: 'edit_menu',
       state: {
+        googleId: this.props.location.state.googleId,
+        tokenAccess: this.props.location.state.tokenAccess,
+        user: this.state.user,
         menu: menux,
       },
     });
