@@ -1,7 +1,7 @@
 import React from 'react';
 import '../dist/css/SearchResult.css';
 import {
-  Card, Modal, Badge, Button,
+  Card, Modal, Badge, Button, Container,
 } from 'react-bootstrap';
 import { withTranslation } from 'react-i18next';
 import formatPrice from './formatter/formatCredit';
@@ -41,21 +41,24 @@ class ModalSee extends React.Component {
           <img src={menuInfoIcon} alt="menu-info" />
         </Button>
         <Modal show={this.state.modalOpen} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <h1>{this.props.menu.name}</h1>
-          </Modal.Header>
-          <Modal.Title>{this.props.menu.description}</Modal.Title>
-          <Modal.Body>
-            <Card.Img className="card_img" variant="left" src={this.state.pictures[0]} /><br />
-            <h5>{t('Delivery')}: {this.props.menu.deliveryValue <= 0 ? this.createFreeBadge(t) : formatPrice(t, this.props.menu.deliveryValue)}<br />
-              {t('Comprando mas de')}: {formatNumber(t, this.props.menu.firstMinAmount)} {t('unidades')}<br />
-              {t('the price will be')} {formatPrice(t, this.props.menu.firstMinAmountPrice)} <br />
-              {t('Comprando mas de')}: {formatNumber(t, this.props.menu.menuPriceCalculator.secondMinAmount)} {t('unidades')}<br />
-              {t('the price will be')} {formatPrice(t, this.props.menu.menuPriceCalculator.secondMinAmountPrice)} <br />
-              {t('Distancia de delivery')} : {formatNumber(t, this.props.menu.deliveryMaxDistanceInKM)} kms<br />
-            </h5>
-          </Modal.Body>
+          <Container>
+            <Modal.Header closeButton>
+              <h1>{this.props.menu.name}</h1>
+            </Modal.Header>
+            <Modal.Title>{this.props.menu.description}</Modal.Title>
+            <Modal.Body>
+              <Card.Img className="card_img" variant="left" src={this.state.pictures[0]} /><br />
+              <h5>{t('Delivery')}: {this.props.menu.deliveryValue <= 0 ? this.createFreeBadge(t) : formatPrice(t, this.props.menu.deliveryValue)}<br />
+                {t('Comprando mas de')}: {formatNumber(t, this.props.menu.firstMinAmount)} {t('unidades')}<br />
+                {t('the price will be')} {formatPrice(t, this.props.menu.firstMinAmountPrice)} <br />
+                {t('Comprando mas de')}: {formatNumber(t, this.props.menu.menuPriceCalculator.secondMinAmount)} {t('unidades')}<br />
+                {t('the price will be')} {formatPrice(t, this.props.menu.menuPriceCalculator.secondMinAmountPrice)} <br />
+                {t('Distancia de delivery')} : {formatNumber(t, this.props.menu.deliveryMaxDistanceInKM)} kms<br />
+              </h5>
+            </Modal.Body>
+          </Container>
         </Modal>
+
       </div>
     );
   }

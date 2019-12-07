@@ -379,11 +379,15 @@ class SearchResult extends React.Component {
     );
   }
 
-  providerInfoButton(menu, t) {
+  providerInfoButton(menu) {
     return (
       <Row>
         <Col>
-          <ModalProvider idProvider={menu.idProvider}/>
+          <ModalProvider
+            providerId={menu.providerId}
+            googleId={this.state.googleId}
+            tokenAccess={this.state.tokenAccess}
+          />
         </Col>
       </Row>
     );

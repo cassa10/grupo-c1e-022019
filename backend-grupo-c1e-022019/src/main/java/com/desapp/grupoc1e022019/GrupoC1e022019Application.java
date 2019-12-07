@@ -58,11 +58,11 @@ public class GrupoC1e022019Application {
 	@Bean
 	public CommandLineRunner demo(ProviderRepository providerRepository, MenuRepository menuRepository, OrderRepository orderRepository, ClientRepository clientRepository, GoogleTokenRepository googleTokenRepository) {
 		return (args) -> {
-
+			String logo1 = "https://static1.eyellowpages.ph/uploads/yp_business/photo/15145/thumb_images.png";
 			Schedule schedule =new Schedule(new HashMap<DayOfWeek, SetOfBusinessTime>());
-			Provider jose = new Provider("FAKEID1","Jose","log","Quilmes",
-					new Address(new Coord("0","0"),"West Quilmes"),"Josee",
-					"jose.com.ar","cualquieracuenta03@gmail.com","13281349",schedule,
+			Provider jose = new Provider("FAKEID1","Jose",logo1,"Quilmes",
+					new Address(new Coord("-34.706667","-58.2775"),"Saenz Peña 352"),"Las mejores hamburguejas del condado",
+					"altoprovider.com.ar","cualquieracuenta03@gmail.com","42242262",schedule,
 					new Credit(),40.0,new ArrayList<>(),new NormalProvider(),8);
 			providerRepository.save(jose);
 

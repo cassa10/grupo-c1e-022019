@@ -115,6 +115,7 @@ class NavBar extends React.Component {
         googleId: this.props.location.state.googleId,
         tokenAccess: this.props.location.state.tokenAccess,
         user: this.props.location.state.user,
+        sideBarSelected: 'home',
       },
     });
   }

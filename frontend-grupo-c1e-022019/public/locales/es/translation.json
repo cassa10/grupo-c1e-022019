@@ -13,7 +13,7 @@
     "Sign up" : "Darme de alta",
     "sign up" : "darme de alta",
     "Name provider": "Nombre de proveedor",
-    "Address": "Direccion",
+    "Address": "Dirección",
     "Telephone": "Teléfono",
     "City": "Ciudad",
     "Description": "Descripción",
@@ -111,6 +111,10 @@
     "Estas seguro?": "¿Estas seguro?",
     "Mire que su sesion se va a cerrar": "Mire que su sesion se va a cerrar",
     "Ok": "Esta bien",
-    "Cancel": "Cancelar"
+    "Cancel": "Cancelar",
+    "You are here": "Vos estas acá",
+    "logo": "logo",
+    "Max distance": "Distancia máxima",
+    "Website": "Sitio web"
 
 }

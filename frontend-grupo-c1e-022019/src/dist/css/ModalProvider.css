@@ -1,0 +1,27 @@
+.rate_provider {
+    margin-left: 12px;
+    margin-top: 8px;
+}
+
+.logo_img {
+    width: 60px;
+    margin-right: 10px;
+}
+
+.description_provider {
+    padding-top: 10px;
+    font-size: medium;
+    text-align: center;
+}
+
+.info_title_data {
+    text-decoration: underline;
+}
+
+.info_data {
+    text-align: center;
+    border-bottom: solid;
+    border-bottom-width: 3px;
+    border-bottom-color: #db3d44;
+    margin-bottom: 4px;
+}
