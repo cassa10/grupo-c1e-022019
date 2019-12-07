@@ -30,7 +30,7 @@ class ErrorPage extends React.Component {
       <div>
         <div className="row">
           <div className="col">
-            <img className="logo" src="https://fontmeme.com/permalink/191102/03a545ac680d1396fcfae624d4ee0c3a.png" onClick={() => this.goHome()} alt="viendasYa-logo" border="0" />
+            <img className="logo" src="https://fontmeme.com/permalink/191206/ae6df82115063423c0205aaf7499bff2.png" onClick={() => this.goHome()} alt="viendasYa-logo" border="0" />
           </div>
         </div>
         <div className="card-title text-center errorpage">

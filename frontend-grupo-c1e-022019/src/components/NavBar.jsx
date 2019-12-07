@@ -36,7 +36,7 @@ class NavBar extends React.Component {
     this.setState({ googleId: bodyRequest.googleId, tokenAccess: bodyRequest.tokenAccess });
 
     API.get('/client', bodyRequest)
-      .then((response) => this.setState({ client: response }))
+      .then((response) => this.setState({ user: response }))
       .catch((error) => console.log(error));
   }
 

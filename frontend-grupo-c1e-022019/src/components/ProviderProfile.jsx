@@ -3,7 +3,7 @@ import { withTranslation } from 'react-i18next';
 import '../dist/css/Profile.css';
 import API from '../service/api';
 
-class Profile extends React.Component {
+class ProviderProfile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -21,14 +21,14 @@ class Profile extends React.Component {
     const body = {
       googleId: this.props.location.state.googleId,
       tokenAccess: this.props.location.state.tokenAccess,
-      idClient: this.props.location.state.user.id,
+      idProvider: this.props.location.state.user.id,
     };
 
-    API.get('/client', body)
+    API.get('/provider', body)
       .then((response) => this.setState({ user: response }))
       .catch((error) => this.handleAPIError(error));
 
-    API.get('/order/client/all', body)
+    API.get('/order/provider/all', body)
       .then((response) => this.setState({ orders: response }))
       .catch((error) => this.handleAPIError(error));
   }
@@ -60,4 +60,4 @@ class Profile extends React.Component {
   }
 }
 
-export default withTranslation()(Profile);
+export default withTranslation()(ProviderProfile);
