@@ -50,7 +50,6 @@ class SearchResult extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.location);
     const body = {
       locState: this.props.location.state,
       googleId: this.props.location.state.googleId,
@@ -182,7 +181,6 @@ class SearchResult extends React.Component {
   }
 
   handleInsuficientCredit(menu, t) {
-    console.log(this.state);
     Swal.fire({
       title: t('Insufficient credit'),
       imageUrl: 'https://cdn.memegenerator.es/imagenes/memes/full/6/96/6965905.jpg',
@@ -206,7 +204,6 @@ class SearchResult extends React.Component {
 
   makeApiPost(menu, t) {
     const body = this.getBodyFromDelivery(menu);
-    console.log(body);
     API.post('/order', body)
       .then(() => this.buyDone(t, menu))
       .catch((e) => console.log(e));
@@ -393,7 +390,55 @@ class SearchResult extends React.Component {
     );
   }
 
-  showBadge(t, rankAverage) {
+  showBadges(t, rankAverage, categories) {
+    return (
+      <Row>
+        {this.showHighlightedBadge(t, rankAverage)}
+        {categories.map((cat) => this.showCategoryBadge(t, cat))}
+      </Row>
+
+    );
+  }
+
+  showCategoryBadge(t, category) {
+    // Categories: PIZZA | BEER | HAMBURGER | SUSHI | EMPANADAS | GREEN | VEGAN
+    this.detecVariantForCategoryBadge(category);
+    return (
+      <Badge variant={this.detecVariantForCategoryBadge(category)} className="space-category-badge">
+        {t(category)}
+      </Badge>
+    );
+  }
+
+  detecVariantForCategoryBadge(category) {
+    let variantCat = '';
+    if (category === 'PIZZA') {
+      variantCat = 'danger';
+    }
+    if (category === 'BEER') {
+      variantCat = 'info';
+    }
+    if (category === 'HAMBURGER') {
+      variantCat = 'primary';
+    }
+    if (category === 'SUSHI') {
+      variantCat = 'light';
+    }
+    if (category === 'EMPANADAS') {
+      variantCat = 'dark';
+    }
+    if (category === 'GREEN') {
+      variantCat = 'success';
+    }
+    if (category === 'VEGAN') {
+      variantCat = 'secondary';
+    }
+    return (
+      variantCat
+    );
+  }
+
+  showHighlightedBadge(t, rankAverage) {
     if (rankAverage === 5) {
       return (
         <Badge pill variant="warning">
@@ -522,9 +567,14 @@ class SearchResult extends React.Component {
                 </div>
               </Col>
               <Col>
+                {this.showBadges(t, menu.rankAverage, menu.categories)}
+                <Row>
+                  <Col>
+                    {this.showStars(menu)}
+                  </Col>
 
-                {this.showStars(menu)} <br />
-                {this.showBadge(t, menu.rankAverage)}
+                </Row>
+
                 <h5>
                   {t('Description')}: {menu.description}<br />
                   {t('Delivery')}: {menu.deliveryValue === 0 ? this.createFreeBadge(t) : formatPrice(t, menu.deliveryValue)}<br />

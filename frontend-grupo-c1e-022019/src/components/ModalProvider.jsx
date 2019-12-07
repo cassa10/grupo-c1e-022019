@@ -69,7 +69,6 @@ class ModalProvider extends React.Component {
   }
 
   handleResponseAPI(response) {
-    console.log(response);
     this.setState({ provider: response });
     if (response.address.valid) {
       const coordinates = {

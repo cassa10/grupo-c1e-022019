@@ -145,9 +145,14 @@ public class GrupoC1e022019Application {
 		ArrayList<CategoryMenu> cPizza = new ArrayList<>();
 		cPizza.add(CategoryMenu.valueOf("PIZZA"));
 
+		ArrayList<CategoryMenu> pizzaGreen = new ArrayList<>();
+		pizzaGreen.add(CategoryMenu.GREEN);
+		pizzaGreen.add(CategoryMenu.VEGAN);
+		pizzaGreen.add(CategoryMenu.PIZZA);
+
 		Menu pizza = MenuBuilder.aMenu()
 				.withName("Pizza de palmitos")
-				.withCategories(cPizza)
+				.withCategories(pizzaGreen)
 				.withMaxSalesPerDay(5)
 				.withMenuPriceCalculator(new MenuPriceCalculator(300.0,10,40.0,20,30.0))
 				.withDescription("Tiene solo 2 palmitos")

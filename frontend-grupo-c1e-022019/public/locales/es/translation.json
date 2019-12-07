@@ -115,6 +115,13 @@
     "You are here": "Vos estas acá",
     "logo": "logo",
     "Max distance": "Distancia máxima",
-    "Website": "Sitio web"
+    "Website": "Sitio web",
+    "PIZZA": "Pizza",
+    "HAMBURGER": "Hamburguesa",
+    "BEER": "Cerveza",
+    "SUSHI": "Sushi",
+    "EMPANADAS": "Empanadas",
+    "GREEN": "Vegetariano",
+    "VEGAN": "Vegano"
 
 }
