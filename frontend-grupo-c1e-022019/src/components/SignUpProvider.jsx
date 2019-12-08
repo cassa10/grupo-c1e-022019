@@ -18,6 +18,7 @@ class SignUpProvider extends React.Component {
     super(props);
     this.state = {
       defaultProviderLogo: 'https://static1.eyellowpages.ph/uploads/yp_business/photo/15145/thumb_images.png',
+      email: '',
       googleId: '',
       tokenAccess: '',
       user: {},
@@ -34,7 +35,6 @@ class SignUpProvider extends React.Component {
       },
       description: '',
       webURL: '',
-      email: '',
       telInternational: '+549',
       telNumber: '',
       deliveryMaxDistanceInKM: 0.0,
@@ -79,7 +79,7 @@ class SignUpProvider extends React.Component {
       this.state.name.trim().length > 0 &&
       this.state.address.location.trim().length > 0 &&
       this.state.city.trim().length > 0 &&
-      this.state.telNumber.trim().length > 0 &&
+      this.state.telNumber.trim().length >= 8 &&
       this.state.description.trim().length >= 30 &&
       this.state.description.trim().length <= 200 &&
       this.state.deliveryMaxDistanceInKM > 0
@@ -109,6 +109,7 @@ class SignUpProvider extends React.Component {
   }
 
   goToProviderHome(body, response) {
+    window.scrollTo(0, 0);
     this.props.history.push({
       pathname: '/provider',
       state: {
@@ -121,14 +122,13 @@ class SignUpProvider extends React.Component {
   }
 
   shakeAndFeedBack(t){
-    this.setState({shake: true})
     window.scrollTo(0, 0);
+    this.setState({shake: true})
     Swal.fire({
       icon: 'error',
       title: 'Oops...',
       text: t("Please, complete all fields"),
     })
-    
   }
 
   handleSignUpProvider(isConfirmed) {
@@ -148,9 +148,9 @@ class SignUpProvider extends React.Component {
         },
         description: this.state.description,
         webURL: this.state.webURL,
-        email : this.state.email,
         telNumber: `${this.state.telInternational} ${this.state.telNumber}`,
         deliveryMaxDistanceInKM: this.state.deliveryMaxDistanceInKM,
+        email: this.state.email,
       };
       console.log(body)
       API.post('/provider', body)
@@ -208,10 +208,6 @@ class SignUpProvider extends React.Component {
     this.setState({ deliveryMaxDistanceInKM: e.target.value });
   }
 
-  handlerProviderEmail(e){
-    this.setState({ email: e.target.value });
-  }
-
   createButtonsOfForm(t) {
     return (
       <Row className="text-center signup-buttons">
@@ -239,14 +235,14 @@ class SignUpProvider extends React.Component {
     if(text === '' && this.state.shake ){
       return "invalid"
     }
-    return ""
+    return '';
   }
 
   cssInvalidNumber(n){
     if(n <= 0  && this.state.shake){
-      return "invalid"
+      return "invalid";
     }
-    return ""
+    return '';
   }
 
   shake(field){
@@ -254,6 +250,20 @@ class SignUpProvider extends React.Component {
       return "shakeBaby"
     }
     return ""
+  }
+
+  cssInvalidDescription(description) {
+    if((description.length < 30 || description.length > 200) && this.state.shake){
+      return "invalid";
+    }
+    return '';
+  }
+
+  shakeDescription(description) {
+    if (this.cssInvalidDescription(description) && this.state.shake) {
+      return "shakeBaby";
+    }
+    return "";
   }
 
   createInputOfName(t) {
@@ -268,12 +278,6 @@ class SignUpProvider extends React.Component {
     );
   }
 
-  createInputOfEmail(t) {
-    return (
-      <input type="text" className={`${this.shake(this.state.email)} ${this.cssInvalidString(this.state.email)} form-control input-weburl-provider`} id="inputAddressLocationProvider" placeholder="E-mail" onChange={(e) => this.handlerProviderEmail(e)} />
-    );
-  }
-
   createInputOfCity(t) {
     return (
       <input type="text" className={`${this.shake(this.state.city)} ${this.cssInvalidString(this.state.city)} form-control input-weburl-provider`} id="inputCityProvider" placeholder={t('City')} onChange={(e) => this.handlerProviderCity(e)} />
@@ -282,7 +286,7 @@ class SignUpProvider extends React.Component {
 
   createInputOfDescription(t) {
     return (
-      <textarea type="text" className={`${this.shake(this.state.description)} ${this.cssInvalidString(this.state.description)} form-control input-weburl-provider`} id="inputDescriptionProvider" placeholder={`${t('Description')} (min:30, max: 200) `} onChange={(e) => this.handlerProviderDescription(e)} />
+      <textarea type="text" className={`${this.shakeDescription(this.state.description)} ${this.cssInvalidDescription(this.state.description)} form-control input-weburl-provider`} id="inputDescriptionProvider" placeholder={`${t('Description')} (min: 30, max: 200) `} onChange={(e) => this.handlerProviderDescription(e)} />
     );
   }
 
@@ -300,7 +304,7 @@ class SignUpProvider extends React.Component {
 
   createInputLogo(t) {
     return (
-      <input type="text" className={` form-control input-weburl-provider`} id="inputWebURLProvider" placeholder={t('Logo')} onChange={(e) => this.handlerProviderLogo(e)} />
+      <input type="text" className={` form-control input-weburl-provider`} id="inputWebURLProvider" placeholder={`${t('Logo')} (${t('eg')}: ${this.state.defaultProviderLogo})`} onChange={(e) => this.handlerProviderLogo(e)} />
     );
   }
 
@@ -431,9 +435,6 @@ class SignUpProvider extends React.Component {
             <Row className="rowline_form">
               <Col>
                 {this.createInputOfDescription(t)}
-              </Col>
-              <Col>
-                {this.createInputOfEmail(t)}
               </Col>
             </Row>
             <Row className="rowline_form">
