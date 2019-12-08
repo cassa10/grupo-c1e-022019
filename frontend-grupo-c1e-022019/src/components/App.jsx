@@ -34,15 +34,6 @@ export default class App extends React.Component {
         <BrowserRouter>
           <Switch>
             <Route exact path="/" render={(props) => <LogIn {...props} />} />
-<<<<<<< HEAD
-            <PrivateRouteNavs exact path="/home" navbar={NavBar} sidebar={SideBar} component={Home} />
-            <PrivateRouteNavs exact path="/search" navbar={NavBar} sidebar={SideBar} component={SearchResult} />
-            <PrivateRouteNavs exact path="/profile" navbar={NavBar} sidebar={SideBar} component={Profile} />
-            <Route exact path="/provider/signup" navbar={NavBar} sidebar={SideBar} component={SignUpProvider} />
-
-            <PrivateRouteNavs exact path="/provider" navbar={NavBar} sidebar={SideBar} component={ProviderHome} />
-
-=======
             {
             // Client Routes
             }
@@ -55,7 +46,6 @@ export default class App extends React.Component {
             }
             <PrivateRouteNavs exact path="/provider" navbar={NavBarProvider} sidebar={SideBarProvider} component={ProviderHome} />
             <PrivateRouteNavs exact path="/provider/profile" navbar={NavBarProvider} sidebar={SideBarProvider} component={ProviderProfile} />
->>>>>>> 07e778ee107a4994d883f23dae98eaa56cb247a7
             <Route exact path="/create_menu" render={(props) => <CreateMenu {...props} />} />
             <Route exact path="/edit_menu" render={(props) => <EditMenu {...props} />} />
 

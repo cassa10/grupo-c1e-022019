@@ -16,7 +16,7 @@ class EditMenu extends Component {
       <div>
         <h1 className="register_menu_title"> {t('Edit your menu')}
         </h1>
-        <EditMenuForm menu={this.props.location.state.menu} />
+        <EditMenuForm menu={this.props.location.state.menu} fatherProps={this.props} />
       </div>
     );
   }
