@@ -202,16 +202,6 @@ public class ClientTest {
         Assert.assertEquals(client.getCredit(),new Credit(0d));
     }
 
-    @Test(expected = ClientCannotBuyOrderException.class)
-    public void testGivenAClientWithCannotBuyStateAnd1000CreditsWhenClientBuyAnOrderWithMenuPriceWithAmount2Is20ThenExceptionClientCannotBuyOrderArrays(){
-        Client client = ClientBuilder.aClient().withStateClient(new CannotBuyClientState()).withCredit(new Credit(1000d)).build();
-
-        Menu anMenu = MenuBuilder.aMenu().withMenuPriceCalculator(menuPriceWithAmount2Is20()).build();
-        Order anOrder = OrderBuilder.anOrder().withClient(client).withMenusAmount(2).withMenu(anMenu).build();
-
-        client.buyAnOrder(anOrder);
-    }
-
     private MenuPriceCalculator menuPriceWithAmount2Is20(){
         return new MenuPriceCalculator(10d,5,17d,7,9d);
     }

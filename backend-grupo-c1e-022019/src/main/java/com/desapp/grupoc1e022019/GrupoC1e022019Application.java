@@ -118,6 +118,7 @@ public class GrupoC1e022019Application {
 		Menu milaNapo = MenuBuilder.aMenu()
 				.withName("Mila Napo")
 				.withCategories(cMiladeNico)
+				.withDeliveryValue(30.0)
 				.withDescription("Milanesa estilo pizza")
 				.withProvider(joseProvider)
 				.withMaxSalesPerDay(5)
@@ -154,7 +155,8 @@ public class GrupoC1e022019Application {
 				.withName("Pizza de palmitos")
 				.withCategories(pizzaGreen)
 				.withMaxSalesPerDay(5)
-				.withMenuPriceCalculator(new MenuPriceCalculator(300.0,10,40.0,20,30.0))
+				.withDeliveryValue(30.0)
+				.withMenuPriceCalculator(new MenuPriceCalculator(300.0,10,240.0,20,230.0))
 				.withDescription("Tiene solo 2 palmitos")
 				.withProvider(joseProvider)
 				.build();
@@ -166,7 +168,8 @@ public class GrupoC1e022019Application {
 				.withName("Pizza Napolitana")
 				.withCategories(cPizza)
 				.withMaxSalesPerDay(5)
-				.withMenuPriceCalculator(new MenuPriceCalculator(300.0,10,40.0,20,30.0))
+				.withDeliveryValue(30.0)
+				.withMenuPriceCalculator(new MenuPriceCalculator(300.0,10,240.0,20,230.0))
 				.withDescription("Tiene napoli y tana")
 				.withProvider(joseProvider)
 				.build();

@@ -156,7 +156,6 @@ public class Client extends EntityId{
 
     public void haveToRankOrder(){
         sizeOrdersHaveToRank = sizeOrdersHaveToRank + 1;
-        this.clientState = new CannotBuyClientState();
     }
 
     public void orderRanked() {

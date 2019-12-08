@@ -128,6 +128,17 @@
     "Logo": "Logo",
     "Max distance of delivery in km": "Distancia max de delivery en kms",
     "ej": "ej",
+    "Precios del menu": "Precios del menu",
+    "Comprando": "Comprando",
+    "Compra por menor": "Compra al por menor",
+    "Deliver time": "Tiempo de entrega aprox",
+    "Deliver date": "Fecha de entrega",
+    "Deliver DateTime": "Fecha y hora de entrega",
+    "Something went wrong": "Algo malio sal :c",
+    "Menu provider reach own limit of orders, try another deliver date": "Este menu ha alcanzado el limite maximo de compras, prueba con otra fecha de entrega",
+    "Invalid data form": "Complete el formulario con datos validos",
+    "Rank your previous orders, please": "Puntua tus ordenes anteriores, por favor!",
+    "ej": "ej",
     "Su saldo es de" : "Su saldo es de ",
     "Hola" : "Hola "
 
