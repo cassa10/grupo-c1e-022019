@@ -36,3 +36,7 @@
     height: calc(3rem + 2px) !important;
     border-radius:0;
 }
+
+.search-row {
+    padding-left: 40px;
+}

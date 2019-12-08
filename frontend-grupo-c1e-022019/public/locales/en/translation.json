@@ -127,6 +127,15 @@
     "Ver logo": "Look up brand",
     "Logo": "Brand",
     "Max distance of delivery in km": "Max distance of delivery in kms",
-    "eg": "eg"
-
+    "eg": "eg",
+    "Precios del menu": "Menu prices",
+    "Comprando": "Buying",
+    "Compra por menor": "Retail buy",
+    "Deliver time": "Deliver time aprox",
+    "Deliver date": "Deliver date",
+    "Deliver DateTime": "Deliver date and hour",
+    "Something went wrong": "Something went wrong :(",
+    "Menu provider reach own limit of orders, try another deliver date": "Menu has reach their max limit of orders, try another deliver date",
+    "Invalid data form": "Complete form with valid data",
+    "Rank your previous orders, please": "Rank your previous orders, please"
 }

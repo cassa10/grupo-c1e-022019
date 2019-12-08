@@ -66,18 +66,15 @@ public class ClientController {
     @RequestMapping(method = RequestMethod.POST, value = "/client/accredit")
     public ResponseEntity accredit(@RequestBody AccreditDTO accreditDTO) {
 
-        ClientDAO dao = new ClientDAO();
-        dao.getClient(0);
-
         if(accreditDTO.getAmount() == null || accreditDTO.getAmount() <= 0){
             return new ResponseEntity<>("Request with bad data", HttpStatus.BAD_REQUEST);
         }
-
-        if(! clientService.clientExist(accreditDTO.getId())){
+        Optional<Client> maybeClient = clientService.findClientById(accreditDTO.getId());
+        if(! maybeClient.isPresent()){
             return new ResponseEntity<>("Client does not exist", HttpStatus.NOT_FOUND);
         }
 
-        Client updatedClient = clientService.accredit(accreditDTO.getId(),accreditDTO.getAmount());
+        Client updatedClient = clientService.accredit(maybeClient.get(),accreditDTO.getAmount());
 
         return new ResponseEntity<>(updatedClient, HttpStatus.OK);
     }

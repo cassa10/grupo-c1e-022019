@@ -108,7 +108,7 @@ class Home extends React.Component {
         <form className="form-menu-search">
           <div className="row">
             <div className="col-lg-12">
-              <div className="row">
+              <div className="row search-row">
                 <div className="col-lg-3 col-md-3 col-sm-12 p-0">
                   <input type="text" className="form-control search-slt" placeholder={t('Enter Menu Name')} onChange={(e) => this.handleSearchNameInput(e)} />
                 </div>

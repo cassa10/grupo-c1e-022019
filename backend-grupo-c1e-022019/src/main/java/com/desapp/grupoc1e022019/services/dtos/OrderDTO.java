@@ -153,6 +153,9 @@ public class OrderDTO {
     }
 
     private boolean hasValidDestination() {
+        if (isPickUpType()) {
+            return true;
+        }
         return destination != null && destination.isValid();
     }
 

@@ -128,7 +128,7 @@ class SignUpProvider extends React.Component {
       icon: 'error',
       title: 'Oops...',
       text: t("Please, complete all fields"),
-    })
+    });
   }
 
   handleSignUpProvider(isConfirmed) {
