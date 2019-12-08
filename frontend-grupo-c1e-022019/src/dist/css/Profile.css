@@ -3,3 +3,25 @@
     padding-left: 100px;
     color: white;
 }
+
+.profile-img{
+    height: 200px;
+    position: relative;
+    left: 42%;
+    padding-bottom: 20px;
+    border-radius: 118px 118px 118px 118px;
+    -moz-border-radius: 118px 118px 118px 118px;
+    -webkit-border-radius: 118px 118px 118px 118px;
+    border: 0px solid #000000;
+}
+
+.balance-text{
+    color: black;
+    margin-left:30px
+}
+
+.card{
+    margin-left: 100px;
+    margin-right: 100px;
+    margin-top: 20px;
+}

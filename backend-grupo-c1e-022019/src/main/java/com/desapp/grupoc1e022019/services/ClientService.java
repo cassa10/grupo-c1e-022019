@@ -63,13 +63,11 @@ public class ClientService {
     }
 
     @Transactional
-    public Client accredit(long id, double amount) {
-        Client tmp = clientDAO.getClient(id).get();
+    public Client accredit(Client client, double amount) {
+        client.deposit(new Credit(amount));
 
-        tmp.deposit(new Credit(amount));
-
-        clientDAO.save(tmp);
-        return tmp;
+        clientDAO.save(client);
+        return client;
     }
 
     public boolean existClientByGoogleId(String googleId) {

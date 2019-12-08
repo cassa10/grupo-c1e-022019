@@ -65,7 +65,7 @@
     "cancel" : "Cancel",
     "buy" : "Buy",
     "Done" : "Done",
-    "Please fill with a positive mount": "Please fill with a positive mount",
+    "Please fill with a positive mount": "Please fill with a positive amount",
     "Sign up 2": "Sign up",
     "Welcome to Viendas Ya": "Welcome to Viendas Ya!",
     "Intro logging error message": "Ops, something went wrong... ",
@@ -127,6 +127,7 @@
     "Ver logo": "Look up brand",
     "Logo": "Brand",
     "Max distance of delivery in km": "Max distance of delivery in kms",
-    "eg": "eg"
-
+    "eg": "eg",
+    "Su saldo es de" : "Your balance is ",
+    "Hola" : "Hi "
 }
