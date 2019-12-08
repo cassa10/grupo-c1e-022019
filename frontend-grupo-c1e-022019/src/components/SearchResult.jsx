@@ -1,17 +1,17 @@
 import React from 'react';
 import '../dist/css/SearchResult.css';
 import {
-  Card, Container, Col, Modal, DropdownButton, Dropdown,
-  Row, Form, Badge, Button,
+  Card, Container, Col, DropdownButton, Dropdown,
+  Row, Badge,
 } from 'react-bootstrap';
 import { withTranslation } from 'react-i18next';
 import Swal from 'sweetalert2';
 import StarRatingComponent from 'react-star-rating-component';
 import API from '../service/api';
-import shoppingCartIcon from '../dist/icons/shopping-cart-buy-icon.png';
 import formatPrice from './formatter/formatCredit';
 import ModalSee from './ModalSee';
 import ModalProvider from './ModalProvider';
+import ModalBuyMenu from './ModalBuyMenu';
 import formatDate from './formatter/formatDate';
 
 
@@ -38,14 +38,6 @@ class SearchResult extends React.Component {
       currentPage: 0,
       totalPages: 0,
       totalElements: 0,
-      // ESTO ESTA HARDCODEADO (PONER INPUT DEL MAP)
-      destination: {
-        coord: {
-          latitude: '-34.707191',
-          longitude: '-58.276366',
-        },
-        location: 'Dean Funes 630, Bernal, Buenos Aires, Argentina',
-      },
     };
   }
 
@@ -74,35 +66,6 @@ class SearchResult extends React.Component {
 
   setShowSee(b) {
     this.setState({ showModalSee: b });
-  }
-
-  getBodyFromDelivery(menu) {
-    if (this.state.delivery) {
-      return (
-        {
-          tokenAccess: this.state.tokenAccess,
-          googleId: this.state.googleId,
-          idClient: this.state.user.id,
-          idMenu: menu.id,
-          menusAmount: this.state.quantityOfMenus,
-          deliverType: 'delivery',
-          deliverDate: new Date().toJSON(),
-          destination: this.state.destination,
-        }
-      );
-    }
-
-    return (
-      {
-        tokenAccess: this.state.tokenAccess,
-        googleId: this.state.googleId,
-        idClient: this.state.user.id,
-        idMenu: menu.id,
-        menusAmount: this.state.quantityOfMenus,
-        deliverType: 'pickup',
-        deliverDate: new Date().toJSON(),
-      }
-    );
   }
 
   getDecreasedFromPage() {
@@ -189,53 +152,6 @@ class SearchResult extends React.Component {
       imageAlt: 'Maldita pobreza',
       icon: 'error',
     });
-  }
-
-  buyDone(t, menu) {
-    this.props.history.push('/home');
-    Swal.fire(
-      t('Done!'),
-      `${t('enjoy your')} ${menu.name}`,
-      'success',
-    );
-    window.location.reload();
-  }
-
-
-  makeApiPost(menu, t) {
-    const body = this.getBodyFromDelivery(menu);
-    API.post('/order', body)
-      .then(() => this.buyDone(t, menu))
-      .catch((e) => console.log(e));
-  }
-
-  buyConfirmed(isConfirmed, menu, t) {
-    if (isConfirmed) {
-      this.makeApiPost(menu, t);
-    }
-  }
-
-  handleBuyFromModal(menu, t) {
-    Swal.fire({
-      title: t('¿Estas seguro?'),
-      text: `${t("We'll debit ")} ${menu.price * this.state.quantityOfMenus}  pesos`,
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: 'Green',
-      cancelButtonColor: 'Red',
-      confirmButtonText: t('buy'),
-      cancelButtonText: t('cancel'),
-    })
-      .then((result) => this.buyConfirmed(result.value, menu, t))
-      .catch((error) => console.log(error.response));
-  }
-
-  handleQuantityOfMenus(e) {
-    this.setState({ quantityOfMenus: e.target.value });
-  }
-
-  handleDelivery(e) {
-    this.setState({ delivery: e.target.checked });
   }
 
   async changePriceSortSelected(e) {
@@ -325,34 +241,18 @@ class SearchResult extends React.Component {
     );
   }
 
-  buyButton(menu, t) {
-    const handleClose = () => this.setShow(false);
-    const handleShow = () => this.setShow(true);
+  buyButton(menu) {
     return (
       <Row>
         <Col>
-          <Button className="buy-button" variant="danger" onClick={handleShow}>
-            <img src={shoppingCartIcon} alt="buy" />
-          </Button>
-          <Modal show={this.state.showModal} onHide={handleClose}>
-            <Modal.Header closeButton>
-              <Modal.Title>{t('buy')}</Modal.Title>
-            </Modal.Header>
-            <Modal.Body className="buy-body">{t('How many?')}
-              <br />
-              <input type="number" onChange={(e) => this.handleQuantityOfMenus(e)} />
-              <p className="buy-body">{t('Do you want delivery?')}</p>
-              <Form.Check inline label="Delivery" type="checkbox" id="inline-checkbox-1" onChange={(e) => this.handleDelivery(e)} />
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
-                {t('cancel')}
-              </Button>
-              <Button variant="primary" onClick={() => this.handleBuyFromModal(menu, t)}>
-                {t('buy')}
-              </Button>
-            </Modal.Footer>
-          </Modal>
+          <ModalBuyMenu
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            {...this.props}
+            googleId={this.state.googleId}
+            tokenAccess={this.state.tokenAccess}
+            user={this.state.user}
+            menu={menu}
+          />
         </Col>
       </Row>
     );

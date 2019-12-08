@@ -94,10 +94,10 @@ public class ScheduleService {
         if(! prevOrderPricePerAmount.equals(newOrderPricePerAmount)){
             double differenceCredit = (prevOrderPricePerAmount - newOrderPricePerAmount) * order.getMenusAmount();
             order.getClient().deposit(new Credit(differenceCredit));
-            clientDAO.save(order.getClient());
             emailSenderService.sendOrderFinalPriceHasChanged(order,prevOrderPricePerAmount,newOrderPricePerAmount, differenceCredit);
         }
 
+        clientDAO.save(order.getClient());
         order.payToProvider();
         providerDAO.save(order.getMenu().getProvider());
         orderDAO.save(order);

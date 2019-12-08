@@ -82,7 +82,7 @@ class ModalProvider extends React.Component {
   showStars() {
     return (
       <StarRatingComponent
-        className="stars rate_provider"
+        className="rate_provider"
         name="rate2"
         editing={false}
         starCount={5}
@@ -120,7 +120,13 @@ class ModalProvider extends React.Component {
         <Modal size="lg" show={this.state.modalOpen} onHide={handleClose}>
           <Container>
             <Modal.Header closeButton className="header_provider">
-              <img className="logo_img" src={this.state.provider.logo} alt={t('logo')} /><h1>{this.state.provider.name}</h1> {this.showStars()}
+              <Row>
+                <img className="logo_img" src={this.state.provider.logo} alt={t('logo')} />
+                <Col>
+                  <h1>{this.state.provider.name}</h1>
+                </Col>
+                {this.showStars()}
+              </Row>
             </Modal.Header>
             <Modal.Title className="description_provider">
               {`"${this.state.provider.description}"`}
