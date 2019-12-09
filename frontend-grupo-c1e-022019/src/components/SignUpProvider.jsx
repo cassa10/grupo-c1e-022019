@@ -181,6 +181,9 @@ class SignUpProvider extends React.Component {
   }
 
   handlerProviderLogo(e) {
+    if (e.target.value.trim().length < 1) {
+      this.setState({ haveToRenderise: false });
+    }
     this.setState({ logo: e.target.value });
   }
 
@@ -304,13 +307,13 @@ class SignUpProvider extends React.Component {
 
   createInputLogo(t) {
     return (
-      <input type="text" className={` form-control input-weburl-provider`} id="inputWebURLProvider" placeholder={`${t('Logo')} (${t('eg')}: ${this.state.defaultProviderLogo})`} onChange={(e) => this.handlerProviderLogo(e)} />
+      <input type="text" className={` form-control input-weburl-provider`} id="inputLogoProvider" placeholder={`${t('Logo')} (${t('eg')}: ${this.state.defaultProviderLogo})`} onChange={(e) => this.handlerProviderLogo(e)} />
     );
   }
 
   createInputOfDeliveryMaxDistanceInKM(t) {
     return (
-      <input type="number" className={`${this.cssInvalidNumber(this.state.deliveryMaxDistanceInKM)} form-control input-weburl-provider`} id="inputWebURLProvider" placeholder={t('Max distance of delivery in km')} onChange={(e) => this.handlerDeliveryMaxDistanceInKM(e)} />
+      <input type="number" className={`${this.cssInvalidNumber(this.state.deliveryMaxDistanceInKM)} form-control input-weburl-provider`} id="inputMaxDistanceDeliveryProvider" placeholder={t('Max distance of delivery in km')} onChange={(e) => this.handlerDeliveryMaxDistanceInKM(e)} />
     );
   }
 
@@ -389,18 +392,16 @@ class SignUpProvider extends React.Component {
       return (
         <img className="logo_img" src={this.state.logo} alt="logo" />
       );
-    } else {
-      return (
-        <img className="logo_img" src={this.state.defaultProviderLogo} alt="logo" />
-      );
     }
+    return (
+      <img className="logo_img" src={this.state.defaultProviderLogo} alt="logo" />
+    );
   }
 
   verLogo() {
     if (this.state.logo) {
       this.setState({ haveToRenderise: true });
     }
-    
   }
 
   render() {

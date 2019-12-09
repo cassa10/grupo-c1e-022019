@@ -48,6 +48,7 @@ public class ClientService {
         clientRecovered.setFirstName(clientDTO.getFirstName());
         clientRecovered.setLastName(clientDTO.getLastName());
         clientRecovered.setLocation(clientDTO.getLocation());
+        clientRecovered.setImageUrl(clientDTO.getImageUrl());
 
         return clientDAO.save(clientRecovered);
     }

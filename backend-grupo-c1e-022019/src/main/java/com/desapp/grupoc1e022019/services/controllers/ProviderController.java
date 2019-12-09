@@ -127,7 +127,7 @@ public class ProviderController {
         // Aplica trim() a todos los strins menos el email que no esta presente en este post
         providerDTO.trimAllStringBasicInfo();
 
-        if(! providerDTO.isValidBasicInfo()){
+        if(! providerDTO.isValidBasicInfo()) {
             return new ResponseEntity<>("Bad request data", HttpStatus.BAD_REQUEST);
         }
 
