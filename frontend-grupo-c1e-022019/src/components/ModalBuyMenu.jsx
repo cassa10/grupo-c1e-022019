@@ -72,7 +72,10 @@ class ModalBuyMenu extends React.Component {
   }
 
   getBodyToMakeOrder() {
-    const deliveryDateTime = this.getDeliveryInputDateTime();
+    const day = this.getDeliveryInputDateTime().getDate();
+    const month = this.getDeliveryInputDateTime().getMonth() + 1;
+    const year = this.getDeliveryInputDateTime().getFullYear();
+    const deliveryDateTime = `${year}-${month}-${day}T${this.state.timeDeliveryDate}:00.000Z`;
     if (this.state.isDelivery) {
       return (
         {
@@ -208,7 +211,6 @@ class ModalBuyMenu extends React.Component {
 
   makeOrderRequest(t) {
     const body = this.getBodyToMakeOrder();
-    console.log(body);
     API.post('/order', body)
       .then((response) => this.buyDone(t, response))
       .catch((error) => this.handleBuyAPIError(t, error));
@@ -216,7 +218,6 @@ class ModalBuyMenu extends React.Component {
 
   handleBuyAPIError(t, error) {
     console.log(error);
-    console.log(error.response);
     if (error && error.response && error.response.data) {
       this.showAppropiateErrorAPI(t, error.response.data);
     } else {
