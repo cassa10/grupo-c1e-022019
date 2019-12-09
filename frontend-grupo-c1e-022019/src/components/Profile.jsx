@@ -1,24 +1,21 @@
 import React from 'react';
 import { withTranslation } from 'react-i18next';
 import '../dist/css/Profile.css';
-import StarRatingComponent from 'react-star-rating-component';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import Badge from 'react-bootstrap/Badge';
 import Card from 'react-bootstrap/Card';
 import Modal from 'react-bootstrap/Modal';
 import Swal from 'sweetalert2';
+import OrderCard from './OrderCard';
 import formatCredit from './formatter/formatCredit.js';
-import ModalSeeOrder from './ModalSeeOrder';
 import API from '../service/api';
 
 class Profile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      menuImage: 'https://www.seriouseats.com/recipes/images/2015/07/20150728-homemade-whopper-food-lab-35-1500x1125.jpg',
       profileImg: '',
       googleId: '',
       tokenAccess: '',
@@ -119,26 +116,6 @@ class Profile extends React.Component {
     );
   }
 
-  showStars(order) {
-    return (
-      <StarRatingComponent
-        className="stars"
-        name="rate2"
-        editing={false}
-        starCount={5}
-        value={order.stars}
-      />
-    );
-  }
-
-  showBadge(order) {
-    return (
-      <Badge pill variant="warning">
-        {order.stateName}
-      </Badge>
-    );
-  }
-
   renderImg() {
     return <img className="profile-img" alt="providerimg" src={this.state.user.imageUrl} />;
   }
@@ -180,39 +157,12 @@ class Profile extends React.Component {
     return (this.state.orders.map((order) => this.renderOrder(order, t)));
   }
 
-  renderOrder(order, t) {
-    return (
-      <div className="order-card" key={order.id}>
-        <Card>
-          <Card.Header as="h4">{order.menuName}</Card.Header>
-          <Card.Body>
-            <Row>
-              <Col lg={4.5}>
-                <Card.Img className="card_img" variant="left" src={this.state.menuImage} />
-                <div className="text-center font-weight-bold price-order">
-                  {`${formatCredit(t, order.menuInfoPrice)}`}
-                </div>
-              </Col>
-              <Col>
-                {this.showStars(order)}
-                {this.showBadge(order)}
-                <h5>
-                  Ordenaste {order.menusAmount}<br />
-                </h5>
-              </Col>
-              <Col lg={2}>
-                <ModalSeeOrder order={order} />
-              </Col>
-            </Row>
-          </Card.Body>
-        </Card>
-      </div>
-    );
+  renderOrder(order) {
+    return <OrderCard order={order} googleId={this.props.location.state.googleId} tokenAccess={this.props.location.state.tokenAccess} />;
   }
 
   render() {
     const { t } = this.props;
-    console.log(this.state);
     return (
       <div className="profile-root">
         {this.renderImg(t)}

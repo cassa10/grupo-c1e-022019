@@ -140,5 +140,7 @@
     "Menu provider reach own limit of orders, try another deliver date": "Menu has reach their max limit of orders, try another deliver date",
     "Invalid data form": "Complete form with valid data",
     "Rank your previous orders, please": "Rank your previous orders, please",
-    "Ordenes historicas" : "Historic orders"
+    "Ordenes historicas" : "Historic orders",
+    "Salir" : "Back",
+    "You are gonna miss this fantastic meal" :"You are gonna miss this fantastic meal!"
 }
