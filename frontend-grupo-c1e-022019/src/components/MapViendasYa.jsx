@@ -86,8 +86,9 @@ class MapViendasYa extends React.Component {
           />
           {marker}
           <Marker
-          draggable={false}
-          position={[this.props.fixCoord[0],this.props.fixCoord[1]]}
+          draggable={this.state.draggable}
+          onDragend={this.updatePosition}
+          position={this.state.latlng}
           ref={this.refmarker}>
           <Popup minWidth={90}>
             <span onClick={this.toggleDraggable}>
