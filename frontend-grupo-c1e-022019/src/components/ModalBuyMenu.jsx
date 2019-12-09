@@ -283,6 +283,7 @@ class ModalBuyMenu extends React.Component {
         isClient: true,
       },
     });
+    window.location.reload();
   }
 
   createMenuPricesInfo(t) {

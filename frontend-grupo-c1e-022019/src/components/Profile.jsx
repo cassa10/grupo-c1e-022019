@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { withTranslation } from 'react-i18next';
 import '../dist/css/Profile.css';
@@ -10,6 +11,8 @@ import Modal from 'react-bootstrap/Modal';
 import Swal from 'sweetalert2';
 import OrderCard from './OrderCard';
 import formatCredit from './formatter/formatCredit.js';
+import ModalEditProfileClient from './ModalEditProfileClient';
+import accreditIcon from '../dist/icons/accredit-icon.png';
 import API from '../service/api';
 
 class Profile extends React.Component {
@@ -39,6 +42,10 @@ class Profile extends React.Component {
       idClient: this.props.location.state.user.id,
     };
 
+    this.setState({ googleId: body.googleId });
+    this.setState({ tokenAccess: body.tokenAccess });
+    this.setState({ user: this.props.location.state.user });
+
     API.get('/client', body)
       .then((response) => this.setState({ user: response }))
       .catch((error) => this.handleAPIError(error));
@@ -53,8 +60,7 @@ class Profile extends React.Component {
   }
 
   handleAPIError(errorAPI) {
-    console.log(errorAPI);
-    this.props.history.push({
+    this.props.location.history.push({
       pathname: '/error',
       state: {
         googleId: this.state.googleId,
@@ -79,7 +85,8 @@ class Profile extends React.Component {
 
   doAccredit(t) {
     const body = {
-      googleId: this.state.user.googleId,
+      googleId: this.state.googleId,
+      tokenAccess: this.state.tokenAccess,
       amount: this.state.inputCredit,
     };
     API.post('/client/accredit', body)
@@ -90,11 +97,11 @@ class Profile extends React.Component {
   accreditButton(t) {
     const handleClose = () => this.setShow(false);
     const handleShow = () => this.setShow(true);
-    console.log(this.state);
     return (
       <div>
-        <Button variant="primary" onClick={handleShow}>{t('Accredit')}</Button>
-
+        <Button variant="primary" onClick={handleShow}>
+          <img src={accreditIcon} alt={t('Accredit')} />
+        </Button>
         <Modal show={this.state.showBuyModal} onHide={handleClose}>
           <Modal.Header closeButton>
             <Modal.Title>{t('Accredit')}</Modal.Title>
@@ -134,7 +141,14 @@ class Profile extends React.Component {
                   {this.accreditButton(t)}
                 </Col>
                 <Col>
-                  <Button variant="primary">{t('Edit profile')}</Button>
+                  <ModalEditProfileClient
+                    {...this.props}
+                    googleId={this.state.googleId}
+                    tokenAccess={this.state.tokenAccess}
+                    profileImg={this.state.profileImg}
+                    user={this.state.user}
+                    isClient={this.state.user.typeClient}
+                  />
                 </Col>
               </Row>
             </Container>

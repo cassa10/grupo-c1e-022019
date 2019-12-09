@@ -143,5 +143,16 @@
     "Ordenes historicas" : "Historic orders",
     "Salir" : "Back",
     "You are gonna miss this fantastic meal" :"You are gonna miss this fantastic meal!",
+    "Update profile": "Update profile",
+    "Tus datos van a cambiar": "Your profile will be changed!",
+    "Yeah, edit!": "Yeah, edit!",
+    "Please, complete all important fields (*)": "Please, complete all important fields (*)",
+    "Edited!": "Edited!",
+    "Firstname": "Firstname",
+    "Lastname": "Lastname",
+    "Location": "City",
+    "Area (Tel)": "Area (Tel)",
+    "Upload": "Upload",
+    "Profile image link": "Profile image link",
     "rate" : "Rate"
 }

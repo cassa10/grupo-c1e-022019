@@ -48,14 +48,17 @@ public class ClientController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/client/basicInfo")
     public ResponseEntity updateClientBasicInfo(@RequestBody ClientDTO clientDTO) {
-        GoogleAuthDTO googleAuthDTO = clientDTO.getGoogleAuthDTO();
-        if(! googleAuthService.clientHasAccess(googleAuthDTO.getGoogleId(),googleAuthDTO.getTokenAccess())){
+        if(! googleAuthService.clientHasAccess(clientDTO.getGoogleId(),clientDTO.getTokenAccess())){
             return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
         }
         Optional<Client> maybeClient = clientService.findClientById(clientDTO.getId());
 
         if(! maybeClient.isPresent()){
             return new ResponseEntity<>("Client does not exist", HttpStatus.NOT_FOUND);
+        }
+
+        if(! clientDTO.isValidBasicInfo()){
+            return new ResponseEntity<>("Bad request data", HttpStatus.BAD_REQUEST);
         }
         Client updatedClient = clientService.updateClientBasicInfo(maybeClient.get(),clientDTO);
 
@@ -65,6 +68,10 @@ public class ClientController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/client/accredit")
     public ResponseEntity accredit(@RequestBody AccreditDTO accreditDTO) {
+
+        if(! googleAuthService.clientHasAccess(accreditDTO.getGoogleId(),accreditDTO.getTokenAccess())){
+            return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
+        }
 
         if(accreditDTO.getAmount() == null || accreditDTO.getAmount() <= 0){
             return new ResponseEntity<>("Request with bad data", HttpStatus.BAD_REQUEST);

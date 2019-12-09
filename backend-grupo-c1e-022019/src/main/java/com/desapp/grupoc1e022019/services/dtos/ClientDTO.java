@@ -134,4 +134,14 @@ public class ClientDTO {
                 + " ,phoneNumber: "+ this.phoneNumber + " ,location: " +this.location+ " ,address: "+ this.address +
                 " ,credit: "+ this.credit + " ,StateClient:"+ this.clientState +" }";
     }
+
+    public boolean isValidBasicInfo() {
+        return validStringProperty(firstName) && validStringProperty(lastName) &&
+                validStringProperty(imageUrl) && validStringProperty(phoneNumber) &&
+                validStringProperty(location) && validStringProperty(address);
+    }
+
+    private boolean validStringProperty(String str) {
+        return str != null && str.trim().length() > 0;
+    }
 }

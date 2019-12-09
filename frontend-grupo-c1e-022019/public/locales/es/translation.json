@@ -138,12 +138,22 @@
     "Menu provider reach own limit of orders, try another deliver date": "Este menu ha alcanzado el limite maximo de compras, prueba con otra fecha de entrega",
     "Invalid data form": "Complete el formulario con datos validos",
     "Rank your previous orders, please": "Puntua tus ordenes anteriores, por favor!",
-    "ej": "ej",
     "Su saldo es de" : "Su saldo es de ",
     "Hola" : "Hola ",
     "Ordenes historicas" : "Historic orders",
     "You are gonna miss this fantastic meal":"Te vas a perder de una rica comidita!",
     "Salir" : "Salir",
+    "Update profile": "Actualizar perfil",
+    "Tus datos van a cambiar": "Tus datos van a cambiar",
+    "Yeah, edit!": "Si, editalo!",
+    "Please, complete all important fields (*)": "Completa todos los campos obligatorios (*), por favor!",
+    "Edited!": "Editado correctamente!",
+    "Firstname": "Nombre",
+    "Lastname": "Apellido",
+    "Location": "Ciudad/Localidad",
+    "Area (Tel)": "Area (Tel)",
+    "Upload": "Subir",
+    "Profile image link": "Enlace de imagen",
     "rate" : "Calificar"
 
 }

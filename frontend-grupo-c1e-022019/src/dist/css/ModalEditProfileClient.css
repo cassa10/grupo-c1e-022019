@@ -1,0 +1,15 @@
+.title-update-profile {
+    font-size: larger;
+}
+
+.label_edit_profile {
+    color: black;
+}
+
+.input_edit_profile {
+    margin-bottom: 10px;
+}
+
+.button_update_image {
+  padding-top: 20px;
+}

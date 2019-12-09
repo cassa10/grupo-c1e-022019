@@ -50,7 +50,6 @@ public class ProviderService {
 
         providerRecovered.setName(providerDTO.getName());
         providerRecovered.setLogo(providerDTO.getLogo());
-        providerRecovered.setCity(providerDTO.getCity());
         providerRecovered.setDeliveryMaxDistanceInKM(providerDTO.getDeliveryMaxDistanceInKM());
         providerRecovered.setDescription(providerDTO.getDescription());
         providerRecovered.setTelNumber(providerDTO.getTelNumber());

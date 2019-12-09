@@ -186,7 +186,7 @@ public class ProviderDTO  {
     }
 
     public boolean isValidBasicInfo() {
-        return (isValidString(name) && isValidString(logo) && isValidString(city) &&
+        return (isValidString(name) && isValidString(logo) &&
                 isValidDescription() && isValidString(webURL) &&
                 isValidTelNumber() && isValidDeliveryMaxDistanceInKM());
     }
