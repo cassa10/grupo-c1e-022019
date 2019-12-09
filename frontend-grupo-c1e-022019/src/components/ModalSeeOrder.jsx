@@ -24,9 +24,10 @@ class ModalSeeOrder extends React.Component {
 
 
   getDeliveryValue(t) {
-      //Hardcodeado en free, no se xq tira menu info como undefined 
+    // Hardcodeado en free, no se xq tira menu info como undefined
     if (this.props.order.menuInfo.deliveryValue !== undefined) {
-      return (/**aca iria this props.order.menuInfo.deliveryValue*/0 <= 0 ? this.createFreeBadge(t) : formatPrice(t, this.props.menu.deliveryValue));
+      // return (this.props.order.menuInfo.deliveryValue <= 0 ? this.createFreeBadge(t) : formatPrice(t, this.props.menu.deliveryValue));
+      return this.createFreeBadge(t);
     }
     return <div />;
   }
