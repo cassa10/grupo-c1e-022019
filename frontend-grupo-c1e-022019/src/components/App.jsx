@@ -12,7 +12,7 @@ import PrivateRouteNavs from './PrivateRoutesComponents/PrivateRouteNavs';
 import Home from './Home';
 import NavBar from './NavBar';
 import NavBarProvider from './NavBarProvider';
-import CreateMenu from './CreateMenu';
+import RegisterMenuForm from './RegisterMenuForm';
 import LogIn from './LogIn';
 import SearchResult from './SearchResult';
 import ErrorPage from './ErrorPage';
@@ -46,7 +46,7 @@ export default class App extends React.Component {
             }
             <PrivateRouteNavs exact path="/provider" navbar={NavBarProvider} sidebar={SideBarProvider} component={ProviderHome} />
             <PrivateRouteNavs exact path="/provider/profile" navbar={NavBarProvider} sidebar={SideBarProvider} component={ProviderProfile} />
-            <Route exact path="/create_menu" render={(props) => <CreateMenu {...props} />} />
+            <PrivateRouteNavs exact path="/create_menu" navbar={NavBarProvider} sidebar={SideBarProvider} component={RegisterMenuForm} />
             <Route exact path="/edit_menu" render={(props) => <EditMenu {...props} />} />
 
             <Route exact path="/map" render={(props) => <MapViendasYa {...props} />} />

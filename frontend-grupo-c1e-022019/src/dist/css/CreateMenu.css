@@ -1,12 +1,32 @@
 .register_menu_title{
-    color: white;
-    padding-top: 80px;
+    color: rgba(0, 0, 0, 0.856);
+    margin-top: 100px;
+    margin-left: 120px;
+    margin-right: 120px;
     text-align: center;
+    background-color: white;
+    border-left: solid;
+    border-right: solid;
+    border-width: 10px;
+    border-color: #db3d44;
+    
+}
+
+.form_register_menu {
+    background-color: white;
+    margin-left: 120px;
+    margin-right: 120px;
+    border-left: solid;
+    border-right: solid;
+    border-width: 10px;
+    border-color: #db3d44;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .register_menu_form{
-    padding-left: 100px;
-    padding-right: 100px;
+    margin-left: 60px;
+    padding-right: 60px;
     padding-top: 40px;
 }
 
@@ -23,17 +43,15 @@
     text-size-adjust: 10;
 }
 
-.register_button{
-    width: 500px;
-    margin-left: 350px;
-    padding-left: 100px !important;
-    padding-right: 100px !important;
-}
-
 .name-menu-create{
-    color:white;
+    color:black;
 }
 
 .form-name-menu-alert{
-    color : white;
+    color : black !important;
+}
+
+.button_register_menu {
+    margin-left: 100px;
+    margin-right: 100px;
 }
