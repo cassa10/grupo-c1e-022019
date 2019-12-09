@@ -313,9 +313,8 @@ class EditMenuForm extends React.Component {
 
   postInfo(t) {
     const body = {
-      googleId: 'FAKEID1',
-      tokenAccess: 'FAKEACCESSTOKEN1',
-      idProvider: 1,
+      googleId: this.props.fatherProps.location.state.googleId,
+      tokenAccess: this.props.fatherProps.location.state.tokenAccess,
       id: this.props.menu.id,
       name: this.state.name,
       description: this.state.description,
@@ -335,6 +334,7 @@ class EditMenuForm extends React.Component {
         secondMinAmountPrice: this.state.sndPrice,
       },
     };
+    console.log(body)
     API.put('/menu', body)
       .then(() => this.menuUpdated(t))
       .catch((error) => console.log(error));

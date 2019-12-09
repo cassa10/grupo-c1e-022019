@@ -16,7 +16,7 @@ class CreateMenu extends Component {
       <div>
         <h1 className="register_menu_title"> {t('register your menu')}
         </h1>
-        <RegisterMenuForm />
+        <RegisterMenuForm fatherProps={this.props} />
       </div>
     );
   }

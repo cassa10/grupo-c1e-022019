@@ -1,4 +1,5 @@
-import React from 'react';
+/* eslint-disable react/jsx-props-no-spreading */
+import React, { createRef } from 'react';
 import '../dist/css/ModalBuyMenu.css';
 import {
   Row, Col, Modal, Button, Container, Form,
@@ -7,11 +8,17 @@ import Calendar from 'react-calendar';
 import TimeField from 'react-simple-timefield';
 import { withTranslation } from 'react-i18next';
 import Swal from 'sweetalert2';
+import {
+  Map, Marker, Popup, TileLayer, withLeaflet,
+} from 'react-leaflet';
+import MeasureControlDefault from 'react-leaflet-measure';
 import formatPrice from './formatter/formatCredit';
 import formatNumber from './formatter/formatNumber';
 import shoppingCartIcon from '../dist/icons/shopping-cart-buy-icon.png';
 import API from '../service/api';
 import formatDate from './formatter/formatDate';
+
+const MeasureControl = withLeaflet(MeasureControlDefault);
 
 class ModalBuyMenu extends React.Component {
   constructor(props) {
@@ -23,15 +30,24 @@ class ModalBuyMenu extends React.Component {
       menu: {},
       quantityOfMenus: 0,
       isDelivery: false,
-      // ESTO ESTA HARDCODEADO (PONER INPUT DEL MAP)
-      coord: {
-        latitude: '',
-        longitude: '',
-      },
       location: '',
       timeDeliveryDate: '23:59',
       dateDeliveryDate: undefined,
       modalOpen: false,
+      measureOptions: {
+        position: 'topright',
+        primaryLengthUnit: 'meters',
+        secondaryLengthUnit: 'kilometers',
+        primaryAreaUnit: 'sqmeters',
+        secondaryAreaUnit: 'acres',
+        activeColor: '#db4a29',
+        completedColor: '#9b2d14',
+      },
+      latlng: {
+        lat: -34.706667,
+        lng: -58.2775,
+      },
+      draggable: true,
     };
   }
 
@@ -68,7 +84,10 @@ class ModalBuyMenu extends React.Component {
           deliverType: 'delivery',
           deliverDate: deliveryDateTime,
           destination: {
-            coord: this.state.coord,
+            coord: {
+              latitude: this.state.latlng.lat,
+              longitude: this.state.latlng.lng
+            },
             location: this.state.location,
           },
         }
@@ -128,8 +147,8 @@ class ModalBuyMenu extends React.Component {
     // Ya se este if es innecesario pero para entender mas facil la logica.
     if (this.state.isDelivery) {
       return (
-        this.state.coord.latitude.trim().length > 0
-          && this.state.coord.longitude.trim().length > 0
+        this.state.latlng.lat !== 0
+          && this.state.latlng.lng !== 0
           && this.state.location.trim().length > 0
       );
     }
@@ -316,11 +335,10 @@ class ModalBuyMenu extends React.Component {
           <Row>
             <Col>
               <input type="text" placeholder={t('Location')} onChange={(e) => this.handleLocationOfDelivery(e)} />
+              {this.showMap(t)}
             </Col>
           </Row>
-          <Row>
-            {this.showMap(t)}
-          </Row>
+
         </div>
       );
     }
@@ -329,11 +347,80 @@ class ModalBuyMenu extends React.Component {
     );
   }
 
-  showMap(t) {
+
+  createAMarker(position, title, description) {
+    return (
+      <Marker position={position}>
+        <Popup>{title}<br />{description}</Popup>
+      </Marker>
+    );
+  }
+
+    mapRef = createRef()
+
+    // $FlowFixMe: ref
+    refmarker = createRef()
+
+  toggleDraggable = () => {
+    this.setState({ draggable: !this.state.draggable })
+  }
+
+  useMyLocation(){
+    const map = this.mapRef.current
+    map.leafletElement.locate()
+  }  
+
+  handleLocationFound = (e) => {
+    this.setState({
+      latlng: e.latlng,
+    })
+  }
+
+  updatePosition = () => {
+    const marker = this.refmarker.current
+    if (marker != null) {
+      this.setState({
+        latlng: marker.leafletElement.getLatLng(),
+      })
+    }
+  }
+
+
+  showMap() {
+    const marker = this.state.hasLocation ? (
+      <Marker position={this.state.latlng}>
+        <Popup>You are here</Popup>
+      </Marker>
+    ) : null;
     return (
       <div>
-        {t('FALTA AGREGAR EL MAPA ACA PARA ELEGIR EL DESTINO SIEMPRE VA A TIRAR ERROR')}
-        {t(' CON ESTE MENSAJE PORQUE NUNCA SE SETEAN UNAS COORDENADAS VALIDAS Y SE VALIDA QUE ESO ESTE')}
+        <Map
+          center={this.state.latlng}
+          zoom={15}
+          onClick={this.handleClick}
+          onLocationfound={this.handleLocationFound}
+          ref={this.mapRef}
+        >
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+          />
+          {marker}
+          <Marker
+            draggable={this.state.draggable}
+            onDragend={this.updatePosition}
+            position={this.state.latlng}
+            ref={this.refmarker}
+          >
+            <Popup minWidth={90}>
+            <span onClick={this.toggleDraggable}>
+              {this.state.draggable ? 'Draggable' : 'Fixed'}
+            </span>
+          </Popup>
+          </Marker>
+          <MeasureControl {...this.state.measureOptions.position} />
+        </Map>
+        <Button onClick={() => this.useMyLocation()}>Use my Location</Button>
       </div>
     );
   }

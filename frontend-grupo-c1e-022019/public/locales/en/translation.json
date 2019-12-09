@@ -65,7 +65,7 @@
     "cancel" : "Cancel",
     "buy" : "Buy",
     "Done" : "Done",
-    "Please fill with a positive mount": "Please fill with a positive mount",
+    "Please fill with a positive mount": "Please fill with a positive amount",
     "Sign up 2": "Sign up",
     "Welcome to Viendas Ya": "Welcome to Viendas Ya!",
     "Intro logging error message": "Ops, something went wrong... ",
@@ -128,6 +128,8 @@
     "Logo": "Brand",
     "Max distance of delivery in km": "Max distance of delivery in kms",
     "eg": "eg",
+    "Su saldo es de" : "Your balance is ",
+    "Hola" : "Hi ",
     "Precios del menu": "Menu prices",
     "Comprando": "Buying",
     "Compra por menor": "Retail buy",
@@ -137,5 +139,6 @@
     "Something went wrong": "Something went wrong :(",
     "Menu provider reach own limit of orders, try another deliver date": "Menu has reach their max limit of orders, try another deliver date",
     "Invalid data form": "Complete form with valid data",
-    "Rank your previous orders, please": "Rank your previous orders, please"
+    "Rank your previous orders, please": "Rank your previous orders, please",
+    "Ordenes historicas" : "Historic orders"
 }

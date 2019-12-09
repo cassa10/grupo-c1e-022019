@@ -69,7 +69,8 @@ public class ClientController {
         if(accreditDTO.getAmount() == null || accreditDTO.getAmount() <= 0){
             return new ResponseEntity<>("Request with bad data", HttpStatus.BAD_REQUEST);
         }
-        Optional<Client> maybeClient = clientService.findClientById(accreditDTO.getId());
+        Optional<Client> maybeClient = clientService.findClientByGoogleId(accreditDTO.getGoogleId());
+
         if(! maybeClient.isPresent()){
             return new ResponseEntity<>("Client does not exist", HttpStatus.NOT_FOUND);
         }
