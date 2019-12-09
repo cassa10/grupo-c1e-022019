@@ -8,6 +8,7 @@ import Button from 'react-bootstrap/Button';
 import Badge from 'react-bootstrap/Badge';
 import Card from 'react-bootstrap/Card';
 import Swal from 'sweetalert2';
+import ModalRate from './ModalRate';
 import formatCredit from './formatter/formatCredit.js';
 import ModalSeeOrder from './ModalSeeOrder';
 import API from '../service/api';
@@ -84,18 +85,63 @@ class OrderCard extends React.Component {
   }
 
 
+  canceledCss() {
+    if (this.props.order.stateName === 'CancelledOrder') {
+      return 'cancelled';
+    }
+    return '';
+  }
+
+  deliveryText(t) {
+    if (this.props.order.delivery) {
+      return (
+        <div>
+           Fecha de entrega : {this.props.order.deliverType.deliverDate}
+        </div>
+      );
+    }
+    return <p> No pediste delivery</p>;
+  }
+
+  renderCancelButton(t) {
+    const orderCancelIcon = 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/OOjs_UI_icon_cancel-destructive.svg/600px-OOjs_UI_icon_cancel-destructive.svg.png';
+    if (this.props.isClient && this.props.order.stateName === 'PendingOrder') {
+      return (
+        <Button className="buy-button" variant="warning" onClick={() => this.handleCancelOrder(t)}>
+          <img src={orderCancelIcon} alt="order-cancel" />
+        </Button>
+      );
+    }
+    return <div />;
+  }
+
+
   renderImg() {
     return <img className="profile-img" alt="providerimg" src={this.state.user.imageUrl} />;
+  }
+
+  renderRateButton() {
+    if (this.props.order.canBeRated) {
+      return (
+        <ModalRate
+          order={this.props.order}
+          googleId={this.props.googleId}
+          tokenAccess={this.props.tokenAccess}
+        />
+      );
+    }
+    return <div />;
   }
 
 
   render() {
     const { t } = this.props;
+    console.log(this.props.order);
     return (
       <div className="order-card" key={this.props.order.id}>
         <Card>
           <Card.Header as="h4">{this.props.order.menuName}</Card.Header>
-          <Card.Body>
+          <Card.Body className={`${this.canceledCss()}`}>
             <Row>
               <Col lg={4.5}>
                 <Card.Img className="card_img" variant="left" src={this.state.menuImage} />
@@ -108,14 +154,13 @@ class OrderCard extends React.Component {
                 {this.showBadge()}
                 <h5>
                   Ordenaste {this.props.order.menusAmount}<br />
+                  {this.deliveryText(t)}
                 </h5>
               </Col>
               <Col lg={2}>
                 <ModalSeeOrder order={this.props.order} />
-                <Button className="buy-button" variant="danger" onClick={() => this.handleCancelOrder(t)}>
-                  {/* <img src={orderCancelIcon} alt="order-cancel" /> */}
-                  Cancel
-                </Button>
+                {this.renderCancelButton(t)}
+                {this.renderRateButton(t)}
               </Col>
             </Row>
           </Card.Body>

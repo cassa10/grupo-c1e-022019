@@ -28,6 +28,14 @@
     margin-left:30px
 }
 
+.cancelled{
+    background-color :#BAB9B9
+}
+
+.rating-stars{
+    font-size: 90px
+}
+
 .card{
     margin-left: 100px;
     margin-right: 100px;

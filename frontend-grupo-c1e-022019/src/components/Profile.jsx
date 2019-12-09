@@ -158,7 +158,14 @@ class Profile extends React.Component {
   }
 
   renderOrder(order) {
-    return <OrderCard order={order} googleId={this.props.location.state.googleId} tokenAccess={this.props.location.state.tokenAccess} />;
+    return (
+      <OrderCard
+        order={order}
+        googleId={this.props.location.state.googleId}
+        tokenAccess={this.props.location.state.tokenAccess}
+        isClient
+      />
+    );
   }
 
   render() {
