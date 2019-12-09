@@ -1,20 +1,24 @@
 import React from 'react';
 import { withTranslation } from 'react-i18next';
 import '../dist/css/Profile.css';
+import StarRatingComponent from 'react-star-rating-component';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import Badge from 'react-bootstrap/Badge';
 import Card from 'react-bootstrap/Card';
 import Modal from 'react-bootstrap/Modal';
 import Swal from 'sweetalert2';
 import formatCredit from './formatter/formatCredit.js';
+import ModalSeeOrder from './ModalSeeOrder';
 import API from '../service/api';
 
 class Profile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      menuImage: 'https://www.seriouseats.com/recipes/images/2015/07/20150728-homemade-whopper-food-lab-35-1500x1125.jpg',
       profileImg: '',
       googleId: '',
       tokenAccess: '',
@@ -74,7 +78,6 @@ class Profile extends React.Component {
       icon: 'success',
     });
     window.location.reload();
-
   }
 
   doAccredit(t) {
@@ -83,7 +86,7 @@ class Profile extends React.Component {
       amount: this.state.inputCredit,
     };
     API.post('/client/accredit', body)
-      .then((response) => this.swalSuccess(t))
+      .then(() => this.swalSuccess(t))
       .catch((e) => console.log(e));
   }
 
@@ -107,7 +110,7 @@ class Profile extends React.Component {
             <Button variant="secondary" onClick={handleClose}>
               {t('cancel')}
             </Button>
-            <Button variant="primary" onClick={() => this.doAccredit(t)}>
+            <Button variant="success" onClick={() => this.doAccredit(t)}>
               {t('Accredit')}
             </Button>
           </Modal.Footer>
@@ -116,11 +119,31 @@ class Profile extends React.Component {
     );
   }
 
+  showStars(order) {
+    return (
+      <StarRatingComponent
+        className="stars"
+        name="rate2"
+        editing={false}
+        starCount={5}
+        value={order.stars}
+      />
+    );
+  }
+
+  showBadge(order) {
+    return (
+      <Badge pill variant="warning">
+        {order.stateName}
+      </Badge>
+    );
+  }
+
   renderImg() {
     return <img className="profile-img" alt="providerimg" src={this.state.user.imageUrl} />;
   }
 
-  renderBalance(t) {
+  renderBalanceAndEdit(t) {
     return (
       <Card className="card">
         <Card.Body>
@@ -149,6 +172,44 @@ class Profile extends React.Component {
     return <h1 className="provider-title">{t('Hola')}{this.state.user.firstName}</h1>;
   }
 
+  renderTitleOrders(t) {
+    return <h2 className="historic-orders provider-title">{t('Ordenes historicas')}</h2>;
+  }
+
+  renderOrders(t) {
+    return (this.state.orders.map((order) => this.renderOrder(order, t)));
+  }
+
+  renderOrder(order, t) {
+    return (
+      <div className="order-card" key={order.id}>
+        <Card>
+          <Card.Header as="h4">{order.menuName}</Card.Header>
+          <Card.Body>
+            <Row>
+              <Col lg={4.5}>
+                <Card.Img className="card_img" variant="left" src={this.state.menuImage} />
+                <div className="text-center font-weight-bold price-order">
+                  {`${formatCredit(t, order.menuInfoPrice)}`}
+                </div>
+              </Col>
+              <Col>
+                {this.showStars(order)}
+                {this.showBadge(order)}
+                <h5>
+                  Ordenaste {order.menusAmount}<br />
+                </h5>
+              </Col>
+              <Col lg={2}>
+                <ModalSeeOrder order={order} />
+              </Col>
+            </Row>
+          </Card.Body>
+        </Card>
+      </div>
+    );
+  }
+
   render() {
     const { t } = this.props;
     console.log(this.state);
@@ -156,7 +217,9 @@ class Profile extends React.Component {
       <div className="profile-root">
         {this.renderImg(t)}
         {this.renderName(t)}
-        {this.renderBalance(t)}
+        {this.renderBalanceAndEdit(t)}
+        {this.renderTitleOrders(t)}
+        {this.renderOrders(t)}
         <Container>
           <Row>
             <Col className="around_provider_title" />
