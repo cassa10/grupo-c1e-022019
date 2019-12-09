@@ -60,7 +60,7 @@ public class OrderController {
             return new ResponseEntity<>("Sorry, this menu is cancelled",HttpStatus.BAD_REQUEST);
         }
 
-        if(recoverClient.get().isClientHaveToRank()){
+        if(recoverClient.get().getSizeOrdersHaveToRank() > 0){
             return new ResponseEntity<>("Rank your previous orders, please",HttpStatus.BAD_REQUEST);
         }
 
