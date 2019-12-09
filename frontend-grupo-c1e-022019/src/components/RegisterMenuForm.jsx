@@ -190,7 +190,7 @@ class RegisterMenuForm extends React.Component {
 
   parseDate(date) {
     return (
-      `${date.getFullYear()}-${this.pad(date.getMonth())}-${this.pad(date.getDate())}`
+      `${date.getFullYear()}-${this.pad(date.getMonth() + 1)}-${this.pad(date.getDate())}`
     );
   }
 
@@ -309,14 +309,15 @@ class RegisterMenuForm extends React.Component {
 
   postInfo(t) {
     const body = {
-      idProvider: 1,
+      googleId: this.props.fatherProps.location.state.googleId,
+      tokenAccess: this.props.fatherProps.location.state.tokenAccess,
       name: this.state.name,
       description: this.state.description,
       categories: this.getCategories(),
       deliveryValue: this.state.averageDeliveryTime,
       effectiveDate: {
         validFrom: this.parseDate(this.state.dateFrom),
-        validThru: this.parseDate(this.state.dateThru),
+        goodThru: this.parseDate(this.state.dateThru),
       },
       averageDeliveryTimeInMinutes: this.state.averageDeliveryTime,
       maxSalesPerDay: this.state.maxSalesPerDay,
@@ -328,6 +329,7 @@ class RegisterMenuForm extends React.Component {
         secondMinAmountPrice: this.state.sndPrice,
       },
     };
+    console.log(body);
     API.post('/menu', body)
       .then(() => this.menuCreated(t))
       .catch((error) => console.log(error.response.data));
