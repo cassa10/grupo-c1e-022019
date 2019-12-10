@@ -7,6 +7,9 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import Modal from 'react-bootstrap/Modal';
+import Swal from 'sweetalert2';
+import debitIcon from '../dist/icons/debitIcon.png';
 import OrderCard from './OrderCard';
 import formatCredit from './formatter/formatCredit.js';
 import ModalEditProfileClient from './ModalEditProfileClient';
@@ -24,6 +27,8 @@ class ProviderProfile extends React.Component {
         id: 0,
       },
       orders: [],
+      showModal: false,
+      inputCredit: 0,
     };
   }
 
@@ -43,6 +48,18 @@ class ProviderProfile extends React.Component {
       .catch((error) => this.handleAPIError(error));
   }
 
+  setShow(b) {
+    this.setState({ showModal: b });
+  }
+
+  getCredit() {
+    if (this.state.user.credit === undefined) {
+      return 0;
+    }
+    return this.state.user.credit.amount;
+  }
+
+
   handleAPIError(errorAPI) {
     console.log(errorAPI);
     this.props.history.push({
@@ -54,6 +71,75 @@ class ProviderProfile extends React.Component {
         error: errorAPI,
       },
     });
+  }
+
+  swalSuccess(t) {
+    Swal.fire({
+      title: t('Debited!'),
+      icon: 'success',
+    });
+    window.location.reload();
+  }
+
+  swalVerifyInput(t) {
+    if (parseInt(this.state.inputCredit,10) < 0) {
+      Swal.fire({
+        title: t('Verify input'),
+        icon: 'error',
+      });
+    } else {
+      Swal.fire({
+        title: t('Insufficient credit'),
+        icon: 'error',
+      });
+    }
+  }
+
+  doDebit(t) {
+    console.log(this.props);
+    const body = {
+      googleId: this.props.location.state.googleId,
+      tokenAccess: this.props.location.state.tokenAccess,
+      amountToWithdraw: this.state.inputCredit,
+    };
+    API.post('/provider/credit/withdraw', body)
+      .then(() => this.swalSuccess(t))
+      .catch((e) => this.swalVerifyInput(t));
+  }
+
+
+  handleCredit(e) {
+    this.setState({ inputCredit: e.target.value });
+  }
+
+
+  debitButton(t) {
+    const handleClose = () => this.setShow(false);
+    const handleShow = () => this.setShow(true);
+    return (
+      <div>
+        <Button className="buy-button" variant="primary" onClick={handleShow}>
+          <img src={debitIcon} alt={t('Accredit')} />
+        </Button>
+        <Modal show={this.state.showModal} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>{t('Debit')}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {t('How much?')}
+            <input type="number" className="form-control input-weburl-provider" placeholder={t('Please fill with a positive mount')} onChange={(e) => this.handleCredit(e)} />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              {t('cancel')}
+            </Button>
+            <Button variant="success" onClick={() => this.doDebit(t)}>
+              {t('Debit')}
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </div>
+    );
   }
 
   renderName() {
@@ -73,10 +159,12 @@ class ProviderProfile extends React.Component {
             <Container>
               <Row>
                 <Col>
-                  <h3 className="balance-text">{t('Su saldo es de')} {formatCredit(t, 20)}</h3>
+                  {console.log('ACAAAAAAaa')}
+                  {console.log(this.state)}
+                  <h3 className="balance-text">{t('Su saldo es de')} {formatCredit(t, this.getCredit())}</h3>
                 </Col>
                 <Col>
-                  <Button> Debit</Button>
+                  {this.debitButton(t)}
                 </Col>
                 <Col>
                   <ModalEditProfileClient

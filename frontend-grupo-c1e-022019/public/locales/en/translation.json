@@ -165,5 +165,9 @@
     "Order ranked!": "Order ranked!",
     "Order sent!": "Order sent!",
     "Theres an error in the form" :" Theres an error in the form",
-    "Debe contener entre 20 y 40 caracteres" :"Must have between 20 and 40 characters"
+    "Debe contener entre 20 y 40 caracteres" :"Must have between 20 and 40 characters",
+    "Debit" :" Debit",
+    "Debited!" :"Debited!",
+    "Verify input" : "Please, verify input",
+    "Te ordenaron": "They ordered you "
 }

@@ -65,6 +65,21 @@ public class ClientController {
         return new ResponseEntity<>(updatedClient, HttpStatus.OK);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/client/basicInfo")
+    public ResponseEntity getClientBasicInfo(@RequestParam HashMap<String,String> clientDTO) {
+        if(! googleAuthService.clientHasAccess(clientDTO.get("googleId"),clientDTO.get("tokenAccess"))){
+            return new ResponseEntity<>("Please, log in", HttpStatus.UNAUTHORIZED);
+        }
+        Optional<Client> maybeClient = clientService.findClientById(Long.parseLong(clientDTO.get("idClient")));
+
+        if(! maybeClient.isPresent()){
+            return new ResponseEntity<>("Client does not exist", HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(maybeClient.get(), HttpStatus.OK);
+
+    }
+
 
     @RequestMapping(method = RequestMethod.POST, value = "/client/accredit")
     public ResponseEntity accredit(@RequestBody AccreditDTO accreditDTO) {
