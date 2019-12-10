@@ -169,6 +169,9 @@
     "Debit" :" Debitar",
     "Debited!" :"Debitado!",
     "Verify input" : "Por favor,verifique la entrada",
-    "Te ordenaron" : "Te ordenaron"
+    "Te ordenaron" : "Te ordenaron",
+    "Comprado por": "Comprado por",
+    "Contacto": "Contacto",
+    "Order delivered!": "Pedido entregado!"
 
 }

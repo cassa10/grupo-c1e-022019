@@ -15,6 +15,7 @@ import formatCredit from './formatter/formatCredit.js';
 import formatDate from './formatter/formatDate.js';
 import ModalSeeOrder from './ModalSeeOrder';
 import sendingIcon from '../dist/icons/sendingIcon.png';
+import deliveredIcon from '../dist/icons/order-delivered-icon.png';
 import API from '../service/api';
 
 class OrderCard extends React.Component {
@@ -53,6 +54,16 @@ class OrderCard extends React.Component {
       .catch((error) => console.log(error));
   }
 
+  deliveredSuccessful(t) {
+    Swal.fire(
+      t('Done!'),
+      t('Order delivered!'),
+      'success',
+    )
+      .then(() => window.location.reload())
+      .catch((error) => console.log(error));
+  }
+
   handleSend(t) {
     const body = {
       googleId: this.props.googleId,
@@ -63,7 +74,20 @@ class OrderCard extends React.Component {
     };
     API.post('/order/sending', body)
       .then(() => this.sendSuccessful(t))
-      .catch((e) => console.log(e.response.data));
+      .catch((e) => console.log(e));
+  }
+
+  handleDelivered(t) {
+    const body = {
+      googleId: this.props.googleId,
+      tokenAccess: this.props.tokenAccess,
+      idClient: this.props.order.idClient,
+      idOrder: this.props.order.id,
+      idProvider: this.props.order.idProviderOfMenu,
+    };
+    API.post('/order/delivered', body)
+      .then(() => this.deliveredSuccessful(t))
+      .catch((e) => console.log(e));
   }
 
 
@@ -200,15 +224,24 @@ class OrderCard extends React.Component {
     return <div />;
   }
 
-  renderClient() {
-    console.log('state client');
-    console.log(this.state);
+  renderClient(t) {
     if (!this.props.isClient && this.state.orderClient !== undefined) {
       return (
         <div>
-          Comprado por {this.state.orderClient.firstName} {this.state.orderClient.lastName} <br />
-          Contacto : {this.state.orderClient.email}
+          {t('Comprado por')} {this.state.orderClient.firstName} {this.state.orderClient.lastName} <br />
+          {t('Contacto')} {this.state.orderClient.email}
         </div>
+      );
+    }
+    return <div />;
+  }
+
+  renderDeliveredButton(t) {
+    if (!this.props.isClient && this.props.order.stateSending) {
+      return (
+        <Button className="buy-button" variant="success" onClick={() => this.handleDelivered(t)}>
+          <img src={deliveredIcon} alt="Delivered" />
+        </Button>
       );
     }
     return <div />;
@@ -249,6 +282,7 @@ class OrderCard extends React.Component {
                   {this.renderCancelButton(t)}
                   {this.renderRateButton(t)}
                   {this.renderSendButton(t)}
+                  {this.renderDeliveredButton(t)}
                 </Col>
               </Row>
             </Card.Body>
