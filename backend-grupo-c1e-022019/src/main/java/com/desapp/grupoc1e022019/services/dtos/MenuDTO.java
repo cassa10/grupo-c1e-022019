@@ -220,4 +220,8 @@ public class MenuDTO {
     public boolean existMenuWithSameName(List<Menu> menusOfProvider) {
         return menusOfProvider.stream().filter(m -> ! m.isCancelledState()).anyMatch(m -> m.getName().equals(name));
     }
+
+    public boolean existMenuWithSameNameToUpdate(List<Menu> menusOfProvider,long idMenu) {
+        return menusOfProvider.stream().filter(m -> ! m.isCancelledState()).anyMatch(m -> m.getName().equals(name) && m.getId() != idMenu);
+    }
 }

@@ -14,6 +14,7 @@ import ModalRate from './ModalRate';
 import formatCredit from './formatter/formatCredit.js';
 import formatDate from './formatter/formatDate.js';
 import ModalSeeOrder from './ModalSeeOrder';
+import sendingIcon from '../dist/icons/sendingIcon.png';
 import API from '../service/api';
 
 class OrderCard extends React.Component {
@@ -22,6 +23,30 @@ class OrderCard extends React.Component {
     this.state = {
       menuImage: 'https://www.seriouseats.com/recipes/images/2015/07/20150728-homemade-whopper-food-lab-35-1500x1125.jpg',
     };
+  }
+
+  sendSuccessful(t) {
+    Swal.fire(
+      t('Done!'),
+      t('Order sent!'),
+      'success',
+    )
+      .then(() => window.location.reload())
+      .catch((error) => console.log(error));
+  }
+
+  handleSend(t) {
+    const body = {
+      googleId: this.props.googleId,
+      tokenAccess: this.props.tokenAccess,
+      idClient: this.props.order.idClient,
+      idOrder: this.props.order.id,
+      idProvider: this.props.order.idProviderOfMenu,
+    };
+    console.log(body);
+    API.post('/order/sending', body)
+      .then(() => this.sendSuccessful(t))
+      .catch((e) => console.log(e.response.data));
   }
 
 
@@ -122,7 +147,7 @@ class OrderCard extends React.Component {
   }
 
   renderRateButton() {
-    if (this.props.order.canBeRated) {
+    if (this.props.order.canBeRated && this.props.isClient) {
       return (
         <ModalRate
           {...this.props}
@@ -130,6 +155,17 @@ class OrderCard extends React.Component {
           googleId={this.props.googleId}
           tokenAccess={this.props.tokenAccess}
         />
+      );
+    }
+    return <div />;
+  }
+
+  renderSendButton(t) {
+    if (!this.props.isClient && this.props.order.orderState.stateConfirmed) {
+      return (
+        <Button className="buy-button" variant="success" onClick={() => this.handleSend(t)}>
+          <img src={sendingIcon} alt="Sending" />
+        </Button>
       );
     }
     return <div />;
@@ -163,6 +199,7 @@ class OrderCard extends React.Component {
                   <ModalSeeOrder order={this.props.order} />
                   {this.renderCancelButton(t)}
                   {this.renderRateButton(t)}
+                  {this.renderSendButton(t)}
                 </Col>
               </Row>
             </Card.Body>
