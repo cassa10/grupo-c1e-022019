@@ -24,12 +24,11 @@ class ModalSeeOrder extends React.Component {
 
 
   getDeliveryValue(t) {
-    // Hardcodeado en free, no se xq tira menu info como undefined
-    if (this.props.order.menuInfo.deliveryValue !== undefined) {
-      // return (this.props.order.menuInfo.deliveryValue <= 0 ? this.createFreeBadge(t) : formatPrice(t, this.props.menu.deliveryValue));
-      return this.createFreeBadge(t);
-    }
-    return <div />;
+    console.log(this.props.order.menuInfo.deliveryValue);
+    return (
+      this.props.order.menuInfo.deliveryValue <= 0
+        ? this.createFreeBadge(t) : formatPrice(t, this.props.order.menuInfo.deliveryValue)
+    );
   }
 
   createFreeBadge(t) {
@@ -54,12 +53,12 @@ class ModalSeeOrder extends React.Component {
             <Modal.Header closeButton>
               <h1>{/* this.props.order.menuName */}</h1>
             </Modal.Header>
-            <Modal.Title>El menu esta {this.props.order.menuInfo.menuState.normal ? 'Normal' : 'Cancelado' }</Modal.Title>
+            <Modal.Title>{this.props.order.menuInfo.menuState.normal ? t('El menu sigue vigente') : t('El menu fue cancelado')}</Modal.Title>
             <Modal.Body>
               <Card.Img className="card_img" variant="left" src={this.state.pictures[0]} /><br />
               <h5>{t('Delivery')}: {this.getDeliveryValue(t)}<br />
-                Estado : {this.props.order.stateName}<br />
-                Precio : {formatPrice(t, this.props.order.menuInfoPrice)}
+                {t('Estado orden')} : {this.props.order.stateName}<br />
+                {t('Importe total')} : {formatPrice(t, this.props.order.menuInfoPrice + this.props.order.menuInfo.deliveryValue)}
               </h5>
             </Modal.Body>
           </Container>

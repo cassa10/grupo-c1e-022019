@@ -1,8 +1,10 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { withTranslation } from 'react-i18next';
 import '../dist/css/Profile.css';
 import StarRatingComponent from 'react-star-rating-component';
 import Row from 'react-bootstrap/Row';
+import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Badge from 'react-bootstrap/Badge';
@@ -10,6 +12,7 @@ import Card from 'react-bootstrap/Card';
 import Swal from 'sweetalert2';
 import ModalRate from './ModalRate';
 import formatCredit from './formatter/formatCredit.js';
+import formatDate from './formatter/formatDate.js';
 import ModalSeeOrder from './ModalSeeOrder';
 import API from '../service/api';
 
@@ -81,7 +84,7 @@ class OrderCard extends React.Component {
       cancelButtonText: t('Salir'),
     })
       .then((result) => this.cancelOrder(result.value, t))
-      .catch((error) => console.log(error.response));
+      .catch((error) => console.log(error));
   }
 
 
@@ -93,14 +96,13 @@ class OrderCard extends React.Component {
   }
 
   deliveryText(t) {
-    if (this.props.order.delivery) {
-      return (
-        <div>
-           Fecha de entrega : {this.props.order.deliverType.deliverDate}
-        </div>
-      );
-    }
-    return <p> No pediste delivery</p>;
+    console.log(this.props.order);
+    return (
+      <div>
+        {t('Deliver date')}: {formatDate(t, new Date(this.props.order.deliverType.deliverDate))} <br />
+        {t('Deliver time')}: ~{new Date(this.props.order.deliverType.deliverDate).toTimeString().slice(0, 5)}
+      </div>
+    );
   }
 
   renderCancelButton(t) {
@@ -124,6 +126,7 @@ class OrderCard extends React.Component {
     if (this.props.order.canBeRated) {
       return (
         <ModalRate
+          {...this.props}
           order={this.props.order}
           googleId={this.props.googleId}
           tokenAccess={this.props.tokenAccess}
@@ -136,35 +139,36 @@ class OrderCard extends React.Component {
 
   render() {
     const { t } = this.props;
-    console.log(this.props.order);
     return (
       <div className="order-card" key={this.props.order.id}>
-        <Card>
-          <Card.Header as="h4">{this.props.order.menuName}</Card.Header>
-          <Card.Body className={`${this.canceledCss()}`}>
-            <Row>
-              <Col lg={4.5}>
-                <Card.Img className="card_img" variant="left" src={this.state.menuImage} />
-                <div className="text-center font-weight-bold price-order">
-                  {`${formatCredit(t, this.props.order.menuInfoPrice)}`}
-                </div>
-              </Col>
-              <Col>
-                {this.showStars()}
-                {this.showBadge()}
-                <h5>
-                  Ordenaste {this.props.order.menusAmount}<br />
-                  {this.deliveryText(t)}
-                </h5>
-              </Col>
-              <Col lg={2}>
-                <ModalSeeOrder order={this.props.order} />
-                {this.renderCancelButton(t)}
-                {this.renderRateButton(t)}
-              </Col>
-            </Row>
-          </Card.Body>
-        </Card>
+        <Container>
+          <Card>
+            <Card.Header as="h4">{this.props.order.menuName}</Card.Header>
+            <Card.Body className={`${this.canceledCss()}`}>
+              <Row>
+                <Col lg={4.5}>
+                  <Card.Img className="card_img" variant="left" src={this.state.menuImage} />
+                  <div className="text-center font-weight-bold price-order">
+                    {`${formatCredit(t, this.props.order.menuInfoPrice)}`}
+                  </div>
+                </Col>
+                <Col>
+                  {this.showStars()}
+                  {this.showBadge()}
+                  <h5>
+                    {t('Ordenaste')} {this.props.order.menusAmount}<br />
+                    {this.deliveryText(t)}
+                  </h5>
+                </Col>
+                <Col lg={2}>
+                  <ModalSeeOrder order={this.props.order} />
+                  {this.renderCancelButton(t)}
+                  {this.renderRateButton(t)}
+                </Col>
+              </Row>
+            </Card.Body>
+          </Card>
+        </Container>
       </div>
     );
   }

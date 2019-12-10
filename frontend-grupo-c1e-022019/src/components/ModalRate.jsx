@@ -37,15 +37,25 @@ class ModalRate extends React.Component {
   }
 
   rate(t) {
-    const body = {
-      googleId: this.props.googleId,
-      tokenAccess: this.props.tokenAccess,
-      idClient: this.props.order.idClient,
-      idOrder: this.props.order.id,
-    };
-    API.post('/order/rate', body)
-      .then(() => this.rateSuccessful(t))
-      .catch((e) => console.log(e));
+    if (this.state.rating > 0 && this.state.rating <= 5) {
+      const body = {
+        googleId: this.props.googleId,
+        tokenAccess: this.props.tokenAccess,
+        idClient: this.props.order.idClient,
+        idOrder: this.props.order.id,
+        rate: this.state.rating,
+      };
+      console.log(body);
+      API.post('/order/rate', body)
+        .then(() => this.rateSuccessful(t))
+        .catch((e) => console.log(e.response.data));
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: t('Please, put some value'),
+      });
+    }
   }
 
 

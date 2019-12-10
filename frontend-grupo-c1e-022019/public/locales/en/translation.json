@@ -155,5 +155,11 @@
     "Upload": "Upload",
     "Profile image link": "Profile image link",
     "rate" : "Rate",
-    "Complete todos los campos correctamente": "Fill all fields, must be valid!"
+    "Complete todos los campos correctamente": "Fill all fields, must be valid!",
+    "Please, put some value": "Please, put some rate value!",
+    "Ordenaste": "You order ",
+    "El menu sigue vigente": "Menu is normal",
+    "El menu fue cancelado": "Menu was cancelled :c",
+    "Estado orden": "Order State",
+    "Importe": "Bill"
 }
