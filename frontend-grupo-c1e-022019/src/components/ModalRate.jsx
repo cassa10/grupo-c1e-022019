@@ -67,7 +67,7 @@ class ModalRate extends React.Component {
     const handleShow = () => this.setShowSee(true);
     return (
       <div>
-        <Button className="buy-button" variant="info" onClick={handleShow}>
+        <Button className="buy-button" variant="warning" onClick={handleShow}>
           Rate
         </Button>
         <Modal show={this.state.modalOpen} onHide={handleClose}>

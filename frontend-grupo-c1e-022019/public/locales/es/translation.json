@@ -162,6 +162,7 @@
     "El menu fue cancelado": "El menu fue cancelado :c",
     "Estado orden": "Estado de la orden",
     "Importe": "Importe",
-    "Order ranked!": "Pedido rankeado!"
+    "Order ranked!": "Pedido rankeado!",
+    "Order sent!" :"Orden enviada!"
 
 }

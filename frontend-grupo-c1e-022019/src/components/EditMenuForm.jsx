@@ -194,7 +194,7 @@ class EditMenuForm extends React.Component {
 
   parseDate(date) {
     return (
-      `${date.getFullYear()}-${this.pad(date.getMonth() + 1)}-${this.pad(date.getDate()+1)}`
+      `${date.getFullYear()}-${this.pad(date.getMonth() + 1)}-${this.pad(date.getDate() + 1)}`
     );
   }
 
@@ -402,7 +402,6 @@ class EditMenuForm extends React.Component {
 
   render() {
     const { t } = this.props;
-    console.log(this.props.menu);
     return (
       <div className="form_register_menu">
         <Form className="register_menu_form">
