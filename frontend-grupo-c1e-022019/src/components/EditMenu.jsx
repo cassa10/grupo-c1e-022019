@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
 import EditMenuForm from './EditMenuForm';
@@ -16,7 +17,11 @@ class EditMenu extends Component {
       <div>
         <h1 className="register_menu_title"> {t('Edit your menu')}
         </h1>
-        <EditMenuForm menu={this.props.location.state.menu} fatherProps={this.props} />
+        <EditMenuForm
+          {...this.props}
+          menu={this.props.location.state.menu} 
+          fatherProps={this.props} 
+        />
       </div>
     );
   }

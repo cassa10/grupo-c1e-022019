@@ -54,3 +54,34 @@ KNOWN ISSUES:
 * Not handling inputs properly in create menu form.
 * Not handling requests errors, just only logging in console.
 * Not handling path inputs by user.
+
+---------------------------------------------------------------------
+TAG ENTREGA 3.0
+---------------------------------------------------------------------
+NEW FEATURES:
+
+BACKEND
+* Rest Services: Provider , Client, Menu, Order, ScheduledTasks, GoogleAuth.
+* Scheduled tasks (Expire tokens and Confirm orders)
+* Email service async
+* Architecture Tests
+* Logger aspect
+
+FRONTEND
+* Provider Profile
+* Client Profile
+* Sign up provider form
+* Buy modal with autolocation
+* Scheduled tasks graphic interface
+* Date and credit formatters
+* Private routes
+* Edit and create menu validation
+
+NOTES:
+* To confirm order orders,l go to /schedule/tasks
+* In this realease, path inputs are handled properly
+
+KNOWN ISSUES:
+* Not handling all requests errors.
+* Not handling path inputs by user.
+* Not all forms inputs are validated
