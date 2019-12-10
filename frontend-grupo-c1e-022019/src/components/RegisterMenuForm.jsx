@@ -31,6 +31,7 @@ class RegisterMenuForm extends React.Component {
       fstPrice: 0,
       sndPrice: 0,
       deliveryValue: 0,
+      wordsLeft: 0,
     };
   }
 
@@ -57,6 +58,7 @@ class RegisterMenuForm extends React.Component {
         <Form.Control type="text" placeholder={t('Submit the name here')} onChange={(e) => this.changeName(e)} />
         <Form.Text className="form-name-menu-alert">
           {t('This name will appear in your posts')}
+           .Debe contener entre  4 y 10 caracteres
         </Form.Text>
       </Form.Group>
     );
@@ -64,6 +66,7 @@ class RegisterMenuForm extends React.Component {
 
   changeDescription(e) {
     this.setState({ description: e.target.value });
+    this.setState({ wordsLeft: e.target.value.length });
   }
 
   descriptionField(t) {
@@ -71,7 +74,7 @@ class RegisterMenuForm extends React.Component {
       <Form.Group controlId="formBasicPassword">
         <Form.Label className="form-name-menu-alert">{t('Description')}</Form.Label>
         <Form.Control type="text" placeholder={t('Submit the discription here')} onChange={(e) => this.changeDescription(e)} />
-        <Form.Text>{t('Debe contener entre 20 y 40 caracteres')}</Form.Text>
+        <Form.Text>{t('Debe contener entre 20 y 40 caracteres')},vas : {this.state.wordsLeft}</Form.Text>
       </Form.Group>
     );
   }
@@ -109,6 +112,9 @@ class RegisterMenuForm extends React.Component {
 
       <Form.Group controlId="formBasicCheckbox">
         <Form.Label className="form-name-menu-alert">{t('Choose yout product category')}</Form.Label>
+        <Form.Text className="form-name-menu-alert">
+          {t('Elige al menos una')}
+        </Form.Text>
         <Row className="line_of_checkboxs">
           <Form.Check className="form-name-menu-alert" inline label="Pizza" type="checkbox" id="inline-checkbox-1" onClick={(e) => this.handlePizza(e)} />
           <Form.Check className="form-name-menu-alert" inline label={t('Burger')} type="checkbox" id="inline-checkbox-2" onClick={(e) => this.handleHamburger(e)} />
@@ -142,10 +148,16 @@ class RegisterMenuForm extends React.Component {
             <Col>
               <Form.Label className="form-name-menu-alert">{t('Max sales per day')}</Form.Label>
               <Form.Control type="number" min="1" placeholder={t('insert max sales per day')} onChange={(e) => this.changeSalesPerDay(e)} />
+              <Form.Text className="form-name-menu-alert">
+                {t('Al menos 3')}
+              </Form.Text>
             </Col>
             <Col>
               <Form.Label className="form-name-menu-alert">{t('Average time')}</Form.Label>
               <Form.Control type="number" min="1" placeholder={t('Insert average time')} onChange={(e) => this.changeAverageTime(e)} />
+              <Form.Text className="form-name-menu-alert">
+                {t('Mayor a cero')}
+              </Form.Text>
             </Col>
           </Row>
         </Form.Group>
@@ -154,6 +166,9 @@ class RegisterMenuForm extends React.Component {
             <Col>
               <Form.Label className="form-name-menu-alert">{t('Delivery value')}</Form.Label>
               <Form.Control type="number" min="0" placeholder={t('insert delivery value')} onChange={(e) => this.changeDeliveryValue(e)} />
+              <Form.Text className="form-name-menu-alert">
+                {t('o bien 0,o bien entre 10 y 40')}
+              </Form.Text>
             </Col>
           </Row>
         </Form.Group>
@@ -360,7 +375,7 @@ class RegisterMenuForm extends React.Component {
     };
     API.post('/menu', body)
       .then(() => this.menuCreated(t))
-      .catch((error) => this.errorInForm(t));
+      .catch(() => this.errorInForm(t));
   }
 
   validCategory() {
@@ -372,17 +387,21 @@ class RegisterMenuForm extends React.Component {
 
   validForm() {
     return (
-      this.state.name.trim().length > 0
+      this.state.name.trim().length >= 4
+      && this.state.name.trim().length <= 30
       && this.state.description.trim().length >= 20
       && this.state.description.trim().length <= 40
-      && parseFloat(this.state.deliveryValue) >= 0
+      && ((parseFloat(this.state.deliveryValue) === 0)// O es igual a cero
+      || (parseFloat(this.state.deliveryValue) >= 10// O esta entre 10 y 40
+      && parseFloat(this.state.deliveryValue) <= 40))
       && this.validCategory()
-      && parseInt(this.state.maxSalesPerDay, 10) > 0
+      && parseInt(this.state.maxSalesPerDay, 10) > 3
       && parseInt(this.state.averageDeliveryTime, 10) > 0
       && parseFloat(this.state.initialPrice, 10) > 0
       && parseFloat(this.state.initialPrice, 10) > parseFloat(this.state.fstPrice, 10)
       && parseFloat(this.state.fstPrice, 10) > parseFloat(this.state.sndPrice, 10)
       && parseFloat(this.state.fstQuantity, 10) < parseFloat(this.state.sndQuantity, 10)
+      && parseInt(this.state.fstQuantity, 10) > 1
     );
   }
 

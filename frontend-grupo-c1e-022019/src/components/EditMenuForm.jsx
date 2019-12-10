@@ -13,8 +13,8 @@ class EditMenuForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dateFrom: new Date(props.menu.effectiveDate.validFrom),
-      dateThru: new Date(props.menu.effectiveDate.goodThru),
+      dateFrom: new Date(),
+      dateThru: this.parseDateFromString(props.menu.effectiveDate.goodThru),
       name: props.menu.name,
       description: props.menu.description,
       pizza: this.props.menu.categories.includes('PIZZA'),
@@ -32,6 +32,7 @@ class EditMenuForm extends React.Component {
       fstPrice: props.menu.firstMinAmountPrice,
       sndPrice: props.menu.secondMinAmountPrice,
       deliveryValue: props.menu.deliveryValue,
+      wordsLeft: props.menu.description.length,
     };
   }
 
@@ -46,6 +47,13 @@ class EditMenuForm extends React.Component {
     this.checkEmpanadas(cs);
     return (cs);
   }
+
+  parseDateFromString(dateString) {
+    const tmp = new Date(dateString);
+    tmp.setDate(tmp.getDate() + 1);
+    return tmp;
+  }
+
 
   changeName(e) {
     this.setState({ name: e.target.value });
@@ -65,6 +73,7 @@ class EditMenuForm extends React.Component {
 
   changeDescription(e) {
     this.setState({ description: e.target.value });
+    this.setState({ wordsLeft: e.target.value.length });
   }
 
   descriptionField(t) {
@@ -72,6 +81,7 @@ class EditMenuForm extends React.Component {
       <Form.Group controlId="formBasicPassword">
         <Form.Label>{t('Description')}</Form.Label>
         <Form.Control type="text" placeholder={t('Submit the discription here')} defaultValue={this.props.menu.description} onChange={(e) => this.changeDescription(e)} />
+        <Form.Text>{t('Debe contener entre 20 y 40 caracteres')},vas : {this.state.wordsLeft}</Form.Text>
       </Form.Group>
     );
   }
@@ -114,6 +124,9 @@ class EditMenuForm extends React.Component {
       <Form.Group controlId="formBasicCheckbox">
         <Form.Label>{t('Choose yout product category')}</Form.Label>
         <Row className="line_of_checkboxs">
+          <Form.Text className="form-name-menu-alert">
+            {t('Elige al menos una')}
+          </Form.Text>
           <Form.Check inline label="Pizza" type="checkbox" id="inline-checkbox-1" defaultChecked={this.contains('PIZZA')} onClick={(e) => this.handlePizza(e)} />
           <Form.Check inline label={t('Burger')} type="checkbox" id="inline-checkbox-2" defaultChecked={this.contains('BURGER')} onClick={(e) => this.handleHamburger(e)} />
           <Form.Check inline label={t('Green')} type="checkbox" id="inline-checkbox-3" defaultChecked={this.contains('GREEN')} onClick={(e) => this.handleGreen(e)} />
@@ -145,11 +158,11 @@ class EditMenuForm extends React.Component {
           <Row>
             <Col>
               <Form.Label className="form-name-menu-alert">{t('Max sales per day')}</Form.Label>
-              <Form.Control type="number" min="1" placeholder={t('insert max sales per day')} onChange={(e) => this.changeSalesPerDay(e)} />
+              <Form.Control type="number" min="1" placeholder={t('insert max sales per day')} defaultValue={this.props.menu.maxSalesPerDay} onChange={(e) => this.changeSalesPerDay(e)} />
             </Col>
             <Col>
               <Form.Label className="form-name-menu-alert">{t('Average time')}</Form.Label>
-              <Form.Control type="number" min="1" placeholder={t('Insert average time')} onChange={(e) => this.changeAverageTime(e)} />
+              <Form.Control type="number" min="1" placeholder={t('Insert average time')} defaultValue={this.props.menu.averageDeliveryTimeInMinutes} onChange={(e) => this.changeAverageTime(e)} />
             </Col>
           </Row>
         </Form.Group>
@@ -157,12 +170,12 @@ class EditMenuForm extends React.Component {
           <Row>
             <Col>
               <Form.Label className="form-name-menu-alert">{t('Delivery value')}</Form.Label>
-              <Form.Control type="number" min="0" placeholder={t('insert delivery value')} onChange={(e) => this.changeDeliveryValue(e)} />
+              <Form.Control type="number" min="0" placeholder={t('insert delivery value')} defaultValue={this.props.menu.deliveryValue} onChange={(e) => this.changeDeliveryValue(e)} />
             </Col>
           </Row>
         </Form.Group>
       </div>
-      
+
     );
   }
 
@@ -358,6 +371,8 @@ class EditMenuForm extends React.Component {
         secondMinAmountPrice: this.state.sndPrice,
       },
     };
+    console.log(body);
+    console.log('body');
     API.put('/menu', body)
       .then(() => this.menuUpdated(t))
       .catch((error) => console.log(error));
@@ -372,21 +387,27 @@ class EditMenuForm extends React.Component {
 
   validForm() {
     return (
-      this.state.name.trim().length > 0
+      this.state.name.trim().length >= 4
+      && this.state.name.trim().length <= 30
       && this.state.description.trim().length >= 20
       && this.state.description.trim().length <= 40
-      && this.state.deliveryValue >= 0
+      && ((parseFloat(this.state.deliveryValue) === 0)// O es igual a cero
+      || (parseFloat(this.state.deliveryValue) >= 10// O esta entre 10 y 40
+      && parseFloat(this.state.deliveryValue) <= 40))
       && this.validCategory()
-      && parseInt(this.state.maxSalesPerDay, 10) > 0
+      && parseInt(this.state.maxSalesPerDay, 10) > 3
       && parseInt(this.state.averageDeliveryTime, 10) > 0
       && parseFloat(this.state.initialPrice, 10) > 0
       && parseFloat(this.state.initialPrice, 10) > parseFloat(this.state.fstPrice, 10)
       && parseFloat(this.state.fstPrice, 10) > parseFloat(this.state.sndPrice, 10)
       && parseFloat(this.state.fstQuantity, 10) < parseFloat(this.state.sndQuantity, 10)
+      && parseInt(this.state.fstQuantity, 10) > 1
     );
   }
 
   checkFieldsAndPost(t) {
+    console.log('this.state');
+    console.log(this.state);
     if (this.validForm()) {
       this.postInfo(t);
     } else {
