@@ -76,6 +76,7 @@ class RegisterMenuForm extends React.Component {
       <Form.Group controlId="formBasicPassword">
         <Form.Label className="form-name-menu-alert">{t('Description')}</Form.Label>
         <Form.Control type="text" placeholder={t('Submit the discription here')} onChange={(e) => this.changeDescription(e)} />
+        <Form.Text>{t('Debe contener entre 20 y 40 caracteres')}</Form.Text>
       </Form.Group>
     );
   }
@@ -325,6 +326,13 @@ class RegisterMenuForm extends React.Component {
     });
   }
 
+  errorInForm(t) {
+    Swal.fire({
+      title: t('Theres an error in the form'),
+      icon: 'error',
+    });
+  }
+
   postInfo(t) {
     const body = {
       googleId: this.props.location.state.googleId,
@@ -349,7 +357,7 @@ class RegisterMenuForm extends React.Component {
     };
     API.post('/menu', body)
       .then(() => this.menuCreated(t))
-      .catch((error) => console.log(error));
+      .catch((error) => this.errorInForm(t));
   }
 
   validCategory() {
@@ -379,7 +387,10 @@ class RegisterMenuForm extends React.Component {
     if (this.validForm()) {
       this.postInfo(t);
     } else {
-      alert(t('Complete todos los campos correctamente'));
+      Swal.fire({
+        title: t('Complete todos los campos correctamente'),
+        icon: 'error',
+      });
     }
   }
 
