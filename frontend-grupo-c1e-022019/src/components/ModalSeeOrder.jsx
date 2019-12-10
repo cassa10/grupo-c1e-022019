@@ -24,7 +24,6 @@ class ModalSeeOrder extends React.Component {
 
 
   getDeliveryValue(t) {
-    console.log(this.props.order.menuInfo.deliveryValue);
     return (
       this.props.order.menuInfo.deliveryValue <= 0
         ? this.createFreeBadge(t) : formatPrice(t, this.props.order.menuInfo.deliveryValue)

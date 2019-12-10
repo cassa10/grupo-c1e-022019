@@ -30,6 +30,7 @@ class ModalRate extends React.Component {
   rateSuccessful(t) {
     Swal.fire(
       t('Done!'),
+      t('Order ranked!'),
       'success',
     )
       .then(() => window.location.reload())

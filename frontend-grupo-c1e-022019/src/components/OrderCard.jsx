@@ -96,7 +96,6 @@ class OrderCard extends React.Component {
   }
 
   deliveryText(t) {
-    console.log(this.props.order);
     return (
       <div>
         {t('Deliver date')}: {formatDate(t, new Date(this.props.order.deliverType.deliverDate))} <br />
