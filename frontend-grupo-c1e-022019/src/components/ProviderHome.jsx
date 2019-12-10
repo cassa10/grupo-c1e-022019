@@ -131,11 +131,11 @@ class ProviderHome extends React.Component {
               {t('the price will be')} {formatPrice(t, menu.menuPriceCalculator.secondMinAmountPrice)}<br />
               {t('Distancia de delivery')}: {formatNumber(t, menu.deliveryMaxDistanceInKM)} {t('kms')}<br />
               {t('Estado del menu')}:
-              <text
+              <p
                 className={menu.menuStateName === 'CancelledMenu' ? 'state-cancel-text' : 'state-normal-text'}
               >
                 {menu.menuStateName}
-              </text><br />
+              </p><br />
             </h5>
           </Modal.Body>
 
