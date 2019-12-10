@@ -47,7 +47,7 @@ export default class App extends React.Component {
             <PrivateRouteNavs exact path="/provider" navbar={NavBarProvider} sidebar={SideBarProvider} component={ProviderHome} />
             <PrivateRouteNavs exact path="/provider/profile" navbar={NavBarProvider} sidebar={SideBarProvider} component={ProviderProfile} />
             <PrivateRouteNavs exact path="/create_menu" navbar={NavBarProvider} sidebar={SideBarProvider} component={RegisterMenuForm} />
-            <Route exact path="/edit_menu" render={(props) => <EditMenu {...props} />} />
+            <PrivateRouteNavs exact path="/edit_menu" navbar={NavBarProvider} sidebar={SideBarProvider} component={EditMenu} />
 
             <Route exact path="/map" render={(props) => <MapViendasYa {...props} />} />
             <Route exact path="/schedule/tasks" render={(props) => <ScheduleTasks {...props} />} />

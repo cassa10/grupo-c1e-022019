@@ -309,6 +309,15 @@ class EditMenuForm extends React.Component {
       title: t('Updated!'),
       icon: 'success',
     });
+    this.props.location.history.push({
+      pathname: '/provider',
+      state: {
+        googleId: this.props.location.state.googleId,
+        tokenAccess: this.props.location.state.tokenAccess,
+        user: this.props.location.state.user,
+      },
+    });
+    window.location.reload();
   }
 
   postInfo(t) {
@@ -324,7 +333,7 @@ class EditMenuForm extends React.Component {
         validFrom: this.parseDate(this.state.dateFrom),
         goodThru: this.parseDate(this.state.dateThru),
       },
-      averageDeliveryTimeInMinutes: 20,
+      averageDeliveryTimeInMinutes: this.state.averageDeliveryTime,
       maxSalesPerDay: this.state.maxSalesPerDay,
       menuPriceCalculator: {
         price: this.state.initialPrice,
@@ -334,23 +343,36 @@ class EditMenuForm extends React.Component {
         secondMinAmountPrice: this.state.sndPrice,
       },
     };
-    console.log(body)
+    console.log(body);
     API.put('/menu', body)
       .then(() => this.menuUpdated(t))
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error.response.data));
+  }
+
+  validCategory() {
+    return (
+      this.state.pizza || this.state.beer || this.state.hamburger || this.state.sushi
+      || this.state.empanadas || this.state.green || this.state.vegan
+    );
+  }
+
+  validForm() {
+    return (
+      this.state.name.trim().length > 0
+      && this.state.description.trim().length >= 20
+      && this.state.description.trim().length <= 40
+      && this.validCategory()
+      && parseInt(this.state.maxSalesPerDay, 10) > 0
+      && parseInt(this.state.averageDeliveryTime, 10) > 0
+      && parseFloat(this.state.initialPrice, 10) > 0
+      && parseFloat(this.state.initialPrice, 10) > parseFloat(this.state.fstPrice, 10)
+      && parseFloat(this.state.fstPrice, 10) > parseFloat(this.state.sndPrice, 10)
+      && parseFloat(this.state.fstQuantity, 10) < parseFloat(this.state.sndQuantity, 10)
+    );
   }
 
   checkFieldsAndPost(t) {
-    if (this.state.name !== ''
-      && this.state.description !== ''
-      && this.state.maxSalesPerDay !== 0
-      && this.state.averageDeliveryTime !== 0
-      && this.state.initialPrice !== 0
-      && this.state.fstPrice !== 0
-      && this.state.fstQuantity !== 0
-      && this.state.sndPrice !== 0
-      && this.state.sndQuantity !== 0
-    ) {
+    if (this.validForm()) {
       this.postInfo(t);
     } else {
       alert('Complete todos los campos');
@@ -358,7 +380,7 @@ class EditMenuForm extends React.Component {
   }
 
   renderSecondPriceFeedback(t) {
-    if (parseInt(this.state.fstPrice, 10) <= parseInt(this.state.sndPrice, 10)) {
+    if (parseFloat(this.state.fstPrice, 10) <= parseFloat(this.state.sndPrice, 10)) {
       return (
         <Form.Text className="form-feedback">{t('Price must be lower than the last')}</Form.Text>
       );
@@ -367,7 +389,7 @@ class EditMenuForm extends React.Component {
   }
 
   renderFirstPriceFeedback(t) {
-    if (parseInt(this.state.initialPrice, 10) <= parseInt(this.state.fstPrice, 10)) {
+    if (parseFloat(this.state.initialPrice, 10) <= parseFloat(this.state.fstPrice, 10)) {
       return (
         <Form.Text className="form-feedback">{t('Price must be lower than price per unit')}</Form.Text>
       );
@@ -378,7 +400,7 @@ class EditMenuForm extends React.Component {
   render() {
     const { t } = this.props;
     return (
-      <div>
+      <div className="form_register_menu">
         <Form className="register_menu_form">
           {this.nameField(t)}
 
@@ -392,9 +414,13 @@ class EditMenuForm extends React.Component {
 
           {this.price(t)}
         </Form>
-        <Button className="register_button" variant="primary" size="lg" onClick={() => this.checkFieldsAndPost(t)}>
-          {t('Done')}
-        </Button>
+        <Row>
+          <Col className="button_register_menu">
+            <Button className="btn-block" variant="primary" size="lg" onClick={() => this.checkFieldsAndPost(t)}>
+              {t('Done')}
+            </Button>
+          </Col>
+        </Row>
       </div>
     );
   }

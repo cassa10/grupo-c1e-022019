@@ -345,16 +345,30 @@ class RegisterMenuForm extends React.Component {
       .catch((error) => console.log(error));
   }
 
+  validCategory() {
+    return (
+      this.state.pizza || this.state.beer || this.state.hamburger || this.state.sushi
+      || this.state.empanadas || this.state.green || this.state.vegan
+    );
+  }
+
+  validForm() {
+    return (
+      this.state.name.trim().length > 0
+      && this.state.description.trim().length >= 20
+      && this.state.description.trim().length <= 40
+      && this.validCategory()
+      && parseInt(this.state.maxSalesPerDay, 10) > 0
+      && parseInt(this.state.averageDeliveryTime, 10) > 0
+      && parseFloat(this.state.initialPrice, 10) > 0
+      && parseFloat(this.state.initialPrice, 10) > parseFloat(this.state.fstPrice, 10)
+      && parseFloat(this.state.fstPrice, 10) > parseFloat(this.state.sndPrice, 10)
+      && parseFloat(this.state.fstQuantity, 10) < parseFloat(this.state.sndQuantity, 10)
+    );
+  }
+
   checkFieldsAndPost(t) {
-    if (this.state.name.trim().length > 0
-      && this.state.description.trim().length > 0
-      && this.state.maxSalesPerDay > 0
-      && this.state.averageDeliveryTime > 0
-      && this.state.initialPrice > 0
-      && this.state.fstPrice > this.state.initialPrice
-      && this.state.sndPrice > this.state.fstPrice
-      && this.state.fstQuantity < this.state.sndQuantity
-    ) {
+    if (this.validForm()) {
       this.postInfo(t);
     } else {
       alert(t('Complete todos los campos correctamente'));
@@ -363,7 +377,7 @@ class RegisterMenuForm extends React.Component {
 
   renderSecondPriceFeedback(t) {
     if (this.state.sndPrice !== 0
-      && parseInt(this.state.fstPrice, 10) <= parseInt(this.state.sndPrice, 10)) {
+      && parseFloat(this.state.fstPrice, 10) <= parseFloat(this.state.sndPrice, 10)) {
       return (
         <Form.Text className="form-feedback">{t('Price must be lower than the last')}</Form.Text>
       );
@@ -373,7 +387,7 @@ class RegisterMenuForm extends React.Component {
 
   renderFirstPriceFeedback(t) {
     if (this.state.fstPrice !== 0
-      && parseInt(this.state.initialPrice, 10) <= parseInt(this.state.fstPrice, 10)) {
+      && parseFloat(this.state.initialPrice, 10) <= parseFloat(this.state.fstPrice, 10)) {
       return (
         <Form.Text className="form-feedback">{t('Price must be lower than price per unit')}</Form.Text>
       );
@@ -398,7 +412,7 @@ class RegisterMenuForm extends React.Component {
           <Row>
             <Col className="button_register_menu">
               <Button className="btn-block" variant="primary" size="lg" onClick={() => this.checkFieldsAndPost(t)}>
-                  {t('register')}
+                {t('register')}
               </Button>
             </Col>
           </Row>
