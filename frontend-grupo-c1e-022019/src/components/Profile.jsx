@@ -174,6 +174,8 @@ class Profile extends React.Component {
   renderOrder(order) {
     return (
       <OrderCard
+        {...this.props}
+        key={order.id}
         order={order}
         googleId={this.props.location.state.googleId}
         tokenAccess={this.props.location.state.tokenAccess}
