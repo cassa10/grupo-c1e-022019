@@ -99,7 +99,7 @@ public class MenuController {
             return new ResponseEntity<>("Request bad data", HttpStatus.BAD_REQUEST);
         }
 
-        if(menuDTO.existMenuWithSameName(maybeProvider.get().getMenus())){
+        if(menuDTO.existMenuWithSameNameToUpdate(maybeProvider.get().getMenus(),menuDTO.getId())){
             return new ResponseEntity<>("You own a menu with that name", HttpStatus.BAD_REQUEST);
         }
 

@@ -13,8 +13,8 @@ class EditMenuForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      dateFrom: new Date(),
-      dateThru: new Date(),
+      dateFrom: new Date(props.menu.effectiveDate.validFrom),
+      dateThru: new Date(props.menu.effectiveDate.goodThru),
       name: props.menu.name,
       description: props.menu.description,
       pizza: this.props.menu.categories.includes('PIZZA'),
@@ -194,7 +194,7 @@ class EditMenuForm extends React.Component {
 
   parseDate(date) {
     return (
-      `${date.getFullYear()}-${this.pad(date.getMonth() + 1)}-${this.pad(date.getDate())}`
+      `${date.getFullYear()}-${this.pad(date.getMonth() + 1)}-${this.pad(date.getDate()+1)}`
     );
   }
 
@@ -343,10 +343,9 @@ class EditMenuForm extends React.Component {
         secondMinAmountPrice: this.state.sndPrice,
       },
     };
-    console.log(body);
     API.put('/menu', body)
       .then(() => this.menuUpdated(t))
-      .catch((error) => console.log(error.response.data));
+      .catch((error) => console.log(error));
   }
 
   validCategory() {
@@ -375,7 +374,11 @@ class EditMenuForm extends React.Component {
     if (this.validForm()) {
       this.postInfo(t);
     } else {
-      alert('Complete todos los campos');
+      Swal.fire({
+        icon: 'question',
+        title: 'Oops...',
+        text: 'Complete todos los campos',
+      });
     }
   }
 
@@ -399,6 +402,7 @@ class EditMenuForm extends React.Component {
 
   render() {
     const { t } = this.props;
+    console.log(this.props.menu);
     return (
       <div className="form_register_menu">
         <Form className="register_menu_form">
