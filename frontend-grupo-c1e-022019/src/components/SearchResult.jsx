@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import '../dist/css/SearchResult.css';
 import {
@@ -293,6 +294,7 @@ class SearchResult extends React.Component {
       <Row>
         <Col>
           <ModalProvider
+            {...this.props}
             providerId={menu.providerId}
             googleId={this.state.googleId}
             tokenAccess={this.state.tokenAccess}
