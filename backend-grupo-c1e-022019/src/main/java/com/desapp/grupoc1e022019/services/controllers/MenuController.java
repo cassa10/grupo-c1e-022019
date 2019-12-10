@@ -4,6 +4,7 @@ import com.desapp.grupoc1e022019.exception.MaximumMenusSizeException;
 import com.desapp.grupoc1e022019.model.Menu;
 import com.desapp.grupoc1e022019.model.Provider;
 import com.desapp.grupoc1e022019.model.menuComponents.CategoryMenu;
+import com.desapp.grupoc1e022019.model.menuComponents.RankAverageMenu;
 import com.desapp.grupoc1e022019.persistence.repositories.MenuRepository;
 import com.desapp.grupoc1e022019.services.GoogleAuthService;
 import com.desapp.grupoc1e022019.services.MenuService;
@@ -72,6 +73,7 @@ public class MenuController {
                 .withAverageDeliveryTimeInMinutes(menuDTO.getAverageDeliveryTimeInMinutes())
                 .withMaxSalesPerDay(menuDTO.getMaxSalesPerDay())
                 .withMenuPriceCalculator(menuDTO.getMenuPriceCalculator())
+                .withRankAverageMenu(new RankAverageMenu())
                 .build();
 
         try {

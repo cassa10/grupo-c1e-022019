@@ -41,4 +41,7 @@ public interface MenuRepository extends JpaRepository<Menu,Long> {
 
     @Query("SELECT avg(m.menuRank.rankAverage) FROM Menu m WHERE m.provider = ?2 AND m.menuState.class != ?1 AND m.menuRank.ratingsAmount > 0")
     Double getProviderAverageMenuRankWithoutState(String menuState, Provider provider);
+
+    @Query("SELECT m FROM Menu m WHERE m.provider = ?2 AND m.menuState.class != ?1 AND m.menuRank.ratingsAmount > 0")
+    List<Menu> providerHasAnyRankAverage(String menuState, Provider provider);
 }

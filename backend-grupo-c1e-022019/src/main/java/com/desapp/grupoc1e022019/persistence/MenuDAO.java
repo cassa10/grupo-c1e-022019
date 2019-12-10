@@ -103,6 +103,10 @@ public class MenuDAO {
     }
 
     public double getProviderRankReputation(Provider provider) {
+
+        if (menuRepository.providerHasAnyRankAverage(new CancelledMenu().toString(), provider).isEmpty()) {
+            return 0d;
+        }
         return menuRepository.getProviderAverageMenuRankWithoutState(new CancelledMenu().toString(), provider);
     }
 }
