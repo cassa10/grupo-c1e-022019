@@ -12,7 +12,6 @@ import Swal from 'sweetalert2';
 import debitIcon from '../dist/icons/debitIcon.png';
 import OrderCard from './OrderCard';
 import formatCredit from './formatter/formatCredit.js';
-import ModalEditProfileClient from './ModalEditProfileClient';
 import API from '../service/api';
 
 

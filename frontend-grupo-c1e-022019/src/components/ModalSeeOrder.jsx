@@ -38,6 +38,17 @@ class ModalSeeOrder extends React.Component {
     );
   }
 
+  obtainAppropiateImporteFinal(t) {
+    if (this.props.order.finalOrderPrice > 0) {
+      return (
+        `${t('Importe total')}: ${formatPrice(t, this.props.order.finalOrderPrice + this.props.order.menuInfo.deliveryValue)}`
+      );
+    }
+    return (
+      `${t('Importe total')}: ${formatPrice(t, this.props.order.menuInfoPrice + this.props.order.menuInfo.deliveryValue)}`
+    );
+  }
+
   render() {
     const { t } = this.props;
     const handleClose = () => this.setShowSee(false);
@@ -56,8 +67,9 @@ class ModalSeeOrder extends React.Component {
             <Modal.Body>
               <Card.Img className="card_img" variant="left" src={this.state.pictures[0]} /><br />
               <h5>{t('Delivery')}: {this.getDeliveryValue(t)}<br />
-                {t('Estado orden')} : {this.props.order.stateName}<br />
-                {t('Importe total')} : {formatPrice(t, this.props.order.menuInfoPrice + this.props.order.menuInfo.deliveryValue)}
+                {t('Estado orden')}: {this.props.order.stateName}<br />
+                {this.obtainAppropiateImporteFinal(t)}<br />
+                {t('Importe ahorrado')}: {this.props.order.finalOrderPrice > 0 ? formatPrice(t, this.props.order.menuInfoPrice - this.props.order.finalOrderPrice) : t('Orden sin confirmar')}
               </h5>
             </Modal.Body>
           </Container>
