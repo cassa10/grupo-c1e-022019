@@ -22,7 +22,25 @@ class OrderCard extends React.Component {
     super(props);
     this.state = {
       menuImage: 'https://www.seriouseats.com/recipes/images/2015/07/20150728-homemade-whopper-food-lab-35-1500x1125.jpg',
+      orderClient: {
+        name: '',
+      },
     };
+  }
+
+  componentDidMount() {
+    this.getClientInfo();
+  }
+
+  getClientInfo() {
+    const body = {
+      googleId: this.props.googleId,
+      tokenAccess: this.props.tokenAccess,
+      idClient: this.props.order.idClient,
+    };
+    API.get('/client/basicInfo', body)
+      .then((response) => this.setState({ orderClient: response }))
+      .catch((e) => console.log(e));
   }
 
   sendSuccessful(t) {
@@ -43,7 +61,6 @@ class OrderCard extends React.Component {
       idOrder: this.props.order.id,
       idProvider: this.props.order.idProviderOfMenu,
     };
-    console.log(body);
     API.post('/order/sending', body)
       .then(() => this.sendSuccessful(t))
       .catch((e) => console.log(e.response.data));
@@ -129,6 +146,18 @@ class OrderCard extends React.Component {
     );
   }
 
+  messageYouOrdered(t) {
+    if (this.props.isClient) {
+      return (
+        <div>{t('Ordenaste')} {this.props.order.menusAmount}</div>
+      );
+    }
+    return (
+      <div>{t('Te ordenaron')} {this.props.order.menusAmount}</div>
+    );
+  }
+
+
   renderCancelButton(t) {
     const orderCancelIcon = 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/OOjs_UI_icon_cancel-destructive.svg/600px-OOjs_UI_icon_cancel-destructive.svg.png';
     if (this.props.isClient && this.props.order.stateName === 'PendingOrder') {
@@ -171,6 +200,20 @@ class OrderCard extends React.Component {
     return <div />;
   }
 
+  renderClient() {
+    console.log('state client');
+    console.log(this.state);
+    if (!this.props.isClient && this.state.orderClient !== undefined) {
+      return (
+        <div>
+          Comprado por {this.state.orderClient.firstName} {this.state.orderClient.lastName} <br />
+          Contacto : {this.state.orderClient.email}
+        </div>
+      );
+    }
+    return <div />;
+  }
+
 
   render() {
     const { t } = this.props;
@@ -188,11 +231,17 @@ class OrderCard extends React.Component {
                   </div>
                 </Col>
                 <Col>
-                  {this.showStars()}
-                  {this.showBadge()}
                   <h5>
-                    {t('Ordenaste')} {this.props.order.menusAmount}<br />
-                    {this.deliveryText(t)}
+                    {this.showStars()}
+                    {this.showBadge()}
+                    {this.messageYouOrdered(t)}<br />
+                    {this.deliveryText(t)}<br />
+                  </h5>
+
+                </Col>
+                <Col>
+                  <h5>
+                    {this.renderClient(t)}
                   </h5>
                 </Col>
                 <Col lg={2}>
