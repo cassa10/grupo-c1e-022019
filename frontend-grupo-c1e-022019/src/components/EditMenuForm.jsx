@@ -115,12 +115,12 @@ class EditMenuForm extends React.Component {
         <Form.Label>{t('Choose yout product category')}</Form.Label>
         <Row className="line_of_checkboxs">
           <Form.Check inline label="Pizza" type="checkbox" id="inline-checkbox-1" defaultChecked={this.contains('PIZZA')} onClick={(e) => this.handlePizza(e)} />
-          <Form.Check inline label={t('Burger')} type="checkbox" id="inline-checkbox-1" defaultChecked={this.contains('BURGER')} onClick={(e) => this.handleHamburger(e)} />
-          <Form.Check inline label={t('Green')} type="checkbox" id="inline-checkbox-1" defaultChecked={this.contains('GREEN')} onClick={(e) => this.handleGreen(e)} />
-          <Form.Check inline label={t('Vegan')} type="checkbox" id="inline-checkbox-1" defaultChecked={this.contains('VEGAN')} onClick={(e) => this.handleVegan(e)} />
-          <Form.Check inline label={t('Beer')} type="checkbox" id="inline-checkbox-1" defaultChecked={this.contains('BEER')} onClick={(e) => this.handleBeer(e)} />
-          <Form.Check inline label="Empanadas" type="checkbox" id="inline-checkbox-1" defaultChecked={this.contains('EMPANADAS')} onClick={(e) => this.handleEmpanadas(e)} />
-          <Form.Check inline label="Sushi" type="checkbox" id="inline-checkbox-1" defaultChecked={this.contains('SUSHI')} onClick={(e) => this.handleSushi(e)} />
+          <Form.Check inline label={t('Burger')} type="checkbox" id="inline-checkbox-2" defaultChecked={this.contains('BURGER')} onClick={(e) => this.handleHamburger(e)} />
+          <Form.Check inline label={t('Green')} type="checkbox" id="inline-checkbox-3" defaultChecked={this.contains('GREEN')} onClick={(e) => this.handleGreen(e)} />
+          <Form.Check inline label={t('Vegan')} type="checkbox" id="inline-checkbox-4" defaultChecked={this.contains('VEGAN')} onClick={(e) => this.handleVegan(e)} />
+          <Form.Check inline label={t('Beer')} type="checkbox" id="inline-checkbox-5" defaultChecked={this.contains('BEER')} onClick={(e) => this.handleBeer(e)} />
+          <Form.Check inline label="Empanadas" type="checkbox" id="inline-checkbox-6" defaultChecked={this.contains('EMPANADAS')} onClick={(e) => this.handleEmpanadas(e)} />
+          <Form.Check inline label="Sushi" type="checkbox" id="inline-checkbox-7" defaultChecked={this.contains('SUSHI')} onClick={(e) => this.handleSushi(e)} />
         </Row>
       </Form.Group>
     );
@@ -324,7 +324,7 @@ class EditMenuForm extends React.Component {
       title: t('Updated!'),
       icon: 'success',
     });
-    this.props.location.history.push({
+    this.props.history.push({
       pathname: '/provider',
       state: {
         googleId: this.props.location.state.googleId,

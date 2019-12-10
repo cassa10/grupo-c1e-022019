@@ -1,11 +1,32 @@
 .errorpage {
-	margin-top: 100px;
-	margin-bottom: 2rem;
-	font-weight: 300;
 	font-size: 70px;
 	color: whitesmoke;
 }
 
+.errormessage {
+  color: whitesmoke;
+  font-size: 30px;
+}
+
 .logo {
 	cursor: pointer !important;
+}
+
+.background-error {
+	margin-top: 100px;
+	background-color: #db3d44;
+	margin-left: 40px;
+	margin-right: 40px;
+}
+
+.background-error-message {
+	background-color: #db3d44;
+	margin-left: 40px;
+	margin-right: 40px;
+}
+
+.button_back {
+	color: lightseagreen;
+	font-size: 25px;
+	cursor: pointer;
 }

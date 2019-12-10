@@ -45,11 +45,23 @@ class SideBarClient extends React.Component {
 
     API.get('/client', bodyRequest)
       .then((response) => this.handleGetClient(response))
-      .catch((error) => console.log(error));
+      .catch((error) => this.handleErrorAPI(error));
     // Lo necesito para saber si tiene que ir al form o al home provider:
     API.get('/exist_provider', bodyRequest)
       .then((response) => this.setState({ existAsProvider: response }))
-      .catch((error) => console.log(error));
+      .catch((error) => this.handleErrorAPI(error));
+  }
+
+  handleErrorAPI(error) {
+    this.props.history.push({
+      pathname: '/error',
+      state: {
+        googleId: this.props.location.state.googleId,
+        tokenAccess: this.props.location.state.tokenAccess,
+        user: this.props.location.state.user,
+        error,
+      },
+    });
   }
 
   handleGetClient(response) {
@@ -131,7 +143,7 @@ class SideBarClient extends React.Component {
         tokenAccess: this.state.tokenAccess,
       })
         .then(() => this.goLogin())
-        .catch((error) => console.log(error));
+        .catch((error) => this.handleErrorAPI(error));
     }
   }
 
@@ -146,7 +158,7 @@ class SideBarClient extends React.Component {
       cancelButtonText: t('Cancel'),
     })
       .then((result) => this.handleLogout(result.value))
-      .catch((error) => console.log(error.response));
+      .catch((error) => console.log(error));
   }
 
   handleLogoutSelected(t) {

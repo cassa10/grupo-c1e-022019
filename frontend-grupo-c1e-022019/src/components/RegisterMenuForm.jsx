@@ -34,11 +34,6 @@ class RegisterMenuForm extends React.Component {
     };
   }
 
-  componentDidMount() {
-    console.log(this.props.history);
-    console.log(this.props.location);
-  }
-
   getCategories() {
     const cs = [];
     this.checkPizza(cs);
@@ -323,6 +318,14 @@ class RegisterMenuForm extends React.Component {
     Swal.fire({
       title: t('Done'),
       icon: 'success',
+    });
+    this.props.history.push({
+      pathname: '/provider',
+      state: {
+        googleId: this.props.location.state.googleId,
+        tokenAccess: this.props.location.state.tokenAccess,
+        user: this.props.location.state.user,
+      },
     });
   }
 

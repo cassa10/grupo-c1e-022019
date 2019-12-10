@@ -61,7 +61,6 @@ class ProviderProfile extends React.Component {
 
 
   handleAPIError(errorAPI) {
-    console.log(errorAPI);
     this.props.history.push({
       pathname: '/error',
       state: {

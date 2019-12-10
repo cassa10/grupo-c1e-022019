@@ -45,7 +45,7 @@ class SideBarProvider extends React.Component {
 
     API.get('/provider', bodyRequest)
       .then((response) => this.handleGetProvider(response))
-      .catch((error) => console.log(error));
+      .catch((error) => this.handleErrorAPI(error));
   }
 
   handleGetProvider(response) {
@@ -124,8 +124,20 @@ class SideBarProvider extends React.Component {
         tokenAccess: this.state.tokenAccess,
       })
         .then(() => this.goLogin())
-        .catch((error) => console.log(error));
+        .catch((error) => this.handleErrorAPI(error));
     }
+  }
+
+  handleErrorAPI(error) {
+    this.props.history.push({
+      pathname: '/error',
+      state: {
+        googleId: this.props.location.state.googleId,
+        tokenAccess: this.props.location.state.tokenAccess,
+        user: this.props.location.state.user,
+        error,
+      },
+    });
   }
 
   confirmLogoutAlert(t) {

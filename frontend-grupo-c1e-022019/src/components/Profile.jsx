@@ -60,7 +60,7 @@ class Profile extends React.Component {
   }
 
   handleAPIError(errorAPI) {
-    this.props.location.history.push({
+    this.props.history.push({
       pathname: '/error',
       state: {
         googleId: this.state.googleId,

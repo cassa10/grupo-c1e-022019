@@ -51,11 +51,23 @@ class ProviderHome extends React.Component {
 
     API.get('/provider', body)
       .then((response) => this.setState({ user: response }))
-      .catch((error) => console.log(error));
+      .catch((error) => this.handleErrorAPI(error));
   }
 
   setShowSee(b) {
     this.setState({ showModalSee: b });
+  }
+
+  handleErrorAPI(error) {
+    this.props.history.push({
+      pathname: '/error',
+      state: {
+        googleId: this.props.location.state.googleId,
+        tokenAccess: this.props.location.state.tokenAccess,
+        user: this.props.location.state.user,
+        error,
+      },
+    });
   }
 
   pushToCreateMenu() {
