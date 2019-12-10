@@ -205,7 +205,6 @@ class ProviderHome extends React.Component {
 
   render() {
     const { t } = this.props;
-    console.log(this.state.user);
     return (
       <div className="home_provider_all">
         <Container>

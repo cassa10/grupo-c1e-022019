@@ -152,7 +152,6 @@ class SignUpProvider extends React.Component {
         deliveryMaxDistanceInKM: this.state.deliveryMaxDistanceInKM,
         email: this.state.email,
       };
-      console.log(body)
       API.post('/provider', body)
         .then((response) => this.goToProviderHome(body, response))
         .catch((error) => console.log(error));
@@ -170,7 +169,7 @@ class SignUpProvider extends React.Component {
         cancelButtonText: t('Cancel'),
       })
         .then((result) => this.handleSignUpProvider(result.value))
-        .catch((error) => console.log(error.response));
+        .catch((error) => console.log(error));
     } else {
       this.shakeAndFeedBack(t);
     }
