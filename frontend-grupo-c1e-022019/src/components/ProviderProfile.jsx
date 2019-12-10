@@ -95,7 +95,6 @@ class ProviderProfile extends React.Component {
   }
 
   doDebit(t) {
-    console.log(this.props);
     const body = {
       googleId: this.props.location.state.googleId,
       tokenAccess: this.props.location.state.tokenAccess,
@@ -150,7 +149,7 @@ class ProviderProfile extends React.Component {
     return <img className="profile-img" alt="providerimg" src={this.state.user.logo} />;
   }
 
-  renderBalanceAndEdit(t) {
+  renderBalance(t) {
     return (
       <Card className="card">
         <Card.Body>
@@ -158,22 +157,10 @@ class ProviderProfile extends React.Component {
             <Container>
               <Row>
                 <Col>
-                  {console.log('ACAAAAAAaa')}
-                  {console.log(this.state)}
                   <h3 className="balance-text">{t('Su saldo es de')} {formatCredit(t, this.getCredit())}</h3>
                 </Col>
-                <Col>
+                <Col className="text-left">
                   {this.debitButton(t)}
-                </Col>
-                <Col>
-                  <ModalEditProfileClient
-                    {...this.props}
-                    googleId={this.state.googleId}
-                    tokenAccess={this.state.tokenAccess}
-                    profileImg={this.state.profileImg}
-                    user={this.state.user}
-                    isClient={this.state.user.typeClient}
-                  />
                 </Col>
               </Row>
             </Container>
@@ -207,12 +194,11 @@ class ProviderProfile extends React.Component {
 
   render() {
     const { t } = this.props;
-    console.log(this.state);
     return (
       <div className="profile-root">
         {this.renderImg(t)}
         {this.renderName(t)}
-        {this.renderBalanceAndEdit(t)}
+        {this.renderBalance(t)}
         {this.renderTitleOrders(t)}
         {this.renderOrders(t)}
       </div>
