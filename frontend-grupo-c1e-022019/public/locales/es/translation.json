@@ -155,6 +155,13 @@
     "Upload": "Subir",
     "Profile image link": "Enlace de imagen",
     "rate" : "Calificar",
-    "Complete todos los campos correctamente": "Complete todos los campos correctamente!"
+    "Complete todos los campos correctamente": "Complete todos los campos correctamente!",
+    "Please, put some value": "Ingrese una puntuacion, por favor!",
+    "Ordenaste": "Ordenaste",
+    "El menu sigue vigente": "El menu sigue vigente",
+    "El menu fue cancelado": "El menu fue cancelado :c",
+    "Estado orden": "Estado de la orden",
+    "Importe": "Importe",
+    "Order ranked!": "Pedido rankeado!"
 
 }
