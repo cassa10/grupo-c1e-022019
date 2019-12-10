@@ -30,12 +30,13 @@ class RegisterMenuForm extends React.Component {
       sndQuantity: 0,
       fstPrice: 0,
       sndPrice: 0,
-
+      deliveryValue: 0,
     };
   }
 
   componentDidMount() {
     console.log(this.props.history);
+    console.log(this.props.location);
   }
 
   getCategories() {
@@ -133,20 +134,34 @@ class RegisterMenuForm extends React.Component {
     this.setState({ averageDeliveryTime: parseInt(e.target.value, 10) });
   }
 
+  changeDeliveryValue(e) {
+    this.setState({ deliveryValue: parseFloat(e.target.value, 10) });
+  }
+
   timeAndSalesPerDay(t) {
     return (
-      <Form.Group>
-        <Row>
-          <Col>
-            <Form.Label className="form-name-menu-alert">{t('Max sales per day')}</Form.Label>
-            <Form.Control placeholder={t('insert max sales per day')} onChange={(e) => this.changeSalesPerDay(e)} />
-          </Col>
-          <Col>
-            <Form.Label className="form-name-menu-alert">{t('Average time')}</Form.Label>
-            <Form.Control placeholder={t('Insert average time')} onChange={(e) => this.changeAverageTime(e)} />
-          </Col>
-        </Row>
-      </Form.Group>
+      <div>
+        <Form.Group>
+          <Row>
+            <Col>
+              <Form.Label className="form-name-menu-alert">{t('Max sales per day')}</Form.Label>
+              <Form.Control type="number" min="1" placeholder={t('insert max sales per day')} onChange={(e) => this.changeSalesPerDay(e)} />
+            </Col>
+            <Col>
+              <Form.Label className="form-name-menu-alert">{t('Average time')}</Form.Label>
+              <Form.Control type="number" min="1" placeholder={t('Insert average time')} onChange={(e) => this.changeAverageTime(e)} />
+            </Col>
+          </Row>
+        </Form.Group>
+        <Form.Group>
+          <Row>
+            <Col>
+              <Form.Label className="form-name-menu-alert">{t('Delivery value')}</Form.Label>
+              <Form.Control type="number" min="0" placeholder={t('insert delivery value')} onChange={(e) => this.changeDeliveryValue(e)} />
+            </Col>
+          </Row>
+        </Form.Group>
+      </div>
     );
   }
 
@@ -282,20 +297,20 @@ class RegisterMenuForm extends React.Component {
         <Row>
           <Col>
             <Form.Label className="initialPrice form-name-menu-alert">{t('If you sell more than')}</Form.Label>
-            <Form.Control type="number" min={this.state.initialPrice} placeholder={t('insert here a quantity of menus')} onChange={(e) => this.changeFstQuantity(e)} />
+            <Form.Control type="number" min="0" placeholder={t('insert here a quantity of menus')} onChange={(e) => this.changeFstQuantity(e)} />
           </Col>
           <Col>
             <Form.Label className="initialPrice form-name-menu-alert">{t('the first wholesaler price will be')}</Form.Label>
-            <Form.Control type="number" placeholder={t('insert here the wholesaler price')} onChange={(e) => this.changeFstPrice(e)} />
+            <Form.Control type="number" min="0" placeholder={t('insert here the wholesaler price')} onChange={(e) => this.changeFstPrice(e)} />
             {this.renderFirstPriceFeedback(t)}
           </Col>
           <Col>
             <Form.Label className="initialPrice form-name-menu-alert">{t('If you sell more than')}</Form.Label>
-            <Form.Control type="number" placeholder={t('insert here a quantity of menus')} onChange={(e) => this.changeSndQuantity(e)} />
+            <Form.Control type="number" min="0" placeholder={t('insert here a quantity of menus')} onChange={(e) => this.changeSndQuantity(e)} />
           </Col>
           <Col>
             <Form.Label className="initialPrice form-name-menu-alert">{t('the second wholesaler price will be')}</Form.Label>
-            <Form.Control type="number" placeholder={t('insert here the wholesaler price')} onChange={(e) => this.changeSndPrice(e)} />
+            <Form.Control type="number" min="0" placeholder={t('insert here the wholesaler price')} onChange={(e) => this.changeSndPrice(e)} />
             {this.renderSecondPriceFeedback(t)}
           </Col>
         </Row>
@@ -308,14 +323,6 @@ class RegisterMenuForm extends React.Component {
       title: t('Done'),
       icon: 'success',
     });
-    this.props.location.history.push({
-      pathname: '/provider',
-      state: {
-        googleId: this.props.location.state.googleId,
-        tokenAccess: this.props.location.state.tokenAccess,
-        user: this.props.location.state.user,
-      },
-    });
   }
 
   postInfo(t) {
@@ -325,7 +332,7 @@ class RegisterMenuForm extends React.Component {
       name: this.state.name,
       description: this.state.description,
       categories: this.getCategories(),
-      deliveryValue: this.state.averageDeliveryTime,
+      deliveryValue: this.state.deliveryValue,
       effectiveDate: {
         validFrom: this.parseDate(this.state.dateFrom),
         goodThru: this.parseDate(this.state.dateThru),
@@ -357,6 +364,7 @@ class RegisterMenuForm extends React.Component {
       this.state.name.trim().length > 0
       && this.state.description.trim().length >= 20
       && this.state.description.trim().length <= 40
+      && parseFloat(this.state.deliveryValue) >= 0
       && this.validCategory()
       && parseInt(this.state.maxSalesPerDay, 10) > 0
       && parseInt(this.state.averageDeliveryTime, 10) > 0
