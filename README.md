@@ -1,6 +1,6 @@
 # grupo-c1e-022019 [![Build Status](https://travis-ci.org/cassa10/grupo-c1e-022019.svg?branch=master)](https://travis-ci.org/cassa10/grupo-c1e-022019) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/f4981a75026a47caafc74853766908f9)](https://www.codacy.com/manual/cassa10/grupo-c1e-022019?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=cassa10/grupo-c1e-022019&amp;utm_campaign=Badge_Grade)
 
-# Proyecto para Desarrollo de Aplicaciones UNQ.
+# Proyecto para Desarrollo de Aplicaciones UNQ
 
 ----
 
@@ -36,3 +36,9 @@
     - Usar el comando 'npm install' (Si es la primera vez que lo corres)
     - Usar el comando 'npm start'
     - Abrir un browser con el address localhost:3000
+    - Crear un id de cliente en google api para poder consumir el Google OAuth y poner ese id en el componente LogIn.jsx, funcion "createGoogleButtonAuth", en la propiedad clientId del tag GoogleLogin
+    - Agregar en la webpage de google api, el enlace donde esta expuesto el frontend a internet, para que google se comunique y se pueda autenticar correctamente
+
+### Observaciones
+
+Si no tenes o podes tener un link expuesto a internet, sugerimos la herramienta: "[Ngrok](https://ngrok.com/)"
